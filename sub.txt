@@ -1,4 +1,4 @@
-curl 'https://www.google.com/travel/flights/flights-from-wroc%C5%82aw-to-rzym.html' \
+curl 'https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDIzLTA2LTE5agwIAhIIL20vMDg0NWJyDAgDEggvbS8wNmM2MhooEgoyMDIzLTA3LTAxagwIAxIIL20vMDZjNjJyDAgCEggvbS8wODQ1YkABSAFwAYIBCwj___________8BmAEB' \
   -H 'authority: www.google.com' \
   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \
   -H 'accept-language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7,hr;q=0.6' \
@@ -20,7 +20,7 @@ curl 'https://www.google.com/travel/flights/flights-from-wroc%C5%82aw-to-rzym.ht
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36' \
   -H 'x-client-data: CKS1yQEIj7bJAQimtskBCKmdygEIivHKAQiWocsBCIegzQEI8abNAQj9qs0BCKCtzQEItbLNAQjrs80BCJy5zQEI2bnNAQ==' \
-  --compressed
+  --compressed > index.html
 
 
 CONSENT=YES+srp.gws-20211208-0-RC2.pl+FX+371; HSID=AyocgCVwfOQRS1x6y; SSID=A90hmnGys87qfWHpZ; APISID=K6ckxbd51Q1QybWI/AtZ67SGwQ36ZyUyX0; SAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; __Secure-1PAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; __Secure-3PAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; OGPC=19031986-1:19034584-2:19034489-2:19034493-1:19035080-2:19035140-2:; SID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysxwSYdkR9oz2WL8_6Bw7-ow.; __Secure-1PSID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysY3HEfBYoSdpTBvHAQe_YoQ.; __Secure-3PSID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysWRvNYKc97MfjwtqhPt7k9A.; OTZ=7049341_48_52_123900_48_436380; AEC=AUEFqZfeceIIlTw-ChJCFnHu2ykr7fsSKL_kmfLRRAQHFZEBBz7KaGzEaA; SEARCH_SAMESITE=CgQIvpgB; NID=511=MD11pl51UAonlQbpwEfuuxziaNHEwgvd0l6mFGvOIgZldghp3sruEckyX3mEqVkp84m-JUlqLTDdybvwJQ4DFiAz3YOiYWklARlxTEVXSxPsUkiUkiC4lb3UrOtQJz7okb4C94lvOGzJkrI8C1GM4GtrfL5CVJvNLXZKjX3oAfpGFtCMe6-2P_wwZDTnFoWQyWWe-51OUYpiawE8wdkBHb1O84ug7Py6-YyGWlumrYdKWzVlPTTUGO0X91OFHg2z5ccex8Kn184MJUt_lF4CFHC9KkjZgg5GIJ52kegxViO2JDI27MNDSN0Hk81d0Q; __Secure-1PSIDTS=sidts-CjEBLFra0llhq1N1L9WBxtRuYEqZdL79MRdPuCCvxzR9hlKAn2x5qdI7RctyAi-eojmEEAA; __Secure-3PSIDTS=sidts-CjEBLFra0llhq1N1L9WBxtRuYEqZdL79MRdPuCCvxzR9hlKAn2x5qdI7RctyAi-eojmEEAA; 1P_JAR=2023-06-10-22; SIDCC=AP8dLtw3vFg-7Cbox2IFwedt57OffneJ3bvD-J4YhXtFvXvtv93NKdmapS7L7p158kJCWke7Ig; __Secure-1PSIDCC=AP8dLtwsPN33abQDXR5cNNRK8w40RU8gkpBaUGrHPOn1u1PYpIIi2vQ_BJfuGKli-KknoDcomw; __Secure-3PSIDCC=AP8dLtzYEywsdCZolncFnqlqUNK441ykHd3-d9s97jXXf-HXSQ8e5uI7Nl8JrolujJvmCvwzMWxF' \
@@ -30,7 +30,7 @@ curl 'https://www.google.com/travel/flights/flights-from-wroc%C5%82aw-to-rzym.ht
   -H 'authority: www.google.com' \
   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \
   -H 'accept-language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7,hr;q=0.6' \
-  -H 'cookie: CONSENT=YES+srp.gws-20211208-0-RC2.pl+FX+371; HSID=AyocgCVwfOQRS1x6y; SSID=A90hmnGys87qfWHpZ; APISID=K6ckxbd51Q1QybWI/AtZ67SGwQ36ZyUyX0; SAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; __Secure-1PAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; __Secure-3PAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; OGPC=19031986-1:19034584-2:19034489-2:19034493-1:19035080-2:19035140-2:; SID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysxwSYdkR9oz2WL8_6Bw7-ow.; __Secure-1PSID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysY3HEfBYoSdpTBvHAQe_YoQ.; __Secure-3PSID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysWRvNYKc97MfjwtqhPt7k9A.; AEC=AUEFqZfeceIIlTw-ChJCFnHu2ykr7fsSKL_kmfLRRAQHFZEBBz7KaGzEaA; SEARCH_SAMESITE=CgQIvpgB' \
+  -H 'cookie: CONSENT=YES+srp.gws-20211208-0-RC2.pl+FX+360' \
   -H 'sec-ch-ua: "Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"' \
   -H 'sec-ch-ua-arch: "x86"' \
   -H 'sec-ch-ua-bitness: "64"' \
@@ -47,5 +47,6 @@ curl 'https://www.google.com/travel/flights/flights-from-wroc%C5%82aw-to-rzym.ht
   -H 'sec-fetch-user: ?1' \
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36' \
-  -H 'x-client-data: CKS1yQEIj7bJAQimtskBCKmdygEIivHKAQiWocsBCIegzQEI8abNAQj9qs0BCKCtzQEItbLNAQjrs80BCJy5zQEI2bnNAQ==' \
   --compressed
+
+
