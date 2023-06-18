@@ -76,10 +76,10 @@ func getNumber(body *bufio.Reader) (int, error) { // Use ReadLine
 	return strconv.Atoi(string(number))
 }
 
-func GetSerializedCityName() {
+func GetSerializedCityName(cityName string) {
 	requestURL := "https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0&hl=pl&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c"
 
-	jsonBody := []byte(`f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22Pr%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
+	jsonBody := []byte(`f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22` + cityName + `%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, requestURL, bodyReader)
@@ -141,6 +141,8 @@ func GetSerializedCityName() {
 
 	io.ReadFull(body, bytesToDecode)
 
+	fmt.Println(">>>>>>>>")
+
 	fmt.Println(string(bytesToDecode))
 
 	var decoded [][]interface{}
@@ -161,32 +163,4 @@ func GetSerializedCityName() {
 	}
 	fmt.Printf("%+v\n", decoded2[0][0][0][2])
 	fmt.Printf("%+v\n", decoded2[0][0][0][4])
-
-	// if arr, ok := decoded.([]interface{}); ok {
-	// 	fmt.Printf("1 %+v\n\n", arr[0])
-	// 	if arr, ok := arr[0].([]interface{}); ok {
-	// 		fmt.Printf("2 %+v\n\n", arr[3])
-	// 		// if toDecode, ok := arr[2].(string); ok {
-	// 		// 	bytesToDecode := []byte(toDecode)
-	// 		// 	var decoded interface{}
-	// 		// 	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&decoded)
-	// 		// 	if err != nil {
-	// 		// 		log.Fatalf("Couldn't decode")
-	// 		// 	}
-	// 		// 	fmt.Printf("3 %+v\n\n", decoded)
-	// 		// 	if arr, ok := decoded.([]interface{}); ok {
-	// 		// 		fmt.Printf("4 %+v\n\n", arr[0])
-	// 		// 		if arr, ok := arr[0].([]interface{}); ok {
-	// 		// 			fmt.Printf("4 %+v\n\n", arr[0])
-	// 		// 		}
-	// 		// 	}
-	// 		// }
-	// 	}
-	// }
-
-	// restBody, err := io.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatalf("Couldn't read")
-	// }
-	// fmt.Println(string(restBody))
 }

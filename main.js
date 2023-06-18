@@ -15,6 +15,11 @@ serialize = function (a, b) {
         k = b[(k & 15) << 2 | l >> 6];
         l = b[l & 63];
         c[f++] = m + h + k + l
+        console.log(m)
+        console.log(h)
+        console.log(k)
+        console.log(l)
+        console.log(c)
     }
     m = 0;
     l = d;

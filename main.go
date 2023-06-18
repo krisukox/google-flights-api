@@ -65,7 +65,7 @@ func main() {
 	// 	47, 109, 47, 48, 56, 52, 53, 98, 64, 1, 72, 1, 112, 1, 130, 1, 11, 8, 255, 255, 255, 255, 255, 255, 255, 255, 255, 1, 152, 1, 1}
 	// log.Print(createURL(a))
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	api.GetSerializedCityName()
+	api.GetSerializedCityName("Pra")
 	// body, err := io.ReadAll(resp.Body)
 	// if err != nil {
 	// 	log.Fatalf("Couldn't read body")

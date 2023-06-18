@@ -53,3 +53,7 @@ nILCAMSBy9tLzB
 neGpAAUgBagQQARgAcAGCAQsI____________AZgBAQ
 
 https://www.google.com/travel/flights/search?tfs=CBwQAhonEgoyMDIzLTA2LTI2agsIAxIHL20vMGd4anIMCAMSCC9tLzA4NDViGicSCjIwMjMtMDctMDFqDAgDEggvbS8wODQ1YnILCAMSBy9tLzBneGpAAUgBagQQARgAcAGCAQsI____________AZgBAQ
+
+
+
+Knowing that "Abu zabi - Adelaide" translates to https://www.google.com/travel/flights/search?tfs=CBwQAhomEgoyMDIzLTA2LTI2agsIAxIHL20vMGd4anILCAMSBy9tLzBtZ3AaJhIKMjAyMy0wNy0wMWoLCAMSBy9tLzBtZ3ByCwgDEgcvbS8wZ3hqQAFIAWoEEAEYAHABggELCP___________wGYAQE, "Abu dabi - Amsterdam" translates to https://www.google.com/travel/flights/search?tfs=CBwQAhomEgoyMDIzLTA2LTI2agsIAxIHL20vMGd4anILCAMSBy9tLzBrM3AaJhIKMjAyMy0wNy0wMWoLCAMSBy9tLzBrM3ByCwgDEgcvbS8wZ3hqQAFIAWoEEAEYAHABggELCP___________wGYAQE, "Abu dabi - Ateny" translates to https://www.google.com/travel/flights/search?tfs=CBwQAhomEgoyMDIzLTA2LTI2agsIAxIHL20vMGd4anILCAMSBy9tLzBuMnoaJhIKMjAyMy0wNy0wMWoLCAMSBy9tLzBuMnpyCwgDEgcvbS8wZ3hqQAFIAWoEEAEYAHABggELCP___________wGYAQE, are you able to guess "Abu dabi - Barcelona"?
