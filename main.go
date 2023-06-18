@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/krisukox/google-flights-api/api"
@@ -96,15 +97,21 @@ func main() {
 	// 	47, 109, 47, 48, 56, 52, 53, 98, 64, 1, 72, 1, 112, 1, 130, // arrival
 	// 	1, 11, 8, 255, 255, 255, 255, 255, 255, 255, 255, 255, 1, 152, 1, 1, // ??
 	// }
-	departureDate, _ := time.Parse("2006-01-02", "2023-07-10")
-	returnDate, _ := time.Parse("2006-01-02", "2023-07-14")
-	serializedDepartureCity, _ := api.GetSerializedCityName("Wrocław")
-	serializedArrivalCity, _ := api.GetSerializedCityName("Praga")
+	departureDate, _ := time.Parse("2006-01-02", "2023-07-11")
+	returnDate, _ := time.Parse("2006-01-02", "2023-07-17")
+	serializedDepartureCity, err := api.GetSerializedCityName("Wrocław")
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+	serializedArrivalCity, err := api.GetSerializedCityName("Madryt")
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
 
 	fmt.Println(serializedDepartureCity)
 	fmt.Println(serializedArrivalCity)
 
-	fmt.Println(createURL(subSerialize(departureDate, returnDate, serializedDepartureCity, serializedArrivalCity)))
+	fmt.Println("https://www.google.com/travel/flights/search?tfs=" + createURL(subSerialize(departureDate, returnDate, serializedDepartureCity, serializedArrivalCity)))
 	// log.SetFlags(log.LstdFlags | log.Lshortfile)
 	// api.GetSerializedCityName("Praga")
 	// api.GetSerializedCityName("Wrocław")
