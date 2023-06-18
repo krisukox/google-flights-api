@@ -1,0 +1,30 @@
+curl 'https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0&hl=pl&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c' \
+  -H 'authority: www.google.com' \
+  -H 'accept: */*' \
+  -H 'accept-language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7,hr;q=0.6' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/x-www-form-urlencoded;charset=UTF-8' \
+  -H 'cookie: CONSENT=YES+srp.gws-20211208-0-RC2.pl+FX+371; HSID=AyocgCVwfOQRS1x6y; SSID=A90hmnGys87qfWHpZ; APISID=K6ckxbd51Q1QybWI/AtZ67SGwQ36ZyUyX0; SAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; __Secure-1PAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; __Secure-3PAPISID=p2jze-MnL9zAzoj0/AKr8LHNITfy4ZDOB3; SID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysxwSYdkR9oz2WL8_6Bw7-ow.; __Secure-1PSID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysY3HEfBYoSdpTBvHAQe_YoQ.; __Secure-3PSID=XAjeJ97qT7GtUngIjSt1IYX338qvRnOC-cCaLeDNVl6rbbysWRvNYKc97MfjwtqhPt7k9A.; OTZ=7049341_48_52_123900_48_436380; SEARCH_SAMESITE=CgQIxZgB; AEC=AUEFqZc4vdajXSybVWA_w4lcoNcsvWzQ0bRli_g0TZiRH_NLwwq6RYOZsQ; NID=511=gOLahR-QME45T-2cGA8Nah2QXU4gmiL6Z317zCAbl-3dFOs7Kub411RtHto3ACZpVOOrxKYd0pW0BhbiatEZWKhXQBHm83t4sqi0HJMlZoif1Uo_LJEi0vjf-ksBvmxp1FzN9v9Lyn21C8CXvcN08mjm0h6Vv0yGcjjLtNye0k1BI-IByPm_3oNxrH-0M8rlQ6H3qBCWyV0__8OOzvuCX0VXgfezSIUTKK_i-0IgufWeW1yP4HiptWPvDqpKQy6YfpgvGs_Kv1SrdtzG7UfLpxjpAGVdnHxa73adtrOMvnp_TWcodhN0LAb3jmfYbw; 1P_JAR=2023-06-18-09; __Secure-1PSIDTS=sidts-CjEBLFra0mNYucHrzQHu_S4GmnwLZVCV63Egu1hJUsapRXzwo21YB-9kS2wdk-CkZkJnEAA; __Secure-3PSIDTS=sidts-CjEBLFra0mNYucHrzQHu_S4GmnwLZVCV63Egu1hJUsapRXzwo21YB-9kS2wdk-CkZkJnEAA; SIDCC=AP8dLtzX8rW8euRNoOO4MEnOYQoLNVNDPZG0vQ9n1-OAdG98iqj_G8tPV2Yq8E4Z1Cfn5b9iJg; __Secure-1PSIDCC=AP8dLtyykXzPE-m40rjOPrmqD2DNClayzl8sS0bvLglxmET-Mwj-rEU3aR2JAKezigEbtklmvQ; __Secure-3PSIDCC=AP8dLtxbEv85XR-VpCWc9Okk_W6yw_AhdI2riJnmLB2H2AHbRP9qlYNJW7lkDgjWf7bcdOUjDPqO' \
+  -H 'origin: https://www.google.com' \
+  -H 'pragma: no-cache' \
+  -H 'referer: https://www.google.com/travel/flights/search?tfs=CBwQAhonEgoyMDIzLTA3LTA0agwIAhIIL20vMDg0NWJyCwgDEgcvbS8wbjJ6GicSCjIwMjMtMDctMDhqCwgDEgcvbS8wbjJ6cgwIAhIIL20vMDg0NWJAAUgBcAGCAQsI____________AZgBAQ' \
+  -H 'sec-ch-ua: "Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"' \
+  -H 'sec-ch-ua-arch: "x86"' \
+  -H 'sec-ch-ua-bitness: "64"' \
+  -H 'sec-ch-ua-full-version: "113.0.5672.92"' \
+  -H 'sec-ch-ua-full-version-list: "Google Chrome";v="113.0.5672.92", "Chromium";v="113.0.5672.92", "Not-A.Brand";v="24.0.0.0"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-model: ""' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  -H 'sec-ch-ua-platform-version: "5.19.0"' \
+  -H 'sec-ch-ua-wow64: ?0' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36' \
+  -H 'x-client-data: CKS1yQEIj7bJAQimtskBCKmdygEIivHKAQiSocsBCIegzQEI8abNAQj9qs0BCKCtzQEItrLNAQicuc0BCNm5zQEI3L3NAQ==' \
+  -H 'x-goog-ext-190139975-jspb: ["PL","ZZ","Xkt6eg=="]' \
+  -H 'x-goog-ext-259736195-jspb: ["pl","PL","PLN",1,null,[-120],null,[[48764690,48627726,47907128,48480739,48710756,48676280,48593234,48707378]],1,[]]' \
+  -H 'x-same-domain: 1' \
+  --data-raw 'f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22Pr%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&' \
+  --compressed
