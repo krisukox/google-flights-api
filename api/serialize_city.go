@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -76,7 +75,7 @@ func getNumber(body *bufio.Reader) (int, error) { // Use ReadLine
 	return strconv.Atoi(string(number))
 }
 
-func GetSerializedCityName(cityName string) {
+func GetSerializedCityName(cityName string) (string, error) {
 	requestURL := "https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0&hl=pl&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c"
 
 	jsonBody := []byte(`f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22` + cityName + `%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
@@ -126,24 +125,41 @@ func GetSerializedCityName(cityName string) {
 	}
 	defer resp.Body.Close()
 
-	// fmt.Println(string(resp.Body))
+	/////////////////////////
+
+	// body, err := io.ReadAll(resp.Body)
+	// if err != nil {
+	// 	log.Fatalf("Couldn't read body")
+	// }
+
+	// fmt.Println(string(body))
+
+	//////////////////////////
 
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
-	numberOfBytes, err := getNumber(body)
+	number, err := getNumber(body)
 	if err != nil {
 		log.Fatalf("Couldn't get number")
 	}
 
-	magicNumberOfBytes := 9 // I don't know why the numer to read differs by 9 bytes...
+	fmt.Println(number)
 
-	bytesToDecode := make([]byte, numberOfBytes+magicNumberOfBytes)
+	// magicNumberOfBytes := 9 // I don't know why the numer to read differs by 9 bytes...
 
-	io.ReadFull(body, bytesToDecode)
+	body.ReadByte()
 
-	fmt.Println(">>>>>>>>")
+	bytesToDecode, _, err := body.ReadLine()
 
-	fmt.Println(string(bytesToDecode))
+	if err != nil {
+		log.Fatalf("Couldn't read line")
+	}
+
+	// bytesToDecode := make([]rune, numberOfBytes)
+
+	// io.ReadFull(body, bytesToDecode)
+
+	// fmt.Println(">>>>>>>>")
 
 	var decoded [][]interface{}
 	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&decoded)
@@ -163,4 +179,16 @@ func GetSerializedCityName(cityName string) {
 	}
 	fmt.Printf("%+v\n", decoded2[0][0][0][2])
 	fmt.Printf("%+v\n", decoded2[0][0][0][4])
+	city, ok := decoded2[0][0][0][2].(string)
+	if !ok {
+		return "", fmt.Errorf("couldn't get city name")
+	}
+	serializedCity, ok := decoded2[0][0][0][4].(string)
+	if !ok {
+		return "", fmt.Errorf("couldn't get serialized city name")
+	}
+	if city == cityName {
+		return serializedCity, nil
+	}
+	return "", fmt.Errorf("the requested city name didn't match the found")
 }
