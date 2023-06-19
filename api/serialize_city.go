@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -30,24 +29,15 @@ type Body struct {
 }
 
 func skipPrefix(body *bufio.Reader) error {
-	_, isPrefix, err := body.ReadLine()
-	if err != nil || isPrefix {
-		return fmt.Errorf("error when reading response with the serialized city names: %w", err)
-	}
-	_, isPrefix, err = body.ReadLine()
-	if err != nil || isPrefix {
-		return fmt.Errorf("error when reading response with the serialized city names: %w", err)
+	var isPrefix bool
+	var err error
+	for i := 0; i < 3; i++ {
+		_, isPrefix, err = body.ReadLine()
+		if err != nil || isPrefix {
+			return fmt.Errorf("error when reading response with the serialized city names: %w", err)
+		}
 	}
 	return nil
-}
-
-func getNumber(body *bufio.Reader) (int, error) { // Use ReadLine
-	var number []byte
-	number, isPrefix, err := body.ReadLine()
-	if err != nil || isPrefix {
-		return 0, fmt.Errorf("error when reading response with the serialized city names: %w", err)
-	}
-	return strconv.Atoi(string(number))
 }
 
 func GetSerializedCityName(cityName string) (string, error) {
@@ -93,52 +83,46 @@ func GetSerializedCityName(cityName string) (string, error) {
 	}
 
 	resp, err := client.Do(req)
-
 	if err != nil {
-		log.Fatalf("Couldn't send a request")
+		return "", err
 	}
 	defer resp.Body.Close()
 
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
-	_, err = getNumber(body)
 
-	if err != nil {
-		log.Fatalf("Couldn't get number")
+	bytesToDecode, isPrefix, err := body.ReadLine()
+	if err != nil || isPrefix {
+		return "", fmt.Errorf("couldn't read line: %w", err)
 	}
 
-	bytesToDecode, _, err := body.ReadLine()
-
+	var outerDecoded [][]interface{}
+	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&outerDecoded)
 	if err != nil {
-		log.Fatalf("Couldn't read line")
+		return "", fmt.Errorf("couldn't decode: %w", err)
 	}
-
-	var decoded [][]interface{}
-	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&decoded)
-	if err != nil {
-		log.Fatalf("Couldn't decode")
-	}
-	toDecode, ok := decoded[0][2].(string)
+	toDecode, ok := outerDecoded[0][2].(string)
 	if !ok {
-		log.Fatalf("Couldn't decode")
+		return "", fmt.Errorf("couldn't decode: %w", err)
 	}
 
-	var decoded2 [][][][]interface{}
-	err = json.NewDecoder(bytes.NewReader([]byte(toDecode))).Decode(&decoded2)
+	var innerDecoded [][][][]interface{}
+	err = json.NewDecoder(bytes.NewReader([]byte(toDecode))).Decode(&innerDecoded)
 	if err != nil {
-		log.Fatalf("Couldn't decode")
+		return "", fmt.Errorf("couldn't decode: %w", err)
 	}
 
-	city, ok := decoded2[0][0][0][2].(string)
+	city, ok := innerDecoded[0][0][0][2].(string)
 	if !ok {
 		return "", fmt.Errorf("couldn't get city name")
 	}
-	serializedCity, ok := decoded2[0][0][0][4].(string)
+	serializedCity, ok := innerDecoded[0][0][0][4].(string)
 	if !ok {
 		return "", fmt.Errorf("couldn't get serialized city name")
 	}
-	if city == cityName {
-		return serializedCity, nil
+	if cityName != city {
+		return "", fmt.Errorf("the requested city name didn't match the found. requested: %s found: %s", cityName, city)
 	}
-	return "", fmt.Errorf("the requested city name didn't match the found")
+
+	return serializedCity, nil
 }
