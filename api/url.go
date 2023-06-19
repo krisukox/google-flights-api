@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -78,7 +77,6 @@ func subSerialize(
 	copy(subSerialize[38:], []byte(serializedArrivalCity))
 	copy(subSerialize[66:], []byte(serializedArrivalCity))
 	copy(subSerialize[80:], []byte(serializedDepartureCity))
-	fmt.Println(string(subSerialize))
 	return subSerialize
 }
 

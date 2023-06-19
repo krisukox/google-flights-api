@@ -37,7 +37,6 @@ func skipPrefix(body *bufio.Reader) {
 		if err != nil {
 			log.Fatalf("Couldn't read byte")
 		}
-		fmt.Println(char)
 	} // USE body.ReadBytes()
 	for {
 		char, err := body.Peek(1)
@@ -51,7 +50,6 @@ func skipPrefix(body *bufio.Reader) {
 		if err != nil {
 			log.Fatalf("Couldn't read byte")
 		}
-		fmt.Println(char)
 	}
 }
 
@@ -119,33 +117,17 @@ func GetSerializedCityName(cityName string) (string, error) {
 
 	resp, err := client.Do(req)
 
-	// resp, err := http.Post("https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0&hl=pl&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c", "application/json; charset=utf-8", &buf)
 	if err != nil {
 		log.Fatalf("Couldn't send a request")
 	}
 	defer resp.Body.Close()
 
-	/////////////////////////
-
-	// body, err := io.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatalf("Couldn't read body")
-	// }
-
-	// fmt.Println(string(body))
-
-	//////////////////////////
-
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
-	number, err := getNumber(body)
+	_, err = getNumber(body)
 	if err != nil {
 		log.Fatalf("Couldn't get number")
 	}
-
-	fmt.Println(number)
-
-	// magicNumberOfBytes := 9 // I don't know why the numer to read differs by 9 bytes...
 
 	body.ReadByte()
 
@@ -155,18 +137,11 @@ func GetSerializedCityName(cityName string) (string, error) {
 		log.Fatalf("Couldn't read line")
 	}
 
-	// bytesToDecode := make([]rune, numberOfBytes)
-
-	// io.ReadFull(body, bytesToDecode)
-
-	// fmt.Println(">>>>>>>>")
-
 	var decoded [][]interface{}
 	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&decoded)
 	if err != nil {
 		log.Fatalf("Couldn't decode")
 	}
-	fmt.Printf("%+v\n\n", decoded[0][2])
 	toDecode, ok := decoded[0][2].(string)
 	if !ok {
 		log.Fatalf("Couldn't decode")
@@ -177,8 +152,7 @@ func GetSerializedCityName(cityName string) (string, error) {
 	if err != nil {
 		log.Fatalf("Couldn't decode")
 	}
-	fmt.Printf("%+v\n", decoded2[0][0][0][2])
-	fmt.Printf("%+v\n", decoded2[0][0][0][4])
+
 	city, ok := decoded2[0][0][0][2].(string)
 	if !ok {
 		return "", fmt.Errorf("couldn't get city name")
