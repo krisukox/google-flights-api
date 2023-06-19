@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -40,15 +39,15 @@ func skipPrefix(body *bufio.Reader) error {
 	return nil
 }
 
-func GetSerializedCityName(cityName string) (string, error) {
+func sendRequest(city string) (*http.Response, error) {
 	requestURL := "https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0&hl=pl&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c"
 
-	jsonBody := []byte(`f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22` + cityName + `%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
+	jsonBody := []byte(`f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22` + city + `%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, requestURL, bodyReader)
 	if err != nil {
-		log.Fatalf("Couldn't create a request")
+		return nil, err
 	}
 	req.Header.Set("authority", "www.google.com")
 	req.Header.Set("accept", "*/*")
@@ -82,7 +81,35 @@ func GetSerializedCityName(cityName string) (string, error) {
 		Timeout: 30 * time.Second,
 	}
 
-	resp, err := client.Do(req)
+	return client.Do(req)
+}
+
+func decodeInnerObject(body *bufio.Reader) ([][][][]interface{}, error) {
+	bytesToDecode, isPrefix, err := body.ReadLine()
+	if err != nil || isPrefix {
+		return nil, err
+	}
+
+	var outerObject [][]interface{}
+	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&outerObject)
+	if err != nil {
+		return nil, err
+	}
+	toDecode, ok := outerObject[0][2].(string)
+	if !ok {
+		return nil, fmt.Errorf("unexpected object format")
+	}
+
+	var innerObject [][][][]interface{}
+	err = json.NewDecoder(bytes.NewReader([]byte(toDecode))).Decode(&innerObject)
+	if err != nil {
+		return nil, err
+	}
+	return innerObject, nil
+}
+
+func GetSerializedCityName(city string) (string, error) {
+	resp, err := sendRequest(city)
 	if err != nil {
 		return "", err
 	}
@@ -91,37 +118,21 @@ func GetSerializedCityName(cityName string) (string, error) {
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
 
-	bytesToDecode, isPrefix, err := body.ReadLine()
-	if err != nil || isPrefix {
-		return "", fmt.Errorf("couldn't read line: %w", err)
-	}
-
-	var outerDecoded [][]interface{}
-	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&outerDecoded)
+	innerObject, err := decodeInnerObject(body)
 	if err != nil {
-		return "", fmt.Errorf("couldn't decode: %w", err)
-	}
-	toDecode, ok := outerDecoded[0][2].(string)
-	if !ok {
-		return "", fmt.Errorf("couldn't decode: %w", err)
+		return "", fmt.Errorf("couldn't decode inner object: %w", err)
 	}
 
-	var innerDecoded [][][][]interface{}
-	err = json.NewDecoder(bytes.NewReader([]byte(toDecode))).Decode(&innerDecoded)
-	if err != nil {
-		return "", fmt.Errorf("couldn't decode: %w", err)
-	}
-
-	city, ok := innerDecoded[0][0][0][2].(string)
+	foundCity, ok := innerObject[0][0][0][2].(string)
 	if !ok {
 		return "", fmt.Errorf("couldn't get city name")
 	}
-	serializedCity, ok := innerDecoded[0][0][0][4].(string)
+	serializedCity, ok := innerObject[0][0][0][4].(string)
 	if !ok {
 		return "", fmt.Errorf("couldn't get serialized city name")
 	}
-	if cityName != city {
-		return "", fmt.Errorf("the requested city name didn't match the found. requested: %s found: %s", cityName, city)
+	if city != foundCity {
+		return "", fmt.Errorf("the requested city name didn't match the found. requested: %s found: %s", city, foundCity)
 	}
 
 	return serializedCity, nil
