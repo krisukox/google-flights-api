@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"unicode"
 )
 
 type WholeBody struct {
@@ -33,31 +32,20 @@ type Body struct {
 func skipPrefix(body *bufio.Reader) error {
 	_, isPrefix, err := body.ReadLine()
 	if err != nil || isPrefix {
-		return fmt.Errorf("Error when reading response with the serialized city names: %w", err)
+		return fmt.Errorf("error when reading response with the serialized city names: %w", err)
 	}
 	_, isPrefix, err = body.ReadLine()
 	if err != nil || isPrefix {
-		return fmt.Errorf("Error when reading response with the serialized city names: %w", err)
+		return fmt.Errorf("error when reading response with the serialized city names: %w", err)
 	}
 	return nil
 }
 
 func getNumber(body *bufio.Reader) (int, error) { // Use ReadLine
 	var number []byte
-	for {
-		char, err := body.Peek(1)
-		if err != nil {
-			log.Fatalf("Couldn't peek byte")
-		}
-		if !unicode.IsNumber(rune(char[0])) {
-			break
-		}
-		number = append(number, char...)
-		_, err = body.ReadByte()
-		if err != nil {
-			log.Fatalf("Couldn't read byte")
-		}
-		// fmt.Println(char)
+	number, isPrefix, err := body.ReadLine()
+	if err != nil || isPrefix {
+		return 0, fmt.Errorf("error when reading response with the serialized city names: %w", err)
 	}
 	return strconv.Atoi(string(number))
 }
@@ -114,11 +102,10 @@ func GetSerializedCityName(cityName string) (string, error) {
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
 	_, err = getNumber(body)
+
 	if err != nil {
 		log.Fatalf("Couldn't get number")
 	}
-
-	body.ReadByte()
 
 	bytesToDecode, _, err := body.ReadLine()
 
