@@ -30,27 +30,16 @@ type Body struct {
 	Unkn6    string
 }
 
-func skipPrefix(body *bufio.Reader) {
-	var err error
-	for char := byte(0); char != '\''; {
-		char, err = body.ReadByte()
-		if err != nil {
-			log.Fatalf("Couldn't read byte")
-		}
-	} // USE body.ReadBytes()
-	for {
-		char, err := body.Peek(1)
-		if err != nil {
-			log.Fatalf("Couldn't peek byte")
-		}
-		if char[0] != '\n' {
-			break
-		}
-		_, err = body.ReadByte()
-		if err != nil {
-			log.Fatalf("Couldn't read byte")
-		}
+func skipPrefix(body *bufio.Reader) error {
+	_, isPrefix, err := body.ReadLine()
+	if err != nil || isPrefix {
+		return fmt.Errorf("Error when reading response with the serialized city names: %w", err)
 	}
+	_, isPrefix, err = body.ReadLine()
+	if err != nil || isPrefix {
+		return fmt.Errorf("Error when reading response with the serialized city names: %w", err)
+	}
+	return nil
 }
 
 func getNumber(body *bufio.Reader) (int, error) { // Use ReadLine
