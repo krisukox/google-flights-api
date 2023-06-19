@@ -9,24 +9,6 @@ import (
 	"time"
 )
 
-type WholeBody struct {
-	Body []WholeBody2
-}
-
-type WholeBody2 struct {
-	Body []Body
-}
-
-type Body struct {
-	Unkn1    string
-	Unkn2    string
-	ToDecode string
-	Unkn3    int
-	Unkn4    int
-	Unkn5    int
-	Unkn6    string
-}
-
 func skipPrefix(body *bufio.Reader) error {
 	var isPrefix bool
 	var err error
@@ -57,7 +39,6 @@ func sendRequest(city string) (*http.Response, error) {
 	req.Header.Set("cookie", "CONSENT=YES+srp.gws-20211208-0-RC2.pl+FX+371")
 	req.Header.Set("origin", "https://www.google.com")
 	req.Header.Set("pragma", "no-cache")
-	req.Header.Set("referer", "https://www.google.com/travel/flights/search?tfs=CBwQAhonEgoyMDIzLTA3LTA0agwIAhIIL20vMDg0NWJyCwgDEgcvbS8wbjJ6GicSCjIwMjMtMDctMDhqCwgDEgcvbS8wbjJ6cgwIAhIIL20vMDg0NWJAAUgBcAGCAQsI____________AZgBAQ")
 	req.Header.Set("sec-ch-ua", "\"Google Chrome\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"")
 	req.Header.Set("sec-ch-ua-arch", "\"x86\"")
 	req.Header.Set("sec-ch-ua-bitness", "\"64\"")
@@ -72,7 +53,6 @@ func sendRequest(city string) (*http.Response, error) {
 	req.Header.Set("sec-fetch-mode", "cors")
 	req.Header.Set("sec-fetch-site", "same-origin")
 	req.Header.Set("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
-	req.Header.Set("x-client-data", "CKS1yQEIj7bJAQimtskBCKmdygEIivHKAQiSocsBCIegzQEI8abNAQj9qs0BCKCtzQEItrLNAQicuc0BCNm5zQEI3L3NAQ==")
 	req.Header.Set("x-goog-ext-190139975-jspb", "[\"PL\",\"ZZ\",\"Xkt6eg==\"]")
 	req.Header.Set("x-goog-ext-259736195-jspb", "[\"pl\",\"PL\",\"PLN\",1,null,[-120],null,[[48764690,48627726,47907128,48480739,48710756,48676280,48593234,48707378]],1,[]]")
 	req.Header.Set("x-same-domain", "1")
