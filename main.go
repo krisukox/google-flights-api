@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/krisukox/google-flights-api/api"
+	"golang.org/x/text/currency"
 )
 
 func main() {
@@ -28,5 +30,8 @@ func main() {
 	// city2, _ := api.GetSerializedCityName("Madryt")
 	// fmt.Println(city2)
 
-	api.GetRawData(date, returnDate, "Wrocław", "Madryt")
+	_, err := api.GetFlightsV2(date, returnDate, "Wrocław", "Madryt", currency.PLN)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
 }
