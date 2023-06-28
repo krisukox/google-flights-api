@@ -95,8 +95,8 @@ func getFlight(object []interface{}) (flight, error) {
 	if !ok {
 		return flight{}, fmt.Errorf("unexpected object format")
 	}
-	fmt.Println(object2)
-	return flight{}, nil
+	price := object2[1].(float64)
+	return flight{"", "", fmt.Sprintf("%f", price)}, nil
 }
 
 func getFlightsFromSection(section []interface{}) ([]flight, error) {
@@ -144,7 +144,7 @@ func getFlightsFromSection(section []interface{}) ([]flight, error) {
 	// 	return nil, fmt.Errorf("unexpected object format")
 	// }
 	// fmt.Println(object4)
-	return nil, nil
+	return flights, nil
 }
 
 func GetFlightsV2(
@@ -228,16 +228,26 @@ func GetFlightsV2(
 	}
 	// // // fmt.Println(">>>>>>>>>abc")
 	// fmt.Println(innerObject[2])
+	allFlights := []flight{}
 	section, ok := innerObject[2].([]interface{})
 	if !ok {
 		return nil, fmt.Errorf("unexpected object format 2")
 	}
-	getFlightsFromSection(section)
+	flights, err := getFlightsFromSection(section)
+	if err != nil {
+		return nil, err
+	}
+	allFlights = append(allFlights, flights...)
 	section, ok = innerObject[3].([]interface{})
 	if !ok {
 		return nil, fmt.Errorf("unexpected object format 2")
 	}
-	getFlightsFromSection(section)
+	flights, err = getFlightsFromSection(section)
+	if err != nil {
+		return nil, err
+	}
+	allFlights = append(allFlights, flights...)
+	fmt.Println(allFlights)
 	// getFlightsFromSection(section)
 	// // fmt.Println(anotherObject)
 	// // fmt.Println(anotherObject[1])
