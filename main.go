@@ -28,5 +28,5 @@ func main() {
 	// city2, _ := api.GetSerializedCityName("Madryt")
 	// fmt.Println(city2)
 
-	api.GetRawData(date, returnDate, "Wrocław", "Rzym")
+	api.GetRawData(date, returnDate, "Wrocław", "Madryt")
 }
