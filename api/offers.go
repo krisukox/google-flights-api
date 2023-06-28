@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -30,7 +29,7 @@ func contains(s []currency.Unit, str currency.Unit) bool {
 
 var supportedCurrency = []currency.Unit{currency.USD, currency.PLN}
 
-func parse(htmlToParse string) (data [][]string) {
+func parse(htmlToParse string) [][]string {
 	tokenizer := html.NewTokenizer(strings.NewReader(htmlToParse))
 
 	val := []string{}
@@ -97,10 +96,24 @@ func getPriceSuffix(unit currency.Unit) string {
 	return ""
 }
 
-func GetOffers(url string, unit currency.Unit) ([]flight, error) {
+// func GetBestFlightsDateRange
+
+func GetFlights(
+	departureDate time.Time,
+	returnDate time.Time,
+	departureCity string,
+	arivalCity string,
+	unit currency.Unit,
+) ([]flight, error) {
 	if !isSupportedCurrency(unit) {
 		return nil, fmt.Errorf(unit.String() + " is not supproted yet")
 	}
+
+	url, err := CreateFullURL(departureDate, returnDate, departureCity, arivalCity)
+	if err != nil {
+		return nil, err
+	}
+
 	url = url + "&curr=" + unit.String()
 	url = url + "&hl=en-US"
 
@@ -137,26 +150,18 @@ func GetOffers(url string, unit currency.Unit) ([]flight, error) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf(err.Error())
+		return nil, err
 	}
-
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
-
 	if err != nil {
-		log.Fatalf(err.Error())
+		return nil, err
 	}
 
 	data := parse(string(body))
 
-	// fmt.Println(data)
-
 	priceSuffix := getPriceSuffix(unit)
-
-	fmt.Println(priceSuffix)
-
-	// fmt.Println(data)
 
 	for _, i := range data {
 		departure := ""
