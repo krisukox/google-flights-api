@@ -86,6 +86,67 @@ func decode(toDecode string) ([]flight, error) {
 	return []flight{}, nil
 }
 
+func getFlight(object []interface{}) (flight, error) {
+	object1, ok := object[1].([]interface{})
+	if !ok {
+		return flight{}, fmt.Errorf("unexpected object format")
+	}
+	object2, ok := object1[0].([]interface{})
+	if !ok {
+		return flight{}, fmt.Errorf("unexpected object format")
+	}
+	fmt.Println(object2)
+	return flight{}, nil
+}
+
+func getFlightsFromSection(section []interface{}) ([]flight, error) {
+	flights := []flight{}
+
+	object, ok := section[0].([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("unexpected object format")
+	}
+	ok = true
+	var object1 []interface{}
+	for _, o := range object {
+		object1, ok = o.([]interface{})
+		if !ok {
+			break
+		}
+		flight, err := getFlight(object1)
+		if err != nil {
+			break
+		}
+		flights = append(flights, flight)
+	}
+	// for i := 0; i < len(object); i++ {
+	// 	object1, ok = object[i].([]interface{})
+	// 	if !ok {
+	// 		break
+	// 	}
+	// 	flight, err := getFlight(object1)
+	// 	if err != nil {
+	// 		break
+	// 	}
+	// 	flights = append(flights, flight)
+	// }
+	// object1, ok := object[0].([]interface{}) // 0, 1, 2 kolejne loty
+	// getFlight(object1)
+	// if !ok {
+	// 	return nil, fmt.Errorf("unexpected object format")
+	// }
+	// object3, ok := object2[1].([]interface{})
+	// if !ok {
+	// 	return nil, fmt.Errorf("unexpected object format")
+	// }
+	// object4, ok := object3[0].([]interface{})
+	// if !ok {
+	// 	return nil, fmt.Errorf("unexpected object format")
+	// }
+	// fmt.Println(object4)
+	return nil, nil
+}
+
 func GetFlightsV2(
 	date time.Time,
 	returnDate time.Time,
@@ -167,24 +228,29 @@ func GetFlightsV2(
 	}
 	// // // fmt.Println(">>>>>>>>>abc")
 	// fmt.Println(innerObject[2])
-	anotherObject, ok := innerObject[2].([]interface{})
+	section, ok := innerObject[2].([]interface{})
 	if !ok {
 		return nil, fmt.Errorf("unexpected object format 2")
 	}
-	// fmt.Println(anotherObject[1])
-	anotherObject1, ok := anotherObject[0].([]interface{})
-	anotherObject2, ok := anotherObject1[0].([]interface{}) // 0, 1, 2 kolejne loty
-	anotherObject3, ok := anotherObject2[1].([]interface{})
-	anotherObject4, ok := anotherObject3[0].([]interface{})
-	fmt.Println(anotherObject4[1])
-	// fmt.Println(anotherObject3[0])
-	// fmt.Println(anotherObject3[6])
-	// body, err := io.ReadAll(resp.Body)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	getFlightsFromSection(section)
+	section, ok = innerObject[3].([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("unexpected object format 2")
+	}
+	getFlightsFromSection(section)
+	// getFlightsFromSection(section)
+	// // fmt.Println(anotherObject)
+	// // fmt.Println(anotherObject[1])
+	// anotherObject1, ok := anotherObject[0].([]interface{})
 
-	// fmt.Println(string(body))
+	// ///////////////////////
+
+	// anotherObject2, ok := anotherObject1[2].([]interface{}) // 0, 1, 2 kolejne loty
+	// anotherObject3, ok := anotherObject2[1].([]interface{})
+	// anotherObject4, ok := anotherObject3[0].([]interface{})
+	// fmt.Println(anotherObject4[1])
+
+	///////////////////////
 
 	return []flight{}, nil
 }
