@@ -114,6 +114,8 @@ func GetFlights(
 		return nil, err
 	}
 
+	fmt.Println(url)
+
 	url = url + "&curr=" + unit.String()
 	url = url + "&hl=en-US"
 
@@ -159,7 +161,11 @@ func GetFlights(
 		return nil, err
 	}
 
+	// fmt.Println(string(body))
+
 	data := parse(string(body))
+
+	// fmt.Println(data)
 
 	priceSuffix := getPriceSuffix(unit)
 

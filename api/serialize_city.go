@@ -27,6 +27,8 @@ func sendRequest(city string) (*http.Response, error) {
 	jsonBody := []byte(`f.req=%5B%5B%5B%22H028ib%22%2C%22%5B%5C%22` + city + `%5C%22%2C%5B1%2C2%2C3%2C5%2C4%5D%2Cnull%2C%5B1%2C1%2C1%5D%2C1%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
 	bodyReader := bytes.NewReader(jsonBody)
 
+	fmt.Println(string(jsonBody))
+
 	req, err := http.NewRequest(http.MethodPost, requestURL, bodyReader)
 	if err != nil {
 		return nil, err
