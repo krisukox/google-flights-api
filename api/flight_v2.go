@@ -13,6 +13,21 @@ import (
 	"golang.org/x/text/currency"
 )
 
+type flightV2 struct {
+	departureTime time.Time
+	arrivalTime   time.Time
+	departureCity string
+	arrivalCity   string
+}
+
+type trip struct {
+	flight        []flightV2
+	returnFlight  []flightV2
+	departureCity string
+	arrivalCity   string
+	Price         string
+}
+
 // flightDate
 // returnFlightDate
 // originCity
@@ -87,6 +102,8 @@ func decode(toDecode string) ([]flight, error) {
 }
 
 func getFlight(object []interface{}) (flight, error) {
+	// fmt.Println(object)
+	fmt.Println(object[0])
 	object1, ok := object[1].([]interface{})
 	if !ok {
 		return flight{}, fmt.Errorf("unexpected object format")
@@ -100,6 +117,7 @@ func getFlight(object []interface{}) (flight, error) {
 }
 
 func getFlightsFromSection(section []interface{}) ([]flight, error) {
+
 	flights := []flight{}
 
 	object, ok := section[0].([]interface{})
@@ -119,31 +137,6 @@ func getFlightsFromSection(section []interface{}) ([]flight, error) {
 		}
 		flights = append(flights, flight)
 	}
-	// for i := 0; i < len(object); i++ {
-	// 	object1, ok = object[i].([]interface{})
-	// 	if !ok {
-	// 		break
-	// 	}
-	// 	flight, err := getFlight(object1)
-	// 	if err != nil {
-	// 		break
-	// 	}
-	// 	flights = append(flights, flight)
-	// }
-	// object1, ok := object[0].([]interface{}) // 0, 1, 2 kolejne loty
-	// getFlight(object1)
-	// if !ok {
-	// 	return nil, fmt.Errorf("unexpected object format")
-	// }
-	// object3, ok := object2[1].([]interface{})
-	// if !ok {
-	// 	return nil, fmt.Errorf("unexpected object format")
-	// }
-	// object4, ok := object3[0].([]interface{})
-	// if !ok {
-	// 	return nil, fmt.Errorf("unexpected object format")
-	// }
-	// fmt.Println(object4)
 	return flights, nil
 }
 
