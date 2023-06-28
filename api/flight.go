@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,6 +16,24 @@ type flight struct {
 	Departure string
 	Arrival   string
 	Price     string
+}
+
+func readLine(body *bufio.Reader) ([]byte, error) {
+	bytesToDecode, isPrefix, err := body.ReadLine()
+	if err != nil {
+		return nil, err
+	}
+	if !isPrefix {
+		return bytesToDecode, nil
+	}
+	bytesToDecodeFinal := make([]byte, len(bytesToDecode))
+	copy(bytesToDecodeFinal, bytesToDecode)
+	for isPrefix {
+		bytesToDecode, isPrefix, err = body.ReadLine()
+		bytesToDecodeFinal = append(bytesToDecodeFinal, bytesToDecode...)
+	}
+	// fmt.Println(string(bytesToDecodeFinal))
+	return bytesToDecodeFinal, nil
 }
 
 func contains(s []currency.Unit, str currency.Unit) bool {
