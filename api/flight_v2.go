@@ -231,15 +231,15 @@ func GetFlightsV2(
 		return nil, err
 	}
 	allFlights = append(allFlights, flights...)
-	section, ok = innerObject[3].([]interface{})
-	if !ok {
-		return nil, fmt.Errorf("unexpected object format 2")
-	}
-	flights, err = getFlightsFromSection(section)
-	if err != nil {
-		return nil, err
-	}
-	allFlights = append(allFlights, flights...)
+	// section, ok = innerObject[3].([]interface{})
+	// if !ok {
+	// 	return nil, fmt.Errorf("unexpected object format 2")
+	// }
+	// flights, err = getFlightsFromSection(section)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// allFlights = append(allFlights, flights...)
 	fmt.Println(allFlights)
 	// getFlightsFromSection(section)
 	// // fmt.Println(anotherObject)
