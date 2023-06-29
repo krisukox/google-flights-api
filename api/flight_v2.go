@@ -14,12 +14,20 @@ import (
 )
 
 type flightV2 struct {
-	airlineIATACode string
-	airlineName     string
-	departureTime   time.Time
-	arrivalTime     time.Time
-	departureCity   string
-	arrivalCity     string
+	departureAirportCode string
+	departureAirportName string
+	arrivalAirportName   string
+	arrivalAirportCode   string
+	departureTime        time.Time
+	arrivalTime          time.Time
+	duration             time.Duration
+	airplane             string
+	departureCity        string
+	arrivalCity          string
+	flightNumber         string
+	unknown              interface{}
+	airlineName          string
+	legroom              string
 }
 
 type trip struct {
@@ -135,6 +143,79 @@ func getAirlineName(object []interface{}) (string, error) {
 	return object2, nil
 }
 
+func getTime(flightTime interface{}, flightDate interface{}) (time.Time, error) {
+	flightTime1, ok := flightTime.([]interface{})
+	if !ok || len(flightTime1) != 2 {
+		return time.Time{}, fmt.Errorf("wrong time format")
+	}
+	hours, ok := flightTime1[0].(float64)
+	if !ok {
+		return time.Time{}, fmt.Errorf("cannot get hours")
+	}
+	minutes, ok := flightTime1[1].(float64)
+	if !ok {
+		return time.Time{}, fmt.Errorf("cannot get minutes")
+	}
+	flightDate1, ok := flightDate.([]interface{})
+	if !ok || len(flightDate1) != 3 {
+		return time.Time{}, fmt.Errorf("wrong date format")
+	}
+	year, ok := flightDate1[0].(float64)
+	if !ok {
+		return time.Time{}, fmt.Errorf("cannot get year")
+	}
+	month, ok := flightDate1[1].(float64)
+	if !ok {
+		return time.Time{}, fmt.Errorf("cannot get month")
+	}
+	day, ok := flightDate1[2].(float64)
+	if !ok {
+		return time.Time{}, fmt.Errorf("cannot get day")
+	}
+	location, _ := time.LoadLocation("Poland")
+
+	return time.Date(
+		int(year),
+		time.Month(month),
+		int(day),
+		int(hours),
+		int(minutes),
+		0,
+		0,
+		location,
+	), nil
+}
+
+func getDuration(duration interface{}) (time.Duration, error) {
+	fmt.Println(duration)
+	duration1, ok := duration.(float64)
+	if !ok {
+		return time.Duration(0), fmt.Errorf("wrong duration format")
+	}
+	return time.ParseDuration(fmt.Sprintf("%dm", int(duration1)))
+}
+
+func getFlightNumberAirline(data interface{}) (string, interface{}, string, error) {
+	data1, ok := data.([]interface{})
+	fmt.Println(len(data1))
+	if !ok || len(data1) != 4 {
+		return "", "", "", fmt.Errorf("wrong flight number of airline format")
+	}
+	flightNumberPart1, ok := data1[0].(string)
+	if !ok {
+		return "", "", "", fmt.Errorf("cannot get flight number")
+	}
+	flightNumberPart2, ok := data1[1].(string)
+	if !ok {
+		return "", "", "", fmt.Errorf("cannot get flight number")
+	}
+	airline, ok := data1[3].(string)
+	if !ok {
+		return "", "", "", fmt.Errorf("cannot get airline name")
+	}
+	return flightNumberPart1 + " " + flightNumberPart2, data1[2], airline, nil
+}
+
 func getFlights(object []interface{}) ([]flightV2, error) {
 	// fmt.Println(object[0])
 	flights := make([]flightV2, 10)
@@ -143,15 +224,74 @@ func getFlights(object []interface{}) ([]flightV2, error) {
 	if !ok {
 		return nil, fmt.Errorf("cannot get flight")
 	}
-	// airLineIATACode, ok := object1[0].(string)
-	// if ok {
-	// 	flights[0].airlineIATACode = airLineIATACode
-	// }
-	// airlineName, err := getAirlineName(object1)
-	// if err == nil {
-	// 	flights[0].airlineName = airlineName
-	// }
-	fmt.Println(object1[2].([]interface{}))
+	object2, ok := object1[2].([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("cannot get flight")
+	}
+	object3, ok := object2[0].([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("cannot get flight")
+	}
+	if len(object3) < 32 {
+		return nil, fmt.Errorf("incorrect amount of data for flight")
+	}
+	departureAirportCode, ok := object3[3].(string)
+	if !ok {
+		return nil, fmt.Errorf("cannot get departure airport code")
+	}
+	departureAirportName, ok := object3[4].(string)
+	if !ok {
+		return nil, fmt.Errorf("cannot get departure airport name")
+	}
+	arrivalAirportName, ok := object3[5].(string)
+	if !ok {
+		return nil, fmt.Errorf("cannot get arrival airport name")
+	}
+	arrivalAirportCode, ok := object3[6].(string)
+	if !ok {
+		return nil, fmt.Errorf("cannot get arrival airport code")
+	}
+	departureTime, err := getTime(object3[8], object3[20]) // [17 25]
+	if err != nil {
+		return nil, fmt.Errorf("departure: %w", err)
+	}
+	arrivalTime, err := getTime(object3[10], object3[21]) // [17 25]
+	if err != nil {
+		return nil, fmt.Errorf("arrival: %w", err)
+	}
+	duration, err := getDuration(object3[11])
+	if err != nil {
+		return nil, fmt.Errorf("duration: %w", err)
+	}
+	flightNumber, unknown, airlineName, err := getFlightNumberAirline(object3[22])
+	if err != nil {
+		return nil, fmt.Errorf("flight number or airline: %w", err)
+	}
+	airplane, ok := object3[17].(string)
+	if !ok {
+		return nil, fmt.Errorf("wrong airplane format")
+	}
+	legroom, ok := object3[30].(string)
+	if !ok {
+		return nil, fmt.Errorf("wrong legroom format")
+	}
+	f := flightV2{
+		departureAirportCode,
+		departureAirportName,
+		arrivalAirportName,
+		arrivalAirportCode,
+		departureTime,
+		arrivalTime,
+		duration,
+		airplane,
+		"",
+		"",
+		flightNumber,
+		unknown,
+		airlineName,
+		legroom,
+	}
+	fmt.Printf("%+v\n", f)
 
 	return flights, nil
 }
@@ -164,8 +304,10 @@ func getTrip(object []interface{}) (trip, error) {
 	if err == nil {
 		trip.price = price
 	}
-	getFlights(object)
-
+	_, err = getFlights(object)
+	if err != nil {
+		fmt.Println(err)
+	}
 	return trip, nil
 }
 
@@ -192,10 +334,12 @@ func getFlightsFromSection(section []interface{}) ([]trip, error) {
 	// }
 	// for _, o := range object {
 	object1, _ = object[0].([]interface{})
+
 	// if !ok {
 	// 	break
 	// }
 	trip, _ := getTrip(object1)
+
 	// if err != nil {
 	// 	break
 	// }
@@ -241,7 +385,7 @@ func GetFlightsV2(
 	req.Header.Set("sec-fetch-mode", `cors`)
 	req.Header.Set("sec-fetch-site", `same-origin`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
-	req.Header.Set("x-goog-ext-259736195-jspb", `["en-US","PL","PLN",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`)
+	req.Header.Set("x-goog-ext-259736195-jspb", `["en-US","PL","PLN",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`) // language, location, currency
 	req.Header.Set("x-same-domain", `1`)
 	client := http.Client{
 		Timeout: 30 * time.Second,
