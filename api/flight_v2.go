@@ -23,7 +23,7 @@ type flightV2 struct {
 	duration             time.Duration
 	airplane             string
 	flightNumber         string
-	unknown              interface{}
+	unknown              []interface{}
 	airlineName          string
 	legroom              string
 }
@@ -39,7 +39,7 @@ func (f flightV2) String() string {
 	out += fmt.Sprintf("duration: %s ", f.duration)
 	out += fmt.Sprintf("airplane: %s ", f.airplane)
 	out += fmt.Sprintf("flightNumber: %s ", f.flightNumber)
-	out += fmt.Sprintf("unknown: %v ", f.unknown)
+	// out += fmt.Sprintf("unknown: %v ", f.unknown)
 	out += fmt.Sprintf("airlineName: %s ", f.airlineName)
 	out += fmt.Sprintf("legroom: %s ", f.legroom)
 	return out
@@ -182,7 +182,32 @@ func getFlightNumberAirline(data interface{}) (string, interface{}, string, erro
 	return flightNumberPart1 + " " + flightNumberPart2, data1[2], airline, nil
 }
 
+func getUnknowns(flightObj1 []interface{}) []interface{} {
+	unknowns := []interface{}{}
+	unknowns = append(unknowns, flightObj1[1])
+	unknowns = append(unknowns, flightObj1[2])
+	unknowns = append(unknowns, flightObj1[7])
+	unknowns = append(unknowns, flightObj1[9])
+	unknowns = append(unknowns, flightObj1[12])
+	unknowns = append(unknowns, flightObj1[13])
+	unknowns = append(unknowns, flightObj1[14])
+	unknowns = append(unknowns, flightObj1[15])
+	unknowns = append(unknowns, flightObj1[16])
+	unknowns = append(unknowns, flightObj1[18])
+	unknowns = append(unknowns, flightObj1[19])
+	unknowns = append(unknowns, flightObj1[23])
+	unknowns = append(unknowns, flightObj1[24])
+	unknowns = append(unknowns, flightObj1[25])
+	unknowns = append(unknowns, flightObj1[26])
+	unknowns = append(unknowns, flightObj1[27])
+	unknowns = append(unknowns, flightObj1[28])
+	unknowns = append(unknowns, flightObj1[29])
+	unknowns = append(unknowns, flightObj1[31])
+	return unknowns
+}
+
 func getFlight(flightObj interface{}) (flightV2, error) {
+	var unknowns []interface{}
 	flightObj1, ok := flightObj.([]interface{})
 	if !ok {
 		return flightV2{}, fmt.Errorf("wrong flight format: %v", flightObj)
@@ -218,7 +243,8 @@ func getFlight(flightObj interface{}) (flightV2, error) {
 	// if err != nil {
 	// 	return flightV2{}, err
 	// }
-	flightNumber, unknown, airlineName, _ := getFlightNumberAirline(flightObj1[22])
+	flightNumber, u, airlineName, _ := getFlightNumberAirline(flightObj1[22])
+	unknowns = append(unknowns, u)
 	// if err != nil {
 	// 	return flightV2{}, err
 	// }
@@ -227,6 +253,8 @@ func getFlight(flightObj interface{}) (flightV2, error) {
 	// 	return flightV2{}, fmt.Errorf("wrong airplane format: %v", object1[17])
 	// }
 	legroom, _ := flightObj1[30].(string)
+	us := getUnknowns(flightObj1)
+	unknowns = append(unknowns, us...)
 	return flightV2{
 		departureAirportCode,
 		departureAirportName,
@@ -237,7 +265,7 @@ func getFlight(flightObj interface{}) (flightV2, error) {
 		duration,
 		airplane,
 		flightNumber,
-		unknown,
+		unknowns,
 		airlineName,
 		legroom,
 	}, nil
@@ -303,10 +331,10 @@ func getFlightsFromSection(section []interface{}) ([]offer, error) {
 	return trips, nil
 }
 
-func doRequest(date, returnDate time.Time, originCity, targetCity string) (*http.Response, error) {
+func doRequest(date, returnDate time.Time, originCity, targetCity string, currencyUnit currency.Unit) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	jsonBody := []byte(`f.req=` + GetRawData(date, returnDate, originCity, targetCity) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`)
+	jsonBody := []byte(`f.req=` + GetRawData(date, returnDate, originCity, targetCity) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
@@ -335,7 +363,7 @@ func doRequest(date, returnDate time.Time, originCity, targetCity string) (*http
 	req.Header.Set("sec-fetch-mode", `cors`)
 	req.Header.Set("sec-fetch-site", `same-origin`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
-	req.Header.Set("x-goog-ext-259736195-jspb", `["en-US","PL","PLN",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`) // language, location, currency
+	req.Header.Set("x-goog-ext-259736195-jspb", fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, currencyUnit)) // language, location, currency
 	req.Header.Set("x-same-domain", `1`)
 	client := http.Client{
 		Timeout: 30 * time.Second,
@@ -348,9 +376,10 @@ func GetOffers(
 	returnDate time.Time,
 	originCity string,
 	targetCity string,
-	unit currency.Unit,
+	currencyUnit currency.Unit,
 ) ([]offer, error) {
-	resp, err := doRequest(date, returnDate, originCity, targetCity)
+	resp, err := doRequest(date, returnDate, originCity, targetCity, currencyUnit)
+
 	if err != nil {
 		return nil, err
 	}

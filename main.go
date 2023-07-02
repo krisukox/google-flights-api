@@ -10,8 +10,8 @@ import (
 )
 
 func main() {
-	date, _ := time.Parse("2006-01-02", "2023-11-01")
-	returnDate, _ := time.Parse("2006-01-02", "2023-11-08")
+	date, _ := time.Parse("2006-01-02", "2023-07-04")
+	returnDate, _ := time.Parse("2006-01-02", "2023-07-08")
 
 	offer, err := api.GetOffers(date, returnDate, "Wrocław", "Rzym", currency.PLN)
 	if err != nil {
