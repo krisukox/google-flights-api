@@ -192,9 +192,7 @@ func GetFlights(
 		departure := ""
 		arrival := ""
 		price := ""
-		// fmt.Println(i)
 		for _, j := range i {
-			// fmt.Println(j)
 			if strings.Contains(j, "Departure") && departure == "" {
 				departure = j
 			}

@@ -8,11 +8,11 @@ import (
 )
 
 func TestGetFlightsPLN(t *testing.T) {
-	departureDate, err := time.Parse("2006-01-02", "2024-03-28")
+	departureDate, err := time.Parse("2006-01-02", "2023-10-01")
 	if err != nil {
 		t.Fatalf("Error while creating departure date")
 	}
-	returnDate, err := time.Parse("2006-01-02", "2024-04-09")
+	returnDate, err := time.Parse("2006-01-02", "2023-10-08")
 	if err != nil {
 		t.Fatalf("Error while creating return date")
 	}
@@ -28,11 +28,11 @@ func TestGetFlightsPLN(t *testing.T) {
 }
 
 func TestGetFlightsUSD(t *testing.T) {
-	departureDate, err := time.Parse("2006-01-02", "2024-03-28")
+	departureDate, err := time.Parse("2006-01-02", "2023-10-01")
 	if err != nil {
 		t.Fatalf("Error while creating departure date")
 	}
-	returnDate, err := time.Parse("2006-01-02", "2024-04-09")
+	returnDate, err := time.Parse("2006-01-02", "2023-10-08")
 	if err != nil {
 		t.Fatalf("Error while creating return date")
 	}
