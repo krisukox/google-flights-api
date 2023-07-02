@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -36,8 +37,9 @@ func main() {
 
 	// fmt.Println(string(a))
 
-	_, err := api.GetFlightsV2(date, returnDate, "Wrocław", "Rzym", currency.PLN)
+	trips, err := api.GetFlightsV2(date, returnDate, "Wrocław", "Rzym", currency.PLN)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
+	fmt.Println(trips)
 }

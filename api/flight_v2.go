@@ -340,47 +340,24 @@ func getTrip(object []interface{}) (trip, error) {
 }
 
 func getFlightsFromSection(section []interface{}) ([]trip, error) {
-
 	trips := []trip{}
 
 	object, ok := section[0].([]interface{})
 	if !ok {
 		return nil, fmt.Errorf("unexpected object format")
 	}
-	ok = true
-	var object1 []interface{}
 	for _, o := range object {
-		fmt.Println(o)
-		// fmt.Println("getFlightsFromSection")
-		object1, ok = o.([]interface{})
+		object1, ok := o.([]interface{})
 		if !ok {
 			break
 		}
 		trip, err := getTrip(object1)
 		if err != nil {
-			fmt.Println(">>>>>>>>>>>>>>>>>ERROR %v", err)
+			return trips, err
 		}
-		// fmt.Println(trip)
-		if err != nil {
-			break
-		}
+
 		trips = append(trips, trip)
 	}
-	// // for _, o := range object {
-	// object1, _ = object[0].([]interface{})
-
-	// // if !ok {
-	// // 	break
-	// // }
-	// trip, _ := getTrip(object1)
-
-	// // fmt.Println(trip)
-
-	// // if err != nil {
-	// // 	break
-	// // }
-	// trips = append(trips, trip)
-	// }
 	return trips, nil
 }
 
@@ -390,7 +367,7 @@ func GetFlightsV2(
 	originCity string,
 	targetCity string,
 	unit currency.Unit,
-) ([]flight, error) {
+) ([]trip, error) {
 	fmt.Println("GetFlightsV2")
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
@@ -434,7 +411,6 @@ func GetFlightsV2(
 
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
-	fmt.Println(">>>>>>>>>abc")
 	bytesToDecode, err := readLine(body)
 	// bytesToDecode, isPrefix, err := body.ReadLine()
 	// if isPrefix {
@@ -463,8 +439,6 @@ func GetFlightsV2(
 	if err != nil {
 		return nil, err
 	}
-	// // // fmt.Println(">>>>>>>>>abc")
-	// fmt.Println(innerObject[2])
 
 	allTrips := []trip{}
 	section, ok := innerObject[2].([]interface{})
@@ -472,8 +446,9 @@ func GetFlightsV2(
 		return nil, fmt.Errorf("unexpected object format 2")
 	}
 	trips, err := getFlightsFromSection(section)
+	allTrips = append(allTrips, trips...)
 	if err != nil {
-		return nil, err
+		return allTrips, err
 	}
 
 	allTrips = append(allTrips, trips...)
@@ -482,11 +457,10 @@ func GetFlightsV2(
 		return nil, fmt.Errorf("unexpected object format 2")
 	}
 	trips, err = getFlightsFromSection(section)
-	if err != nil {
-		return nil, err
-	}
 	allTrips = append(allTrips, trips...)
-	fmt.Println(allTrips)
+	if err != nil {
+		return allTrips, err
+	}
 
-	return []flight{}, nil
+	return allTrips, nil
 }
