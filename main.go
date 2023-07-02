@@ -6,14 +6,16 @@ import (
 	"time"
 
 	"github.com/krisukox/google-flights-api/api"
+	"golang.org/x/text/currency"
 )
 
 func main() {
-	departureDate, _ := time.Parse("2006-01-02", "2023-07-11")
-	returnDate, _ := time.Parse("2006-01-02", "2023-07-17")
-	url, err := api.CreateFullURL(departureDate, returnDate, "Wrocław", "Madryt")
+	date, _ := time.Parse("2006-01-02", "2023-07-04")
+	returnDate, _ := time.Parse("2006-01-02", "2023-07-08")
+
+	offer, err := api.GetOffers(date, returnDate, "Wrocław", "Rzym", currency.PLN)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	fmt.Println(url)
+	fmt.Println(offer)
 }
