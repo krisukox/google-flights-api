@@ -45,7 +45,7 @@ func (f flightV2) String() string {
 	return out
 }
 
-type trip struct {
+type offer struct {
 	flight                 []flightV2
 	returnFlight           []flightV2 // Not implemented yet
 	originAirportCode      string
@@ -54,7 +54,7 @@ type trip struct {
 	price                  float64
 }
 
-func (t trip) String() string {
+func (t offer) String() string {
 	out := ""
 	out += fmt.Sprintf("flight: %s \n", t.flight)
 	out += fmt.Sprintf("returnFlight: %s \n", t.returnFlight)
@@ -87,18 +87,18 @@ func GetRawData(date, returnDate time.Time, originCity, targetCity string) strin
 	return url.QueryEscape(decodedMy)
 }
 
-func getPrice(object []interface{}) (float64, error) {
-	object1, ok := object[1].([]interface{})
+func getPrice(tripObj []interface{}) (float64, error) {
+	priceObj1, ok := tripObj[1].([]interface{})
 	if !ok {
-		return 0, fmt.Errorf("wrong price format stage 1: %v", object[1])
+		return 0, fmt.Errorf("wrong price format stage 1: %v", priceObj1[1])
 	}
-	object2, ok := object1[0].([]interface{})
+	priceObj2, ok := priceObj1[0].([]interface{})
 	if !ok {
-		return 0, fmt.Errorf("wrong price format stage 2: %v", object1[0])
+		return 0, fmt.Errorf("wrong price format stage 2: %v", priceObj2[0])
 	}
-	price, ok := object2[1].(float64)
+	price, ok := priceObj2[1].(float64)
 	if !ok {
-		return 0, fmt.Errorf("wrong price format stage 3: %v", object2[1])
+		return 0, fmt.Errorf("wrong price format stage 3: %v", priceObj2[1])
 	}
 	return price, nil
 }
@@ -182,51 +182,51 @@ func getFlightNumberAirline(data interface{}) (string, interface{}, string, erro
 	return flightNumberPart1 + " " + flightNumberPart2, data1[2], airline, nil
 }
 
-func getFlight(object interface{}) (flightV2, error) {
-	object1, ok := object.([]interface{})
+func getFlight(flightObj interface{}) (flightV2, error) {
+	flightObj1, ok := flightObj.([]interface{})
 	if !ok {
-		return flightV2{}, fmt.Errorf("wrong flight format: %v", object)
+		return flightV2{}, fmt.Errorf("wrong flight format: %v", flightObj)
 	}
-	if len(object1) < 32 {
-		return flightV2{}, fmt.Errorf("incorrect amount of data for type: %v", object)
+	if len(flightObj1) < 32 {
+		return flightV2{}, fmt.Errorf("incorrect amount of data for flight: %v", flightObj)
 	}
-	departureAirportCode, ok := object1[3].(string)
-	if !ok {
-		return flightV2{}, fmt.Errorf("wrong departure airport code type: %v", object1[3])
-	}
-	departureAirportName, ok := object1[4].(string)
-	if !ok {
-		return flightV2{}, fmt.Errorf("wrong departure airport name type: %v", object1[4])
-	}
-	arrivalAirportName, ok := object1[5].(string)
-	if !ok {
-		return flightV2{}, fmt.Errorf("wrong arrival airport name type: %v", object1[5])
-	}
-	arrivalAirportCode, ok := object1[6].(string)
-	if !ok {
-		return flightV2{}, fmt.Errorf("wrong arrival airport code type: %v", object1[6])
-	}
-	departureTime, err := getTime(object1[8], object1[20])
-	if err != nil {
-		return flightV2{}, fmt.Errorf("departure: %w", err)
-	}
-	arrivalTime, err := getTime(object1[10], object1[21])
-	if err != nil {
-		return flightV2{}, fmt.Errorf("arrival: %w", err)
-	}
-	duration, err := getDuration(object1[11])
-	if err != nil {
-		return flightV2{}, err
-	}
-	flightNumber, unknown, airlineName, err := getFlightNumberAirline(object1[22])
-	if err != nil {
-		return flightV2{}, err
-	}
-	airplane, ok := object1[17].(string)
-	if !ok {
-		return flightV2{}, fmt.Errorf("wrong airplane format: %v", object1[17])
-	}
-	legroom, _ := object1[30].(string)
+	departureAirportCode, _ := flightObj1[3].(string)
+	// if !ok {
+	// 	return flightV2{}, fmt.Errorf("wrong departure airport code type: %v", object1[3])
+	// }
+	departureAirportName, _ := flightObj1[4].(string)
+	// if !ok {
+	// 	return flightV2{}, fmt.Errorf("wrong departure airport name type: %v", object1[4])
+	// }
+	arrivalAirportName, _ := flightObj1[5].(string)
+	// if !ok {
+	// 	return flightV2{}, fmt.Errorf("wrong arrival airport name type: %v", object1[5])
+	// }
+	arrivalAirportCode, _ := flightObj1[6].(string)
+	// if !ok {
+	// 	return flightV2{}, fmt.Errorf("wrong arrival airport code type: %v", object1[6])
+	// }
+	departureTime, _ := getTime(flightObj1[8], flightObj1[20])
+	// if err != nil {
+	// 	return flightV2{}, fmt.Errorf("departure: %w", err)
+	// }
+	arrivalTime, _ := getTime(flightObj1[10], flightObj1[21])
+	// if err != nil {
+	// 	return flightV2{}, fmt.Errorf("arrival: %w", err)
+	// }
+	duration, _ := getDuration(flightObj1[11])
+	// if err != nil {
+	// 	return flightV2{}, err
+	// }
+	flightNumber, unknown, airlineName, _ := getFlightNumberAirline(flightObj1[22])
+	// if err != nil {
+	// 	return flightV2{}, err
+	// }
+	airplane, _ := flightObj1[17].(string)
+	// if !ok {
+	// 	return flightV2{}, fmt.Errorf("wrong airplane format: %v", object1[17])
+	// }
+	legroom, _ := flightObj1[30].(string)
 	return flightV2{
 		departureAirportCode,
 		departureAirportName,
@@ -243,23 +243,23 @@ func getFlight(object interface{}) (flightV2, error) {
 	}, nil
 }
 
-func getFlights(object []interface{}) ([]flightV2, error) {
+func getFlights(tripObj []interface{}) ([]flightV2, error) {
 	flights := []flightV2{}
 
-	object1, ok := object[0].([]interface{})
+	flightObj1, ok := tripObj[0].([]interface{})
 	if !ok {
-		return nil, fmt.Errorf("wrong flights format stage 1: %v", object[0])
+		return nil, fmt.Errorf("wrong flights format stage 1: %v", tripObj[0])
 	}
-	flightObjs, ok := object1[2].([]interface{})
+	flightObjs, ok := flightObj1[2].([]interface{})
 	if !ok {
-		return nil, fmt.Errorf("wrong flights format stage 2: %v", object1[2])
+		return nil, fmt.Errorf("wrong flights format stage 2: %v", flightObj1[2])
 	}
 	for _, f := range flightObjs {
-		fl, err := getFlight(f)
+		finalFlight, err := getFlight(f)
 		if err != nil {
 			return nil, fmt.Errorf("cannot get flight: %w", err)
 		}
-		flights = append(flights, fl)
+		flights = append(flights, finalFlight)
 	}
 
 	return flights, nil
@@ -269,20 +269,20 @@ func getTripDuration(flights []flightV2) time.Duration {
 	return flights[len(flights)-1].departureTime.Sub(flights[0].departureTime)
 }
 
-func getTrip(object []interface{}) (trip, error) {
-	price, err := getPrice(object)
+func getTrip(tripObj []interface{}) (offer, error) {
+	price, err := getPrice(tripObj)
 	if err != nil {
-		return trip{}, err
+		return offer{}, err
 	}
-	flights, err := getFlights(object)
+	flights, err := getFlights(tripObj)
 	if err != nil {
-		return trip{}, err
+		return offer{}, err
 	}
-	return trip{flights, []flightV2{}, "", "", getTripDuration(flights), price}, nil
+	return offer{flights, []flightV2{}, "", "", getTripDuration(flights), price}, nil
 }
 
-func getFlightsFromSection(section []interface{}) ([]trip, error) {
-	trips := []trip{}
+func getFlightsFromSection(section []interface{}) ([]offer, error) {
+	trips := []offer{}
 
 	object, ok := section[0].([]interface{})
 	if !ok {
@@ -303,7 +303,7 @@ func getFlightsFromSection(section []interface{}) ([]trip, error) {
 	return trips, nil
 }
 
-func DoRequest(date, returnDate time.Time, originCity, targetCity string) (*http.Response, error) {
+func doRequest(date, returnDate time.Time, originCity, targetCity string) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
 	jsonBody := []byte(`f.req=` + GetRawData(date, returnDate, originCity, targetCity) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`)
@@ -339,18 +339,18 @@ func DoRequest(date, returnDate time.Time, originCity, targetCity string) (*http
 	req.Header.Set("x-same-domain", `1`)
 	client := http.Client{
 		Timeout: 30 * time.Second,
-	}
+	} // TODO: Reuse
 	return client.Do(req)
 }
 
-func GetFlightsV2(
+func GetOffers(
 	date time.Time,
 	returnDate time.Time,
 	originCity string,
 	targetCity string,
 	unit currency.Unit,
-) ([]trip, error) {
-	resp, err := DoRequest(date, returnDate, originCity, targetCity)
+) ([]offer, error) {
+	resp, err := doRequest(date, returnDate, originCity, targetCity)
 	if err != nil {
 		return nil, err
 	}
@@ -378,10 +378,11 @@ func GetFlightsV2(
 		return nil, err
 	}
 
-	allTrips := []trip{}
+	allTrips := []offer{}
+
 	section, ok := innerObject[2].([]interface{})
 	if !ok {
-		return nil, fmt.Errorf("unexpected object format 2")
+		return allTrips, fmt.Errorf("unexpected object format 2")
 	}
 	trips, err := getFlightsFromSection(section)
 	allTrips = append(allTrips, trips...)
@@ -389,10 +390,9 @@ func GetFlightsV2(
 		return allTrips, err
 	}
 
-	allTrips = append(allTrips, trips...)
 	section, ok = innerObject[3].([]interface{})
 	if !ok {
-		return nil, fmt.Errorf("unexpected object format 2")
+		return allTrips, fmt.Errorf("unexpected object format 2")
 	}
 	trips, err = getFlightsFromSection(section)
 	allTrips = append(allTrips, trips...)

@@ -30,9 +30,11 @@ func readLine(body *bufio.Reader) ([]byte, error) {
 	copy(bytesToDecodeFinal, bytesToDecode)
 	for isPrefix {
 		bytesToDecode, isPrefix, err = body.ReadLine()
+		if err != nil {
+			return bytesToDecode, err
+		}
 		bytesToDecodeFinal = append(bytesToDecodeFinal, bytesToDecode...)
 	}
-	// fmt.Println(string(bytesToDecodeFinal))
 	return bytesToDecodeFinal, nil
 }
 
@@ -55,8 +57,6 @@ func parse(htmlToParse string) [][]string {
 	vals := [][]string{}
 	isLi := false
 
-	// var vals []string
-
 	for {
 		tt := tokenizer.Next()
 		if tt == html.ErrorToken {
@@ -76,16 +76,8 @@ func parse(htmlToParse string) [][]string {
 			vals = append(vals, val)
 		}
 		if hasAttr {
-			// if hasAttr && tt == html.StartTagToken && string(tag) == "li" {
-			// fmt.Printf("Tag: %v\n", string(tag))
 			for {
 				_, attrValue, moreAttr := tokenizer.TagAttr()
-				// if string(attrKey) == "" {
-				//     break
-				// }
-				// fmt.Printf("Attr: %v\n", string(attrKey))
-				// fmt.Printf("Attr: %v\n", string(attrValue))
-				// fmt.Printf("Attr: %v\n", moreAttr)
 
 				if isLi {
 					val = append(val, string(attrValue))
@@ -96,7 +88,6 @@ func parse(htmlToParse string) [][]string {
 				}
 			}
 		}
-		// }
 	}
 }
 
@@ -114,8 +105,6 @@ func getPriceSuffix(unit currency.Unit) string {
 	}
 	return ""
 }
-
-// func GetBestFlightsDateRange
 
 func GetFlights(
 	departureDate time.Time,
@@ -141,6 +130,9 @@ func GetFlights(
 	flights := []flight{}
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Set("authority", "www.google.com")
 	req.Header.Set("accept", "*/*")
 	req.Header.Set("accept-language", "en-US,en;q=0.9")
@@ -163,8 +155,6 @@ func GetFlights(
 	req.Header.Set("sec-fetch-mode", "cors")
 	req.Header.Set("sec-fetch-site", "same-origin")
 	req.Header.Set("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
-	// req.Header.Set("x-goog-ext-190139975-jspb", "[\"PL\",\"ZZ\",\"Xkt6eg==\"]")
-	// req.Header.Set("x-goog-ext-259736195-jspb", "[\"pl\",\"PL\",\"PLN\",1,null,[-120],null,[[48764690,48627726,47907128,48480739,48710756,48676280,48593234,48707378]],1,[]]")
 	req.Header.Set("x-same-domain", "1")
 	client := http.Client{
 		Timeout: 30 * time.Second,
@@ -180,11 +170,7 @@ func GetFlights(
 		return nil, err
 	}
 
-	// fmt.Println(string(body))
-
 	data := parse(string(body))
-
-	// fmt.Println(data)
 
 	priceSuffix := getPriceSuffix(unit)
 
