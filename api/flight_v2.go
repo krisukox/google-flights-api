@@ -317,8 +317,6 @@ func getFlights(object []interface{}) ([]flightV2, error) {
 		}
 		flights = append(flights, fl)
 	}
-	// fmt.Println(flights[0])
-	// fmt.Println(flights[1])
 
 	return flights, nil
 }
@@ -361,14 +359,7 @@ func getFlightsFromSection(section []interface{}) ([]trip, error) {
 	return trips, nil
 }
 
-func GetFlightsV2(
-	date time.Time,
-	returnDate time.Time,
-	originCity string,
-	targetCity string,
-	unit currency.Unit,
-) ([]trip, error) {
-	fmt.Println("GetFlightsV2")
+func DoRequest(date, returnDate time.Time, originCity, targetCity string) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
 	jsonBody := []byte(`f.req=` + GetRawData(date, returnDate, originCity, targetCity) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`)
@@ -376,6 +367,9 @@ func GetFlightsV2(
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Set("authority", `www.google.com`)
 	req.Header.Set("accept", `*/*`)
 	req.Header.Set("accept-language", `en-US,en;q=0.9`)
@@ -403,7 +397,17 @@ func GetFlightsV2(
 	client := http.Client{
 		Timeout: 30 * time.Second,
 	}
-	resp, err := client.Do(req)
+	return client.Do(req)
+}
+
+func GetFlightsV2(
+	date time.Time,
+	returnDate time.Time,
+	originCity string,
+	targetCity string,
+	unit currency.Unit,
+) ([]trip, error) {
+	resp, err := DoRequest(date, returnDate, originCity, targetCity)
 	if err != nil {
 		return nil, err
 	}
@@ -412,19 +416,10 @@ func GetFlightsV2(
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
 	bytesToDecode, err := readLine(body)
-	// bytesToDecode, isPrefix, err := body.ReadLine()
-	// if isPrefix {
-	// 	return nil, fmt.Errorf("Too long structure to decode")
-	// }
-	// fmt.Println(isPrefix)
 	if err != nil {
 		return nil, err
 	}
-	// fmt.Println(string(bytesToDecode))
-	// if isPrefix {
-	// 	return nil, fmt.Errorf("Too long structure to decode")
-	// }
-	// fmt.Println(">>>>>>>>>abc")
+
 	var outerObject [][]interface{}
 	err = json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&outerObject)
 	if err != nil {
