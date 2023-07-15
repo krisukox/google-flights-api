@@ -40,24 +40,12 @@ const (
 	OneWay
 )
 
-func getLocationsLen(cities, airports []string) int {
-	return len(cities) + len(airports)
-}
-
-func checkMaxLocations(cities, airports []string) bool {
-	return len(cities)+len(airports) <= 7
-}
-
-func abbrCities(cities []string) ([]string, error) {
-	abbrCities := []string{}
-	for _, c := range cities {
-		sc, err := GetSerializedCityName(c)
-		if err != nil {
-			return nil, err
-		}
-		abbrCities = append(abbrCities, sc)
+func checkMaxLocations(cities, airports []string) (bool, error) {
+	length := len(cities) + len(airports)
+	if length <= 7 {
+		return true, nil
 	}
-	return abbrCities, nil
+	return false, fmt.Errorf("specified number of locations (%d) should not exceed 7", length)
 }
 
 func serializeLocation(city string, locationNo byte) []byte {
@@ -163,20 +151,20 @@ func SerializeUrl(
 	class Class,
 	tripType TripType,
 ) (string, error) {
-	if !checkMaxLocations(srcCities, srcAirports) {
-		return "", fmt.Errorf("specified number of source locations (%d) should not exceed 7", getLocationsLen(srcCities, srcAirports))
+	if ok, err := checkMaxLocations(srcCities, srcAirports); !ok {
+		return "", fmt.Errorf("sources: %s", err.Error())
 	}
 
-	if !checkMaxLocations(dstCities, dstAirports) {
-		return "", fmt.Errorf("specified number of destination locations (%d) should not exceed 7", getLocationsLen(srcCities, srcAirports))
+	if ok, err := checkMaxLocations(dstCities, dstAirports); !ok {
+		return "", fmt.Errorf("destinations: %s", err.Error())
 	}
 
-	srcCities, err := abbrCities(srcCities)
+	srcCities, err := AbbrCities(srcCities)
 	if err != nil {
 		return "", err
 	}
 
-	dstCities, err = abbrCities(dstCities)
+	dstCities, err = AbbrCities(dstCities)
 	if err != nil {
 		return "", err
 	}
