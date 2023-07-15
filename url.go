@@ -141,10 +141,10 @@ func serializeTripType(tripType TripType) byte {
 func SerializeUrl(
 	date time.Time,
 	returnDate time.Time,
-	srcCities []string, // Ateny
+	srcCities []string,
 	srcAirports []string,
 	dstCities []string,
-	dstAirports []string, // WRO, WAW
+	dstAirports []string,
 	adults int,
 	curr currency.Unit,
 	stops Stops,
