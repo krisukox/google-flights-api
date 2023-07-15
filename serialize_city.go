@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"bufio"
@@ -88,7 +88,7 @@ func decodeInnerObject(body *bufio.Reader) ([][][][]interface{}, error) {
 	return innerObject, nil
 }
 
-func GetSerializedCityName(city string) (string, error) {
+func AbbrCity(city string) (string, error) {
 	resp, err := sendRequest(city)
 	if err != nil {
 		return "", err
@@ -116,4 +116,16 @@ func GetSerializedCityName(city string) (string, error) {
 	}
 
 	return serializedCity, nil
+}
+
+func AbbrCities(cities []string) ([]string, error) {
+	abbrCities := []string{}
+	for _, c := range cities {
+		sc, err := AbbrCity(c)
+		if err != nil {
+			return nil, err
+		}
+		abbrCities = append(abbrCities, sc)
+	}
+	return abbrCities, nil
 }

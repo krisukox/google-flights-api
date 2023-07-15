@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"bufio"
@@ -66,11 +66,11 @@ func (t offer) String() string {
 }
 
 func GetRawData(date, returnDate time.Time, originCity, targetCity string) string {
-	serializedOriginCity, err := GetSerializedCityName(originCity)
+	serializedOriginCity, err := AbbrCity(originCity)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	serializedTargetCity, err := GetSerializedCityName(targetCity)
+	serializedTargetCity, err := AbbrCity(targetCity)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

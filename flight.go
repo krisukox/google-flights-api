@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"bufio"
@@ -107,17 +107,30 @@ func getPriceSuffix(unit currency.Unit) string {
 }
 
 func GetFlights(
-	departureDate time.Time,
+	date time.Time,
 	returnDate time.Time,
-	departureCity string,
-	arivalCity string,
+	srcCity string,
+	dstCity string,
 	unit currency.Unit,
 ) ([]flight, error) {
 	if !isSupportedCurrency(unit) {
 		return nil, fmt.Errorf(unit.String() + " is not supproted yet")
 	}
 
-	url, err := CreateFullURL(departureDate, returnDate, departureCity, arivalCity)
+	url, err := SerializeUrl(
+		date,
+		returnDate,
+		[]string{srcCity},
+		[]string{},
+		[]string{dstCity},
+		[]string{},
+		1,
+		unit,
+		AnyStops,
+		Economy,
+		RoundTrip,
+	)
+
 	if err != nil {
 		return nil, err
 	}

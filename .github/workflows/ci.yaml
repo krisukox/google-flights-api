@@ -8,7 +8,7 @@ on:
       - '**'
 
 jobs:
-  integration_test:
+  unit_test:
     name: Run tests
     runs-on: ubuntu-22.04
     steps:
@@ -21,6 +21,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Run integration test
+      - name: Run unit tests
         run: |
           go test ./... -v
