@@ -1,4 +1,4 @@
-package main
+package flights
 
 import (
 	"testing"
