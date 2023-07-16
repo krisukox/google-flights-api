@@ -34,3 +34,23 @@ func getRawElement(slice []interface{}, index int) interface{} {
 
 	return slice[index]
 }
+
+func readLine(body *bufio.Reader) ([]byte, error) {
+	bytesToDecode, isPrefix, err := body.ReadLine()
+	if err != nil {
+		return nil, err
+	}
+	if !isPrefix {
+		return bytesToDecode, nil
+	}
+	bytesToDecodeFinal := make([]byte, len(bytesToDecode))
+	copy(bytesToDecodeFinal, bytesToDecode)
+	for isPrefix {
+		bytesToDecode, isPrefix, err = body.ReadLine()
+		if err != nil {
+			return bytesToDecode, err
+		}
+		bytesToDecodeFinal = append(bytesToDecodeFinal, bytesToDecode...)
+	}
+	return bytesToDecodeFinal, nil
+}
