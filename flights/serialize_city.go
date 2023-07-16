@@ -1,4 +1,4 @@
-package main
+package flights
 
 import (
 	"bufio"
@@ -8,18 +8,6 @@ import (
 	"net/http"
 	"time"
 )
-
-func skipPrefix(body *bufio.Reader) error {
-	var isPrefix bool
-	var err error
-	for i := 0; i < 3; i++ {
-		_, isPrefix, err = body.ReadLine()
-		if err != nil || isPrefix {
-			return fmt.Errorf("error when reading response with the serialized city names: %w", err)
-		}
-	}
-	return nil
-}
 
 func sendRequest(city string) (*http.Response, error) {
 	requestURL := "https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0&hl=pl&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c"
@@ -97,6 +85,7 @@ func AbbrCity(city string) (string, error) {
 
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
+	readLine(body)
 
 	innerObject, err := decodeInnerObject(body)
 	if err != nil {
