@@ -1,12 +1,7 @@
 package flights
 
 import (
-	"bytes"
 	"fmt"
-	"io"
-	"io/ioutil"
-	"net/http"
-	"os"
 	"testing"
 	"time"
 
@@ -44,59 +39,15 @@ func TestGetPriceGraph(t *testing.T) {
 		747, 714, 680, 617, 654, 594, 539, 539, 508, 628, 508, 508, 763, 625, 508,
 		659, 739, 508, 508, 508, 508, 508, 562, 508, 508, 508, 508, 739, 508}
 
-	respFile, err := os.Open("testdata/city_athens.resp")
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
-
-	byteValue, err := ioutil.ReadAll(respFile)
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
-
-	bodyCityAthens := io.NopCloser(bytes.NewReader(byteValue))
-
-	respFile, err = os.Open("testdata/city_warsaw.resp")
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
-
-	byteValue, err = ioutil.ReadAll(respFile)
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
-
-	bodyCityWarsaw := io.NopCloser(bytes.NewReader(byteValue))
-
-	respFile, err = os.Open("testdata/price_graph.resp")
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
-
-	byteValue, err = ioutil.ReadAll(respFile)
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
-
-	bodyPriceGraph := io.NopCloser(bytes.NewReader(byteValue))
+	httpClientMock, err := newHttpClientMock(
+		t,
+		"testdata/city_athens.resp",
+		"testdata/city_warsaw.resp",
+		"testdata/price_graph.resp",
+	)
 
 	session := &Session{
-		&HttpClientMock{
-			[]func() (*http.Response, error){func() (*http.Response, error) {
-				return &http.Response{
-					Body: bodyCityAthens,
-				}, nil
-			}, func() (*http.Response, error) {
-				return &http.Response{
-					Body: bodyCityWarsaw,
-				}, nil
-			}, func() (*http.Response, error) {
-				return &http.Response{
-					Body: bodyPriceGraph,
-				}, nil
-			}},
-			t,
-		},
+		httpClientMock,
 	}
 
 	offers, err := session.GetPriceGraph(time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 5), 0, "Athens", "Warsaw", currency.PLN, language.English)
