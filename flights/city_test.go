@@ -79,3 +79,34 @@ func TestAbbrCityPL(t *testing.T) {
 		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrB, b)
 	}
 }
+
+func TestAbbrCity(t *testing.T) {
+	httpClientMock, err := newHttpClientMock(
+		t,
+		"testdata/city_athens.resp",
+		"testdata/city_warsaw.resp",
+	)
+
+	session := &Session{
+		httpClientMock,
+	}
+
+	cityA := "Athens"
+	cityB := "Warsaw"
+
+	a, err := session.AbbrCity(cityA, language.English)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if a != abbrA {
+		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
+	}
+
+	b, err := session.AbbrCity(cityB, language.English)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if b != abbrB {
+		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrB, b)
+	}
+}
