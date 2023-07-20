@@ -7,13 +7,14 @@ import (
 
 	"github.com/krisukox/google-flights-api/flights"
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
-func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities string) {
+func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities string, lang language.Tag) {
 	session := flights.New()
 	var bestOffer flights.Offer
 
-	offers, err := session.GetPriceGraph(rangeStartDate, rangeEndDate, tripLength, srcCities, dstCities, currency.PLN)
+	offers, err := session.GetPriceGraph(rangeStartDate, rangeEndDate, tripLength, srcCities, dstCities, currency.PLN, lang)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,7 +27,7 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 
 	fmt.Printf("%s %s\n", bestOffer.StartDate, bestOffer.ReturnDate)
 	fmt.Printf("price %d\n", int(bestOffer.Price))
-	url, err := flights.SerializeUrl(
+	url, err := session.SerializeUrl(
 		bestOffer.StartDate,
 		bestOffer.ReturnDate,
 		[]string{srcCities},
@@ -38,6 +39,7 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 		flights.AnyStops,
 		flights.Economy,
 		flights.RoundTrip,
+		lang,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -46,8 +48,11 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 }
 
 func main() {
-	rangeStartDate, _ := time.Parse("2006-01-02", "2023-10-01")
-	rangeEndDate, _ := time.Parse("2006-01-02", "2023-10-30")
-
-	getBestOffer(rangeStartDate, rangeEndDate, 2, "Wrocław", "Ateny")
+	getBestOffer(
+		time.Now().AddDate(0, 0, 60),
+		time.Now().AddDate(0, 0, 90),
+		2,
+		"Warsaw",
+		"Athens",
+		language.English)
 }

@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
 func TestGetPriceGraphReal(t *testing.T) {
@@ -25,7 +26,7 @@ func TestGetPriceGraphReal(t *testing.T) {
 		t.Fatalf("Error while creating return date")
 	}
 
-	offers, err := session.GetPriceGraph(date, returnDate, 7, "Wrocław", "Rzym", currency.PLN)
+	offers, err := session.GetPriceGraph(date, returnDate, 7, "Berlin", "Rome", currency.PLN, language.English)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -43,7 +44,7 @@ func TestGetPriceGraph(t *testing.T) {
 		747, 714, 680, 617, 654, 594, 539, 539, 508, 628, 508, 508, 763, 625, 508,
 		659, 739, 508, 508, 508, 508, 508, 562, 508, 508, 508, 508, 739, 508}
 
-	respFile, err := os.Open("testdata/price_graph.resp")
+	respFile, err := os.Open("testdata/city_athens.resp")
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -53,17 +54,52 @@ func TestGetPriceGraph(t *testing.T) {
 		t.Fatalf(err.Error())
 	}
 
+	bodyCityAthens := io.NopCloser(bytes.NewReader(byteValue))
+
+	respFile, err = os.Open("testdata/city_warsaw.resp")
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	byteValue, err = ioutil.ReadAll(respFile)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	bodyCityWarsaw := io.NopCloser(bytes.NewReader(byteValue))
+
+	respFile, err = os.Open("testdata/price_graph.resp")
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	byteValue, err = ioutil.ReadAll(respFile)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	bodyPriceGraph := io.NopCloser(bytes.NewReader(byteValue))
+
 	session := &Session{
 		&HttpClientMock{
-			func() (*http.Response, error) {
+			[]func() (*http.Response, error){func() (*http.Response, error) {
 				return &http.Response{
-					Body: io.NopCloser(bytes.NewReader(byteValue)),
+					Body: bodyCityAthens,
 				}, nil
-			},
+			}, func() (*http.Response, error) {
+				return &http.Response{
+					Body: bodyCityWarsaw,
+				}, nil
+			}, func() (*http.Response, error) {
+				return &http.Response{
+					Body: bodyPriceGraph,
+				}, nil
+			}},
+			t,
 		},
 	}
 
-	offers, err := session.GetPriceGraph(time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 5), 0, "Wrocław", "Rzym", currency.PLN)
+	offers, err := session.GetPriceGraph(time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 5), 0, "Athens", "Warsaw", currency.PLN, language.English)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -85,7 +121,8 @@ func _testGetPriceGraphDateLimit(t *testing.T, session *Session, start time.Time
 		0,
 		"",
 		"",
-		currency.PLN)
+		currency.PLN,
+		language.English)
 
 	if err == nil {
 		t.Fatalf("GetPriceGraph call for the following dates start %s end %s, should result in error", start, end)

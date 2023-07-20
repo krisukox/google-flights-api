@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
 const (
@@ -138,7 +139,7 @@ func serializeTripType(tripType TripType) byte {
 	return 2
 }
 
-func SerializeUrl(
+func (s *Session) SerializeUrl(
 	date time.Time,
 	returnDate time.Time,
 	srcCities []string,
@@ -150,6 +151,7 @@ func SerializeUrl(
 	stops Stops,
 	class Class,
 	tripType TripType,
+	lang language.Tag,
 ) (string, error) {
 	if ok, err := checkMaxLocations(srcCities, srcAirports); !ok {
 		return "", fmt.Errorf("sources: %s", err.Error())
@@ -159,12 +161,12 @@ func SerializeUrl(
 		return "", fmt.Errorf("destinations: %s", err.Error())
 	}
 
-	srcCities, err := AbbrCities(srcCities)
+	srcCities, err := s.AbbrCities(srcCities, lang)
 	if err != nil {
 		return "", err
 	}
 
-	dstCities, err = AbbrCities(dstCities)
+	dstCities, err = s.AbbrCities(dstCities, lang)
 	if err != nil {
 		return "", err
 	}

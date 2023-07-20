@@ -1,11 +1,11 @@
 package flights
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
 func TestGetOffers(t *testing.T) {
@@ -20,7 +20,7 @@ func TestGetOffers(t *testing.T) {
 		t.Fatalf("Error while creating return date")
 	}
 
-	offersPLN, priceRange, err := session.GetOffers(departureDate, returnDate, "Wrocław", "Madryt", currency.PLN)
+	offersPLN, _, err := session.GetOffers(departureDate, returnDate, "Berlin", "Madrid", currency.PLN, language.English)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -28,20 +28,19 @@ func TestGetOffers(t *testing.T) {
 	if len(offersPLN) < 5 {
 		t.Fatalf("received flights array contains less than 5 flights: %d", len(offersPLN))
 	}
-	fmt.Println(priceRange)
 
-	// offersUSD, err := GetOffers(departureDate, returnDate, "Wrocław", "Madryt", currency.USD)
-	// if err != nil {
-	//  t.Fatalf(err.Error())
-	// }
+	offersUSD, _, err := session.GetOffers(departureDate, returnDate, "Berlin", "Madrid", currency.USD, language.English)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
 
-	// if len(offersPLN) != len(offersUSD) {
-	//  t.Fatalf("received offers array has different length: %d %d", len(offersPLN), len(offersUSD))
-	// }
+	if len(offersPLN) != len(offersUSD) {
+		t.Fatalf("received offers array has different length: %d %d", len(offersPLN), len(offersUSD))
+	}
 
-	// for i := range offersPLN {
-	//  if offersPLN[i].price < offersUSD[i].price || offersPLN[i].price < offersUSD[i].price*3 {
-	//      t.Fatalf("wrong flight price: PLN %f USD %f", offersPLN[i].price, offersUSD[i].price)
-	//  }
-	// }
+	for i := range offersPLN {
+		if offersPLN[i].Price < offersUSD[i].Price || offersPLN[i].Price < offersUSD[i].Price*3 {
+			t.Fatalf("wrong flight price: PLN %f USD %f", offersPLN[i].Price, offersUSD[i].Price)
+		}
+	}
 }
