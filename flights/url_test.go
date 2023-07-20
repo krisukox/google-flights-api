@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
 func TestSerializeSrcCity(t *testing.T) {
@@ -83,23 +84,26 @@ func TestSerializeDstAirport(t *testing.T) {
 }
 
 func TestSerializeUrl(t *testing.T) {
+	session := New()
+
 	expectedUrl := "https://www.google.com/travel/flights/search?tfs=CBwQAho-EgoyMDIzLTExLTA2KAFqDggDEgovbS8wMzBxYjN0agcIARIDU0ZPcgwIAxIIL20vMDRqcGxyBwgBEgNDREcaPhIKMjAyMy0xMS0xMygBagwIAxIIL20vMDRqcGxqBwgBEgNDREdyDggDEgovbS8wMzBxYjN0cgcIARIDU0ZPQAFAAUgBcAGCAQsI____________AZgBAQ&curr=USD"
 
 	date, _ := time.Parse("2006-01-02", "2023-11-06")
 	returnDate, _ := time.Parse("2006-01-02", "2023-11-13")
 
-	url, err := SerializeUrl(
+	url, err := session.SerializeUrl(
 		date,
 		returnDate,
 		[]string{"Los Angeles"},
 		[]string{"SFO"},
-		[]string{"Londyn"},
+		[]string{"London"},
 		[]string{"CDG"},
 		2,
 		currency.USD,
 		Stop1,
 		Economy,
 		RoundTrip,
+		language.English,
 	)
 
 	if err != nil {

@@ -12,14 +12,15 @@ import (
 	"time"
 
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
-func GetRawData(date, returnDate time.Time, originCity, targetCity string) string {
-	serializedOriginCity, err := AbbrCity(originCity)
+func (s *Session) GetRawData(date, returnDate time.Time, originCity, targetCity string, lang language.Tag) string {
+	serializedOriginCity, err := s.AbbrCity(originCity, lang)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	serializedTargetCity, err := AbbrCity(targetCity)
+	serializedTargetCity, err := s.AbbrCity(targetCity, lang)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
@@ -275,10 +276,15 @@ func getOffersFromSection(section []interface{}) ([]FullOffer, error) {
 	return trips, nil
 }
 
-func (s *Session) doRequestFlights(date, returnDate time.Time, originCity, targetCity string, currencyUnit currency.Unit) (*http.Response, error) {
+func (s *Session) doRequestFlights(
+	date, returnDate time.Time,
+	originCity, targetCity string,
+	currencyUnit currency.Unit,
+	lang language.Tag,
+) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	jsonBody := []byte(`f.req=` + GetRawData(date, returnDate, originCity, targetCity) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
+	jsonBody := []byte(`f.req=` + s.GetRawData(date, returnDate, originCity, targetCity, lang) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
@@ -290,7 +296,6 @@ func (s *Session) doRequestFlights(date, returnDate time.Time, originCity, targe
 	req.Header.Set("cache-control", `no-cache`)
 	req.Header.Set("content-type", `application/x-www-form-urlencoded;charset=UTF-8`)
 	req.Header.Set("cookie", `CONSENT=PENDING+672`)
-	req.Header.Set("origin", `https://www.google.com`)
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
 	req.Header.Set("x-goog-ext-259736195-jspb", fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, currencyUnit)) // language, location, currency
@@ -335,8 +340,6 @@ func getPriceRange(object interface{}) (PriceRange, error) {
 }
 
 func __getOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
-	// fmt.Println(string(bytesToDecode))
-
 	var outerObject [][]interface{}
 	err := json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&outerObject)
 	if err != nil {
@@ -356,8 +359,6 @@ func __getOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-
-	// fmt.Printf("Length: %d\n", len(innerObject))
 
 	allOffers := []FullOffer{}
 
@@ -395,10 +396,11 @@ func (s *Session) _getOffers(
 	originCity string,
 	targetCity string,
 	currencyUnit currency.Unit,
+	lang language.Tag,
 ) ([]FullOffer, PriceRange, error) {
 	finalOffers := []FullOffer{}
 	finalPriceRange := PriceRange{}
-	resp, err := s.doRequestFlights(date, returnDate, originCity, targetCity, currencyUnit)
+	resp, err := s.doRequestFlights(date, returnDate, originCity, targetCity, currencyUnit, lang)
 
 	if err != nil {
 		return nil, PriceRange{}, err
@@ -406,7 +408,6 @@ func (s *Session) _getOffers(
 	defer resp.Body.Close()
 
 	buf, _ := io.ReadAll(resp.Body)
-	// fmt.Println(string(buf))
 	reader := bytes.NewReader(buf)
 	body := bufio.NewReader(reader)
 
@@ -440,15 +441,15 @@ func (s *Session) GetOffers(
 	originCity string,
 	targetCity string,
 	currencyUnit currency.Unit,
+	lang language.Tag,
 ) ([]FullOffer, PriceRange, error) {
-	// fmt.Printf("%s %s %s %s %s\n", date, returnDate, originCity, targetCity, currencyUnit)
 	// TODO: Add date limit
 	var allOffers []FullOffer
 	var priceRange PriceRange
 	var err error
 
 	for i := 0; i < 1; i++ {
-		allOffers, priceRange, err = s._getOffers(date, returnDate, originCity, targetCity, currencyUnit)
+		allOffers, priceRange, err = s._getOffers(date, returnDate, originCity, targetCity, currencyUnit, lang)
 		if err == nil {
 			return allOffers, priceRange, nil
 		}

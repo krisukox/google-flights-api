@@ -12,14 +12,20 @@ import (
 	"time"
 
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
-func reqDataPriceGraph(rangeStartDate, rangeEndDate time.Time, tripLength int, originCity, targetCity string) string {
-	serializedOriginCity, err := AbbrCity(originCity)
+func (s *Session) reqDataPriceGraph(
+	rangeStartDate, rangeEndDate time.Time,
+	tripLength int,
+	originCity, targetCity string,
+	lang language.Tag,
+) string {
+	serializedOriginCity, err := s.AbbrCity(originCity, lang)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	serializedTargetCity, err := AbbrCity(targetCity)
+	serializedTargetCity, err := s.AbbrCity(targetCity, lang)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
@@ -43,10 +49,11 @@ func (s *Session) doRequestPriceGraph(
 	originCity string,
 	targetCity string,
 	currencyUnit currency.Unit,
+	lang language.Tag,
 ) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetCalendarGraph?f.sid=-8920707734915550076&bl=boq_travel-frontend-ui_20230627.07_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=261464&rt=c"
 
-	jsonBody := []byte(`f.req=` + reqDataPriceGraph(rangeStartDate, rangeEndDate, tripLength, originCity, targetCity) + `&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add current unix timestamp instead of 1687955915303
+	jsonBody := []byte(`f.req=` + s.reqDataPriceGraph(rangeStartDate, rangeEndDate, tripLength, originCity, targetCity, lang) + `&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add current unix timestamp instead of 1687955915303
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -131,15 +138,14 @@ func (s *Session) GetPriceGraph(
 	originCity string,
 	targetCity string,
 	currencyUnit currency.Unit,
+	lang language.Tag,
 ) ([]Offer, error) {
 	if err := checkRangeDate(rangeStartDate, rangeEndDate); err != nil {
 		return nil, err
 	}
-
 	offers := []Offer{}
 
-	resp, err := s.doRequestPriceGraph(rangeStartDate, rangeEndDate, tripLength, originCity, targetCity, currencyUnit)
-
+	resp, err := s.doRequestPriceGraph(rangeStartDate, rangeEndDate, tripLength, originCity, targetCity, currencyUnit, lang)
 	if err != nil {
 		return nil, err
 	}

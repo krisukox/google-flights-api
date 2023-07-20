@@ -7,20 +7,21 @@ import (
 
 	"github.com/krisukox/google-flights-api/flights"
 	"golang.org/x/text/currency"
+	"golang.org/x/text/language"
 )
 
-func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities []string) {
+func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities []string, lang language.Tag) {
 	session := flights.New()
 
 	for _, s := range srcCities {
 		for _, d := range dstCities {
-			offers, err := session.GetPriceGraph(rangeStartDate, rangeEndDate, tripLength, s, d, currency.PLN)
+			offers, err := session.GetPriceGraph(rangeStartDate, rangeEndDate, tripLength, s, d, currency.PLN, lang)
 			if err != nil {
 				log.Fatal(err)
 			}
 
 			for _, o := range offers {
-				_, priceRange, err := session.GetOffers(o.StartDate, o.ReturnDate, s, d, currency.PLN)
+				_, priceRange, err := session.GetOffers(o.StartDate, o.ReturnDate, s, d, currency.PLN, lang)
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -28,7 +29,7 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 				if o.Price < priceRange.Low {
 					fmt.Printf("%s %s\n", o.StartDate, o.ReturnDate)
 					fmt.Printf("price %d\n", int(o.Price))
-					url, err := flights.SerializeUrl(
+					url, err := session.SerializeUrl(
 						o.StartDate,
 						o.ReturnDate,
 						[]string{s},
@@ -40,6 +41,7 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 						flights.AnyStops,
 						flights.Economy,
 						flights.RoundTrip,
+						lang,
 					)
 					if err != nil {
 						log.Fatal(err)
@@ -52,8 +54,11 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 }
 
 func main() {
-	rangeStartDate, _ := time.Parse("2006-01-02", "2023-10-01")
-	rangeEndDate, _ := time.Parse("2006-01-02", "2023-10-30")
-
-	getCheapOffers(rangeStartDate, rangeEndDate, 2, []string{"Wrocław", "Katowice"}, []string{"Ateny"})
+	getCheapOffers(
+		time.Now().AddDate(0, 0, 60),
+		time.Now().AddDate(0, 0, 90),
+		2,
+		[]string{"Berlin", "Prague"},
+		[]string{"Athens"},
+		language.English)
 }
