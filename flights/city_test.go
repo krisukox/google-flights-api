@@ -88,7 +88,7 @@ func TestAbbrCity(t *testing.T) {
 	)
 
 	session := &Session{
-		httpClientMock,
+		client: httpClientMock,
 	}
 
 	cityA := "Athens"

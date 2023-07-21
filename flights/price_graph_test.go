@@ -47,7 +47,7 @@ func TestGetPriceGraph(t *testing.T) {
 	)
 
 	session := &Session{
-		httpClientMock,
+		client: httpClientMock,
 	}
 
 	offers, err := session.GetPriceGraph(time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 5), 0, "Athens", "Warsaw", currency.PLN, language.English)
