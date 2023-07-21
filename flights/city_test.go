@@ -86,6 +86,9 @@ func TestAbbrCity(t *testing.T) {
 		"testdata/city_athens.resp",
 		"testdata/city_warsaw.resp",
 	)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	session := &Session{
 		client: httpClientMock,
@@ -94,19 +97,23 @@ func TestAbbrCity(t *testing.T) {
 	cityA := "Athens"
 	cityB := "Warsaw"
 
-	a, err := session.AbbrCity(cityA, language.English)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if a != abbrA {
-		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
-	}
+	// Since httpClientMock has only two responses, run it twice to check whether
+	// the cache for abbreviated city names works properly
+	for i := 0; i < 2; i++ {
+		a, err := session.AbbrCity(cityA, language.English)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if a != abbrA {
+			t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
+		}
 
-	b, err := session.AbbrCity(cityB, language.English)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if b != abbrB {
-		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrB, b)
+		b, err := session.AbbrCity(cityB, language.English)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if b != abbrB {
+			t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrB, b)
+		}
 	}
 }
