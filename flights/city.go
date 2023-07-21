@@ -58,6 +58,10 @@ func decodeInnerObject(body *bufio.Reader) ([][][][]interface{}, error) {
 }
 
 func (s *Session) AbbrCity(city string, lang language.Tag) (string, error) {
+	if abbrCity, ok := s.Cities.Load(city); ok {
+		return abbrCity, nil
+	}
+
 	resp, err := s.doRequestCity(city, lang)
 	if err != nil {
 		return "", err
@@ -94,6 +98,8 @@ func (s *Session) AbbrCity(city string, lang language.Tag) (string, error) {
 	if city != foundCity {
 		return "", fmt.Errorf("the requested city name didn't match the found. requested: %s found: %s", city, foundCity)
 	}
+
+	s.Cities.Store(city, serializedCity)
 
 	return serializedCity, nil
 }
