@@ -10,11 +10,15 @@ import (
 	"golang.org/x/text/language"
 )
 
-func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities string, lang language.Tag) {
+func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCity, dstCity string, lang language.Tag) {
 	session := flights.New()
 	var bestOffer flights.Offer
 
-	offers, err := session.GetPriceGraph(rangeStartDate, rangeEndDate, tripLength, srcCities, dstCities, currency.PLN, lang)
+	offers, err := session.GetPriceGraph(
+		rangeStartDate, rangeEndDate,
+		[]string{srcCity}, []string{}, []string{dstCity}, []string{},
+		1, currency.PLN, flights.AnyStops, flights.Economy, flights.RoundTrip,
+		lang, tripLength)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,9 +34,9 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 	url, err := session.SerializeUrl(
 		bestOffer.StartDate,
 		bestOffer.ReturnDate,
-		[]string{srcCities},
+		[]string{srcCity},
 		[]string{},
-		[]string{dstCities},
+		[]string{dstCity},
 		[]string{},
 		1,
 		currency.PLN,

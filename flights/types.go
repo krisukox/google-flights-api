@@ -42,6 +42,31 @@ type PriceRange struct {
 	High float64
 }
 
+type Stops int64
+
+const (
+	AnyStops Stops = iota
+	Nonstop
+	Stop1
+	Stop2
+)
+
+type Class int64
+
+const (
+	Economy Class = iota
+	PremiumEconomy
+	Buisness
+	First
+)
+
+type TripType int64
+
+const (
+	RoundTrip TripType = iota
+	OneWay
+)
+
 func (f flight) String() string {
 	out := ""
 	out += fmt.Sprintf("DepAirportCode: %s ", f.DepAirportCode)

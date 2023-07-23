@@ -15,7 +15,11 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 
 	for _, s := range srcCities {
 		for _, d := range dstCities {
-			offers, err := session.GetPriceGraph(rangeStartDate, rangeEndDate, tripLength, s, d, currency.PLN, lang)
+			offers, err := session.GetPriceGraph(
+				rangeStartDate, rangeEndDate,
+				[]string{s}, []string{}, []string{d}, []string{},
+				1, currency.PLN, flights.AnyStops, flights.Economy, flights.RoundTrip,
+				lang, tripLength)
 			if err != nil {
 				log.Fatal(err)
 			}

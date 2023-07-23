@@ -177,11 +177,11 @@ func TestGetOffers(t *testing.T) {
 	}
 }
 
-func TestFlightRawData(t *testing.T) {
+func TestFlightReqData(t *testing.T) {
 	session := New()
 
-	expectedUnescapedQuery1 := `[null,"[[],[null,null,1,null,[],1,[1,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,0,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3],[[[[\"CDG\",0],[\"/m/04jpl\",5]]],[[[\"SFO\",0],[\"/m/030qb3t\",5]]],null,0,[],[],\"2024-01-31\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
-	expectedUnescapedQuery2 := `[null,"[[],[null,null,2,null,[],3,[2,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,3,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+	expectedReqData1 := `[null,"[[],[null,null,1,null,[],1,[1,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,0,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3],[[[[\"CDG\",0],[\"/m/04jpl\",5]]],[[[\"SFO\",0],[\"/m/030qb3t\",5]]],null,0,[],[],\"2024-01-31\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+	expectedReqData2 := `[null,"[[],[null,null,2,null,[],3,[2,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,3,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
 
 	date, err := time.Parse("2006-01-02", "2024-01-01")
 	if err != nil {
@@ -192,7 +192,7 @@ func TestFlightRawData(t *testing.T) {
 		t.Fatalf("Error while creating return date: %v", err)
 	}
 
-	rawData1, err := session.getFlightRawData(
+	_reqData1, err := session.getFlightReqData(
 		date,
 		returnDate,
 		[]string{"Los Angeles"},
@@ -208,16 +208,16 @@ func TestFlightRawData(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	unescapedQuery1, err := url.QueryUnescape(rawData1)
+	reqData1, err := url.QueryUnescape(_reqData1)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if unescapedQuery1 != expectedUnescapedQuery1 {
-		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedUnescapedQuery1, unescapedQuery1)
+	if reqData1 != expectedReqData1 {
+		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedReqData1, reqData1)
 	}
 
-	rawData2, err := session.getFlightRawData(
+	_reqData2, err := session.getFlightReqData(
 		date,
 		returnDate,
 		[]string{"Los Angeles"},
@@ -233,12 +233,12 @@ func TestFlightRawData(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	unescapedQuery2, err := url.QueryUnescape(rawData2)
+	reqData2, err := url.QueryUnescape(_reqData2)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if unescapedQuery2 != expectedUnescapedQuery2 {
-		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedUnescapedQuery2, unescapedQuery2)
+	if reqData2 != expectedReqData2 {
+		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedReqData2, reqData2)
 	}
 }
