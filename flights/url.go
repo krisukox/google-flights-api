@@ -16,31 +16,6 @@ const (
 	srcConst     byte = 106
 )
 
-type Stops int64
-
-const (
-	AnyStops Stops = iota
-	Nonstop
-	Stop1
-	Stop2
-)
-
-type Class int64
-
-const (
-	Economy Class = iota
-	PremiumEconomy
-	Buisness
-	First
-)
-
-type TripType int64
-
-const (
-	RoundTrip TripType = iota
-	OneWay
-)
-
 func checkMaxLocations(cities, airports []string) (bool, error) {
 	length := len(cities) + len(airports)
 	if length <= 7 {

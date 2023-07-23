@@ -18,13 +18,13 @@ func skipPrefix(body *bufio.Reader) error {
 	return nil
 }
 
-func getElement[T any](slice []interface{}, index int) T {
-	elem, ok := getRawElement(slice, index).(T)
-	if !ok {
+func getElement[T any](slice []interface{}, index int) (T, bool) {
+	if len(slice) <= index {
 		var empty T
-		return empty
+		return empty, false
 	}
-	return elem
+	elem, ok := slice[index].(T)
+	return elem, ok
 }
 
 func getRawElement(slice []interface{}, index int) interface{} {

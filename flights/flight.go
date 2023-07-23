@@ -65,7 +65,7 @@ func serializeFlightClass(class Class) string {
 	return "4"
 }
 
-func (s *Session) getFlightRawData(
+func (s *Session) getRawData(
 	date, returnDate time.Time,
 	srcCities, srcAirports, dstCities, dstAirports []string,
 	adults int,
@@ -92,10 +92,7 @@ func (s *Session) getFlightRawData(
 	serClass := serializeFlightClass(class)
 	serTripType := serializeTripType(tripType)
 
-	prefix := `[null,"[[],`
-	suffix := `],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
-
-	rawData := prefix
+	rawData := ""
 
 	rawData += fmt.Sprintf(`[null,null,%d,null,[],%s,%s,null,null,null,null,null,null,[`,
 		serTripType, serClass, serAdults)
@@ -108,23 +105,48 @@ func (s *Session) getFlightRawData(
 			serDsts, serSrcs, serStops, serReturnDate)
 	}
 
-	rawData += suffix
+	return rawData, nil
+}
 
-	return url.QueryEscape(rawData), nil
+func (s *Session) getFlightReqData(
+	date, returnDate time.Time,
+	srcCities, srcAirports, dstCities, dstAirports []string,
+	adults int,
+	stops Stops,
+	class Class,
+	tripType TripType,
+	lang language.Tag,
+) (string, error) {
+	rawData, err := s.getRawData(
+		date, returnDate,
+		srcCities, srcAirports, dstCities, dstAirports,
+		adults, stops, class, tripType, lang)
+	if err != nil {
+		return "", nil
+	}
+
+	prefix := `[null,"[[],`
+	suffix := `],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+
+	reqData := prefix
+	reqData += rawData
+	reqData += suffix
+
+	return url.QueryEscape(reqData), nil
 }
 
 func getPrice(tripObj []interface{}) (float64, error) {
-	priceObj1, ok := tripObj[1].([]interface{})
+	priceObj1, ok := getElement[[]interface{}](tripObj, 1)
 	if !ok {
-		return 0, fmt.Errorf("wrong price format stage 1: %v", priceObj1[1])
+		return 0, fmt.Errorf("wrong price format stage 1: %v", priceObj1)
 	}
-	priceObj2, ok := priceObj1[0].([]interface{})
+	priceObj2, ok := getElement[[]interface{}](priceObj1, 0)
 	if !ok {
-		return 0, fmt.Errorf("wrong price format stage 2: %v", priceObj2[0])
+		return 0, fmt.Errorf("wrong price format stage 2: %v", priceObj2)
 	}
-	price, ok := priceObj2[1].(float64)
+	price, ok := getElement[float64](priceObj2, 1)
 	if !ok {
-		return 0, fmt.Errorf("wrong price format stage 3: %v", priceObj2[1])
+		return 0, fmt.Errorf("wrong price format stage 3: %v", priceObj2)
 	}
 	return price, nil
 }
@@ -182,7 +204,7 @@ func getTime(flightTime interface{}, flightDate interface{}) (time.Time, error) 
 }
 
 func getDuration(duration []interface{}) (time.Duration, error) {
-	duration1 := getElement[float64](duration, 11)
+	duration1, _ := getElement[float64](duration, 11)
 	return time.ParseDuration(fmt.Sprintf("%dm", int(duration1)))
 }
 
@@ -191,15 +213,15 @@ func getFlightNumberAirline(data interface{}) (string, interface{}, string, erro
 	if !ok || len(data1) != 4 {
 		return "", "", "", fmt.Errorf("wrong flight number of airline type: %v", data)
 	}
-	flightNumberPart1 := getElement[string](data1, 0)
+	flightNumberPart1, _ := getElement[string](data1, 0)
 	// if !ok {
 	//  return "", "", "", fmt.Errorf("wrong flight number part 1 type: %v", data1[0])
 	// }
-	flightNumberPart2 := getElement[string](data1, 1)
+	flightNumberPart2, _ := getElement[string](data1, 1)
 	// if !ok {
 	//  return "", "", "", fmt.Errorf("wrong flight number part 2 type: %v", data1[1])
 	// }
-	airline := getElement[string](data1, 3)
+	airline, _ := getElement[string](data1, 3)
 	// if !ok {
 	//  return "", "", "", fmt.Errorf("wrong airline name type: %v", data1[3])
 	// }
@@ -237,19 +259,19 @@ func getFlight(flightObj interface{}) (flight, error) {
 		return flight{}, fmt.Errorf("wrong flight format: %v", flightObj)
 	}
 
-	departureAirportCode := getElement[string](flightObj1, 3)
+	departureAirportCode, _ := getElement[string](flightObj1, 3)
 	// if !ok {
 	//  return flightV2{}, fmt.Errorf("wrong departure airport code type: %v", object1[3])
 	// }
-	departureAirportName := getElement[string](flightObj1, 4)
+	departureAirportName, _ := getElement[string](flightObj1, 4)
 	// if !ok {
 	//  return flightV2{}, fmt.Errorf("wrong departure airport name type: %v", object1[4])
 	// }
-	arrivalAirportName := getElement[string](flightObj1, 5)
+	arrivalAirportName, _ := getElement[string](flightObj1, 5)
 	// if !ok {
 	//  return flightV2{}, fmt.Errorf("wrong arrival airport name type: %v", object1[5])
 	// }
-	arrivalAirportCode := getElement[string](flightObj1, 6)
+	arrivalAirportCode, _ := getElement[string](flightObj1, 6)
 	// if !ok {
 	//  return flightV2{}, fmt.Errorf("wrong arrival airport code type: %v", object1[6])
 	// }
@@ -270,11 +292,11 @@ func getFlight(flightObj interface{}) (flight, error) {
 	// if err != nil {
 	//  return flightV2{}, err
 	// }
-	airplane := getElement[string](flightObj1, 17)
+	airplane, _ := getElement[string](flightObj1, 17)
 	// if !ok {
 	//  return flightV2{}, fmt.Errorf("wrong airplane format: %v", object1[17])
 	// }
-	legroom := getElement[string](flightObj1, 30)
+	legroom, _ := getElement[string](flightObj1, 30)
 	us := getUnknowns(flightObj1)
 	unknowns = append(unknowns, us...)
 	return flight{
@@ -368,7 +390,7 @@ func (s *Session) doRequestFlights(
 ) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	rawDate, err := s.getFlightRawData(
+	reqDate, err := s.getFlightReqData(
 		date, returnDate,
 		srcCities, srcAirports, dstCities, dstAirports,
 		adults, stops, class, tripType, lang)
@@ -377,7 +399,8 @@ func (s *Session) doRequestFlights(
 		return nil, err
 	}
 
-	jsonBody := []byte(`f.req=` + rawDate + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
+	jsonBody := []byte(`f.req=` + reqDate +
+		`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
