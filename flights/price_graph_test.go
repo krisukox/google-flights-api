@@ -14,7 +14,7 @@ func TestGetPriceGraphReal(t *testing.T) {
 
 	date, err := time.Parse("2006-01-02", "2024-01-01")
 	if err != nil {
-		t.Fatalf("Error while creating departure date")
+		t.Fatalf("Error while creating date")
 	}
 	returnDate, err := time.Parse("2006-01-02", "2024-01-31")
 	if err != nil {

@@ -3,6 +3,7 @@ package flights
 import (
 	"bufio"
 	"fmt"
+	"sort"
 )
 
 func skipPrefix(body *bufio.Reader) error {
@@ -53,4 +54,10 @@ func readLine(body *bufio.Reader) ([]byte, error) {
 		bytesToDecodeFinal = append(bytesToDecodeFinal, bytesToDecode...)
 	}
 	return bytesToDecodeFinal, nil
+}
+
+func sortSlice[T any](slice []T, f func(lv, rv T) bool) {
+	sort.Slice(slice, func(i, j int) bool {
+		return f(slice[i], slice[j])
+	})
 }

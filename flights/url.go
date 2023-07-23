@@ -90,7 +90,7 @@ func serializeStops(stops Stops) []byte {
 	case Stop1:
 		return []byte{40, 1}
 	case Stop2:
-		return []byte{40, 1}
+		return []byte{40, 2}
 	}
 	return []byte{}
 }
@@ -109,10 +109,7 @@ func serializeClass(class Class) []byte {
 
 func serializeFlight(
 	date time.Time,
-	srcCities []string,
-	srcAirports []string,
-	dstCities []string,
-	dstAirports []string,
+	srcCities, srcAirports, dstCities, dstAirports []string,
 	stops Stops,
 ) []byte {
 	bytes := serializeDate(date)
@@ -140,12 +137,8 @@ func serializeTripType(tripType TripType) byte {
 }
 
 func (s *Session) SerializeUrl(
-	date time.Time,
-	returnDate time.Time,
-	srcCities []string,
-	srcAirports []string,
-	dstCities []string,
-	dstAirports []string,
+	date, returnDate time.Time,
+	srcCities, srcAirports, dstCities, dstAirports []string,
 	adults int,
 	curr currency.Unit,
 	stops Stops,

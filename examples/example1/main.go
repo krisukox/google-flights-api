@@ -21,7 +21,20 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 			}
 
 			for _, o := range offers {
-				_, priceRange, err := session.GetOffers(o.StartDate, o.ReturnDate, s, d, currency.PLN, lang)
+				_, priceRange, err := session.GetOffers(
+					o.StartDate,
+					o.ReturnDate,
+					[]string{s},
+					[]string{},
+					[]string{d},
+					[]string{},
+					1,
+					currency.PLN,
+					flights.AnyStops,
+					flights.Economy,
+					flights.RoundTrip,
+					lang,
+				)
 				if err != nil {
 					log.Fatal(err)
 				}

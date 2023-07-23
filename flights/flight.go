@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -15,26 +14,103 @@ import (
 	"golang.org/x/text/language"
 )
 
-func (s *Session) GetRawData(date, returnDate time.Time, originCity, targetCity string, lang language.Tag) string {
-	serializedOriginCity, err := s.AbbrCity(originCity, lang)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-	serializedTargetCity, err := s.AbbrCity(targetCity, lang)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-	serializedDate := date.Format("2006-01-02")
-	serializedTargetDate := returnDate.Format("2006-01-02")
+const (
+	flightAirportConst rune = '0'
+	flightCityConst    rune = '5'
+)
 
-	decodedMy := `[null,"[[null,null,null,\"HJRBIeHroQnsACCh4QBG--------lmbhp15AAAAAGScKcsGaWrAA\"],[null,null,1,null,[],1,[1,0,0,0],null,null,null,null,null,null,[` +
-		fmt.Sprintf(`[[[[\"%s\",4]]],[[[\"%s\",5]]],null,0,[],[],\"%s\",null,[],[],[],null,null,[],3],`,
-			serializedOriginCity, serializedTargetCity, serializedDate) +
-		fmt.Sprintf(`[[[[\"%s\",5]]],[[[\"%s\",4]]],null,0,[],[],\"%s\",null,[],[],[],null,null,[],3]],`,
-			serializedTargetCity, serializedOriginCity, serializedTargetDate) +
-		`null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+func (s *Session) serializeFlightLocations(cities []string, airports []string, lang language.Tag) (string, error) {
+	abbrCities, err := s.AbbrCities(cities, lang)
+	if err != nil {
+		return "", nil
+	}
 
-	return url.QueryEscape(decodedMy)
+	serialized := ""
+
+	for _, l := range airports {
+		serialized += fmt.Sprintf(`[\"%s\",%c],`, l, flightAirportConst)
+	}
+	for _, l := range abbrCities {
+		serialized += fmt.Sprintf(`[\"%s\",%c],`, l, flightCityConst)
+	}
+
+	return serialized[:len(serialized)-1], nil
+}
+
+func serializeFlightAdults(adults int) string {
+	return fmt.Sprintf(`[%d,0,0,0]`, adults)
+}
+
+func serializeFlightStop(stops Stops) string {
+	switch stops {
+	case Nonstop:
+		return "1"
+	case Stop1:
+		return "2"
+	case Stop2:
+		return "3"
+	}
+	return "0"
+}
+
+func serializeFlightClass(class Class) string {
+	switch class {
+	case Economy:
+		return "1"
+	case PremiumEconomy:
+		return "2"
+	case Buisness:
+		return "3"
+	}
+	return "4"
+}
+
+func (s *Session) getFlightRawData(
+	date, returnDate time.Time,
+	srcCities, srcAirports, dstCities, dstAirports []string,
+	adults int,
+	stops Stops,
+	class Class,
+	tripType TripType,
+	lang language.Tag,
+) (string, error) {
+	serSrcs, err := s.serializeFlightLocations(srcCities, srcAirports, lang)
+	if err != nil {
+		return "", err
+	}
+	serDsts, err := s.serializeFlightLocations(dstCities, dstAirports, lang)
+	if err != nil {
+		return "", err
+	}
+
+	serDate := date.Format("2006-01-02")
+	serReturnDate := returnDate.Format("2006-01-02")
+
+	serAdults := serializeFlightAdults(adults)
+	serStops := serializeFlightStop(stops)
+
+	serClass := serializeFlightClass(class)
+	serTripType := serializeTripType(tripType)
+
+	prefix := `[null,"[[],`
+	suffix := `],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+
+	rawData := prefix
+
+	rawData += fmt.Sprintf(`[null,null,%d,null,[],%s,%s,null,null,null,null,null,null,[`,
+		serTripType, serClass, serAdults)
+
+	rawData += fmt.Sprintf(`[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
+		serSrcs, serDsts, serStops, serDate)
+
+	if tripType == RoundTrip {
+		rawData += fmt.Sprintf(`,[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
+			serDsts, serSrcs, serStops, serReturnDate)
+	}
+
+	rawData += suffix
+
+	return url.QueryEscape(rawData), nil
 }
 
 func getPrice(tripObj []interface{}) (float64, error) {
@@ -70,8 +146,9 @@ func getTime(flightTime interface{}, flightDate interface{}) (time.Time, error) 
 		return time.Time{}, fmt.Errorf("wrong time format: %v", flightTime)
 	}
 
-	hours, ok = flightTime1[0].(float64)
-	if !ok {
+	if flightTime1[0] == nil {
+		hours = 0
+	} else if hours, ok = flightTime1[0].(float64); !ok {
 		return time.Time{}, fmt.Errorf("wrong hours format: %v", flightTime1[0])
 	}
 	flightDate1, ok := flightDate.([]interface{})
@@ -153,11 +230,11 @@ func getUnknowns(flightObj1 []interface{}) []interface{} {
 	return unknowns
 }
 
-func getFlight(flightObj interface{}) (flightV2, error) {
+func getFlight(flightObj interface{}) (flight, error) {
 	var unknowns []interface{}
 	flightObj1, ok := flightObj.([]interface{})
 	if !ok {
-		return flightV2{}, fmt.Errorf("wrong flight format: %v", flightObj)
+		return flight{}, fmt.Errorf("wrong flight format: %v", flightObj)
 	}
 
 	departureAirportCode := getElement[string](flightObj1, 3)
@@ -200,7 +277,7 @@ func getFlight(flightObj interface{}) (flightV2, error) {
 	legroom := getElement[string](flightObj1, 30)
 	us := getUnknowns(flightObj1)
 	unknowns = append(unknowns, us...)
-	return flightV2{
+	return flight{
 		departureAirportCode,
 		departureAirportName,
 		arrivalAirportName,
@@ -216,8 +293,8 @@ func getFlight(flightObj interface{}) (flightV2, error) {
 	}, nil
 }
 
-func getFlights(tripObj []interface{}) ([]flightV2, error) {
-	flights := []flightV2{}
+func getFlights(tripObj []interface{}) ([]flight, error) {
+	flights := []flight{}
 
 	flightObj1, ok := tripObj[0].([]interface{})
 	if !ok {
@@ -238,8 +315,8 @@ func getFlights(tripObj []interface{}) ([]flightV2, error) {
 	return flights, nil
 }
 
-func getTripDuration(flights []flightV2) time.Duration {
-	return flights[len(flights)-1].DepartureTime.Sub(flights[0].DepartureTime)
+func getTripDuration(flights []flight) time.Duration {
+	return flights[len(flights)-1].DepTime.Sub(flights[0].DepTime)
 }
 
 func getTrip(tripObj []interface{}) (FullOffer, error) {
@@ -251,7 +328,7 @@ func getTrip(tripObj []interface{}) (FullOffer, error) {
 	if err != nil {
 		return FullOffer{}, err
 	}
-	return FullOffer{Offer{time.Time{}, time.Time{}, price}, flights, []flightV2{}, "", "", "", "", getTripDuration(flights)}, nil
+	return FullOffer{Offer{flights[0].DepTime, time.Time{}, price}, flights, []flight{}, "", "", "", "", getTripDuration(flights)}, nil
 }
 
 func getOffersFromSection(section []interface{}) ([]FullOffer, error) {
@@ -266,6 +343,9 @@ func getOffersFromSection(section []interface{}) ([]FullOffer, error) {
 		if !ok {
 			break
 		}
+
+		// fmt.Println(object1)
+
 		trip, err := getTrip(object1)
 		if err != nil {
 			return trips, err
@@ -278,13 +358,26 @@ func getOffersFromSection(section []interface{}) ([]FullOffer, error) {
 
 func (s *Session) doRequestFlights(
 	date, returnDate time.Time,
-	originCity, targetCity string,
-	currencyUnit currency.Unit,
+	srcCities, srcAirports, dstCities, dstAirports []string,
+	adults int,
+	curr currency.Unit,
+	stops Stops,
+	class Class,
+	tripType TripType,
 	lang language.Tag,
 ) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	jsonBody := []byte(`f.req=` + s.GetRawData(date, returnDate, originCity, targetCity, lang) + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
+	rawDate, err := s.getFlightRawData(
+		date, returnDate,
+		srcCities, srcAirports, dstCities, dstAirports,
+		adults, stops, class, tripType, lang)
+
+	if err != nil {
+		return nil, err
+	}
+
+	jsonBody := []byte(`f.req=` + rawDate + `&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
 	bodyReader := bytes.NewReader(jsonBody)
 
 	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
@@ -298,7 +391,8 @@ func (s *Session) doRequestFlights(
 	req.Header.Set("cookie", `CONSENT=PENDING+672`)
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
-	req.Header.Set("x-goog-ext-259736195-jspb", fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, currencyUnit)) // language, location, currency
+	req.Header.Set("x-goog-ext-259736195-jspb",
+		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, curr)) // language, location, currency
 
 	return s.client.Do(req)
 }
@@ -391,16 +485,21 @@ func __getOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 }
 
 func (s *Session) _getOffers(
-	date time.Time,
-	returnDate time.Time,
-	originCity string,
-	targetCity string,
-	currencyUnit currency.Unit,
+	date, returnDate time.Time,
+	srcCities, srcAirports, dstCities, dstAirports []string,
+	adults int,
+	curr currency.Unit,
+	stops Stops,
+	class Class,
+	tripType TripType,
 	lang language.Tag,
 ) ([]FullOffer, PriceRange, error) {
 	finalOffers := []FullOffer{}
 	finalPriceRange := PriceRange{}
-	resp, err := s.doRequestFlights(date, returnDate, originCity, targetCity, currencyUnit, lang)
+	resp, err := s.doRequestFlights(
+		date, returnDate,
+		srcCities, srcAirports, dstCities, dstAirports,
+		adults, curr, stops, class, tripType, lang)
 
 	if err != nil {
 		return nil, PriceRange{}, err
@@ -408,8 +507,10 @@ func (s *Session) _getOffers(
 	defer resp.Body.Close()
 
 	buf, _ := io.ReadAll(resp.Body)
-	reader := bytes.NewReader(buf)
-	body := bufio.NewReader(reader)
+
+	// fmt.Println(string(buf))
+
+	body := bufio.NewReader(bytes.NewReader(buf))
 
 	skipPrefix(body)
 
@@ -417,7 +518,7 @@ func (s *Session) _getOffers(
 		readLine(body)
 		bytesToDecode, err := readLine(body)
 		if err != nil {
-			return nil, PriceRange{}, err
+			return finalOffers, finalPriceRange, nil
 		}
 		offers, priceRange, err := __getOffers(bytesToDecode)
 		if offers != nil {
@@ -426,21 +527,17 @@ func (s *Session) _getOffers(
 		if priceRange != nil {
 			finalPriceRange = *priceRange
 		}
-
-		if err != nil && err.Error() != "unexpected object format 2" {
-			break
-		}
 	}
-
-	return finalOffers, finalPriceRange, err
 }
 
 func (s *Session) GetOffers(
-	date time.Time,
-	returnDate time.Time,
-	originCity string,
-	targetCity string,
-	currencyUnit currency.Unit,
+	date, returnDate time.Time,
+	srcCities, srcAirports, dstCities, dstAirports []string,
+	adults int,
+	curr currency.Unit,
+	stops Stops,
+	class Class,
+	tripType TripType,
 	lang language.Tag,
 ) ([]FullOffer, PriceRange, error) {
 	// TODO: Add date limit
@@ -449,7 +546,10 @@ func (s *Session) GetOffers(
 	var err error
 
 	for i := 0; i < 1; i++ {
-		allOffers, priceRange, err = s._getOffers(date, returnDate, originCity, targetCity, currencyUnit, lang)
+		allOffers, priceRange, err = s._getOffers(
+			date, returnDate,
+			srcCities, srcAirports, dstCities, dstAirports,
+			adults, curr, stops, class, tripType, lang)
 		if err == nil {
 			return allOffers, priceRange, nil
 		}
