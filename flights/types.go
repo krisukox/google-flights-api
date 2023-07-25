@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type flight struct {
+type Flight struct {
 	DepAirportCode string
 	DepAirportName string
 	ArrAirportName string
@@ -28,8 +28,8 @@ type Offer struct {
 
 type FullOffer struct {
 	Offer
-	Flight          []flight
-	ReturnFlight    []flight // Not implemented yet
+	Flight          []Flight
+	ReturnFlight    []Flight // Not implemented yet
 	SrcAirportCode  string
 	DstAirportCode  string
 	OriginCity      string
@@ -67,7 +67,7 @@ const (
 	OneWay
 )
 
-func (f flight) String() string {
+func (f Flight) String() string {
 	out := ""
 	out += fmt.Sprintf("DepAirportCode: %s ", f.DepAirportCode)
 	out += fmt.Sprintf("DepAirportName: %s ", f.DepAirportName)
