@@ -1,6 +1,7 @@
 package flights
 
 import (
+	"fmt"
 	"net/url"
 	"testing"
 	"time"
@@ -99,7 +100,7 @@ func TestGetOffers(t *testing.T) {
 			StartDate: t5,
 			Price:     1315,
 		},
-		Flight: []flight{{
+		Flight: []Flight{{
 			DepAirportCode: "WAW",
 			DepAirportName: "Warsaw Chopin Airport",
 			ArrAirportName: "Munich International Airport",
@@ -124,7 +125,7 @@ func TestGetOffers(t *testing.T) {
 			AirlineName:    "Lufthansa",
 			Legroom:        "29 inches",
 		}},
-		ReturnFlight:    []flight{},
+		ReturnFlight:    []Flight{},
 		SrcAirportCode:  "",
 		DstAirportCode:  "",
 		OriginCity:      "",
@@ -164,6 +165,8 @@ func TestGetOffers(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	fmt.Println(offers[0].Flight[0].Unknown...)
 
 	// Do not compare the unknown field
 	removeUnknowns(offers)

@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"net/url"
 	"time"
@@ -64,9 +63,13 @@ func (s *Session) doRequestPriceGraph(
 		rangeStartDate, rangeEndDate,
 		srcCities, srcAirports, dstCities, dstAirports,
 		adults, stops, class, tripType, lang, tripLength)
+	if err != nil {
+		return nil, err
+	}
 
-	jsonBody := []byte(`f.req=` + reqDate +
-		`&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add current unix timestamp instead of 1687955915303
+	jsonBody := []byte(
+		`f.req=` + reqDate +
+			`&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add current unix timestamp instead of 1687955915303
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -84,47 +87,40 @@ func (s *Session) doRequestPriceGraph(
 	return s.client.Do(req)
 }
 
+func priceGraphSchema(startDate, returnDate *string, price *float64) *[]interface{} {
+	// [startDate,returnDate,[[null,price],""],1]
+	return &[]interface{}{startDate, returnDate, &[]interface{}{&[]interface{}{nil, price}}}
+}
+
 func getPriceGraphSection(bytesToDecode []byte) ([]Offer, error) {
 	offers := []Offer{}
-	var outerObject [][]interface{}
-	err := json.NewDecoder(bytes.NewReader(bytesToDecode)).Decode(&outerObject)
-	if err != nil {
+
+	var err error
+
+	rawOffers := []json.RawMessage{}
+
+	if err = json.Unmarshal([]byte(bytesToDecode), &[]interface{}{nil, &rawOffers}); err != nil {
 		return nil, err
 	}
 
-	if len(outerObject[0]) < 3 {
-		return offers, nil
-	}
+	for _, o := range rawOffers {
+		finalOffer := Offer{}
 
-	toDecode, ok := outerObject[0][2].(string)
+		startDate := ""
+		returnDate := ""
 
-	if !ok {
-		return nil, fmt.Errorf("unexpected object format")
-	}
-	var innerObject []interface{}
-	err = json.NewDecoder(bytes.NewReader([]byte(toDecode))).Decode(&innerObject)
-	if err != nil {
-		return nil, err
-	}
-
-	if len(innerObject) < 2 {
-		return offers, nil
-	}
-
-	for _, o := range innerObject[1].([]interface{}) {
-		object := o.([]interface{})
-		startDate := object[0].(string)
-		startDateParsed, err := time.Parse("2006-01-02", startDate)
-		if err != nil {
-			return nil, err
+		if err = json.Unmarshal(o, priceGraphSchema(&startDate, &returnDate, &finalOffer.Price)); err != nil {
+			continue
 		}
-		returnDate := object[1].(string)
-		returnDateParsed, err := time.Parse("2006-01-02", returnDate)
-		if err != nil {
-			return nil, err
+
+		if finalOffer.StartDate, err = time.Parse("2006-01-02", startDate); err != nil {
+			continue
 		}
-		price := object[2].([]interface{})[0].([]interface{})[1].(float64)
-		offers = append(offers, Offer{StartDate: startDateParsed, ReturnDate: returnDateParsed, Price: price})
+		if finalOffer.ReturnDate, err = time.Parse("2006-01-02", returnDate); err != nil {
+			continue
+		}
+
+		offers = append(offers, finalOffer)
 	}
 
 	return offers, nil
@@ -169,13 +165,12 @@ func (s *Session) GetPriceGraph(
 		return nil, err
 	}
 	defer resp.Body.Close()
-	bodyBytes, err := io.ReadAll(resp.Body)
 
-	body := bufio.NewReader(bytes.NewReader(bodyBytes))
+	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
 	for true {
-		readLine(body)
-		bytesToDecode, err := readLine(body)
+		readLine(body) // skip line
+		bytesToDecode, err := getInnerBytes(body)
 		if err != nil {
 			return offers, nil
 		}

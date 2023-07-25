@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/go-test/deep"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )
@@ -34,11 +35,22 @@ func TestGetPriceGraphReal(t *testing.T) {
 }
 
 func TestGetPriceGraph(t *testing.T) {
-	expected_prices := []float64{
+	expectedPrices := []float64{
 		922, 562, 648, 654, 660, 714, 891, 594, 594, 539, 648, 715, 654, 654, 594,
 		594, 594, 680, 743, 654, 699, 654, 594, 594, 654, 654, 654, 806, 755, 617,
-		747, 714, 680, 617, 654, 594, 539, 539, 508, 628, 508, 508, 763, 625, 508,
-		659, 739, 508, 508, 508, 508, 508, 562, 508, 508, 508, 508, 739, 508}
+		747, 714, 680, 617, 654, 594, 539, 539, 508, 763, 739, 625, 508, 508, 508,
+		508, 508, 739, 659, 508, 508, 508, 508, 508, 562, 628, 508, 508, 508}
+
+	d := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
+	rd := time.Date(2024, 1, 8, 0, 0, 0, 0, time.UTC)
+
+	expectedOffers := []Offer{}
+
+	for _, p := range expectedPrices {
+		expectedOffers = append(expectedOffers, Offer{d, rd, p})
+		d = d.AddDate(0, 0, 1)
+		rd = rd.AddDate(0, 0, 1)
+	}
 
 	httpClientMock, err := newHttpClientMock(
 		t,
@@ -61,13 +73,15 @@ func TestGetPriceGraph(t *testing.T) {
 		t.Fatalf(err.Error())
 	}
 
-	if len(expected_prices) != len(offers) {
-		t.Fatalf("wrong offers length, expected: %d, received: %d", len(expected_prices), len(offers))
+	sortSlice(offers, func(lv, rv Offer) bool {
+		return lv.StartDate.Before(rv.StartDate)
+	})
+
+	if len(expectedPrices) != len(offers) {
+		t.Fatalf("wrong offers length, expected: %d, received: %d", len(expectedPrices), len(offers))
 	}
-	for i := range expected_prices {
-		if offers[i].Price != expected_prices[i] {
-			t.Fatalf("wrong offer price, expected: %f, received: %f", expected_prices[i], offers[i].Price)
-		}
+	if diff := deep.Equal(offers, expectedOffers); diff != nil {
+		t.Fatal(diff)
 	}
 }
 
