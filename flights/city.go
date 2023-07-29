@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/text/language"
 )
 
@@ -24,7 +25,7 @@ func (s *Session) doRequestCity(city string, lang language.Tag) (*http.Response,
 		`f.req=` + getCityReqData(city) +
 			`&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
 
-	req, err := http.NewRequest(http.MethodPost, requestURL, bytes.NewReader(jsonBody))
+	req, err := retryablehttp.NewRequest(http.MethodPost, requestURL, bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}

@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"testing"
+
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 type HttpClientMock struct {
@@ -39,7 +41,7 @@ func newHttpClientMock(t *testing.T, respPaths ...string) (*HttpClientMock, erro
 	return &HttpClientMock{responses, t}, nil
 }
 
-func (c *HttpClientMock) Do(req *http.Request) (retres *http.Response, reterr error) {
+func (c *HttpClientMock) Do(req *retryablehttp.Request) (retres *http.Response, reterr error) {
 	if len(c.Responses) == 0 {
 		c.T.Fatalf("HttpClientMock: lack of responses")
 	}

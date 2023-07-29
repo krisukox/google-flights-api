@@ -1,7 +1,6 @@
 package flights
 
 import (
-	"fmt"
 	"net/url"
 	"testing"
 	"time"
@@ -83,21 +82,19 @@ func TestGetOffers(t *testing.T) {
 	dummyTime := time.Now()
 	dummyValue := 0
 
-	t1, _ := time.Parse(time.RFC3339, "2024-01-22T17:00:00+01:00")
-	t2, _ := time.Parse(time.RFC3339, "2024-01-22T18:35:00+01:00")
+	t1, _ := time.Parse(time.RFC3339, "2024-01-22T17:00:00Z")
+	t2, _ := time.Parse(time.RFC3339, "2024-01-22T18:35:00Z")
 	d1, _ := time.ParseDuration("1h35m0s")
 
-	t3, _ := time.Parse(time.RFC3339, "2024-01-22T21:25:00+01:00")
-	t4, _ := time.Parse(time.RFC3339, "2024-01-23T00:50:00+01:00")
+	t3, _ := time.Parse(time.RFC3339, "2024-01-22T21:25:00Z")
+	t4, _ := time.Parse(time.RFC3339, "2024-01-23T00:50:00Z")
 	d2, _ := time.ParseDuration("2h25m0s")
 
-	d3, _ := time.ParseDuration("4h25m0s")
-
-	t5, _ := time.Parse(time.RFC3339, "2024-01-22T17:00:00+01:00")
+	d3, _ := time.ParseDuration("7h50m0s")
 
 	expectedOffer := FullOffer{
 		Offer: Offer{
-			StartDate: t5,
+			StartDate: t1,
 			Price:     1315,
 		},
 		Flight: []Flight{{
@@ -125,12 +122,12 @@ func TestGetOffers(t *testing.T) {
 			AirlineName:    "Lufthansa",
 			Legroom:        "29 inches",
 		}},
-		ReturnFlight:    []Flight{},
-		SrcAirportCode:  "",
-		DstAirportCode:  "",
-		OriginCity:      "",
-		DestinationCity: "",
-		Duration:        d3,
+		ReturnFlight:   []Flight{},
+		SrcAirportCode: "",
+		DstAirportCode: "",
+		SrcCity:        "",
+		DstCity:        "",
+		FlightDuration: d3,
 	}
 	expectedPriceRange := PriceRange{1300, 2300}
 
@@ -165,8 +162,6 @@ func TestGetOffers(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	fmt.Println(offers[0].Flight[0].Unknown...)
 
 	// Do not compare the unknown field
 	removeUnknowns(offers)
@@ -244,4 +239,24 @@ func TestFlightReqData(t *testing.T) {
 	if reqData2 != expectedReqData2 {
 		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedReqData2, reqData2)
 	}
+}
+
+func _testGetOffersDateLimit(t *testing.T, session *Session, date, returnDate time.Time, errorValue string) {
+	_, _, err := session.GetOffers(
+		date, returnDate,
+		[]string{}, []string{}, []string{}, []string{},
+		0, currency.PLN, AnyStops, Economy, RoundTrip, language.English)
+
+	if err == nil {
+		t.Fatalf("GetOffers call for the following dates date %s returnDate %s, should result in error", date, returnDate)
+	} else if err.Error() != errorValue {
+		t.Fatalf(`Wrong error "%s" for GetOffers call with the following dates date %s returnDate %s`, err.Error(), date, returnDate)
+	}
+}
+
+func TestGetOffersDateLimit(t *testing.T) {
+	session := New()
+
+	_testGetOffersDateLimit(t, session, time.Now().AddDate(0, 0, 3), time.Now().AddDate(0, 0, 1), "returnDate is before date")
+	_testGetOffersDateLimit(t, session, time.Now().AddDate(0, 0, -1), time.Now().AddDate(0, 0, 2), "date is before today's date")
 }

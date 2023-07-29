@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )
@@ -71,7 +72,7 @@ func (s *Session) doRequestPriceGraph(
 		`f.req=` + reqDate +
 			`&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add current unix timestamp instead of 1687955915303
 
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
+	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}
@@ -127,14 +128,19 @@ func getPriceGraphSection(bytesToDecode []byte) ([]Offer, error) {
 }
 
 func checkRangeDate(rangeStartDate time.Time, rangeEndDate time.Time) error {
+	now := time.Now().Truncate(time.Hour * 24)
+
 	days := int(rangeEndDate.Sub(rangeStartDate).Hours() / 24)
 	if days > 161 {
 		return fmt.Errorf("number of days between dates is larger than 161, %d", days)
 	}
+	if rangeEndDate.Equal(rangeStartDate) {
+		return fmt.Errorf("rangeEndDate is the same as rangeStartDate")
+	}
 	if rangeEndDate.Before(rangeStartDate) {
 		return fmt.Errorf("rangeEndDate is before rangeStartDate")
 	}
-	if rangeStartDate.Before(time.Now()) {
+	if rangeStartDate.Before(now) {
 		return fmt.Errorf("rangeStartDate is before today's date")
 	}
 	return nil
@@ -151,9 +157,17 @@ func (s *Session) GetPriceGraph(
 	lang language.Tag,
 	tripLength int,
 ) ([]Offer, error) {
+	rangeStartDate = rangeStartDate.Truncate(24 * time.Hour)
+	rangeEndDate = rangeEndDate.Truncate(24 * time.Hour)
+
 	if err := checkRangeDate(rangeStartDate, rangeEndDate); err != nil {
 		return nil, err
 	}
+
+	if err := checkLocations(srcCities, srcAirports, dstCities, dstAirports); err != nil {
+		return nil, err
+	}
+
 	offers := []Offer{}
 
 	resp, err := s.doRequestPriceGraph(
@@ -168,16 +182,14 @@ func (s *Session) GetPriceGraph(
 
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
-	for true {
+	for {
 		readLine(body) // skip line
 		bytesToDecode, err := getInnerBytes(body)
 		if err != nil {
 			return offers, nil
 		}
 
-		offers_, err := getPriceGraphSection(bytesToDecode)
+		offers_, _ := getPriceGraphSection(bytesToDecode)
 		offers = append(offers, offers_...)
 	}
-
-	return offers, nil
 }

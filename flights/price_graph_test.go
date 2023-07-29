@@ -103,6 +103,7 @@ func TestGetPriceGraphDateLimit(t *testing.T) {
 	session := New()
 
 	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, 5), time.Now().AddDate(0, 0, 170), "number of days between dates is larger than 161, 165")
+	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 2), "rangeEndDate is the same as rangeStartDate")
 	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, 5), time.Now().AddDate(0, 0, 2), "rangeEndDate is before rangeStartDate")
 	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, -1), time.Now().AddDate(0, 0, 2), "rangeStartDate is before today's date")
 }

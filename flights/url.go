@@ -2,7 +2,6 @@ package flights
 
 import (
 	"encoding/base64"
-	"fmt"
 	"time"
 
 	"golang.org/x/text/currency"
@@ -15,14 +14,6 @@ const (
 	dstConst     byte = 114
 	srcConst     byte = 106
 )
-
-func checkMaxLocations(cities, airports []string) (bool, error) {
-	length := len(cities) + len(airports)
-	if length <= 7 {
-		return true, nil
-	}
-	return false, fmt.Errorf("specified number of locations (%d) should not exceed 7", length)
-}
 
 func serializeLocation(city string, locationNo byte) []byte {
 	cityBytes := []byte(city)
@@ -121,12 +112,8 @@ func (s *Session) SerializeUrl(
 	tripType TripType,
 	lang language.Tag,
 ) (string, error) {
-	if ok, err := checkMaxLocations(srcCities, srcAirports); !ok {
-		return "", fmt.Errorf("sources: %s", err.Error())
-	}
-
-	if ok, err := checkMaxLocations(dstCities, dstAirports); !ok {
-		return "", fmt.Errorf("destinations: %s", err.Error())
+	if err := checkLocations(srcCities, srcAirports, dstCities, dstAirports); err != nil {
+		return "", err
 	}
 
 	srcCities, err := s.AbbrCities(srcCities, lang)
