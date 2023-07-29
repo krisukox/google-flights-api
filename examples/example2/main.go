@@ -14,11 +14,25 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 	session := flights.New()
 	var bestOffer flights.Offer
 
+	args := flights.Args{
+		Adults:   1,
+		Curr:     currency.PLN,
+		Stops:    flights.AnyStops,
+		Class:    flights.Economy,
+		TripType: flights.RoundTrip,
+		Lang:     lang,
+	}
+
 	offers, err := session.GetPriceGraph(
-		rangeStartDate, rangeEndDate,
-		[]string{srcCity}, []string{}, []string{dstCity}, []string{},
-		1, currency.PLN, flights.AnyStops, flights.Economy, flights.RoundTrip,
-		lang, tripLength)
+		flights.PriceGraphArgs{
+			RangeStartDate: rangeStartDate,
+			RangeEndDate:   rangeEndDate,
+			TripLength:     tripLength,
+			SrcCities:      []string{srcCity},
+			DstCities:      []string{dstCity},
+			Args:           args,
+		},
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,18 +46,13 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 	fmt.Printf("%s %s\n", bestOffer.StartDate, bestOffer.ReturnDate)
 	fmt.Printf("price %d\n", int(bestOffer.Price))
 	url, err := session.SerializeUrl(
-		bestOffer.StartDate,
-		bestOffer.ReturnDate,
-		[]string{srcCity},
-		[]string{},
-		[]string{dstCity},
-		[]string{},
-		1,
-		currency.PLN,
-		flights.AnyStops,
-		flights.Economy,
-		flights.RoundTrip,
-		lang,
+		flights.UrlArgs{
+			Date:       bestOffer.StartDate,
+			ReturnDate: bestOffer.ReturnDate,
+			SrcCities:  []string{srcCity},
+			DstCities:  []string{dstCity},
+			Args:       args,
+		},
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -58,5 +67,6 @@ func main() {
 		2,
 		"Warsaw",
 		"Athens",
-		language.English)
+		language.English,
+	)
 }

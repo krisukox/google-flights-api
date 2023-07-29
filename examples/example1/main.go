@@ -13,69 +13,98 @@ import (
 func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities []string, lang language.Tag) {
 	session := flights.New()
 
-	for _, s := range srcCities {
-		for _, d := range dstCities {
-			offers, err := session.GetPriceGraph(
-				rangeStartDate, rangeEndDate,
-				[]string{s}, []string{}, []string{d}, []string{},
-				1, currency.PLN, flights.AnyStops, flights.Economy, flights.RoundTrip,
-				lang, tripLength)
+	args := flights.Args{
+		Adults:   1,
+		Curr:     currency.PLN,
+		Stops:    flights.AnyStops,
+		Class:    flights.Economy,
+		TripType: flights.RoundTrip,
+		Lang:     lang,
+	}
+
+	priceGraphOffers, err := session.GetPriceGraph(
+		flights.PriceGraphArgs{
+			RangeStartDate: rangeStartDate,
+			RangeEndDate:   rangeEndDate,
+			TripLength:     tripLength,
+			SrcCities:      srcCities,
+			DstCities:      dstCities,
+			Args:           args,
+		},
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, priceGraphOffer := range priceGraphOffers {
+		offers, _, err := session.GetOffers(
+			flights.OffersArgs{
+				Date:       priceGraphOffer.StartDate,
+				ReturnDate: priceGraphOffer.ReturnDate,
+				SrcCities:  srcCities,
+				DstCities:  dstCities,
+				Args:       args,
+			},
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var bestOffer flights.FullOffer
+
+		for _, o := range offers {
+			if bestOffer.Price == 0 || o.Price < bestOffer.Price {
+				bestOffer = o
+			}
+		}
+
+		_, priceRange, err := session.GetOffers(
+			flights.OffersArgs{
+				Date:        bestOffer.StartDate,
+				ReturnDate:  bestOffer.ReturnDate,
+				SrcAirports: []string{bestOffer.SrcAirportCode},
+				DstAirports: []string{bestOffer.DstAirportCode},
+				Args:        args,
+			},
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if priceRange == nil {
+			log.Fatal("missing priceRange")
+		}
+
+		if bestOffer.Price < priceRange.Low {
+			url, err := session.SerializeUrl(
+				flights.UrlArgs{
+					Date:        bestOffer.StartDate,
+					ReturnDate:  bestOffer.ReturnDate,
+					SrcAirports: []string{bestOffer.SrcAirportCode},
+					DstAirports: []string{bestOffer.DstAirportCode},
+					Args:        args,
+				},
+			)
 			if err != nil {
 				log.Fatal(err)
 			}
-
-			for _, o := range offers {
-				_, priceRange, err := session.GetOffers(
-					o.StartDate,
-					o.ReturnDate,
-					[]string{s},
-					[]string{},
-					[]string{d},
-					[]string{},
-					1,
-					currency.PLN,
-					flights.AnyStops,
-					flights.Economy,
-					flights.RoundTrip,
-					lang,
-				)
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				if o.Price < priceRange.Low {
-					fmt.Printf("%s %s\n", o.StartDate, o.ReturnDate)
-					fmt.Printf("price %d\n", int(o.Price))
-					url, err := session.SerializeUrl(
-						o.StartDate,
-						o.ReturnDate,
-						[]string{s},
-						[]string{},
-						[]string{d},
-						[]string{},
-						1,
-						currency.PLN,
-						flights.AnyStops,
-						flights.Economy,
-						flights.RoundTrip,
-						lang,
-					)
-					if err != nil {
-						log.Fatal(err)
-					}
-					fmt.Println(url)
-				}
-			}
+			fmt.Printf("%s %s\n", bestOffer.StartDate, bestOffer.ReturnDate)
+			fmt.Printf("price %d\n", int(bestOffer.Price))
+			fmt.Println(url)
 		}
 	}
 }
 
 func main() {
+	t := time.Now()
+
 	getCheapOffers(
 		time.Now().AddDate(0, 0, 60),
 		time.Now().AddDate(0, 0, 90),
 		2,
 		[]string{"Berlin", "Prague"},
-		[]string{"Athens"},
-		language.English)
+		[]string{"Athens", "Rome"},
+		language.English,
+	)
+
+	fmt.Println(time.Since(t))
 }

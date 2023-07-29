@@ -17,36 +17,30 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	returnDate := time.Now().AddDate(0, 7, 0)
 
 	offersPLN, _, err := session.GetOffers(
-		date,
-		returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		2,
-		currency.PLN,
-		Stop1,
-		PremiumEconomy,
-		OneWay,
-		language.English,
+		OffersArgs{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{2, currency.PLN, Stop1, PremiumEconomy, OneWay, language.English},
+		},
 	)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
 
 	offersUSD, _, err := session.GetOffers(
-		date,
-		returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		2,
-		currency.USD,
-		Stop1,
-		PremiumEconomy,
-		OneWay,
-		language.English,
+		OffersArgs{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{2, currency.USD, Stop1, PremiumEconomy, OneWay, language.English},
+		},
 	)
 	if err != nil {
 		t.Fatalf(err.Error())
@@ -90,12 +84,15 @@ func TestGetOffers(t *testing.T) {
 	t4, _ := time.Parse(time.RFC3339, "2024-01-23T00:50:00Z")
 	d2, _ := time.ParseDuration("2h25m0s")
 
+	returnDate, _ := time.Parse(time.RFC3339, "2024-01-25T00:00:00Z")
+
 	d3, _ := time.ParseDuration("7h50m0s")
 
 	expectedOffer := FullOffer{
 		Offer: Offer{
-			StartDate: t1,
-			Price:     1315,
+			StartDate:  t1,
+			ReturnDate: returnDate,
+			Price:      1315,
 		},
 		Flight: []Flight{{
 			DepAirportCode: "WAW",
@@ -123,8 +120,8 @@ func TestGetOffers(t *testing.T) {
 			Legroom:        "29 inches",
 		}},
 		ReturnFlight:   []Flight{},
-		SrcAirportCode: "",
-		DstAirportCode: "",
+		SrcAirportCode: "WAW",
+		DstAirportCode: "ATH",
 		SrcCity:        "",
 		DstCity:        "",
 		FlightDuration: d3,
@@ -146,18 +143,22 @@ func TestGetOffers(t *testing.T) {
 	}
 
 	offers, priceRange, err := session.GetOffers(
-		dummyTime,
-		dummyTime,
-		[]string{"Warsaw"},
-		[]string{},
-		[]string{"Athens"},
-		[]string{},
-		dummyValue,
-		currency.Unit{},
-		Stops(dummyValue),
-		Class(dummyValue),
-		TripType(dummyValue),
-		language.Tag{},
+		OffersArgs{
+			dummyTime,
+			returnDate,
+			[]string{"Warsaw"},
+			[]string{},
+			[]string{"Athens"},
+			[]string{},
+			Args{
+				dummyValue,
+				currency.Unit{},
+				Stops(dummyValue),
+				Class(dummyValue),
+				TripType(dummyValue),
+				language.Tag{},
+			},
+		},
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -170,7 +171,11 @@ func TestGetOffers(t *testing.T) {
 		t.Fatalf("Offers are not equal: %v", diff)
 	}
 
-	if priceRange != expectedPriceRange {
+	if priceRange == nil {
+		t.Fatalf("Missing price range")
+	}
+
+	if *priceRange != expectedPriceRange {
 		t.Fatalf("Wrong price range, received: %v, expected: %v", priceRange, expectedPriceRange)
 	}
 }
@@ -191,17 +196,16 @@ func TestFlightReqData(t *testing.T) {
 	}
 
 	_reqData1, err := session.getFlightReqData(
-		date,
-		returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		1,
-		AnyStops,
-		Economy,
-		RoundTrip,
-		language.English)
+		OffersArgs{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{1, currency.Unit{}, AnyStops, Economy, RoundTrip, language.English},
+		},
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -216,17 +220,16 @@ func TestFlightReqData(t *testing.T) {
 	}
 
 	_reqData2, err := session.getFlightReqData(
-		date,
-		returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		2,
-		Stop2,
-		Buisness,
-		OneWay,
-		language.English)
+		OffersArgs{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{2, currency.Unit{}, Stop2, Buisness, OneWay, language.English},
+		},
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -239,24 +242,4 @@ func TestFlightReqData(t *testing.T) {
 	if reqData2 != expectedReqData2 {
 		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedReqData2, reqData2)
 	}
-}
-
-func _testGetOffersDateLimit(t *testing.T, session *Session, date, returnDate time.Time, errorValue string) {
-	_, _, err := session.GetOffers(
-		date, returnDate,
-		[]string{}, []string{}, []string{}, []string{},
-		0, currency.PLN, AnyStops, Economy, RoundTrip, language.English)
-
-	if err == nil {
-		t.Fatalf("GetOffers call for the following dates date %s returnDate %s, should result in error", date, returnDate)
-	} else if err.Error() != errorValue {
-		t.Fatalf(`Wrong error "%s" for GetOffers call with the following dates date %s returnDate %s`, err.Error(), date, returnDate)
-	}
-}
-
-func TestGetOffersDateLimit(t *testing.T) {
-	session := New()
-
-	_testGetOffersDateLimit(t, session, time.Now().AddDate(0, 0, 3), time.Now().AddDate(0, 0, 1), "returnDate is before date")
-	_testGetOffersDateLimit(t, session, time.Now().AddDate(0, 0, -1), time.Now().AddDate(0, 0, 2), "date is before today's date")
 }

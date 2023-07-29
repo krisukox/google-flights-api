@@ -10,35 +10,34 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
-	"golang.org/x/text/currency"
-	"golang.org/x/text/language"
 )
 
-func (s *Session) getPriceGraphReqData(
-	rangeStartDate, rangeEndDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-	tripLength int,
-) (string, error) {
-	additionalDate := rangeStartDate.AddDate(0, 0, tripLength)
-	serializedRangeStartDate := rangeStartDate.Format("2006-01-02")
-	serializedRangeEndDate := rangeEndDate.Format("2006-01-02")
+func (s *Session) getPriceGraphRawData(args PriceGraphArgs) (string, error) {
+	return s.getRawData(
+		OffersArgs{
+			Date:        args.RangeStartDate,
+			ReturnDate:  args.RangeStartDate.AddDate(0, 0, args.TripLength),
+			SrcCities:   args.SrcCities,
+			SrcAirports: args.SrcAirports,
+			DstCities:   args.DstCities,
+			DstAirports: args.DstAirports,
+			Args:        args.Args,
+		},
+	)
+}
 
-	rawData, err := s.getRawData(
-		rangeStartDate, additionalDate,
-		srcCities, srcAirports, dstCities, dstAirports,
-		adults, stops, class, tripType, lang)
+func (s *Session) getPriceGraphReqData(args PriceGraphArgs) (string, error) {
+	serializedRangeStartDate := args.RangeStartDate.Format("2006-01-02")
+	serializedRangeEndDate := args.RangeEndDate.Format("2006-01-02")
+
+	rawData, err := s.getPriceGraphRawData(args)
 	if err != nil {
 		return "", nil
 	}
 
 	prefix := `[null,"[null,`
 	suffix := fmt.Sprintf(`],null,null,null,1,null,null,null,null,null,[]],[\"%s\",\"%s\"],null,[%d,%d]]"]`,
-		serializedRangeStartDate, serializedRangeEndDate, tripLength, tripLength)
+		serializedRangeStartDate, serializedRangeEndDate, args.TripLength, args.TripLength)
 
 	reqData := prefix
 	reqData += rawData
@@ -47,30 +46,17 @@ func (s *Session) getPriceGraphReqData(
 	return url.QueryEscape(reqData), nil
 }
 
-func (s *Session) doRequestPriceGraph(
-	rangeStartDate, rangeEndDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	curr currency.Unit,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-	tripLength int,
-) (*http.Response, error) {
+func (s *Session) doRequestPriceGraph(args PriceGraphArgs) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetCalendarGraph?f.sid=-8920707734915550076&bl=boq_travel-frontend-ui_20230627.07_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=261464&rt=c"
 
-	reqDate, err := s.getPriceGraphReqData(
-		rangeStartDate, rangeEndDate,
-		srcCities, srcAirports, dstCities, dstAirports,
-		adults, stops, class, tripType, lang, tripLength)
+	reqDate, err := s.getPriceGraphReqData(args)
 	if err != nil {
 		return nil, err
 	}
 
 	jsonBody := []byte(
 		`f.req=` + reqDate +
-			`&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add current unix timestamp instead of 1687955915303
+			`&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A1688396662350&`) // Add Current unix timestamp instead of 1687955915303
 
 	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -127,54 +113,14 @@ func getPriceGraphSection(bytesToDecode []byte) ([]Offer, error) {
 	return offers, nil
 }
 
-func checkRangeDate(rangeStartDate time.Time, rangeEndDate time.Time) error {
-	now := time.Now().Truncate(time.Hour * 24)
-
-	days := int(rangeEndDate.Sub(rangeStartDate).Hours() / 24)
-	if days > 161 {
-		return fmt.Errorf("number of days between dates is larger than 161, %d", days)
-	}
-	if rangeEndDate.Equal(rangeStartDate) {
-		return fmt.Errorf("rangeEndDate is the same as rangeStartDate")
-	}
-	if rangeEndDate.Before(rangeStartDate) {
-		return fmt.Errorf("rangeEndDate is before rangeStartDate")
-	}
-	if rangeStartDate.Before(now) {
-		return fmt.Errorf("rangeStartDate is before today's date")
-	}
-	return nil
-}
-
-func (s *Session) GetPriceGraph(
-	rangeStartDate, rangeEndDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	curr currency.Unit,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-	tripLength int,
-) ([]Offer, error) {
-	rangeStartDate = rangeStartDate.Truncate(24 * time.Hour)
-	rangeEndDate = rangeEndDate.Truncate(24 * time.Hour)
-
-	if err := checkRangeDate(rangeStartDate, rangeEndDate); err != nil {
-		return nil, err
-	}
-
-	if err := checkLocations(srcCities, srcAirports, dstCities, dstAirports); err != nil {
+func (s *Session) GetPriceGraph(args PriceGraphArgs) ([]Offer, error) {
+	if err := args.validate(); err != nil {
 		return nil, err
 	}
 
 	offers := []Offer{}
 
-	resp, err := s.doRequestPriceGraph(
-		rangeStartDate, rangeEndDate,
-		srcCities, srcAirports, dstCities, dstAirports,
-		adults, curr, stops, class, tripType, lang,
-		tripLength)
+	resp, err := s.doRequestPriceGraph(args)
 	if err != nil {
 		return nil, err
 	}
@@ -182,6 +128,7 @@ func (s *Session) GetPriceGraph(
 
 	body := bufio.NewReader(resp.Body)
 	skipPrefix(body)
+
 	for {
 		readLine(body) // skip line
 		bytesToDecode, err := getInnerBytes(body)
