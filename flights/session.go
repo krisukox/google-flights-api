@@ -1,9 +1,12 @@
 package flights
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"sync"
-	"time"
+
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 type Map[K comparable, V any] struct {
@@ -21,7 +24,7 @@ func (m *Map[K, V]) Load(key K) (value V, ok bool) {
 func (m *Map[K, V]) Store(key K, value V) { m.m.Store(key, value) }
 
 type HttpClient interface {
-	Do(req *http.Request) (*http.Response, error)
+	Do(req *retryablehttp.Request) (*http.Response, error)
 }
 
 type Session struct {
@@ -30,11 +33,23 @@ type Session struct {
 	client HttpClient
 }
 
+func CustomRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+		if resp.StatusCode != http.StatusOK {
+			return true, fmt.Errorf("wrong status code: %d", resp.StatusCode)
+		}
+		return retryablehttp.DefaultRetryPolicy(ctx, resp, err)
+	}
+}
+
 func New() *Session {
+	client := retryablehttp.NewClient()
+	client.RetryMax = 5
+	client.Logger = nil
+	client.CheckRetry = CustomRetryPolicy()
+
 	return &Session{
 		Cities: Map[string, string]{},
-		client: &http.Client{
-			Timeout: 30 * time.Second,
-		},
+		client: client,
 	}
 }

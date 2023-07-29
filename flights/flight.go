@@ -5,11 +5,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 	"time"
 
+	"github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )
@@ -159,7 +159,7 @@ func (s *Session) doRequestFlights(
 		`f.req=` + reqDate +
 			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
 
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
+	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}
@@ -176,32 +176,8 @@ func (s *Session) doRequestFlights(
 	return s.client.Do(req)
 }
 
-func getUnknowns(flightObj1 []interface{}) []interface{} {
-	unknowns := []interface{}{}
-	unknowns = append(unknowns, getRawElement(flightObj1, 1))
-	unknowns = append(unknowns, getRawElement(flightObj1, 2))
-	unknowns = append(unknowns, getRawElement(flightObj1, 7))
-	unknowns = append(unknowns, getRawElement(flightObj1, 9))
-	unknowns = append(unknowns, getRawElement(flightObj1, 12))
-	unknowns = append(unknowns, getRawElement(flightObj1, 13))
-	unknowns = append(unknowns, getRawElement(flightObj1, 14))
-	unknowns = append(unknowns, getRawElement(flightObj1, 15))
-	unknowns = append(unknowns, getRawElement(flightObj1, 16))
-	unknowns = append(unknowns, getRawElement(flightObj1, 18))
-	unknowns = append(unknowns, getRawElement(flightObj1, 19))
-	unknowns = append(unknowns, getRawElement(flightObj1, 23))
-	unknowns = append(unknowns, getRawElement(flightObj1, 24))
-	unknowns = append(unknowns, getRawElement(flightObj1, 25))
-	unknowns = append(unknowns, getRawElement(flightObj1, 26))
-	unknowns = append(unknowns, getRawElement(flightObj1, 27))
-	unknowns = append(unknowns, getRawElement(flightObj1, 28))
-	unknowns = append(unknowns, getRawElement(flightObj1, 29))
-	unknowns = append(unknowns, getRawElement(flightObj1, 31))
-	return unknowns
-}
-
-func getTripDuration(flights []Flight) time.Duration {
-	return flights[len(flights)-1].DepTime.Sub(flights[0].DepTime)
+func getFlightsDuration(flights []Flight) time.Duration {
+	return flights[len(flights)-1].ArrTime.Sub(flights[0].DepTime)
 }
 
 func flightSchema(
@@ -247,7 +223,39 @@ func flightSchema(
 	}
 }
 
-func getOffersFromSection(rawOffers []json.RawMessage) ([]FullOffer, error) {
+func getFlights(rawFlights []json.RawMessage) ([]Flight, error) {
+	flights := []Flight{}
+	for _, rawFlight := range rawFlights {
+		flight := Flight{}
+		flight.Unknown = make([]interface{}, 20)
+		var depHours, depMinutes, arrHours, arrMinutes, duration,
+			depYear, depMonth, depDay, arrYear, arrMonth, arrDay float64
+		var flightNoPart1, flightNoPart2 string
+		if err := json.Unmarshal(rawFlight, flightSchema(
+			&flight,
+			&depYear, &depMonth, &depDay, &depHours, &depMinutes,
+			&arrYear, &arrMonth, &arrDay, &arrHours, &arrMinutes,
+			&duration,
+			&flightNoPart1, &flightNoPart2,
+		)); err != nil {
+			return nil, err
+		}
+
+		flight.DepTime = time.Date(int(depYear), time.Month(depMonth), int(depDay), int(depHours), int(depMinutes), 0, 0, time.UTC)
+		flight.ArrTime = time.Date(int(arrYear), time.Month(arrMonth), int(arrDay), int(arrHours), int(arrMinutes), 0, 0, time.UTC)
+		parsedDuration, _ := time.ParseDuration(fmt.Sprintf("%dm", int(duration)))
+		flight.Duration = parsedDuration
+		flight.FlightNumber = flightNoPart1 + " " + flightNoPart2
+		flights = append(flights, flight)
+	}
+	return flights, nil
+}
+
+func offerSchema(rawFlights *[]json.RawMessage, price *float64) *[]interface{} {
+	return &[]interface{}{&[]interface{}{&[]interface{}{nil, nil, rawFlights}, &[]interface{}{&[]interface{}{nil, price}}}}
+}
+
+func getSubsectionOffers(rawOffers []json.RawMessage) ([]FullOffer, error) {
 	offers := []FullOffer{}
 	for _, rawOffer := range rawOffers {
 		offer := FullOffer{}
@@ -257,65 +265,49 @@ func getOffersFromSection(rawOffers []json.RawMessage) ([]FullOffer, error) {
 			continue
 		}
 
-		if err := json.Unmarshal(rawOffer, &[]interface{}{&[]interface{}{&[]interface{}{nil, nil, &rawFlights}, &[]interface{}{&[]interface{}{nil, &offer.Price}}}}); err != nil {
+		if err := json.Unmarshal(rawOffer, offerSchema(&rawFlights, &offer.Price)); err != nil {
 			continue
 		}
-		flights := []Flight{}
-		for _, rawFlight := range rawFlights {
-			flight := Flight{}
-			flight.Unknown = make([]interface{}, 20)
-			var depHours, depMinutes, arrHours, arrMinutes, duration,
-				depYear, depMonth, depDay, arrYear, arrMonth, arrDay float64
-			var flightNoPart1, flightNoPart2 string
-			if err := json.Unmarshal(rawFlight, flightSchema(
-				&flight,
-				&depYear, &depMonth, &depDay, &depHours, &depMinutes,
-				&arrYear, &arrMonth, &arrDay, &arrHours, &arrMinutes,
-				&duration,
-				&flightNoPart1, &flightNoPart2,
-			)); err != nil {
-				log.Fatal(err) // FIXME
-			}
-			location, _ := time.LoadLocation("Poland") // FIXME
-			flight.DepTime = time.Date(int(depYear), time.Month(depMonth), int(depDay), int(depHours), int(depMinutes), 0, 0, location)
-			flight.ArrTime = time.Date(int(arrYear), time.Month(arrMonth), int(arrDay), int(arrHours), int(arrMinutes), 0, 0, location)
-			parsedDuration, _ := time.ParseDuration(fmt.Sprintf("%dm", int(duration)))
-			flight.Duration = parsedDuration
-			flight.FlightNumber = flightNoPart1 + " " + flightNoPart2
-			flights = append(flights, flight)
+
+		flights, err := getFlights(rawFlights)
+		if err != nil || len(flights) == 0 {
+			continue
 		}
+
 		offer.Flight = flights
 		offer.ReturnFlight = []Flight{}
-		offer.StartDate = flights[0].DepTime // FIXME
-		offer.Duration = getTripDuration(flights)
+
+		offer.StartDate = flights[0].DepTime
+		offer.FlightDuration = getFlightsDuration(flights)
 
 		offers = append(offers, offer)
 	}
 	return offers, nil
 }
 
-func getOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
+func sectionOffersSchema(rawOffers1, rawOffers2 *[]json.RawMessage, priceRange *PriceRange) *[]interface{} {
+	return &[]interface{}{nil, nil, rawOffers1, rawOffers2, nil, &[]interface{}{nil, nil, nil, nil,
+		&[]interface{}{nil, &priceRange.Low}, &[]interface{}{nil, &priceRange.High}}}
+}
+
+func getSectionOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 	rawOffers1 := []json.RawMessage{}
 	rawOffers2 := []json.RawMessage{}
 
 	priceRange := PriceRange{}
 
-	locations := []json.RawMessage{} // TODO: use it to generate IATAcode -> country map, and use it in time.LoadLocation
-
-	if err := json.Unmarshal(bytesToDecode, &[]interface{}{
-		nil, nil, &rawOffers1, &rawOffers2, nil, &[]interface{}{nil, nil, nil, nil, &[]interface{}{nil, &priceRange.Low}, &[]interface{}{nil, &priceRange.High}},
-		nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, &locations}); err != nil {
+	if err := json.Unmarshal(bytesToDecode, sectionOffersSchema(&rawOffers1, &rawOffers2, &priceRange)); err != nil {
 		return nil, nil, err
 	}
 
 	allOffers := []FullOffer{}
-	offers1, err := getOffersFromSection(rawOffers1)
+	offers1, err := getSubsectionOffers(rawOffers1)
 	if err != nil {
 		return nil, nil, err
 	}
 	allOffers = append(allOffers, offers1...)
 
-	offers2, err := getOffersFromSection(rawOffers2)
+	offers2, err := getSubsectionOffers(rawOffers2)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -324,7 +316,19 @@ func getOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 	return allOffers, &priceRange, nil
 }
 
-func (s *Session) getAllOffers(
+func checkDate(date, returnDate time.Time) error {
+	now := time.Now().Truncate(time.Hour * 24)
+
+	if returnDate.Before(date) {
+		return fmt.Errorf("returnDate is before date")
+	}
+	if date.Before(now) {
+		return fmt.Errorf("date is before today's date")
+	}
+	return nil
+}
+
+func (s *Session) GetOffers(
 	date, returnDate time.Time,
 	srcCities, srcAirports, dstCities, dstAirports []string,
 	adults int,
@@ -334,6 +338,17 @@ func (s *Session) getAllOffers(
 	tripType TripType,
 	lang language.Tag,
 ) ([]FullOffer, PriceRange, error) {
+	date = date.Truncate(24 * time.Hour)
+	returnDate = returnDate.Truncate(24 * time.Hour)
+
+	if err := checkDate(date, returnDate); err != nil {
+		return nil, PriceRange{}, err
+	}
+
+	if err := checkLocations(srcCities, srcAirports, dstCities, dstAirports); err != nil {
+		return nil, PriceRange{}, err
+	}
+
 	finalOffers := []FullOffer{}
 	finalPriceRange := PriceRange{}
 	resp, err := s.doRequestFlights(
@@ -356,7 +371,7 @@ func (s *Session) getAllOffers(
 		if err != nil {
 			return finalOffers, finalPriceRange, nil
 		}
-		offers, priceRange, _ := getOffers(bytesToDecode)
+		offers, priceRange, _ := getSectionOffers(bytesToDecode)
 		if offers != nil {
 			finalOffers = append(finalOffers, offers...)
 		}
@@ -364,36 +379,4 @@ func (s *Session) getAllOffers(
 			finalPriceRange = *priceRange
 		}
 	}
-}
-
-func (s *Session) GetOffers(
-	date, returnDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	curr currency.Unit,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-) ([]FullOffer, PriceRange, error) {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	// TODO: Add date limit
-	var allOffers []FullOffer
-	var priceRange PriceRange
-	var err error
-
-	retries := 4
-
-	for i := 0; i < retries; i++ {
-		allOffers, priceRange, err = s.getAllOffers(
-			date, returnDate,
-			srcCities, srcAirports, dstCities, dstAirports,
-			adults, curr, stops, class, tripType, lang)
-		if err == nil {
-			return allOffers, priceRange, nil
-		}
-		log.Printf("Retry GetOffers")
-	}
-
-	return allOffers, priceRange, fmt.Errorf("number of retries %d exceeded: %w", retries, err)
 }

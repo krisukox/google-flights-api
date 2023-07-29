@@ -116,4 +116,12 @@ func TestAbbrCity(t *testing.T) {
 			t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrB, b)
 		}
 	}
+
+	if abbrCity, ok := session.Cities.Load("Athens"); !ok || abbrCity != abbrA {
+		t.Fatalf("Athens abbreviated city name not stored in cache")
+	}
+
+	if abbrCity, ok := session.Cities.Load("Warsaw"); !ok || abbrCity != abbrB {
+		t.Fatalf("Warsaw abbreviated city name not stored in cache")
+	}
 }

@@ -28,13 +28,14 @@ type Offer struct {
 
 type FullOffer struct {
 	Offer
-	Flight          []Flight
-	ReturnFlight    []Flight // Not implemented yet
-	SrcAirportCode  string
-	DstAirportCode  string
-	OriginCity      string
-	DestinationCity string
-	Duration        time.Duration
+	Flight               []Flight
+	ReturnFlight         []Flight // Not implemented yet
+	SrcAirportCode       string
+	DstAirportCode       string
+	SrcCity              string
+	DstCity              string
+	FlightDuration       time.Duration
+	ReturnFlightDuration time.Duration // Not implemented yet
 }
 
 type PriceRange struct {
@@ -93,8 +94,8 @@ func (t FullOffer) String() string {
 	out += fmt.Sprintf("ReturnFlight: %s \n", t.ReturnFlight)
 	out += fmt.Sprintf("SrcAirportCode: %s \n", t.SrcAirportCode)
 	out += fmt.Sprintf("DstAirportCode: %s \n", t.DstAirportCode)
-	out += fmt.Sprintf("OriginCity: %s \n", t.OriginCity)
-	out += fmt.Sprintf("DestinationCity: %s \n", t.DestinationCity)
-	out += fmt.Sprintf("Duration: %s \n", t.Duration)
+	out += fmt.Sprintf("SrcCity: %s \n", t.SrcCity)
+	out += fmt.Sprintf("DstCity: %s \n", t.DstCity)
+	out += fmt.Sprintf("Duration: %s \n", t.FlightDuration)
 	return out
 }
