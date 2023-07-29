@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
-	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )
 
@@ -19,8 +18,43 @@ const (
 	flightCityConst    rune = '5'
 )
 
-func (s *Session) serializeFlightLocations(cities []string, airports []string, lang language.Tag) (string, error) {
-	abbrCities, err := s.AbbrCities(cities, lang)
+func (s *Session) getRawData(args OffersArgs) (string, error) {
+	serSrcs, err := s.serializeFlightLocations(args.SrcCities, args.SrcAirports, args.Lang)
+	if err != nil {
+		return "", err
+	}
+	serDsts, err := s.serializeFlightLocations(args.DstCities, args.DstAirports, args.Lang)
+	if err != nil {
+		return "", err
+	}
+
+	serDate := args.Date.Format("2006-01-02")
+	serReturnDate := args.ReturnDate.Format("2006-01-02")
+
+	serAdults := serializeFlightAdults(args.Adults)
+	serStops := serializeFlightStop(args.Stops)
+
+	serClass := serializeFlightClass(args.Class)
+	serTripType := serializeTripType(args.TripType)
+
+	rawData := ""
+
+	rawData += fmt.Sprintf(`[null,null,%d,null,[],%s,%s,null,null,null,null,null,null,[`,
+		serTripType, serClass, serAdults)
+
+	rawData += fmt.Sprintf(`[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
+		serSrcs, serDsts, serStops, serDate)
+
+	if args.TripType == RoundTrip {
+		rawData += fmt.Sprintf(`,[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
+			serDsts, serSrcs, serStops, serReturnDate)
+	}
+
+	return rawData, nil
+}
+
+func (s *Session) serializeFlightLocations(cities []string, airports []string, Lang language.Tag) (string, error) {
+	abbrCities, err := s.AbbrCities(cities, Lang)
 	if err != nil {
 		return "", nil
 	}
@@ -37,12 +71,12 @@ func (s *Session) serializeFlightLocations(cities []string, airports []string, l
 	return serialized[:len(serialized)-1], nil
 }
 
-func serializeFlightAdults(adults int) string {
-	return fmt.Sprintf(`[%d,0,0,0]`, adults)
+func serializeFlightAdults(Adults int) string {
+	return fmt.Sprintf(`[%d,0,0,0]`, Adults)
 }
 
-func serializeFlightStop(stops Stops) string {
-	switch stops {
+func serializeFlightStop(Stops Stops) string {
+	switch Stops {
 	case Nonstop:
 		return "1"
 	case Stop1:
@@ -53,8 +87,8 @@ func serializeFlightStop(stops Stops) string {
 	return "0"
 }
 
-func serializeFlightClass(class Class) string {
-	switch class {
+func serializeFlightClass(Class Class) string {
+	switch Class {
 	case Economy:
 		return "1"
 	case PremiumEconomy:
@@ -65,62 +99,8 @@ func serializeFlightClass(class Class) string {
 	return "4"
 }
 
-func (s *Session) getRawData(
-	date, returnDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-) (string, error) {
-	serSrcs, err := s.serializeFlightLocations(srcCities, srcAirports, lang)
-	if err != nil {
-		return "", err
-	}
-	serDsts, err := s.serializeFlightLocations(dstCities, dstAirports, lang)
-	if err != nil {
-		return "", err
-	}
-
-	serDate := date.Format("2006-01-02")
-	serReturnDate := returnDate.Format("2006-01-02")
-
-	serAdults := serializeFlightAdults(adults)
-	serStops := serializeFlightStop(stops)
-
-	serClass := serializeFlightClass(class)
-	serTripType := serializeTripType(tripType)
-
-	rawData := ""
-
-	rawData += fmt.Sprintf(`[null,null,%d,null,[],%s,%s,null,null,null,null,null,null,[`,
-		serTripType, serClass, serAdults)
-
-	rawData += fmt.Sprintf(`[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
-		serSrcs, serDsts, serStops, serDate)
-
-	if tripType == RoundTrip {
-		rawData += fmt.Sprintf(`,[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
-			serDsts, serSrcs, serStops, serReturnDate)
-	}
-
-	return rawData, nil
-}
-
-func (s *Session) getFlightReqData(
-	date, returnDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-) (string, error) {
-	rawData, err := s.getRawData(
-		date, returnDate,
-		srcCities, srcAirports, dstCities, dstAirports,
-		adults, stops, class, tripType, lang)
+func (s *Session) getFlightReqData(args OffersArgs) (string, error) {
+	rawData, err := s.getRawData(args)
 	if err != nil {
 		return "", nil
 	}
@@ -135,29 +115,17 @@ func (s *Session) getFlightReqData(
 	return url.QueryEscape(reqData), nil
 }
 
-func (s *Session) doRequestFlights(
-	date, returnDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	curr currency.Unit,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-) (*http.Response, error) {
+func (s *Session) doRequestFlights(args OffersArgs) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	reqDate, err := s.getFlightReqData(
-		date, returnDate,
-		srcCities, srcAirports, dstCities, dstAirports,
-		adults, stops, class, tripType, lang)
+	reqDate, err := s.getFlightReqData(args)
 	if err != nil {
 		return nil, err
 	}
 
 	jsonBody := []byte(
 		`f.req=` + reqDate +
-			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add current unix timestamp instead of 1687955915303
+			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add Current unix timestamp instead of 1687955915303
 
 	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -171,7 +139,7 @@ func (s *Session) doRequestFlights(
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
 	req.Header.Set("x-goog-ext-259736195-jspb",
-		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, curr)) // language, location, currency
+		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, args.Curr)) // language, location, Currency
 
 	return s.client.Do(req)
 }
@@ -255,7 +223,7 @@ func offerSchema(rawFlights *[]json.RawMessage, price *float64) *[]interface{} {
 	return &[]interface{}{&[]interface{}{&[]interface{}{nil, nil, rawFlights}, &[]interface{}{&[]interface{}{nil, price}}}}
 }
 
-func getSubsectionOffers(rawOffers []json.RawMessage) ([]FullOffer, error) {
+func getSubsectionOffers(rawOffers []json.RawMessage, returnDate time.Time) ([]FullOffer, error) {
 	offers := []FullOffer{}
 	for _, rawOffer := range rawOffers {
 		offer := FullOffer{}
@@ -278,7 +246,12 @@ func getSubsectionOffers(rawOffers []json.RawMessage) ([]FullOffer, error) {
 		offer.ReturnFlight = []Flight{}
 
 		offer.StartDate = flights[0].DepTime
+		offer.ReturnDate = returnDate
+
 		offer.FlightDuration = getFlightsDuration(flights)
+
+		offer.SrcAirportCode = flights[0].DepAirportCode
+		offer.DstAirportCode = flights[len(flights)-1].ArrAirportCode
 
 		offers = append(offers, offer)
 	}
@@ -290,7 +263,7 @@ func sectionOffersSchema(rawOffers1, rawOffers2 *[]json.RawMessage, priceRange *
 		&[]interface{}{nil, &priceRange.Low}, &[]interface{}{nil, &priceRange.High}}}
 }
 
-func getSectionOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
+func getSectionOffers(bytesToDecode []byte, returnDate time.Time) ([]FullOffer, *PriceRange, error) {
 	rawOffers1 := []json.RawMessage{}
 	rawOffers2 := []json.RawMessage{}
 
@@ -301,13 +274,13 @@ func getSectionOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 	}
 
 	allOffers := []FullOffer{}
-	offers1, err := getSubsectionOffers(rawOffers1)
+	offers1, err := getSubsectionOffers(rawOffers1, returnDate)
 	if err != nil {
 		return nil, nil, err
 	}
 	allOffers = append(allOffers, offers1...)
 
-	offers2, err := getSubsectionOffers(rawOffers2)
+	offers2, err := getSubsectionOffers(rawOffers2, returnDate)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -316,67 +289,36 @@ func getSectionOffers(bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 	return allOffers, &priceRange, nil
 }
 
-func checkDate(date, returnDate time.Time) error {
-	now := time.Now().Truncate(time.Hour * 24)
-
-	if returnDate.Before(date) {
-		return fmt.Errorf("returnDate is before date")
-	}
-	if date.Before(now) {
-		return fmt.Errorf("date is before today's date")
-	}
-	return nil
-}
-
-func (s *Session) GetOffers(
-	date, returnDate time.Time,
-	srcCities, srcAirports, dstCities, dstAirports []string,
-	adults int,
-	curr currency.Unit,
-	stops Stops,
-	class Class,
-	tripType TripType,
-	lang language.Tag,
-) ([]FullOffer, PriceRange, error) {
-	date = date.Truncate(24 * time.Hour)
-	returnDate = returnDate.Truncate(24 * time.Hour)
-
-	if err := checkDate(date, returnDate); err != nil {
-		return nil, PriceRange{}, err
-	}
-
-	if err := checkLocations(srcCities, srcAirports, dstCities, dstAirports); err != nil {
-		return nil, PriceRange{}, err
+func (s *Session) GetOffers(args OffersArgs) ([]FullOffer, *PriceRange, error) {
+	if err := args.validate(); err != nil {
+		return nil, nil, err
 	}
 
 	finalOffers := []FullOffer{}
-	finalPriceRange := PriceRange{}
-	resp, err := s.doRequestFlights(
-		date, returnDate,
-		srcCities, srcAirports, dstCities, dstAirports,
-		adults, curr, stops, class, tripType, lang)
+	var finalPriceRange *PriceRange
 
+	resp, err := s.doRequestFlights(args)
 	if err != nil {
-		return nil, PriceRange{}, err
+		return nil, nil, err
 	}
 	defer resp.Body.Close()
 
 	body := bufio.NewReader(resp.Body)
-
 	skipPrefix(body)
 
 	for {
-		readLine(body)
+		readLine(body) // skip line
 		bytesToDecode, err := getInnerBytes(body)
 		if err != nil {
 			return finalOffers, finalPriceRange, nil
 		}
-		offers, priceRange, _ := getSectionOffers(bytesToDecode)
+
+		offers, priceRange, _ := getSectionOffers(bytesToDecode, args.ReturnDate)
 		if offers != nil {
 			finalOffers = append(finalOffers, offers...)
 		}
 		if priceRange != nil {
-			finalPriceRange = *priceRange
+			finalPriceRange = priceRange
 		}
 	}
 }

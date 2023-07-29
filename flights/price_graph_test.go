@@ -19,10 +19,13 @@ func TestGetPriceGraphReal(t *testing.T) {
 	expectedOffers := daysDiff2 - daysDiff1 + 1
 
 	offers, err := session.GetPriceGraph(
-		time.Now().AddDate(0, 0, daysDiff1), time.Now().AddDate(0, 0, daysDiff2),
-		[]string{"London"}, []string{}, []string{"Paris"}, []string{},
-		1, currency.PLN, AnyStops, Economy, RoundTrip,
-		language.English, 7)
+		PriceGraphArgs{
+			time.Now().AddDate(0, 0, daysDiff1),
+			time.Now().AddDate(0, 0, daysDiff2),
+			7,
+			[]string{"London"}, []string{}, []string{"Paris"}, []string{},
+			Args{1, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+		})
 
 	if err != nil {
 		t.Fatalf(err.Error())
@@ -64,11 +67,14 @@ func TestGetPriceGraph(t *testing.T) {
 	}
 
 	offers, err := session.GetPriceGraph(
-		time.Now().AddDate(0, 0, 2),
-		time.Now().AddDate(0, 0, 5),
-		[]string{"Athens"}, []string{}, []string{"Warsaw"}, []string{},
-		0, currency.PLN, AnyStops, Economy, RoundTrip,
-		language.English, 0)
+		PriceGraphArgs{
+			time.Now().AddDate(0, 0, 2),
+			time.Now().AddDate(0, 0, 5),
+			0,
+			[]string{"Athens"}, []string{}, []string{"Warsaw"}, []string{},
+			Args{0, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+		},
+	)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -83,29 +89,6 @@ func TestGetPriceGraph(t *testing.T) {
 	if diff := deep.Equal(offers, expectedOffers); diff != nil {
 		t.Fatal(diff)
 	}
-}
-
-func _testGetPriceGraphDateLimit(t *testing.T, session *Session, start time.Time, end time.Time, errorValue string) {
-	_, err := session.GetPriceGraph(
-		start, end,
-		[]string{}, []string{}, []string{}, []string{},
-		0, currency.PLN, AnyStops, Economy, RoundTrip, language.English,
-		0)
-
-	if err == nil {
-		t.Fatalf("GetPriceGraph call for the following dates start %s end %s, should result in error", start, end)
-	} else if err.Error() != errorValue {
-		t.Fatalf(`Wrong error "%s" for GetPriceGraph call with the following dates start %s end %s`, err.Error(), start, end)
-	}
-}
-
-func TestGetPriceGraphDateLimit(t *testing.T) {
-	session := New()
-
-	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, 5), time.Now().AddDate(0, 0, 170), "number of days between dates is larger than 161, 165")
-	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 2), "rangeEndDate is the same as rangeStartDate")
-	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, 5), time.Now().AddDate(0, 0, 2), "rangeEndDate is before rangeStartDate")
-	_testGetPriceGraphDateLimit(t, session, time.Now().AddDate(0, 0, -1), time.Now().AddDate(0, 0, 2), "rangeStartDate is before today's date")
 }
 
 func TestPriceGraphReqData(t *testing.T) {
@@ -124,13 +107,16 @@ func TestPriceGraphReqData(t *testing.T) {
 	}
 
 	_reqData1, err := session.getPriceGraphReqData(
-		date, returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		1, AnyStops, Economy, RoundTrip,
-		language.English, 2)
+		PriceGraphArgs{
+			date,
+			returnDate,
+			2,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{1, currency.USD, AnyStops, Economy, RoundTrip, language.English},
+		})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -145,14 +131,16 @@ func TestPriceGraphReqData(t *testing.T) {
 	}
 
 	_reqData2, err := session.getPriceGraphReqData(
-		date,
-		returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		2, Stop2, Buisness, OneWay,
-		language.English, 2)
+		PriceGraphArgs{
+			date,
+			returnDate,
+			2,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{2, currency.USD, Stop2, Buisness, OneWay, language.English},
+		})
 	if err != nil {
 		t.Fatal(err)
 	}

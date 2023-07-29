@@ -86,24 +86,21 @@ func TestSerializeDstAirport(t *testing.T) {
 func TestSerializeUrl(t *testing.T) {
 	session := New()
 
-	expectedUrl := "https://www.google.com/travel/flights/search?tfs=CBwQAho-EgoyMDIzLTExLTA2KAFqDggDEgovbS8wMzBxYjN0agcIARIDU0ZPcgwIAxIIL20vMDRqcGxyBwgBEgNDREcaPhIKMjAyMy0xMS0xMygBagwIAxIIL20vMDRqcGxqBwgBEgNDREdyDggDEgovbS8wMzBxYjN0cgcIARIDU0ZPQAFAAUgBcAGCAQsI____________AZgBAQ&curr=USD"
+	expectedUrl := "https://www.google.com/travel/flights/search?tfs=CBwQAho-EgoyMDIzLTExLTA2KAFqDggDEgovbS8wMzBxYjN0agcIARIDU0ZPcgwIAxIIL20vMDRqcGxyBwgBEgNDREcaPhIKMjAyMy0xMS0xMygBagwIAxIIL20vMDRqcGxqBwgBEgNDREdyDggDEgovbS8wMzBxYjN0cgcIARIDU0ZPQAFAAUgBcAGCAQsI____________AZgBAQ&Curr=USD"
 
 	date, _ := time.Parse("2006-01-02", "2023-11-06")
 	returnDate, _ := time.Parse("2006-01-02", "2023-11-13")
 
 	url, err := session.SerializeUrl(
-		date,
-		returnDate,
-		[]string{"Los Angeles"},
-		[]string{"SFO"},
-		[]string{"London"},
-		[]string{"CDG"},
-		2,
-		currency.USD,
-		Stop1,
-		Economy,
-		RoundTrip,
-		language.English,
+		UrlArgs{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Args{2, currency.USD, Stop1, Economy, RoundTrip, language.English},
+		},
 	)
 
 	if err != nil {
