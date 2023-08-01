@@ -54,7 +54,7 @@ func (s *Session) getRawData(args OffersArgs) (string, error) {
 }
 
 func (s *Session) serializeFlightLocations(cities []string, airports []string, Lang language.Tag) (string, error) {
-	abbrCities, err := s.AbbrCities(cities, Lang)
+	abbrCities, err := s.abbrCities(cities, Lang)
 	if err != nil {
 		return "", nil
 	}
@@ -139,7 +139,7 @@ func (s *Session) doRequestFlights(args OffersArgs) (*http.Response, error) {
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
 	req.Header.Set("x-goog-ext-259736195-jspb",
-		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, args.Curr)) // language, location, Currency
+		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, args.Currency)) // language, location, Currency
 
 	return s.client.Do(req)
 }
@@ -220,7 +220,7 @@ func getFlights(rawFlights []json.RawMessage) ([]Flight, error) {
 }
 
 func offerSchema(rawFlights *[]json.RawMessage, price *float64) *[]interface{} {
-	return &[]interface{}{&[]interface{}{&[]interface{}{nil, nil, rawFlights}, &[]interface{}{&[]interface{}{nil, price}}}}
+	return &[]interface{}{&[]interface{}{nil, nil, rawFlights}, &[]interface{}{&[]interface{}{nil, price}}}
 }
 
 func getSubsectionOffers(rawOffers []json.RawMessage, returnDate time.Time) ([]FullOffer, error) {
@@ -246,7 +246,7 @@ func getSubsectionOffers(rawOffers []json.RawMessage, returnDate time.Time) ([]F
 		offer.ReturnFlight = []Flight{}
 
 		offer.StartDate = flights[0].DepTime
-		offer.ReturnDate = returnDate
+		offer.ReturnDate = returnDate.UTC()
 
 		offer.FlightDuration = getFlightsDuration(flights)
 
@@ -259,7 +259,7 @@ func getSubsectionOffers(rawOffers []json.RawMessage, returnDate time.Time) ([]F
 }
 
 func sectionOffersSchema(rawOffers1, rawOffers2 *[]json.RawMessage, priceRange *PriceRange) *[]interface{} {
-	return &[]interface{}{nil, nil, rawOffers1, rawOffers2, nil, &[]interface{}{nil, nil, nil, nil,
+	return &[]interface{}{nil, nil, &[]interface{}{rawOffers1}, &[]interface{}{rawOffers2}, nil, &[]interface{}{nil, nil, nil, nil,
 		&[]interface{}{nil, &priceRange.Low}, &[]interface{}{nil, &priceRange.High}}}
 }
 
@@ -279,7 +279,6 @@ func getSectionOffers(bytesToDecode []byte, returnDate time.Time) ([]FullOffer, 
 		return nil, nil, err
 	}
 	allOffers = append(allOffers, offers1...)
-
 	offers2, err := getSubsectionOffers(rawOffers2, returnDate)
 	if err != nil {
 		return nil, nil, err
@@ -289,8 +288,15 @@ func getSectionOffers(bytesToDecode []byte, returnDate time.Time) ([]FullOffer, 
 	return allOffers, &priceRange, nil
 }
 
+// GetOffers gets offers from the Google Flight search. The offers are returned in a slice of [FullOffer].
+//
+// GetOffers returns also [*PriceRange] which contains low and high price of the search. The values are taken from the
+// "View price history" subsection of the search. If the search doesn't have the "View price history" subsection then
+// GetOffers returns nil.
+//
+// Requirements are described by the [OffersArgs.Validate] function.
 func (s *Session) GetOffers(args OffersArgs) ([]FullOffer, *PriceRange, error) {
-	if err := args.validate(); err != nil {
+	if err := args.Validate(); err != nil {
 		return nil, nil, err
 	}
 

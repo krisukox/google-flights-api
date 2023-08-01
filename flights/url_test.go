@@ -83,16 +83,16 @@ func TestSerializeDstAirport(t *testing.T) {
 	}
 }
 
-func TestSerializeUrl(t *testing.T) {
+func TestSerializeURL(t *testing.T) {
 	session := New()
 
-	expectedUrl := "https://www.google.com/travel/flights/search?tfs=CBwQAho-EgoyMDIzLTExLTA2KAFqDggDEgovbS8wMzBxYjN0agcIARIDU0ZPcgwIAxIIL20vMDRqcGxyBwgBEgNDREcaPhIKMjAyMy0xMS0xMygBagwIAxIIL20vMDRqcGxqBwgBEgNDREdyDggDEgovbS8wMzBxYjN0cgcIARIDU0ZPQAFAAUgBcAGCAQsI____________AZgBAQ&Curr=USD"
+	expectedURL := "https://www.google.com/travel/flights/search?tfs=CBwQAho-EgoyMDIzLTExLTA2KAFqDggDEgovbS8wMzBxYjN0agcIARIDU0ZPcgwIAxIIL20vMDRqcGxyBwgBEgNDREcaPhIKMjAyMy0xMS0xMygBagwIAxIIL20vMDRqcGxqBwgBEgNDREdyDggDEgovbS8wMzBxYjN0cgcIARIDU0ZPQAFAAUgBcAGCAQsI____________AZgBAQ&curr=USD&hl=en"
 
 	date, _ := time.Parse("2006-01-02", "2023-11-06")
 	returnDate, _ := time.Parse("2006-01-02", "2023-11-13")
 
-	url, err := session.SerializeUrl(
-		UrlArgs{
+	url, err := session.SerializeURL(
+		URLArgs{
 			date,
 			returnDate,
 			[]string{"Los Angeles"},
@@ -107,7 +107,7 @@ func TestSerializeUrl(t *testing.T) {
 		t.Fatalf("error during serialization: %s", err.Error())
 	}
 
-	if expectedUrl != url {
-		t.Fatalf("wrong serialized url, expected: %v serialized: %v", expectedUrl, url)
+	if expectedURL != url {
+		t.Fatalf("wrong serialized url, expected: %v serialized: %v", expectedURL, url)
 	}
 }

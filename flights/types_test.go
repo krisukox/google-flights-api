@@ -8,11 +8,11 @@ import (
 const wrongAirportCode = "wrong"
 
 type validatable interface {
-	validate() error
+	Validate() error
 }
 
 func _testValidate(t *testing.T, args validatable, errorValue string) {
-	err := args.validate()
+	err := args.Validate()
 
 	if err == nil {
 		t.Fatalf("validate call, should result in error")
@@ -91,16 +91,16 @@ func TestValidatePriceGraphArgs(t *testing.T) {
 	_testValidate(t, &args, "rangeStartDate is before today's date")
 }
 
-func TestValidateUrlArgs(t *testing.T) {
-	args := UrlArgs{SrcCities: []string{"abc"}, SrcAirports: []string{}, DstCities: []string{}, DstAirports: []string{}}
+func TestValidateURLArgs(t *testing.T) {
+	args := URLArgs{SrcCities: []string{"abc"}, SrcAirports: []string{}, DstCities: []string{}, DstAirports: []string{}}
 	_testValidate(t, &args, "dst locations: number of locations should be at least 1, specified: 0")
 
-	args = UrlArgs{SrcCities: []string{}, SrcAirports: []string{}, DstCities: []string{"abc"}, DstAirports: []string{}}
+	args = URLArgs{SrcCities: []string{}, SrcAirports: []string{}, DstCities: []string{"abc"}, DstAirports: []string{}}
 	_testValidate(t, &args, "src locations: number of locations should be at least 1, specified: 0")
 
-	args = UrlArgs{SrcCities: []string{"abc"}, SrcAirports: []string{wrongAirportCode}, DstCities: []string{"abc"}, DstAirports: []string{}}
+	args = URLArgs{SrcCities: []string{"abc"}, SrcAirports: []string{wrongAirportCode}, DstCities: []string{"abc"}, DstAirports: []string{}}
 	_testValidate(t, &args, "src airport 'wrong' is not an airport code")
 
-	args = UrlArgs{SrcCities: []string{"abc"}, SrcAirports: []string{}, DstCities: []string{"abc"}, DstAirports: []string{wrongAirportCode}}
+	args = URLArgs{SrcCities: []string{"abc"}, SrcAirports: []string{}, DstCities: []string{"abc"}, DstAirports: []string{wrongAirportCode}}
 	_testValidate(t, &args, "dst airport 'wrong' is not an airport code")
 }

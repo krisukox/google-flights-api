@@ -2,6 +2,7 @@ package flights
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"sort"
 )
@@ -54,6 +55,21 @@ func readLine(body *bufio.Reader) ([]byte, error) {
 		bytesToDecodeFinal = append(bytesToDecodeFinal, bytesToDecode...)
 	}
 	return bytesToDecodeFinal, nil
+}
+
+func getInnerBytes(body *bufio.Reader) ([]byte, error) {
+	bytesToDecode, err := readLine(body)
+	if err != nil {
+		return nil, err
+	}
+
+	innerBytes := ""
+
+	err = json.Unmarshal(bytesToDecode, &[][]interface{}{{nil, nil, &innerBytes}})
+	if err != nil {
+		return nil, fmt.Errorf("error during decoding master schema: %v", err)
+	}
+	return []byte(innerBytes), nil
 }
 
 func sortSlice[T any](slice []T, f func(lv, rv T) bool) {

@@ -99,19 +99,23 @@ func serializeTripType(TripType TripType) byte {
 	return 2
 }
 
-func (s *Session) SerializeUrl(args UrlArgs) (string, error) {
+// The function serializes arguments to the Google Flight URL. Language specified in args is used to get
+// abbrevated city name ([Session.AbbrCity]), and the language of the website to which the serialized URL leads.
+//
+// Requirements are described by the [URLArgs.Validate] function.
+func (s *Session) SerializeURL(args URLArgs) (string, error) {
 	var err error
 
-	if err = args.validate(); err != nil {
+	if err = args.Validate(); err != nil {
 		return "", err
 	}
 
-	args.SrcCities, err = s.AbbrCities(args.SrcCities, args.Lang)
+	args.SrcCities, err = s.abbrCities(args.SrcCities, args.Lang)
 	if err != nil {
 		return "", err
 	}
 
-	args.DstCities, err = s.AbbrCities(args.DstCities, args.Lang)
+	args.DstCities, err = s.abbrCities(args.DstCities, args.Lang)
 	if err != nil {
 		return "", err
 	}
@@ -146,7 +150,7 @@ func (s *Session) SerializeUrl(args UrlArgs) (string, error) {
 
 	RawURLEncoding := base64.URLEncoding.WithPadding(base64.NoPadding)
 
-	url := "https://www.google.com/travel/flights/search?tfs=" + RawURLEncoding.EncodeToString(bytes) + "&Curr=" + args.Curr.String()
+	url := "https://www.google.com/travel/flights/search?tfs=" + RawURLEncoding.EncodeToString(bytes) + "&curr=" + args.Currency.String() + "&hl=" + args.Lang.String()
 
 	return url, nil
 }

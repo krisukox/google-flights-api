@@ -9,68 +9,24 @@ import (
 	"golang.org/x/text/language"
 )
 
+// Flight describes single one-way flight.
+//
+// NOTE: currently, departure and arrival times are always provided with the UTC time zone instead of the
+// correct time zone for the airport.
 type Flight struct {
-	DepAirportCode string
-	DepAirportName string
-	ArrAirportName string
-	ArrAirportCode string
-	DepTime        time.Time
-	ArrTime        time.Time
-	Duration       time.Duration
-	Airplane       string
-	FlightNumber   string
-	Unknown        []interface{}
-	AirlineName    string
-	Legroom        string
+	DepAirportCode string        // departure airport code
+	DepAirportName string        // departure airport name
+	ArrAirportName string        // arrival airport name
+	ArrAirportCode string        // arrival airport code
+	DepTime        time.Time     // departure time
+	ArrTime        time.Time     // arrival time
+	Duration       time.Duration // duration of the flight
+	Airplane       string        // airplane
+	FlightNumber   string        // flight number
+	Unknown        []interface{} // it contains all unknown data which are parsed from the Google Flight API
+	AirlineName    string        // airline name
+	Legroom        string        // legroom in the airplane seats
 }
-
-type Offer struct {
-	StartDate  time.Time
-	ReturnDate time.Time
-	Price      float64
-}
-
-type FullOffer struct {
-	Offer
-	Flight               []Flight
-	ReturnFlight         []Flight // Not implemented yet
-	SrcAirportCode       string
-	DstAirportCode       string
-	SrcCity              string
-	DstCity              string
-	FlightDuration       time.Duration
-	ReturnFlightDuration time.Duration // Not implemented yet
-}
-
-type PriceRange struct {
-	Low  float64
-	High float64
-}
-
-type Stops int64
-
-const (
-	AnyStops Stops = iota
-	Nonstop
-	Stop1
-	Stop2
-)
-
-type Class int64
-
-const (
-	Economy Class = iota
-	PremiumEconomy
-	Buisness
-	First
-)
-
-type TripType int64
-
-const (
-	RoundTrip TripType = iota
-	OneWay
-)
 
 func (f Flight) String() string {
 	out := ""
@@ -83,27 +39,89 @@ func (f Flight) String() string {
 	out += fmt.Sprintf("Duration: %s ", f.Duration)
 	out += fmt.Sprintf("Airplane: %s ", f.Airplane)
 	out += fmt.Sprintf("FlightNumber: %s ", f.FlightNumber)
-	// out += fmt.Sprintf("unknown: %v ", f.unknown)
+	// out += fmt.Sprintf("Unknown: %v ", f.Unknown)
 	out += fmt.Sprintf("AirlineName: %s ", f.AirlineName)
-	out += fmt.Sprintf("Legroom: %s ", f.Legroom)
+	out += fmt.Sprintf("Legroom: %s", f.Legroom)
 	return out
 }
 
-func (t FullOffer) String() string {
+// It describes offer of a trip. [Session.GetPriceGraph] returns slice of Offers.
+// [Session.GetOffers] returns slice of [FullOffer] which contain Offer.
+type Offer struct {
+	StartDate  time.Time // start date of the offer
+	ReturnDate time.Time // return date of the offer
+	Price      float64   // price of the offer
+}
+
+func (o Offer) String() string {
 	out := ""
-	out += fmt.Sprintf("StartDate: %s \n", t.StartDate)
-	out += fmt.Sprintf("ReturnDate: %s \n", t.ReturnDate)
-	out += fmt.Sprintf("Price: %f \n", t.Price)
-	out += fmt.Sprintf("Flight: %s \n", t.Flight)
-	out += fmt.Sprintf("ReturnFlight: %s \n", t.ReturnFlight)
-	out += fmt.Sprintf("SrcAirportCode: %s \n", t.SrcAirportCode)
-	out += fmt.Sprintf("DstAirportCode: %s \n", t.DstAirportCode)
-	out += fmt.Sprintf("SrcCity: %s \n", t.SrcCity)
-	out += fmt.Sprintf("DstCity: %s \n", t.DstCity)
-	out += fmt.Sprintf("FlightDuration: %s \n", t.FlightDuration)
-	out += fmt.Sprintf("ReturnFlightDuration: %s \n", t.ReturnFlightDuration)
+	out += fmt.Sprintf("{%s ", o.StartDate.Format(time.DateOnly))
+	out += fmt.Sprintf("%s ", o.ReturnDate.Format(time.DateOnly))
+	out += fmt.Sprintf("%d}", int(o.Price))
 	return out
 }
+
+// It describes full offer of a trip. [Session.GetOffers] returns slice of FullOffers.
+type FullOffer struct {
+	Offer
+	Flight               []Flight      // contains all flights in the trip
+	ReturnFlight         []Flight      // not implemented yet
+	SrcAirportCode       string        // code of the airport where the trip starts
+	DstAirportCode       string        // destination airport
+	SrcCity              string        // not implemented yet
+	DstCity              string        // not implemented yet
+	FlightDuration       time.Duration // duration of whole Flight
+	ReturnFlightDuration time.Duration // not implemented yet
+}
+
+func (o FullOffer) String() string {
+	out := ""
+	out += fmt.Sprintf("{StartDate: %s\n", o.StartDate)
+	out += fmt.Sprintf("ReturnDate: %s\n", o.ReturnDate)
+	out += fmt.Sprintf("Price: %d\n", int(o.Price))
+	out += fmt.Sprintf("Flight: %s\n", o.Flight)
+	// out += fmt.Sprintf("ReturnFlight: %s\n", o.ReturnFlight)
+	out += fmt.Sprintf("SrcAirportCode: %s\n", o.SrcAirportCode)
+	out += fmt.Sprintf("DstAirportCode: %s\n", o.DstAirportCode)
+	// out += fmt.Sprintf("SrcCity: %s\n", o.SrcCity)
+	// out += fmt.Sprintf("DstCity: %s\n", o.DstCity)
+	out += fmt.Sprintf("FlightDuration: %s}\n", o.FlightDuration)
+	// out += fmt.Sprintf("ReturnFlightDuration: %s}\n", o.ReturnFlightDuration)
+	return out
+}
+
+type PriceRange struct {
+	Low  float64
+	High float64
+}
+
+// Stops specifies how many stops the trip should contains.
+type Stops int64
+
+const (
+	AnyStops Stops = iota // any number of stops
+	Nonstop               // nonstop only
+	Stop1                 // 1 stop or fewer
+	Stop2                 // 2 stops or fewer
+)
+
+// Class describes the class of a flight.
+type Class int64
+
+const (
+	Economy Class = iota
+	PremiumEconomy
+	Buisness
+	First
+)
+
+// TripType specifies whether trip is round trip or one way.
+type TripType int64
+
+const (
+	RoundTrip TripType = iota
+	OneWay
+)
 
 func truncateToDay(date time.Time) time.Time {
 	return date.Truncate(24 * time.Hour)
@@ -183,23 +201,42 @@ func validateLocations(srcCities, srcAirports, dstCities, dstAirports []string) 
 	return nil
 }
 
+// Args contains common arguments used in [OffersArgs], [PriceGraphArgs] and [URLArgs].
 type Args struct {
-	Adults   int
-	Curr     currency.Unit
+	Adults   int // number of adults
+	Currency currency.Unit
 	Stops    Stops
 	Class    Class
 	TripType TripType
 	Lang     language.Tag
 }
 
+func ArgsDefault() Args {
+	return Args{
+		Adults:   1,
+		Currency: currency.USD,
+		Stops:    AnyStops,
+		Class:    Economy,
+		TripType: RoundTrip,
+		Lang:     language.English,
+	}
+}
+
+// Arguments used in the [Session.GetPriceGraph].
 type PriceGraphArgs struct {
-	RangeStartDate, RangeEndDate                   time.Time
-	TripLength                                     int
-	SrcCities, SrcAirports, DstCities, DstAirports []string
+	RangeStartDate, RangeEndDate                   time.Time // days range of the price graph
+	TripLength                                     int       // number of days between start trip date and return date
+	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
 	Args
 }
 
-func (a *PriceGraphArgs) validate() error {
+// Validates PriceGraphArgs requirements:
+//   - at least one source location (srcCities / srcAirports)
+//   - at least one destination location (dstCities / dstAirports)
+//   - srcAirports and dstAirports have to be in the right IATA format https://en.wikipedia.org/wiki/IATA_airport_code
+//   - dates have to be in the chronological order - today's date -> RangeStartDate -> RangeEndDate
+//   - the difference between RangeStartDate and RangeEndDate cannot be higher than 161 days
+func (a *PriceGraphArgs) Validate() error {
 	if err := validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports); err != nil {
 		return err
 	}
@@ -214,16 +251,19 @@ func (a *PriceGraphArgs) validate() error {
 	return nil
 }
 
-type _args struct {
-	Date, ReturnDate                               time.Time
-	SrcCities, SrcAirports, DstCities, DstAirports []string
+// Arguments used in the [Session.GetOffers]
+type OffersArgs struct {
+	Date, ReturnDate                               time.Time // start trip date and return date
+	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
 	Args
 }
 
-type OffersArgs _args
-type UrlArgs _args
-
-func (a *OffersArgs) validate() error {
+// Validates OffersArgs requirements:
+//   - at least one source location (srcCities / srcAirports)
+//   - at least one destination location (dstCities / dstAirports)
+//   - srcAirports and dstAirports have to be in the right IATA format https://en.wikipedia.org/wiki/IATA_airport_code
+//   - dates have to be in the chronological order - today's date -> Date -> ReturnDate
+func (a *OffersArgs) Validate() error {
 	if err := validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports); err != nil {
 		return err
 	}
@@ -238,6 +278,17 @@ func (a *OffersArgs) validate() error {
 	return nil
 }
 
-func (a *UrlArgs) validate() error {
+// Arguments used in the [Session.SerializeURL]
+type URLArgs struct {
+	Date, ReturnDate                               time.Time // start trip date and retrun date
+	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
+	Args
+}
+
+// Validates URLArgs requirements:
+//   - at least one source location (srcCities / srcAirports)
+//   - at least one destination location (dstCities / dstAirports)
+//   - srcAirports and dstAirports have to be in the right IATA format https://en.wikipedia.org/wiki/IATA_airport_code
+func (a *URLArgs) Validate() error {
 	return validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports)
 }

@@ -69,7 +69,8 @@ func (s *Session) doRequestPriceGraph(args PriceGraphArgs) (*http.Response, erro
 	req.Header.Set("cookie", `CONSENT=PENDING+672`)
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36`)
-	req.Header.Set("x-goog-ext-259736195-jspb", `["en-US","PL","PLN",1,null,[-120],null,[[48764689,47907128,48676280,48710756,48627726,48480739,48593234,48707380]],1,[]]`)
+	req.Header.Set("x-goog-ext-259736195-jspb",
+		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48764689,47907128,48676280,48710756,48627726,48480739,48593234,48707380]],1,[]]`, args.Currency))
 
 	return s.client.Do(req)
 }
@@ -113,8 +114,12 @@ func getPriceGraphSection(bytesToDecode []byte) ([]Offer, error) {
 	return offers, nil
 }
 
+// GetPriceGraph gets offers (date range) from the "Price graph" section of Google Flight search.
+// The offers are returned in a slice of [Offer].
+//
+// Requirements are described by the [PriceGraphArgs.Validate] function.
 func (s *Session) GetPriceGraph(args PriceGraphArgs) ([]Offer, error) {
-	if err := args.validate(); err != nil {
+	if err := args.Validate(); err != nil {
 		return nil, err
 	}
 
