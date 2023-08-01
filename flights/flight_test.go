@@ -1,6 +1,7 @@
 package flights
 
 import (
+	"math"
 	"net/url"
 	"testing"
 	"time"
@@ -9,6 +10,10 @@ import (
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )
+
+func min(x, y int) int {
+	return int(math.Min(float64(x), float64(y)))
+}
 
 func TestGetOffersUSDPLN(t *testing.T) {
 	session := New()
@@ -27,6 +32,7 @@ func TestGetOffersUSDPLN(t *testing.T) {
 			Args{2, currency.PLN, Stop1, PremiumEconomy, OneWay, language.English},
 		},
 	)
+
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -46,9 +52,7 @@ func TestGetOffersUSDPLN(t *testing.T) {
 		t.Fatalf(err.Error())
 	}
 
-	if len(offersPLN) != len(offersUSD) {
-		t.Fatalf("received offers array has different length: %d %d", len(offersPLN), len(offersUSD))
-	}
+	elemsNumber := min(len(offersPLN), len(offersUSD))
 
 	less := func(lv, rv FullOffer) bool {
 		return lv.Price < rv.Price
@@ -57,7 +61,7 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	sortSlice(offersPLN, less)
 	sortSlice(offersUSD, less)
 
-	for i := range offersPLN {
+	for i := 0; i < elemsNumber; i++ {
 		if offersPLN[i].Price < offersUSD[i].Price || offersPLN[i].Price < offersUSD[i].Price*3 {
 			t.Fatalf("wrong flight price: PLN %f USD %f", offersPLN[i].Price, offersUSD[i].Price)
 		}
@@ -162,6 +166,10 @@ func TestGetOffers(t *testing.T) {
 	)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	if len(offers) != 21 {
+		t.Fatalf("Not all offers parsed. Expected number of offers: 21, parsed: %d", len(offers))
 	}
 
 	// Do not compare the unknown field

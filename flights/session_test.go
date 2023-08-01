@@ -11,12 +11,12 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 )
 
-type HttpClientMock struct {
+type httpClientMock struct {
 	Responses []func() (*http.Response, error)
 	T         *testing.T
 }
 
-func newHttpClientMock(t *testing.T, respPaths ...string) (*HttpClientMock, error) {
+func newHttpClientMock(t *testing.T, respPaths ...string) (*httpClientMock, error) {
 	responses := []func() (*http.Response, error){}
 	for _, respPath := range respPaths {
 		respFile, err := os.Open(respPath)
@@ -38,10 +38,10 @@ func newHttpClientMock(t *testing.T, respPaths ...string) (*HttpClientMock, erro
 		})
 	}
 
-	return &HttpClientMock{responses, t}, nil
+	return &httpClientMock{responses, t}, nil
 }
 
-func (c *HttpClientMock) Do(req *retryablehttp.Request) (retres *http.Response, reterr error) {
+func (c *httpClientMock) Do(req *retryablehttp.Request) (retres *http.Response, reterr error) {
 	if len(c.Responses) == 0 {
 		c.T.Fatalf("HttpClientMock: lack of responses")
 	}
