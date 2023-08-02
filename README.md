@@ -15,8 +15,7 @@ go get -u github.com/krisukox/google-flights-api/flights
 ## Usage
 
 ### Session
-Client
-Session is the main object that contains all the API related functions.
+Session is the main object that contains all the API-related functions.
 ```
 session := flights.New()
 ```
@@ -46,7 +45,7 @@ Example output:
 
 #### Google Flights website:
 
-<img src="https://github.com/krisukox/google-flights-api/assets/38990293/7dbbaed4-8df6-4b97-8731-8aab0355b81b" alt="drawing" width="800"/>
+<img src="https://github.com/krisukox/google-flights-api/assets/38990293/c2cc5c50-2401-4c93-8e76-d7e8073c9f11" alt="drawing" width="800"/>
 
 ### 2. Serialize URL
 ```
@@ -130,7 +129,7 @@ FlightDuration: 3h55m0s}
 
 #### Google Flights website
 
-<img src="https://github.com/krisukox/google-flights-api/assets/38990293/1ee263ca-fce5-4954-ac60-3f51c79d14b3" alt="drawing" width="800"/>
+<img src="https://github.com/krisukox/google-flights-api/assets/38990293/8a47ed4a-e54a-4917-9459-8994230b5d94" alt="drawing" width="800"/>
 
 
 ### More advanced examples:
