@@ -1,7 +1,4 @@
 // Package flights is a client library for Google Flight API.
-//
-// The client uses github.com/hashicorp/go-retryablehttp under the hood.
-// Every request to the Google Flight API is retried 5 times in case of error.
 package flights
 
 import (
@@ -14,13 +11,13 @@ import (
 )
 
 // Map is safe for concurrent use by multiple goroutines. This is a wrapper around
-// [sync.Map]. The purpose of it is to avoid ambiguous type assertion when
-// loading element from the Map.
+// [sync.Map]. The purpose of it is to avoid type assertions when loading elements
+// from the Map.
 type Map[K comparable, V any] struct {
 	m sync.Map
 }
 
-// Load returns the value stored in the map for a key, or zero value if no value is present.
+// Load returns the value stored in the map for a key, or zero if no value is present.
 // The ok result indicates whether value was found in the map.
 func (m *Map[K, V]) Load(key K) (value V, ok bool) {
 	v, ok := m.m.Load(key)
@@ -38,7 +35,7 @@ type httpClient interface {
 }
 
 // Session is the main type that contains all the most important functions to operate the Google Flight API.
-// It is safe to use it by mutliple goroutines.
+// It is safe for concurrent use by multiple goroutines. (Concurrent example: [github.com/krisukox/google-flights-api/examples/example3])
 type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 

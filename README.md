@@ -137,6 +137,7 @@ FlightDuration: 3h55m0s}
 ```
 go run ./examples/example1/main.go
 go run ./examples/example2/main.go
+go run ./examples/example3/main.go
 ```
 
 ## Bug / Feature / Suggestion

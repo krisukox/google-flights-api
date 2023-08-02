@@ -1,8 +1,11 @@
+// This example gets PriceGraph offers and prints only those whose
+// price is cheaper than the low price of the offer
 package main
 
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/krisukox/google-flights-api/flights"
@@ -10,8 +13,13 @@ import (
 	"golang.org/x/text/language"
 )
 
-// Get offers in the provided date range and print only those which price is cheaper than low price of the offer
-func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCities, dstCities []string, lang language.Tag) {
+func getCheapOffers(
+	rangeStartDate, rangeEndDate time.Time,
+	tripLength int,
+	srcCities, dstCities []string,
+	lang language.Tag,
+) {
+	logger := log.New(os.Stdout, "", 0)
 	session := flights.New()
 
 	args := flights.Args{
@@ -34,7 +42,7 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 		},
 	)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	for _, priceGraphOffer := range priceGraphOffers {
@@ -48,11 +56,10 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 			},
 		)
 		if err != nil {
-			log.Fatal(err)
+			logger.Fatal(err)
 		}
 
 		var bestOffer flights.FullOffer
-
 		for _, o := range offers {
 			if bestOffer.Price == 0 || o.Price < bestOffer.Price {
 				bestOffer = o
@@ -69,10 +76,10 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 			},
 		)
 		if err != nil {
-			log.Fatal(err)
+			logger.Fatal(err)
 		}
 		if priceRange == nil {
-			log.Fatal("missing priceRange")
+			logger.Fatal("missing priceRange")
 		}
 
 		if bestOffer.Price < priceRange.Low {
@@ -86,11 +93,11 @@ func getCheapOffers(rangeStartDate, rangeEndDate time.Time, tripLength int, srcC
 				},
 			)
 			if err != nil {
-				log.Fatal(err)
+				logger.Fatal(err)
 			}
-			fmt.Printf("%s %s\n", bestOffer.StartDate, bestOffer.ReturnDate)
-			fmt.Printf("price %d\n", int(bestOffer.Price))
-			fmt.Println(url)
+			logger.Printf("%s %s\n", bestOffer.StartDate, bestOffer.ReturnDate)
+			logger.Printf("price %d\n", int(bestOffer.Price))
+			logger.Println(url)
 		}
 	}
 }

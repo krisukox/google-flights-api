@@ -9,9 +9,9 @@ import (
 	"golang.org/x/text/language"
 )
 
-// Flight describes single one-way flight.
+// Flight describes a single, one-way flight.
 //
-// NOTE: currently, departure and arrival times are always provided with the UTC time zone instead of the
+// NOTE: Currently, departure and arrival times are always provided with the UTC time zone instead of the
 // correct time zone for the airport.
 type Flight struct {
 	DepAirportCode string        // departure airport code
@@ -45,8 +45,8 @@ func (f Flight) String() string {
 	return out
 }
 
-// It describes offer of a trip. [Session.GetPriceGraph] returns slice of Offers.
-// [Session.GetOffers] returns slice of [FullOffer] which contain Offer.
+// It describes the offer of a trip. [Session.GetPriceGraph] returns a slice of Offers.
+// [Session.GetOffers] returns a slice of [FullOffer] that contains Offer.
 type Offer struct {
 	StartDate  time.Time // start date of the offer
 	ReturnDate time.Time // return date of the offer
@@ -61,7 +61,7 @@ func (o Offer) String() string {
 	return out
 }
 
-// It describes full offer of a trip. [Session.GetOffers] returns slice of FullOffers.
+// It describes the full offer of a trip. [Session.GetOffers] returns a slice of FullOffers.
 type FullOffer struct {
 	Offer
 	Flight               []Flight      // contains all flights in the trip
@@ -95,7 +95,7 @@ type PriceRange struct {
 	High float64
 }
 
-// Stops specifies how many stops the trip should contains.
+// Stops specifies how many stops the trip should contain.
 type Stops int64
 
 const (
@@ -105,17 +105,17 @@ const (
 	Stop2                 // 2 stops or fewer
 )
 
-// Class describes the class of a flight.
+// Class describes a travel class.
 type Class int64
 
 const (
 	Economy Class = iota
 	PremiumEconomy
-	Buisness
+	Business
 	First
 )
 
-// TripType specifies whether trip is round trip or one way.
+// TripType specifies whether the trip is round-trip or one-way.
 type TripType int64
 
 const (
@@ -205,10 +205,10 @@ func validateLocations(srcCities, srcAirports, dstCities, dstAirports []string) 
 type Args struct {
 	Adults   int // number of adults
 	Currency currency.Unit
-	Stops    Stops
-	Class    Class
-	TripType TripType
-	Lang     language.Tag
+	Stops    Stops        // maximum number of stops
+	Class    Class        // travel class (Economy, PremiumEconomy, Business, First)
+	TripType TripType     // round-trip or one-way trip
+	Lang     language.Tag // language in which city names are provided
 }
 
 func ArgsDefault() Args {
@@ -222,7 +222,7 @@ func ArgsDefault() Args {
 	}
 }
 
-// Arguments used in the [Session.GetPriceGraph].
+// Arguments used in [Session.GetPriceGraph].
 type PriceGraphArgs struct {
 	RangeStartDate, RangeEndDate                   time.Time // days range of the price graph
 	TripLength                                     int       // number of days between start trip date and return date
@@ -233,8 +233,8 @@ type PriceGraphArgs struct {
 // Validates PriceGraphArgs requirements:
 //   - at least one source location (srcCities / srcAirports)
 //   - at least one destination location (dstCities / dstAirports)
-//   - srcAirports and dstAirports have to be in the right IATA format https://en.wikipedia.org/wiki/IATA_airport_code
-//   - dates have to be in the chronological order - today's date -> RangeStartDate -> RangeEndDate
+//   - srcAirports and dstAirports have to be in the right IATA format: https://en.wikipedia.org/wiki/IATA_airport_code
+//   - dates have to be in the chronological order: today's date -> RangeStartDate -> RangeEndDate
 //   - the difference between RangeStartDate and RangeEndDate cannot be higher than 161 days
 func (a *PriceGraphArgs) Validate() error {
 	if err := validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports); err != nil {
@@ -251,7 +251,7 @@ func (a *PriceGraphArgs) Validate() error {
 	return nil
 }
 
-// Arguments used in the [Session.GetOffers]
+// Arguments used in [Session.GetOffers].
 type OffersArgs struct {
 	Date, ReturnDate                               time.Time // start trip date and return date
 	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
@@ -261,8 +261,8 @@ type OffersArgs struct {
 // Validates OffersArgs requirements:
 //   - at least one source location (srcCities / srcAirports)
 //   - at least one destination location (dstCities / dstAirports)
-//   - srcAirports and dstAirports have to be in the right IATA format https://en.wikipedia.org/wiki/IATA_airport_code
-//   - dates have to be in the chronological order - today's date -> Date -> ReturnDate
+//   - srcAirports and dstAirports have to be in the right IATA format: https://en.wikipedia.org/wiki/IATA_airport_code
+//   - dates have to be in chronological order: today's date -> Date -> ReturnDate
 func (a *OffersArgs) Validate() error {
 	if err := validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports); err != nil {
 		return err
@@ -278,7 +278,7 @@ func (a *OffersArgs) Validate() error {
 	return nil
 }
 
-// Arguments used in the [Session.SerializeURL]
+// Arguments used in [Session.SerializeURL].
 type URLArgs struct {
 	Date, ReturnDate                               time.Time // start trip date and retrun date
 	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
@@ -288,7 +288,7 @@ type URLArgs struct {
 // Validates URLArgs requirements:
 //   - at least one source location (srcCities / srcAirports)
 //   - at least one destination location (dstCities / dstAirports)
-//   - srcAirports and dstAirports have to be in the right IATA format https://en.wikipedia.org/wiki/IATA_airport_code
+//   - srcAirports and dstAirports have to be in the right IATA format: https://en.wikipedia.org/wiki/IATA_airport_code
 func (a *URLArgs) Validate() error {
 	return validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports)
 }
