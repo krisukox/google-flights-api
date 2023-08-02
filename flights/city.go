@@ -44,8 +44,10 @@ func abbrCitySchema(city, abbrCity *string) *[][][][]interface{} {
 	return &[][][][]interface{}{{{{nil, nil, city, nil, abbrCity}}}}
 }
 
-// AbbrCity serializes the city name by requesting it from the Google Flight API. The city name should be provided
-// in the language described by [language.Tag].
+// AbbrCity serializes the city name by requesting it from the Google Flight API. The city name should
+// be provided in the language described by [language.Tag].
+//
+// AbbrCity returns an error if the city name is misspelled.
 func (s *Session) AbbrCity(city string, lang language.Tag) (string, error) {
 	if abbrCity, ok := s.Cities.Load(city); ok {
 		return abbrCity, nil

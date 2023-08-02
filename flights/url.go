@@ -64,7 +64,7 @@ func serializeClass(Class Class) []byte {
 		return []byte{72, 1}
 	case PremiumEconomy:
 		return []byte{72, 2}
-	case Buisness:
+	case Business:
 		return []byte{72, 3}
 	}
 	return []byte{72, 4}
@@ -99,8 +99,11 @@ func serializeTripType(TripType TripType) byte {
 	return 2
 }
 
-// The function serializes arguments to the Google Flight URL. Language specified in args is used to get
-// abbrevated city name ([Session.AbbrCity]), and the language of the website to which the serialized URL leads.
+// The function serializes arguments to the Google Flight URL. The city names should be provided in the
+// language described by args.Lang. The args.Lang language is also used to set the language of the
+// website to which the serialized URL leads.
+//
+// GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
 // Requirements are described by the [URLArgs.Validate] function.
 func (s *Session) SerializeURL(args URLArgs) (string, error) {

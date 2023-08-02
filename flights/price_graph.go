@@ -32,7 +32,7 @@ func (s *Session) getPriceGraphReqData(args PriceGraphArgs) (string, error) {
 
 	rawData, err := s.getPriceGraphRawData(args)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	prefix := `[null,"[null,`
@@ -114,8 +114,11 @@ func getPriceGraphSection(bytesToDecode []byte) ([]Offer, error) {
 	return offers, nil
 }
 
-// GetPriceGraph gets offers (date range) from the "Price graph" section of Google Flight search.
-// The offers are returned in a slice of [Offer].
+// GetPriceGraph retrieves offers (date range) from the "Price graph" section of Google Flight search.
+// The city names should be provided in the language described by args.Lang. The offers are returned
+// in a slice of [Offer].
+//
+// GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
 // Requirements are described by the [PriceGraphArgs.Validate] function.
 func (s *Session) GetPriceGraph(args PriceGraphArgs) ([]Offer, error) {

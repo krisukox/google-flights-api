@@ -139,7 +139,7 @@ func TestPriceGraphReqData(t *testing.T) {
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{2, currency.USD, Stop2, Buisness, OneWay, language.English},
+			Args{2, currency.USD, Stop2, Business, OneWay, language.English},
 		})
 	if err != nil {
 		t.Fatal(err)

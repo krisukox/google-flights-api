@@ -1,3 +1,4 @@
+// This example gets best offers in the provided date range and print the cheapest one.
 package main
 
 import (
@@ -10,10 +11,13 @@ import (
 	"golang.org/x/text/language"
 )
 
-// Get best offers in the provided date range and print the cheapest one
-func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCity, dstCity string, lang language.Tag) {
+func getCheapesOffer(
+	rangeStartDate, rangeEndDate time.Time,
+	tripLength int,
+	srcCity, dstCity string,
+	lang language.Tag,
+) {
 	session := flights.New()
-	var bestOffer flights.Offer
 
 	args := flights.Args{
 		Adults:   1,
@@ -38,6 +42,7 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 		log.Fatal(err)
 	}
 
+	var bestOffer flights.Offer
 	for _, o := range offers {
 		if bestOffer.Price == 0 || o.Price < bestOffer.Price {
 			bestOffer = o
@@ -62,7 +67,7 @@ func getBestOffer(rangeStartDate, rangeEndDate time.Time, tripLength int, srcCit
 }
 
 func main() {
-	getBestOffer(
+	getCheapesOffer(
 		time.Now().AddDate(0, 0, 60),
 		time.Now().AddDate(0, 0, 90),
 		2,

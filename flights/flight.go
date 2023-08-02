@@ -56,7 +56,7 @@ func (s *Session) getRawData(args OffersArgs) (string, error) {
 func (s *Session) serializeFlightLocations(cities []string, airports []string, Lang language.Tag) (string, error) {
 	abbrCities, err := s.abbrCities(cities, Lang)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	serialized := ""
@@ -93,7 +93,7 @@ func serializeFlightClass(Class Class) string {
 		return "1"
 	case PremiumEconomy:
 		return "2"
-	case Buisness:
+	case Business:
 		return "3"
 	}
 	return "4"
@@ -102,7 +102,7 @@ func serializeFlightClass(Class Class) string {
 func (s *Session) getFlightReqData(args OffersArgs) (string, error) {
 	rawData, err := s.getRawData(args)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	prefix := `[null,"[[],`
@@ -288,11 +288,14 @@ func getSectionOffers(bytesToDecode []byte, returnDate time.Time) ([]FullOffer, 
 	return allOffers, &priceRange, nil
 }
 
-// GetOffers gets offers from the Google Flight search. The offers are returned in a slice of [FullOffer].
+// GetOffers retrieves offers from the Google Flight search. The city names should be provided in the language
+// described by args.Lang. The offers are returned in a slice of [FullOffer].
 //
-// GetOffers returns also [*PriceRange] which contains low and high price of the search. The values are taken from the
-// "View price history" subsection of the search. If the search doesn't have the "View price history" subsection then
-// GetOffers returns nil.
+// GetOffers also returns [*PriceRange], which contains the low and high prices of the search. The values are
+// taken from the "View price history" subsection of the search. If the search doesn't have the "View
+// price history" subsection, then GetOffers returns nil.
+//
+// GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
 // Requirements are described by the [OffersArgs.Validate] function.
 func (s *Session) GetOffers(args OffersArgs) ([]FullOffer, *PriceRange, error) {
