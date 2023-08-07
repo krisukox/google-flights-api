@@ -79,17 +79,17 @@ func removeUnknowns(offers []FullOffer) {
 }
 
 func TestGetOffers(t *testing.T) {
-	dateTimeTimeZone := time.DateTime + " MST"
+	dateTimeTimeZone := time.DateTime + " -0700 MST"
 
 	dummyTime := time.Now()
 	dummyValue := 0
 
-	t1, _ := time.Parse(dateTimeTimeZone, "2024-01-22 17:00:00 CET")
-	t2, _ := time.Parse(dateTimeTimeZone, "2024-01-22 18:35:00 CET")
+	t1, _ := time.Parse(dateTimeTimeZone, "2024-01-22 17:00:00 +0100 CET")
+	t2, _ := time.Parse(dateTimeTimeZone, "2024-01-22 18:35:00 +0100 CET")
 	d1, _ := time.ParseDuration("1h35m0s")
 
-	t3, _ := time.Parse(dateTimeTimeZone, "2024-01-22 21:25:00 CET")
-	t4, _ := time.Parse(dateTimeTimeZone, "2024-01-23 00:50:00 EET")
+	t3, _ := time.Parse(dateTimeTimeZone, "2024-01-22 21:25:00 +0100 CET")
+	t4, _ := time.Parse(dateTimeTimeZone, "2024-01-23 00:50:00 +0200 EET")
 	d2, _ := time.ParseDuration("2h25m0s")
 
 	returnDate, _ := time.Parse(time.RFC3339, "2024-01-25T00:00:00Z")
