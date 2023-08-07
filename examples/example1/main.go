@@ -67,12 +67,14 @@ func getCheapesOffer(
 }
 
 func main() {
-	getCheapesOffer(
-		time.Now().AddDate(0, 0, 60),
-		time.Now().AddDate(0, 0, 90),
-		2,
-		"Warsaw",
-		"Athens",
-		language.English,
-	)
+	flights.New()
+
+	// getCheapesOffer(
+	// 	time.Now().AddDate(0, 0, 60),
+	// 	time.Now().AddDate(0, 0, 90),
+	// 	2,
+	// 	"Warsaw",
+	// 	"Athens",
+	// 	language.English,
+	// )
 }

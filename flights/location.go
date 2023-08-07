@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
@@ -24,7 +25,7 @@ func (s *Session) doRequestLocation(city string, lang language.Tag) (*http.Respo
 
 	jsonBody := []byte(
 		`f.req=` + getCityReqData(city) +
-			`&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A` + fmt.Sprintf("%d", time.Now().Unix()) + `&`)
+			`&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
 	req, err := retryablehttp.NewRequest(http.MethodPost, requestURL, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -33,7 +34,7 @@ func (s *Session) doRequestLocation(city string, lang language.Tag) (*http.Respo
 	req.Header.Set("accept", "*/*")
 	req.Header.Set("cache-control", "no-cache")
 	req.Header.Set("content-type", "application/x-www-form-urlencoded;charset=UTF-8")
-	req.Header.Set("cookie", `CONSENT=PENDING+672; `+s.cookie)
+	req.Header["cookie"] = s.cookies
 	req.Header.Set("pragma", "no-cache")
 	req.Header.Set("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
 

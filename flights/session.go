@@ -44,10 +44,10 @@ type httpClient interface {
 type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 
-	client httpClient
-	rl     ratelimit.Limiter
-	cookie string
-	logger *log.Logger
+	client  httpClient
+	rl      ratelimit.Limiter
+	cookies []string
+	logger  *log.Logger
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
@@ -63,25 +63,39 @@ func customRetryPolicy() func(ctx context.Context, resp *http.Response, err erro
 	}
 }
 
+func getCookies(res *http.Response) ([]string, error) {
+	var cookies []string
+	if setCookie, ok := res.Header["Set-Cookie"]; ok {
+		for _, c := range setCookie {
+			cookies = append(cookies, strings.Split(c, ";")[0])
+		}
+		return cookies, nil
+	}
+	return nil, fmt.Errorf("could not find the 'Set-Cookie' header in the initialization response")
+}
+
 func New() *Session {
 	client := retryablehttp.NewClient()
 	client.RetryMax = 5
-	// client.Logger = log.New(os.Stdout, "", 0)
 	client.Logger = nil
 	client.CheckRetry = customRetryPolicy()
 	client.RetryWaitMin = time.Second
-	// client.Backoff = func(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
 
-	// }
-	res, err := http.Get("https://www.google.com/")
+	res, err := client.Get("https://www.google.com/")
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	cookies, err := getCookies(res)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	return &Session{
-		Cities: Map[string, string]{},
-		client: client,
-		rl:     ratelimit.New(1),
-		cookie: strings.Split(res.Header["Set-Cookie"][2], ";")[0],
-		logger: log.New(os.Stdout, "", 0),
+		Cities:  Map[string, string]{},
+		client:  client,
+		rl:      ratelimit.New(1),
+		cookies: cookies,
+		logger:  log.New(os.Stdout, "", 0),
 	}
 }

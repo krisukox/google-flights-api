@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 
 	_ "time/tzdata"
@@ -128,7 +129,7 @@ func (s *Session) doRequestFlights(args OffersArgs) (*http.Response, error) {
 
 	jsonBody := []byte(
 		`f.req=` + reqDate +
-			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A1687955915303&`) // Add Current unix timestamp instead of 1687955915303
+			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
 	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -138,7 +139,8 @@ func (s *Session) doRequestFlights(args OffersArgs) (*http.Response, error) {
 	req.Header.Set("accept-language", `en-US,en;q=0.9`)
 	req.Header.Set("cache-control", `no-cache`)
 	req.Header.Set("content-type", `application/x-www-form-urlencoded;charset=UTF-8`)
-	req.Header.Set("cookie", `CONSENT=PENDING+672`)
+	req.Header["cookie"] = s.cookies
+	// req.Header.Set("cookie", `CONSENT=PENDING+672`)
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
 	req.Header.Set("x-goog-ext-259736195-jspb",
