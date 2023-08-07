@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/krisukox/google-flights-api"
+	"github.com/krisukox/google-flights-api/flights"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )

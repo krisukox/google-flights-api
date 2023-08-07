@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/krisukox/google-flights-api"
+	"github.com/krisukox/google-flights-api/flights"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
 )
@@ -118,7 +118,7 @@ func main() {
 		time.Now().AddDate(0, 0, 60),
 		time.Now().AddDate(0, 0, 90),
 		7,
-		[]string{"Miami", "Orlando"},
+		[]string{"Mia", "Orlando"},
 		[]string{"New York", "Philadelphia", "Washington"},
 		language.English,
 	)
