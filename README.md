@@ -1,5 +1,7 @@
 # Google Flights API
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/krisukox/google-flights-api/flights.svg)](https://pkg.go.dev/github.com/krisukox/google-flights-api/flights)
+
 This project is a Go client library for the Google Flights API. The client produces direct requests to the Google Flights API, which is much faster than using WebDriver. 
 
 The Google Flights API doesn't have official documentation, so the project relies on analyzing how the [Google Flights website](https://www.google.com/travel/flights/) communicates with the backend.
