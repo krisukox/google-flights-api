@@ -10,9 +10,6 @@ import (
 )
 
 // Flight describes a single, one-way flight.
-//
-// NOTE: Currently, departure and arrival times are always provided with the UTC time zone instead of the
-// correct time zone for the airport.
 type Flight struct {
 	DepAirportCode string        // departure airport code
 	DepAirportName string        // departure airport name
@@ -61,7 +58,9 @@ func (o Offer) String() string {
 	return out
 }
 
-// It describes the full offer of a trip. [Session.GetOffers] returns a slice of FullOffers.
+// FullOffer describes the full offer of a trip. [Session.GetOffers] returns a slice of FullOffers.
+//
+// NOTE: ReturnFlight, SrcCity
 type FullOffer struct {
 	Offer
 	Flight               []Flight      // contains all flights in the trip

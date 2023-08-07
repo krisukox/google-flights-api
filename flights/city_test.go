@@ -12,7 +12,10 @@ const (
 )
 
 func TestAbbrCityEN(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	cityA := "Athens"
 	cityB := "Warsaw"
@@ -35,7 +38,10 @@ func TestAbbrCityEN(t *testing.T) {
 }
 
 func TestAbbrCityDE(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	cityA := "Athen"
 	cityB := "Warschau"
@@ -58,7 +64,10 @@ func TestAbbrCityDE(t *testing.T) {
 }
 
 func TestAbbrCityPL(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	cityA := "Ateny"
 	cityB := "Warszawa"

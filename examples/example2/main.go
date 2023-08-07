@@ -20,7 +20,10 @@ func getCheapOffers(
 	lang language.Tag,
 ) {
 	logger := log.New(os.Stdout, "", 0)
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	args := flights.Args{
 		Adults:   1,
@@ -61,7 +64,7 @@ func getCheapOffers(
 
 		var bestOffer flights.FullOffer
 		for _, o := range offers {
-			if bestOffer.Price == 0 || o.Price < bestOffer.Price {
+			if o.Price != 0 && (bestOffer.Price == 0 || o.Price < bestOffer.Price) {
 				bestOffer = o
 			}
 		}
@@ -109,7 +112,7 @@ func main() {
 		time.Now().AddDate(0, 0, 60),
 		time.Now().AddDate(0, 0, 90),
 		7,
-		[]string{"Miami", "Orlando"},
+		[]string{"San Francisco", "San Jose"},
 		[]string{"New York", "Philadelphia", "Washington"},
 		language.English,
 	)

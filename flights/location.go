@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
+	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/text/language"
@@ -16,14 +18,14 @@ func getCityReqData(city string) string {
 	return url.QueryEscape(fmt.Sprintf(`[[["H028ib","[\"%s\",[1,2,3,5,4],null,[1,1,1],1]",null,"generic"]]]`, city))
 }
 
-func (s *Session) doRequestCity(city string, lang language.Tag) (*http.Response, error) {
+func (s *Session) doRequestLocation(city string, lang language.Tag) (*http.Response, error) {
 	requestURL := "https://www.google.com/_/TravelFrontendUi/data/batchexecute?rpcids=H028ib&source-path=%2Ftravel%2Fflights%2Fsearch&f.sid=-8421128425468344897&bl=boq_travel-frontend-ui_20230613.06_p0" +
 		"&hl=" + lang.String() +
 		"&soc-app=162&soc-platform=1&soc-device=1&_reqid=444052&rt=c"
 
 	jsonBody := []byte(
 		`f.req=` + getCityReqData(city) +
-			`&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A1687083247610&`)
+			`&at=AAuQa1qJpLKW2Hl-i40OwJyzmo22%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
 	req, err := retryablehttp.NewRequest(http.MethodPost, requestURL, bytes.NewReader(jsonBody))
 	if err != nil {
@@ -32,7 +34,7 @@ func (s *Session) doRequestCity(city string, lang language.Tag) (*http.Response,
 	req.Header.Set("accept", "*/*")
 	req.Header.Set("cache-control", "no-cache")
 	req.Header.Set("content-type", "application/x-www-form-urlencoded;charset=UTF-8")
-	req.Header.Set("cookie", `CONSENT=PENDING+672`)
+	req.Header["cookie"] = s.cookies
 	req.Header.Set("pragma", "no-cache")
 	req.Header.Set("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
 
@@ -53,7 +55,7 @@ func (s *Session) AbbrCity(city string, lang language.Tag) (string, error) {
 		return abbrCity, nil
 	}
 
-	resp, err := s.doRequestCity(city, lang)
+	resp, err := s.doRequestLocation(city, lang)
 	if err != nil {
 		return "", err
 	}
@@ -95,4 +97,35 @@ func (s *Session) abbrCities(cities []string, lang language.Tag) ([]string, erro
 		abbrCities = append(abbrCities, sc)
 	}
 	return abbrCities, nil
+}
+
+func iataCodeSchema(iataCode *string) *[][][][]interface{} {
+	// [[[[3,"",city,"",abbrCity,iataCode,null,null,null,null,null,3],...]]]
+	return &[][][][]interface{}{{{{nil, nil, nil, nil, nil, iataCode}}}}
+}
+
+func (s *Session) IsSupportedIATA(iataCode string) (bool, error) {
+	resp, err := s.doRequestLocation(iataCode, language.English)
+	if err != nil {
+		return false, err
+	}
+	defer resp.Body.Close()
+
+	body := bufio.NewReader(resp.Body)
+	skipPrefix(body)
+	readLine(body) // skip line
+
+	bytesToDecode, err := getInnerBytes(body)
+	if err != nil {
+		return false, err
+	}
+
+	var receivedIataCode string
+
+	err = json.Unmarshal(bytesToDecode, iataCodeSchema(&receivedIataCode))
+	if err != nil {
+		return false, fmt.Errorf("isSupportedIATA error during decoding: %v", err)
+	}
+
+	return iataCode == receivedIataCode, nil
 }

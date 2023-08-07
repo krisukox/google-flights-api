@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	_ "time/tzdata"
+
 	"github.com/go-test/deep"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"
@@ -16,7 +18,10 @@ func min(x, y int) int {
 }
 
 func TestGetOffersUSDPLN(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	date := time.Now().AddDate(0, 6, 0)
 	returnDate := time.Now().AddDate(0, 7, 0)
@@ -77,20 +82,22 @@ func removeUnknowns(offers []FullOffer) {
 }
 
 func TestGetOffers(t *testing.T) {
+	dateTimeTimeZone := time.DateTime + " -0700 MST"
+
 	dummyTime := time.Now()
 	dummyValue := 0
 
-	t1, _ := time.Parse(time.RFC3339, "2024-01-22T17:00:00Z")
-	t2, _ := time.Parse(time.RFC3339, "2024-01-22T18:35:00Z")
+	t1, _ := time.Parse(dateTimeTimeZone, "2024-01-22 17:00:00 +0100 CET")
+	t2, _ := time.Parse(dateTimeTimeZone, "2024-01-22 18:35:00 +0100 CET")
 	d1, _ := time.ParseDuration("1h35m0s")
 
-	t3, _ := time.Parse(time.RFC3339, "2024-01-22T21:25:00Z")
-	t4, _ := time.Parse(time.RFC3339, "2024-01-23T00:50:00Z")
+	t3, _ := time.Parse(dateTimeTimeZone, "2024-01-22 21:25:00 +0100 CET")
+	t4, _ := time.Parse(dateTimeTimeZone, "2024-01-23 00:50:00 +0200 EET")
 	d2, _ := time.ParseDuration("2h25m0s")
 
 	returnDate, _ := time.Parse(time.RFC3339, "2024-01-25T00:00:00Z")
 
-	d3, _ := time.ParseDuration("7h50m0s")
+	d3, _ := time.ParseDuration("6h50m0s")
 
 	expectedOffer := FullOffer{
 		Offer: Offer{
@@ -189,7 +196,10 @@ func TestGetOffers(t *testing.T) {
 }
 
 func TestFlightReqData(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	expectedReqData1 := `[null,"[[],[null,null,1,null,[],1,[1,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,0,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3],[[[[\"CDG\",0],[\"/m/04jpl\",5]]],[[[\"SFO\",0],[\"/m/030qb3t\",5]]],null,0,[],[],\"2024-01-31\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
 	expectedReqData2 := `[null,"[[],[null,null,2,null,[],3,[2,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,3,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`

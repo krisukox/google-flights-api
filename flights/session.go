@@ -1,11 +1,13 @@
-// Package flights is a client library for Google Flight API.
+// Package flights is a client library for the Google Flight API.
 package flights
 
 import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 	"sync"
+	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 )
@@ -39,11 +41,16 @@ type httpClient interface {
 type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 
-	client httpClient
+	client  httpClient
+	cookies []string
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
 	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+		if resp == nil {
+			return true, fmt.Errorf("response is nil")
+		}
+
 		if resp.StatusCode != http.StatusOK {
 			return true, fmt.Errorf("wrong status code: %d", resp.StatusCode)
 		}
@@ -51,14 +58,37 @@ func customRetryPolicy() func(ctx context.Context, resp *http.Response, err erro
 	}
 }
 
-func New() *Session {
+func getCookies(res *http.Response) ([]string, error) {
+	var cookies []string
+	if setCookie, ok := res.Header["Set-Cookie"]; ok {
+		for _, c := range setCookie {
+			cookies = append(cookies, strings.Split(c, ";")[0])
+		}
+		return cookies, nil
+	}
+	return nil, fmt.Errorf("could not find the 'Set-Cookie' header in the initialization response")
+}
+
+func New() (*Session, error) {
 	client := retryablehttp.NewClient()
 	client.RetryMax = 5
 	client.Logger = nil
 	client.CheckRetry = customRetryPolicy()
+	client.RetryWaitMin = time.Second
+
+	res, err := client.Get("https://www.google.com/")
+	if err != nil {
+		return nil, err
+	}
+
+	cookies, err := getCookies(res)
+	if err != nil {
+		return nil, err
+	}
 
 	return &Session{
-		Cities: Map[string, string]{},
-		client: client,
-	}
+		Cities:  Map[string, string]{},
+		client:  client,
+		cookies: cookies,
+	}, nil
 }
