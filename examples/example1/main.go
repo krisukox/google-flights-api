@@ -17,7 +17,10 @@ func getCheapesOffer(
 	srcCity, dstCity string,
 	lang language.Tag,
 ) {
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	args := flights.Args{
 		Adults:   1,
@@ -67,14 +70,12 @@ func getCheapesOffer(
 }
 
 func main() {
-	flights.New()
-
-	// getCheapesOffer(
-	// 	time.Now().AddDate(0, 0, 60),
-	// 	time.Now().AddDate(0, 0, 90),
-	// 	2,
-	// 	"Warsaw",
-	// 	"Athens",
-	// 	language.English,
-	// )
+	getCheapesOffer(
+		time.Now().AddDate(0, 0, 60),
+		time.Now().AddDate(0, 0, 90),
+		2,
+		"Warsaw",
+		"Athens",
+		language.English,
+	)
 }

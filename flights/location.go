@@ -73,8 +73,6 @@ func (s *Session) AbbrCity(city string, lang language.Tag) (string, error) {
 	var receivedCity string
 	var abbrCity string
 
-	// fmt.Println(string(bytesToDecode))
-
 	err = json.Unmarshal(bytesToDecode, abbrCitySchema(&receivedCity, &abbrCity))
 	if err != nil {
 		return "", fmt.Errorf("AbbrCity error during decoding: %v", err)

@@ -4,15 +4,12 @@ package flights
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
-	"os"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
-	"go.uber.org/ratelimit"
 )
 
 // Map is safe for concurrent use by multiple goroutines. This is a wrapper around
@@ -45,9 +42,7 @@ type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 
 	client  httpClient
-	rl      ratelimit.Limiter
 	cookies []string
-	logger  *log.Logger
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
@@ -74,7 +69,7 @@ func getCookies(res *http.Response) ([]string, error) {
 	return nil, fmt.Errorf("could not find the 'Set-Cookie' header in the initialization response")
 }
 
-func New() *Session {
+func New() (*Session, error) {
 	client := retryablehttp.NewClient()
 	client.RetryMax = 5
 	client.Logger = nil
@@ -83,19 +78,17 @@ func New() *Session {
 
 	res, err := client.Get("https://www.google.com/")
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	cookies, err := getCookies(res)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	return &Session{
 		Cities:  Map[string, string]{},
 		client:  client,
-		rl:      ratelimit.New(1),
 		cookies: cookies,
-		logger:  log.New(os.Stdout, "", 0),
-	}
+	}, nil
 }

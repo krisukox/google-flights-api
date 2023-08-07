@@ -11,7 +11,10 @@ import (
 )
 
 func ExampleSession_GetPriceGraph() {
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	offers, err := session.GetPriceGraph(
 		flights.PriceGraphArgs{
@@ -30,7 +33,10 @@ func ExampleSession_GetPriceGraph() {
 }
 
 func ExampleSession_SerializeURL() {
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	url, err := session.SerializeURL(
 		flights.URLArgs{
@@ -49,7 +55,10 @@ func ExampleSession_SerializeURL() {
 }
 
 func ExampleSession_GetOffers() {
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	offers, priceRange, err := session.GetOffers(
 		flights.OffersArgs{
@@ -79,7 +88,10 @@ func ExampleSession_GetOffers() {
 }
 
 func ExampleSession_AbbrCity() {
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	city, err := session.AbbrCity("New York", language.English)
 	if err != nil {

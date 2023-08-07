@@ -84,7 +84,10 @@ func TestSerializeDstAirport(t *testing.T) {
 }
 
 func TestSerializeURL(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	expectedURL := "https://www.google.com/travel/flights/search?tfs=CBwQAho-EgoyMDIzLTExLTA2KAFqDggDEgovbS8wMzBxYjN0agcIARIDU0ZPcgwIAxIIL20vMDRqcGxyBwgBEgNDREcaPhIKMjAyMy0xMS0xMygBagwIAxIIL20vMDRqcGxqBwgBEgNDREdyDggDEgovbS8wMzBxYjN0cgcIARIDU0ZPQAFAAUgBcAGCAQsI____________AZgBAQ&curr=USD&hl=en"
 

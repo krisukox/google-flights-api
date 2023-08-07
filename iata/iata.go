@@ -2535,6 +2535,8 @@ func IATATimeZone(iata string) string {
 		return "Asia/Tokyo"
 	case "ISK":
 		return "Asia/Kolkata"
+	case "ISL":
+		return "Europe/Istanbul"
 	case "ISP":
 		return "America/New_York"
 	case "IST":

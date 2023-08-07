@@ -18,7 +18,10 @@ func min(x, y int) int {
 }
 
 func TestGetOffersUSDPLN(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	date := time.Now().AddDate(0, 6, 0)
 	returnDate := time.Now().AddDate(0, 7, 0)
@@ -193,7 +196,10 @@ func TestGetOffers(t *testing.T) {
 }
 
 func TestFlightReqData(t *testing.T) {
-	session := New()
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	expectedReqData1 := `[null,"[[],[null,null,1,null,[],1,[1,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,0,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3],[[[[\"CDG\",0],[\"/m/04jpl\",5]]],[[[\"SFO\",0],[\"/m/030qb3t\",5]]],null,0,[],[],\"2024-01-31\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
 	expectedReqData2 := `[null,"[[],[null,null,2,null,[],3,[2,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,3,[],[],\"2024-01-01\",null,[],[],[],null,null,[],3]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`

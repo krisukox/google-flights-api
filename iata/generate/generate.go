@@ -45,7 +45,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// We have to iterate over the map every time in the same order because the airport
 	// database has a bug where it has the same iata code twice with different timezones.

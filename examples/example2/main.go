@@ -20,7 +20,10 @@ func getCheapOffers(
 	lang language.Tag,
 ) {
 	logger := log.New(os.Stdout, "", 0)
-	session := flights.New()
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	args := flights.Args{
 		Adults:   1,
