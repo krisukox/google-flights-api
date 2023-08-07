@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	_ "time/tzdata"
+
 	"github.com/go-test/deep"
 	"golang.org/x/text/currency"
 	"golang.org/x/text/language"

@@ -195,7 +195,6 @@ func flightSchema(
 }
 
 func iataLocation(iataCode string) *time.Location {
-	// fmt.Println(iata.IATATimeZone(iataCode))
 	location, err := time.LoadLocation(iata.IATATimeZone(iataCode))
 	if err != nil {
 		return time.UTC
