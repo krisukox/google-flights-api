@@ -9,7 +9,10 @@ import (
 	"net/url"
 	"time"
 
+	_ "time/tzdata"
+
 	"github.com/hashicorp/go-retryablehttp"
+	"github.com/krisukox/google-flights-api/iata"
 	"golang.org/x/text/language"
 )
 
@@ -191,6 +194,15 @@ func flightSchema(
 	}
 }
 
+func iataLocation(iataCode string) *time.Location {
+	// fmt.Println(iata.IATATimeZone(iataCode))
+	location, err := time.LoadLocation(iata.IATATimeZone(iataCode))
+	if err != nil {
+		return time.UTC
+	}
+	return location
+}
+
 func getFlights(rawFlights []json.RawMessage) ([]Flight, error) {
 	flights := []Flight{}
 	for _, rawFlight := range rawFlights {
@@ -208,9 +220,8 @@ func getFlights(rawFlights []json.RawMessage) ([]Flight, error) {
 		)); err != nil {
 			return nil, err
 		}
-
-		flight.DepTime = time.Date(int(depYear), time.Month(depMonth), int(depDay), int(depHours), int(depMinutes), 0, 0, time.UTC)
-		flight.ArrTime = time.Date(int(arrYear), time.Month(arrMonth), int(arrDay), int(arrHours), int(arrMinutes), 0, 0, time.UTC)
+		flight.DepTime = time.Date(int(depYear), time.Month(depMonth), int(depDay), int(depHours), int(depMinutes), 0, 0, iataLocation(flight.DepAirportCode))
+		flight.ArrTime = time.Date(int(arrYear), time.Month(arrMonth), int(arrDay), int(arrHours), int(arrMinutes), 0, 0, iataLocation(flight.ArrAirportCode))
 		parsedDuration, _ := time.ParseDuration(fmt.Sprintf("%dm", int(duration)))
 		flight.Duration = parsedDuration
 		flight.FlightNumber = flightNoPart1 + " " + flightNoPart2
