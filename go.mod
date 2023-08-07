@@ -9,4 +9,9 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.4
 )
 
-require github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
+require (
+	github.com/benbjohnson/clock v1.3.5 // indirect
+	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
+	go.uber.org/ratelimit v0.3.0 // indirect
+	golang.org/x/time v0.3.0 // indirect
+)

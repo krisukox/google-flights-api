@@ -1,13 +1,18 @@
-// Package flights is a client library for Google Flight API.
+// Package flights is a client library for the Google Flight API.
 package flights
 
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
+	"strings"
 	"sync"
+	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
+	"go.uber.org/ratelimit"
 )
 
 // Map is safe for concurrent use by multiple goroutines. This is a wrapper around
@@ -40,10 +45,17 @@ type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 
 	client httpClient
+	rl     ratelimit.Limiter
+	cookie string
+	logger *log.Logger
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
 	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+		if resp == nil {
+			return true, fmt.Errorf("response is nil")
+		}
+
 		if resp.StatusCode != http.StatusOK {
 			return true, fmt.Errorf("wrong status code: %d", resp.StatusCode)
 		}
@@ -54,11 +66,22 @@ func customRetryPolicy() func(ctx context.Context, resp *http.Response, err erro
 func New() *Session {
 	client := retryablehttp.NewClient()
 	client.RetryMax = 5
+	// client.Logger = log.New(os.Stdout, "", 0)
 	client.Logger = nil
 	client.CheckRetry = customRetryPolicy()
+	client.RetryWaitMin = time.Second
+	// client.Backoff = func(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
 
+	// }
+	res, err := http.Get("https://www.google.com/")
+	if err != nil {
+		log.Fatal(err)
+	}
 	return &Session{
 		Cities: Map[string, string]{},
 		client: client,
+		rl:     ratelimit.New(1),
+		cookie: strings.Split(res.Header["Set-Cookie"][2], ";")[0],
+		logger: log.New(os.Stdout, "", 0),
 	}
 }
