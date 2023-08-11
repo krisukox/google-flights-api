@@ -22,6 +22,13 @@ const (
 	flightCityConst    rune = '5'
 )
 
+func serializeTripType(tripType TripType) byte {
+	if tripType == RoundTrip {
+		return 1
+	}
+	return 2
+}
+
 func (s *Session) getRawData(args OffersArgs) (string, error) {
 	serSrcs, err := s.serializeFlightLocations(args.SrcCities, args.SrcAirports, args.Lang)
 	if err != nil {
@@ -35,7 +42,7 @@ func (s *Session) getRawData(args OffersArgs) (string, error) {
 	serDate := args.Date.Format("2006-01-02")
 	serReturnDate := args.ReturnDate.Format("2006-01-02")
 
-	serAdults := serializeFlightAdults(args.Adults)
+	serAdults := serializeFlightAdults(args.Travelers.Adults)
 	serStops := serializeFlightStop(args.Stops)
 
 	serClass := serializeFlightClass(args.Class)

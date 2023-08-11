@@ -20,7 +20,7 @@ type Flight struct {
 	Duration       time.Duration // duration of the flight
 	Airplane       string        // airplane
 	FlightNumber   string        // flight number
-	Unknown        []interface{} // it contains all unknown data which are parsed from the Google Flight API
+	Unknown        []interface{} // it contains all unknown data which are parsed from the Google Flights API
 	AirlineName    string        // airline name
 	Legroom        string        // legroom in the airplane seats
 }
@@ -98,17 +98,17 @@ type PriceRange struct {
 type Stops int64
 
 const (
-	AnyStops Stops = iota // any number of stops
-	Nonstop               // nonstop only
+	Nonstop  Stops = iota // nonstop only
 	Stop1                 // 1 stop or fewer
 	Stop2                 // 2 stops or fewer
+	AnyStops              // any number of stops
 )
 
 // Class describes a travel class.
 type Class int64
 
 const (
-	Economy Class = iota
+	Economy Class = iota + 1
 	PremiumEconomy
 	Business
 	First
@@ -118,9 +118,16 @@ const (
 type TripType int64
 
 const (
-	RoundTrip TripType = iota
+	RoundTrip TripType = iota + 1
 	OneWay
 )
+
+type Travelers struct {
+	Adults       int
+	Children     int
+	InfantInSeat int
+	InfantOnLap  int
+}
 
 func truncateToDay(date time.Time) time.Time {
 	return date.Truncate(24 * time.Hour)
@@ -202,22 +209,22 @@ func validateLocations(srcCities, srcAirports, dstCities, dstAirports []string) 
 
 // Args contains common arguments used in [OffersArgs], [PriceGraphArgs] and [URLArgs].
 type Args struct {
-	Adults   int // number of adults
-	Currency currency.Unit
-	Stops    Stops        // maximum number of stops
-	Class    Class        // travel class (Economy, PremiumEconomy, Business, First)
-	TripType TripType     // round-trip or one-way trip
-	Lang     language.Tag // language in which city names are provided
+	Travelers Travelers
+	Currency  currency.Unit
+	Stops     Stops        // maximum number of stops
+	Class     Class        // travel class (Economy, PremiumEconomy, Business, First)
+	TripType  TripType     // round-trip or one-way trip
+	Lang      language.Tag // language in which city names are provided
 }
 
 func ArgsDefault() Args {
 	return Args{
-		Adults:   1,
-		Currency: currency.USD,
-		Stops:    AnyStops,
-		Class:    Economy,
-		TripType: RoundTrip,
-		Lang:     language.English,
+		Travelers: Travelers{Adults: 1},
+		Currency:  currency.USD,
+		Stops:     AnyStops,
+		Class:     Economy,
+		TripType:  RoundTrip,
+		Lang:      language.English,
 	}
 }
 

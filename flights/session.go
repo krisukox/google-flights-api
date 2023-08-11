@@ -1,8 +1,9 @@
-// Package flights is a client library for the Google Flight API.
+// Package flights is a client library for the Google Flights API.
 package flights
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"net/http"
 	"strings"
@@ -36,13 +37,14 @@ type httpClient interface {
 	Do(req *retryablehttp.Request) (*http.Response, error)
 }
 
-// Session is the main type that contains all the most important functions to operate the Google Flight API.
+// Session is the main type that contains all the most important functions to operate the Google Flights API.
 // It is safe for concurrent use by multiple goroutines. (Concurrent example: [github.com/krisukox/google-flights-api/examples/example3])
 type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 
-	client  httpClient
-	cookies []string
+	client      httpClient
+	cookies     []string
+	urlEncoding *base64.Encoding
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
@@ -87,8 +89,9 @@ func New() (*Session, error) {
 	}
 
 	return &Session{
-		Cities:  Map[string, string]{},
-		client:  client,
-		cookies: cookies,
+		Cities:      Map[string, string]{},
+		client:      client,
+		cookies:     cookies,
+		urlEncoding: base64.URLEncoding.WithPadding(base64.NoPadding),
 	}, nil
 }

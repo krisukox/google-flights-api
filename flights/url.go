@@ -1,102 +1,68 @@
 package flights
 
 import (
-	"encoding/base64"
+	"fmt"
 	"time"
+
+	"github.com/krisukox/google-flights-api/flights/internal/urlpb"
+	"google.golang.org/protobuf/proto"
 )
 
-const (
-	airportConst byte = 1
-	cityConst    byte = 3
-	dstConst     byte = 114
-	srcConst     byte = 106
-)
-
-func serializeLocation(city string, locationNo byte) []byte {
-	cityBytes := []byte(city)
-	bytes := append([]byte{8, locationNo, 18}, append([]byte{byte(len(cityBytes))}, cityBytes...)...)
-	return append([]byte{byte(len(bytes))}, bytes...)
-}
-
-func serializeSrcCity(city string) []byte {
-	return append([]byte{srcConst}, serializeLocation(city, cityConst)...)
-}
-
-func serializeDstCity(city string) []byte {
-	return append([]byte{dstConst}, serializeLocation(city, cityConst)...)
-}
-
-func serializeSrcAirport(airport string) []byte {
-	return append([]byte{srcConst}, serializeLocation(airport, airportConst)...)
-}
-
-func serializeDstAirport(airport string) []byte {
-	return append([]byte{dstConst}, serializeLocation(airport, airportConst)...)
-}
-
-func serializeLocations(locations []string, f func(string) []byte) []byte {
-	ret := []byte{}
+func serializeLocations(locations []string, locationType urlpb.Url_LocationType) []*urlpb.Url_Location {
+	locationsRet := make([]*urlpb.Url_Location, 0, len(locations))
 	for _, l := range locations {
-		ret = append(ret, f(l)...)
+		// Memory allocation for each element :/
+		locationsRet = append(locationsRet, &urlpb.Url_Location{
+			Type: locationType,
+			Name: l,
+		})
 	}
-	return ret
-}
-
-func serializeDate(date time.Time) []byte {
-	return append([]byte{18, 10}, []byte(date.Format("2006-01-02"))...)
-}
-
-func serializeStops(Stops Stops) []byte {
-	switch Stops {
-	case Nonstop:
-		return []byte{40, 0}
-	case Stop1:
-		return []byte{40, 1}
-	case Stop2:
-		return []byte{40, 2}
-	}
-	return []byte{}
-}
-
-func serializeClass(Class Class) []byte {
-	switch Class {
-	case Economy:
-		return []byte{72, 1}
-	case PremiumEconomy:
-		return []byte{72, 2}
-	case Business:
-		return []byte{72, 3}
-	}
-	return []byte{72, 4}
+	return locationsRet
 }
 
 func serializeFlight(
 	date time.Time,
-	srcCities, srcAirports, DstCities, DstAirports []string,
-	Stops Stops,
-) []byte {
-	bytes := serializeDate(date)
-	bytes = append(bytes, serializeStops(Stops)...)
-	bytes = append(bytes, serializeLocations(srcCities, serializeSrcCity)...)
-	bytes = append(bytes, serializeLocations(srcAirports, serializeSrcAirport)...)
-	bytes = append(bytes, serializeLocations(DstCities, serializeDstCity)...)
-	bytes = append(bytes, serializeLocations(DstAirports, serializeDstAirport)...)
-	return append([]byte{26, byte(len(bytes))}, bytes...)
+	srcCities, srcAirports, dstCities, dstAirports []string,
+	stops Stops,
+) *urlpb.Url_Flight {
+	return &urlpb.Url_Flight{
+		Date:         date.Format(time.DateOnly),
+		SrcLocations: append(serializeLocations(srcCities, urlpb.Url_CITY), serializeLocations(srcAirports, urlpb.Url_AIRPORT)...),
+		DstLocations: append(serializeLocations(dstCities, urlpb.Url_CITY), serializeLocations(dstAirports, urlpb.Url_AIRPORT)...),
+		Stops:        urlpb.Url_Stops(stops).Enum(),
+	}
 }
 
-func serializeAdults(Adults int) []byte {
-	bytes := []byte{}
-	for i := 0; i < Adults; i++ {
-		bytes = append(bytes, 64, 1)
+func serializeFlights(args URLArgs) []*urlpb.Url_Flight {
+	if args.TripType == OneWay {
+		return []*urlpb.Url_Flight{
+			serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
+		}
 	}
-	return bytes
+	return []*urlpb.Url_Flight{
+		serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
+		serializeFlight(args.ReturnDate, args.DstCities, args.DstAirports, args.SrcCities, args.SrcAirports, args.Stops),
+	}
 }
 
-func serializeTripType(TripType TripType) byte {
-	if TripType == RoundTrip {
-		return 1
+func serializeTravelers(travelers Travelers) []urlpb.Url_Traveler {
+	travelersRet := make([]urlpb.Url_Traveler, 0,
+		travelers.Adults+travelers.Children+
+			travelers.InfantInSeat+travelers.InfantOnLap)
+
+	for i := 0; i < travelers.Adults; i++ {
+		travelersRet = append(travelersRet, urlpb.Url_ADULT)
 	}
-	return 2
+	for i := 0; i < travelers.Children; i++ {
+		travelersRet = append(travelersRet, urlpb.Url_CHILD)
+	}
+	for i := 0; i < travelers.InfantInSeat; i++ {
+		travelersRet = append(travelersRet, urlpb.Url_INFANT_IN_SEAT)
+	}
+	for i := 0; i < travelers.InfantOnLap; i++ {
+		travelersRet = append(travelersRet, urlpb.Url_INFANT_ON_LAP)
+	}
+	return travelersRet
 }
 
 // The function serializes arguments to the Google Flight URL. The city names should be provided in the
@@ -123,37 +89,20 @@ func (s *Session) SerializeURL(args URLArgs) (string, error) {
 		return "", err
 	}
 
-	bytes := []byte{8, 28, 16, 2}
-
-	additionalBytes := []byte{
-		112, 1,
-		130, 1,
-		11,
-		8, 255, 255, 255, 255, 255, 255, 255, 255, 255, 1,
-		152, 1,
+	urlProto := &urlpb.Url{
+		Flight:    serializeFlights(args),
+		Travelers: serializeTravelers(args.Travelers),
+		Class:     urlpb.Url_Class(args.Class),
+		TripType:  urlpb.Url_TripType(args.TripType),
 	}
 
-	bytes = append(
-		bytes,
-		serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops)...)
-
-	if args.TripType == RoundTrip {
-		bytes = append(
-			bytes,
-			serializeFlight(args.ReturnDate, args.DstCities, args.DstAirports, args.SrcCities, args.SrcAirports, args.Stops)...)
+	tfs, err := proto.Marshal(urlProto)
+	if err != nil {
+		return "", fmt.Errorf("error during url serialization: %s", err)
 	}
 
-	bytes = append(bytes, serializeAdults(args.Adults)...)
-
-	bytes = append(bytes, serializeClass(args.Class)...)
-
-	bytes = append(bytes, additionalBytes...)
-
-	bytes = append(bytes, serializeTripType(args.TripType))
-
-	RawURLEncoding := base64.URLEncoding.WithPadding(base64.NoPadding)
-
-	url := "https://www.google.com/travel/flights/search?tfs=" + RawURLEncoding.EncodeToString(bytes) + "&curr=" + args.Currency.String() + "&hl=" + args.Lang.String()
-
-	return url, nil
+	return "https://www.google.com/travel/flights/search" +
+		"?tfs=" + s.urlEncoding.EncodeToString(tfs) +
+		"&curr=" + args.Currency.String() +
+		"&hl=" + args.Lang.String(), nil
 }

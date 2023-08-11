@@ -16,24 +16,21 @@ import (
 )
 
 func getCheapOffersConcurrent(
+	session *flights.Session,
 	rangeStartDate, rangeEndDate time.Time,
 	tripLength int,
 	srcCities, dstCities []string,
 	lang language.Tag,
 ) {
 	logger := log.New(os.Stdout, "", 0)
-	session, err := flights.New()
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	args := flights.Args{
-		Adults:   1,
-		Currency: currency.USD,
-		Stops:    flights.AnyStops,
-		Class:    flights.Economy,
-		TripType: flights.RoundTrip,
-		Lang:     lang,
+		Travelers: flights.Travelers{Adults: 1},
+		Currency:  currency.USD,
+		Stops:     flights.AnyStops,
+		Class:     flights.Economy,
+		TripType:  flights.RoundTrip,
+		Lang:      lang,
 	}
 
 	priceGraphOffers, err := session.GetPriceGraph(
@@ -115,9 +112,15 @@ func getCheapOffersConcurrent(
 }
 
 func main() {
+	session, err := flights.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	t := time.Now()
 
 	getCheapOffersConcurrent(
+		session,
 		time.Now().AddDate(0, 0, 60),
 		time.Now().AddDate(0, 0, 90),
 		7,
@@ -127,4 +130,6 @@ func main() {
 	)
 
 	fmt.Println(time.Since(t))
+
+	// fmt.Printf("REQUESTS: %d\n", session.ReqCounter)
 }

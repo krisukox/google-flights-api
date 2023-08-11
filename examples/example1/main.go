@@ -23,12 +23,12 @@ func getCheapesOffer(
 	}
 
 	args := flights.Args{
-		Adults:   1,
-		Currency: currency.PLN,
-		Stops:    flights.AnyStops,
-		Class:    flights.Economy,
-		TripType: flights.RoundTrip,
-		Lang:     lang,
+		Travelers: flights.Travelers{Adults: 1},
+		Currency:  currency.PLN,
+		Stops:     flights.AnyStops,
+		Class:     flights.Economy,
+		TripType:  flights.RoundTrip,
+		Lang:      lang,
 	}
 
 	offers, err := session.GetPriceGraph(
