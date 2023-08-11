@@ -64,7 +64,13 @@ jobs:
         run: time go run ./iata/generate/generate.go
 
       - name: Check for changes
-        run: test -z "$(git status --porcelain)"
+        run: |
+          if [ ! -z "$(git status --porcelain)" ]
+          then
+            git diff
+            exit 1
+          fi
+
 
   proto:
     name: Test proto generation
@@ -83,4 +89,9 @@ jobs:
         run: go generate ./...
 
       - name: Check for changes
-        run: test -z "$(git status --porcelain)"
+        run: |
+          if [ ! -z "$(git status --porcelain)" ]
+          then
+            git diff
+            exit 1
+          fi

@@ -130,6 +130,4 @@ func main() {
 	)
 
 	fmt.Println(time.Since(t))
-
-	// fmt.Printf("REQUESTS: %d\n", session.ReqCounter)
 }
