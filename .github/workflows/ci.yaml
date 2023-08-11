@@ -85,6 +85,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
+      - name: Setup protocol buffer compiler
+        run: |
+          apt install protoc
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
       - name: Generate proto
         run: go generate ./...
 
