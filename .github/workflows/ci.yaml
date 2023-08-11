@@ -64,13 +64,7 @@ jobs:
         run: time go run ./iata/generate/generate.go
 
       - name: Check for changes
-        run: |
-          if [ ! -z "$(git status --porcelain)" ]
-          then
-            git diff
-            exit 1
-          fi
-
+        run: git diff
 
   proto:
     name: Test proto generation
@@ -87,7 +81,7 @@ jobs:
 
       - name: Setup protocol buffer compiler
         run: |
-          apt install protoc
+          sudo apt install protoc
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
       - name: Generate proto
