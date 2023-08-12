@@ -9,8 +9,10 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 
+	anyascii "github.com/anyascii/go"
 	"github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/text/language"
 )
@@ -47,6 +49,28 @@ func abbrCitySchema(city, abbrCity *string) *[][][][]interface{} {
 	return &[][][][]interface{}{{{{nil, nil, city, nil, abbrCity}}}}
 }
 
+func compareStrLatin(lv, rv string) bool {
+	if lv == rv {
+		return true
+	}
+
+	lv = anyascii.Transliterate(lv)
+	rv = anyascii.Transliterate(rv)
+
+	lv = strings.ToLower(lv)
+	rv = strings.ToLower(rv)
+
+	if len(lv) != len(rv) {
+		return false
+	}
+	for i := range lv {
+		if lv[i] != rv[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // AbbrCity serializes the city name by requesting it from the Google Flights API. The city name should
 // be provided in the language described by [language.Tag].
 //
@@ -79,7 +103,7 @@ func (s *Session) AbbrCity(ctx context.Context, city string, lang language.Tag) 
 		return "", fmt.Errorf("AbbrCity error during decoding: %v", err)
 	}
 
-	if city != receivedCity {
+	if !compareStrLatin(city, receivedCity) {
 		return "", fmt.Errorf("the requested city name didn't match the found. requested: %s found: %s", city, receivedCity)
 	}
 
