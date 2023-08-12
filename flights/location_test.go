@@ -135,3 +135,36 @@ func TestAbbrCity(t *testing.T) {
 		t.Fatalf("Warsaw abbreviated city name not stored in cache")
 	}
 }
+
+func TestAbbrCityLatin(t *testing.T) {
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expectedAbbrCity := "/m/0c6fz"
+
+	abbrCity, err := session.AbbrCity(context.Background(), "Łódź", language.English)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if abbrCity != expectedAbbrCity {
+		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", expectedAbbrCity, abbrCity)
+	}
+
+	abbrCity, err = session.AbbrCity(context.Background(), "łódź", language.English)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if abbrCity != expectedAbbrCity {
+		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", expectedAbbrCity, abbrCity)
+	}
+
+	abbrCity, err = session.AbbrCity(context.Background(), "lodz", language.English)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if abbrCity != expectedAbbrCity {
+		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", expectedAbbrCity, abbrCity)
+	}
+}
