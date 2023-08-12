@@ -83,10 +83,10 @@ func main() {
 		go func(iata, tz, city string) {
 			defer wg.Done()
 
-			// ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-			// defer cancel()
+			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+			defer cancel()
 
-			ok, err := session.IsIATASupported(context.Background(), iata)
+			ok, err := session.IsIATASupported(ctx, iata)
 			if err != nil {
 				out <- result{err: err}
 			}
