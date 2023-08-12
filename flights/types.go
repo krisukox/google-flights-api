@@ -122,6 +122,7 @@ const (
 	OneWay
 )
 
+// It describes travelers of the trip.
 type Travelers struct {
 	Adults       int
 	Children     int
