@@ -6,6 +6,8 @@ on:
       - '**'
     tags-ignore:
       - '**'
+  schedule:
+    - cron: '6 0 * * 5'
 
 jobs:
   unit_test:
