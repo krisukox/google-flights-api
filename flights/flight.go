@@ -30,6 +30,30 @@ func serializeTripType(tripType TripType) byte {
 	return 2
 }
 
+func serializeFlightStop(Stops Stops) string {
+	switch Stops {
+	case Nonstop:
+		return "1"
+	case Stop1:
+		return "2"
+	case Stop2:
+		return "3"
+	}
+	return "0"
+}
+
+func serializeFlightClass(Class Class) string {
+	switch Class {
+	case Economy:
+		return "1"
+	case PremiumEconomy:
+		return "2"
+	case Business:
+		return "3"
+	}
+	return "4"
+}
+
 func (s *Session) getRawData(ctx context.Context, args OffersArgs) (string, error) {
 	serSrcs, err := s.serializeFlightLocations(ctx, args.SrcCities, args.SrcAirports, args.Lang)
 	if err != nil {
@@ -87,30 +111,6 @@ func serializeFlightAdults(Adults int) string {
 	return fmt.Sprintf(`[%d,0,0,0]`, Adults)
 }
 
-func serializeFlightStop(Stops Stops) string {
-	switch Stops {
-	case Nonstop:
-		return "1"
-	case Stop1:
-		return "2"
-	case Stop2:
-		return "3"
-	}
-	return "0"
-}
-
-func serializeFlightClass(Class Class) string {
-	switch Class {
-	case Economy:
-		return "1"
-	case PremiumEconomy:
-		return "2"
-	case Business:
-		return "3"
-	}
-	return "4"
-}
-
 func (s *Session) getFlightReqData(ctx context.Context, args OffersArgs) (string, error) {
 	rawData, err := s.getRawData(ctx, args)
 	if err != nil {
@@ -151,7 +151,7 @@ func (s *Session) doRequestFlights(ctx context.Context, args OffersArgs) (*http.
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`)
 	req.Header.Set("x-goog-ext-259736195-jspb",
-		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, args.Currency)) // language, location, Currency
+		fmt.Sprintf(`["en-US","US","%s",1,null,[-120],null,[[48676280,48710756,47907128,48764689,48627726,48480739,48593234,48707380]],1,[]]`, args.Currency)) // language, location, Currency
 
 	return s.client.Do(req)
 }
@@ -203,12 +203,13 @@ func flightSchema(
 	}
 }
 
-func iataLocation(iataCode string) *time.Location {
-	location, err := time.LoadLocation(iata.IATATimeZone(iataCode))
+func iataLocation(iataCode string) (string, *time.Location) {
+	iataLocation := iata.IATATimeZone(iataCode)
+	location, err := time.LoadLocation(iataLocation.Tz)
 	if err != nil {
-		return time.UTC
+		return iataLocation.City, time.UTC
 	}
-	return location
+	return iataLocation.City, location
 }
 
 func getFlights(rawFlights []json.RawMessage) ([]Flight, error) {
@@ -228,8 +229,12 @@ func getFlights(rawFlights []json.RawMessage) ([]Flight, error) {
 		)); err != nil {
 			return nil, err
 		}
-		flight.DepTime = time.Date(int(depYear), time.Month(depMonth), int(depDay), int(depHours), int(depMinutes), 0, 0, iataLocation(flight.DepAirportCode))
-		flight.ArrTime = time.Date(int(arrYear), time.Month(arrMonth), int(arrDay), int(arrHours), int(arrMinutes), 0, 0, iataLocation(flight.ArrAirportCode))
+		depCity, depLocation := iataLocation(flight.DepAirportCode)
+		arrCity, arrLocation := iataLocation(flight.ArrAirportCode)
+		flight.DepCity = depCity
+		flight.DepTime = time.Date(int(depYear), time.Month(depMonth), int(depDay), int(depHours), int(depMinutes), 0, 0, depLocation)
+		flight.ArrCity = arrCity
+		flight.ArrTime = time.Date(int(arrYear), time.Month(arrMonth), int(arrDay), int(arrHours), int(arrMinutes), 0, 0, arrLocation)
 		parsedDuration, _ := time.ParseDuration(fmt.Sprintf("%dm", int(duration)))
 		flight.Duration = parsedDuration
 		flight.FlightNumber = flightNoPart1 + " " + flightNoPart2
@@ -271,6 +276,9 @@ func getSubsectionOffers(rawOffers []json.RawMessage, returnDate time.Time) ([]F
 
 		offer.SrcAirportCode = flights[0].DepAirportCode
 		offer.DstAirportCode = flights[len(flights)-1].ArrAirportCode
+
+		offer.SrcCity = flights[0].DepCity
+		offer.DstCity = flights[len(flights)-1].ArrCity
 
 		offers = append(offers, offer)
 	}

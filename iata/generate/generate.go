@@ -17,6 +17,7 @@ import (
 type airport struct {
 	Iata string
 	Tz   string
+	City string
 }
 
 type result struct {
@@ -64,7 +65,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	caseTmpl := `	case "%s":
-		return "%s"
+		return Location{"%s", "%s"}
 `
 
 	var a airport
@@ -79,7 +80,7 @@ func main() {
 		checked[a.Iata] = struct{}{}
 
 		wg.Add(1)
-		go func(iata, tz string) {
+		go func(iata, tz, city string) {
 			defer wg.Done()
 
 			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -91,10 +92,10 @@ func main() {
 			}
 
 			if ok {
-				res := result{line: fmt.Sprintf(caseTmpl, iata, tz), err: nil}
+				res := result{line: fmt.Sprintf(caseTmpl, iata, city, tz), err: nil}
 				out <- res
 			}
-		}(a.Iata, a.Tz)
+		}(a.Iata, a.Tz, a.City)
 	}
 
 	go func() {
@@ -114,9 +115,11 @@ func main() {
 // [airports.json]: https://github.com/mwgg/Airports/blob/%s/airports.json
 package iata
 
+type Location struct{ City, Tz string }
+
 // IATATimeZone turns IATA airport codes into the time zone where the airport is located.
 // If IATATimeZone can't find an IATA airport code, then it returns "Not supported IATA Code".
-func IATATimeZone(iata string) string {
+func IATATimeZone(iata string) Location {
 	switch iata {
 `, time.Now().Format(time.DateOnly), commitHash)
 
@@ -136,7 +139,7 @@ func IATATimeZone(iata string) string {
 	}
 
 	iataFileContent += `	}
-	return "Not supported IATA Code"
+	return Location{"Not supported IATA Code", "Not supported IATA Code"}
 }
 `
 

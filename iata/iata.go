@@ -4,6853 +4,6851 @@
 //
 // Command: go run ./iata/generate/generate.go
 //
-// Generation date: 2023-08-07
+// Generation date: 2023-08-12
 //
 // [airports.json]: https://github.com/mwgg/Airports/blob/f259c38566a5acbcb04b64eb5ad01d14bf7fd07c/airports.json
 package iata
 
+type Location struct{ City, Tz string }
+
 // IATATimeZone turns IATA airport codes into the time zone where the airport is located.
 // If IATATimeZone can't find an IATA airport code, then it returns "Not supported IATA Code".
-func IATATimeZone(iata string) string {
+func IATATimeZone(iata string) Location {
 	switch iata {
 	case "AAA":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "AAE":
-		return "Africa/Algiers"
+		return Location{"Annabah", "Africa/Algiers"}
 	case "AAL":
-		return "Europe/Copenhagen"
+		return Location{"Aalborg", "Europe/Copenhagen"}
 	case "AAN":
-		return "Asia/Dubai"
+		return Location{"Al Ain", "Asia/Dubai"}
 	case "AAP":
-		return "Asia/Makassar"
+		return Location{"Samarinda", "Asia/Makassar"}
 	case "AAR":
-		return "Europe/Copenhagen"
+		return Location{"Aarhus", "Europe/Copenhagen"}
 	case "AAT":
-		return "Asia/Shanghai"
+		return Location{"Altay", "Asia/Shanghai"}
 	case "AAX":
-		return "America/Sao_Paulo"
+		return Location{"Araxa", "America/Sao_Paulo"}
 	case "AAZ":
-		return "America/Guatemala"
+		return Location{"Quezaltenango", "America/Guatemala"}
 	case "ABA":
-		return "Asia/Krasnoyarsk"
+		return Location{"Abakan", "Asia/Krasnoyarsk"}
 	case "ABB":
-		return "Africa/Lagos"
+		return Location{"Asaba", "Africa/Lagos"}
 	case "ABD":
-		return "Asia/Tehran"
+		return Location{"Abadan", "Asia/Tehran"}
 	case "ABE":
-		return "America/New_York"
+		return Location{"Allentown", "America/New_York"}
 	case "ABI":
-		return "America/Chicago"
+		return Location{"Abilene", "America/Chicago"}
 	case "ABJ":
-		return "Africa/Abidjan"
+		return Location{"Abidjan", "Africa/Abidjan"}
 	case "ABK":
-		return "Africa/Addis_Ababa"
+		return Location{"Kabri Dehar", "Africa/Addis_Ababa"}
 	case "ABL":
-		return "America/Anchorage"
+		return Location{"Ambler", "America/Anchorage"}
 	case "ABM":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "ABQ":
-		return "America/Denver"
+		return Location{"Albuquerque", "America/Denver"}
 	case "ABR":
-		return "America/Chicago"
+		return Location{"Aberdeen", "America/Chicago"}
 	case "ABS":
-		return "Africa/Cairo"
+		return Location{"Abu Simbel", "Africa/Cairo"}
 	case "ABT":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "ABU":
-		return "Asia/Makassar"
+		return Location{"Atambua-Timor Island", "Asia/Makassar"}
 	case "ABV":
-		return "Africa/Lagos"
+		return Location{"Abuja", "Africa/Lagos"}
 	case "ABX":
-		return "Australia/Melbourne"
+		return Location{"Albury", "Australia/Melbourne"}
 	case "ABY":
-		return "America/New_York"
+		return Location{"Albany", "America/New_York"}
 	case "ABZ":
-		return "Europe/London"
+		return Location{"Aberdeen", "Europe/London"}
 	case "ACA":
-		return "America/Mexico_City"
+		return Location{"Acapulco", "America/Mexico_City"}
 	case "ACC":
-		return "Africa/Accra"
+		return Location{"Accra", "Africa/Accra"}
 	case "ACE":
-		return "Atlantic/Canary"
+		return Location{"Lanzarote Island", "Atlantic/Canary"}
 	case "ACF":
-		return "Australia/Brisbane"
+		return Location{"Brisbane", "Australia/Brisbane"}
 	case "ACH":
-		return "Europe/Vienna"
+		return Location{"Altenrhein", "Europe/Vienna"}
 	case "ACI":
-		return "Europe/Guernsey"
+		return Location{"Saint Anne", "Europe/Guernsey"}
 	case "ACK":
-		return "America/New_York"
+		return Location{"Nantucket", "America/New_York"}
 	case "ACT":
-		return "America/Chicago"
+		return Location{"Waco", "America/Chicago"}
 	case "ACV":
-		return "America/Los_Angeles"
+		return Location{"Arcata/Eureka", "America/Los_Angeles"}
 	case "ACX":
-		return "Asia/Shanghai"
+		return Location{"Xingyi", "Asia/Shanghai"}
 	case "ACY":
-		return "America/New_York"
+		return Location{"Atlantic City", "America/New_York"}
 	case "ACZ":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "ADA":
-		return "Europe/Istanbul"
+		return Location{"Adana", "Europe/Istanbul"}
 	case "ADB":
-		return "Europe/Istanbul"
+		return Location{"Izmir", "Europe/Istanbul"}
 	case "ADD":
-		return "Africa/Addis_Ababa"
+		return Location{"Addis Ababa", "Africa/Addis_Ababa"}
 	case "ADE":
-		return "Asia/Aden"
+		return Location{"Aden", "Asia/Aden"}
 	case "ADF":
-		return "Europe/Istanbul"
+		return Location{"Adiyaman", "Europe/Istanbul"}
 	case "ADK":
-		return "America/Adak"
+		return Location{"Adak Island", "America/Adak"}
 	case "ADL":
-		return "Australia/Adelaide"
+		return Location{"Adelaide", "Australia/Adelaide"}
 	case "ADQ":
-		return "America/Anchorage"
+		return Location{"Kodiak", "America/Anchorage"}
 	case "ADU":
-		return "Asia/Tehran"
+		return Location{"Ardabil", "Asia/Tehran"}
 	case "ADZ":
-		return "America/Bogota"
+		return Location{"San Andres", "America/Bogota"}
 	case "AEB":
-		return "Asia/Shanghai"
+		return Location{"Baise", "Asia/Shanghai"}
 	case "AEP":
-		return "America/Argentina/Buenos_Aires"
+		return Location{"Buenos Aires", "America/Argentina/Buenos_Aires"}
 	case "AER":
-		return "Europe/Moscow"
+		return Location{"Sochi", "Europe/Moscow"}
 	case "AES":
-		return "Europe/Oslo"
+		return Location{"Alesund", "Europe/Oslo"}
 	case "AET":
-		return "America/Anchorage"
+		return Location{"Allakaket", "America/Anchorage"}
 	case "AEX":
-		return "America/Chicago"
+		return Location{"Alexandria", "America/Chicago"}
 	case "AEY":
-		return "Atlantic/Reykjavik"
+		return Location{"Akureyri", "Atlantic/Reykjavik"}
 	case "AFA":
-		return "America/Argentina/Mendoza"
+		return Location{"San Rafael", "America/Argentina/Mendoza"}
 	case "AFL":
-		return "America/Cuiaba"
+		return Location{"Alta Floresta", "America/Cuiaba"}
 	case "AGA":
-		return "Africa/Casablanca"
+		return Location{"Agadir", "Africa/Casablanca"}
 	case "AGH":
-		return "Europe/Stockholm"
+		return Location{"Angelholm", "Europe/Stockholm"}
 	case "AGP":
-		return "Europe/Madrid"
+		return Location{"Malaga", "Europe/Madrid"}
 	case "AGR":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "AGS":
-		return "America/New_York"
+		return Location{"Augusta", "America/New_York"}
 	case "AGT":
-		return "America/Asuncion"
+		return Location{"Ciudad del Este", "America/Asuncion"}
 	case "AGU":
-		return "America/Mexico_City"
+		return Location{"Aguascalientes", "America/Mexico_City"}
 	case "AGV":
-		return "America/Caracas"
+		return Location{"Acarigua", "America/Caracas"}
 	case "AHB":
-		return "Asia/Riyadh"
+		return Location{"Abha", "Asia/Riyadh"}
 	case "AHE":
-		return "Pacific/Tahiti"
+		return Location{"Ahe Atoll", "Pacific/Tahiti"}
 	case "AHO":
-		return "Europe/Rome"
+		return Location{"Alghero", "Europe/Rome"}
 	case "AHU":
-		return "Africa/Casablanca"
+		return Location{"Al Hoceima", "Africa/Casablanca"}
 	case "AIA":
-		return "America/Denver"
+		return Location{"Alliance", "America/Denver"}
 	case "AIN":
-		return "America/Anchorage"
+		return Location{"Wainwright", "America/Anchorage"}
 	case "AIR":
-		return "America/Sao_Paulo"
+		return Location{"Paracatu", "America/Sao_Paulo"}
 	case "AIT":
-		return "Pacific/Rarotonga"
+		return Location{"Aitutaki", "Pacific/Rarotonga"}
 	case "AJA":
-		return "Europe/Paris"
+		return Location{"Ajaccio/Napoleon Bonaparte", "Europe/Paris"}
 	case "AJF":
-		return "Asia/Riyadh"
+		return Location{"Al-Jawf", "Asia/Riyadh"}
 	case "AJI":
-		return "Europe/Istanbul"
+		return Location{"Agri", "Europe/Istanbul"}
 	case "AJL":
-		return "Asia/Kolkata"
+		return Location{"Aizawl", "Asia/Kolkata"}
 	case "AJN":
-		return "Indian/Comoro"
+		return Location{"Ouani", "Indian/Comoro"}
 	case "AJR":
-		return "Europe/Stockholm"
+		return Location{"Arvidsjaur", "Europe/Stockholm"}
 	case "AJU":
-		return "America/Maceio"
+		return Location{"Aracaju", "America/Maceio"}
 	case "AKA":
-		return "Asia/Shanghai"
+		return Location{"Ankang", "Asia/Shanghai"}
 	case "AKB":
-		return "America/Adak"
+		return Location{"Atka", "America/Adak"}
 	case "AKI":
-		return "America/Anchorage"
+		return Location{"Akiak", "America/Anchorage"}
 	case "AKJ":
-		return "Asia/Tokyo"
+		return Location{"Asahikawa", "Asia/Tokyo"}
 	case "AKK":
-		return "America/Anchorage"
+		return Location{"Akhiok", "America/Anchorage"}
 	case "AKL":
-		return "Pacific/Auckland"
+		return Location{"Auckland", "Pacific/Auckland"}
 	case "AKN":
-		return "America/Anchorage"
+		return Location{"King Salmon", "America/Anchorage"}
 	case "AKP":
-		return "America/Anchorage"
+		return Location{"Anaktuvuk Pass", "America/Anchorage"}
 	case "AKR":
-		return "Africa/Lagos"
+		return Location{"Akure", "Africa/Lagos"}
 	case "AKS":
-		return "Pacific/Guadalcanal"
+		return Location{"Auki", "Pacific/Guadalcanal"}
 	case "AKU":
-		return "Asia/Shanghai"
+		return Location{"Aksu", "Asia/Shanghai"}
 	case "AKV":
-		return "America/Iqaluit"
+		return Location{"Akulivik", "America/Iqaluit"}
 	case "AKX":
-		return "Asia/Aqtobe"
+		return Location{"Aktyubinsk", "Asia/Aqtobe"}
 	case "AKY":
-		return "Asia/Yangon"
+		return Location{"Sittwe", "Asia/Yangon"}
 	case "ALA":
-		return "Asia/Almaty"
+		return Location{"Almaty", "Asia/Almaty"}
 	case "ALB":
-		return "America/New_York"
+		return Location{"Albany", "America/New_York"}
 	case "ALC":
-		return "Europe/Madrid"
+		return Location{"Alicante", "Europe/Madrid"}
 	case "ALF":
-		return "Europe/Oslo"
+		return Location{"Alta", "Europe/Oslo"}
 	case "ALG":
-		return "Africa/Algiers"
+		return Location{"Algiers", "Africa/Algiers"}
 	case "ALH":
-		return "Australia/Perth"
+		return Location{"Albany", "Australia/Perth"}
 	case "ALO":
-		return "America/Chicago"
+		return Location{"Waterloo", "America/Chicago"}
 	case "ALP":
-		return "Asia/Damascus"
+		return Location{"Aleppo", "Asia/Damascus"}
 	case "ALQ":
-		return "America/Sao_Paulo"
+		return Location{"Alegrete", "America/Sao_Paulo"}
 	case "ALS":
-		return "America/Denver"
+		return Location{"Alamosa", "America/Denver"}
 	case "ALW":
-		return "America/Los_Angeles"
+		return Location{"Walla Walla", "America/Los_Angeles"}
 	case "AMA":
-		return "America/Chicago"
+		return Location{"Amarillo", "America/Chicago"}
 	case "AMD":
-		return "Asia/Kolkata"
+		return Location{"Ahmedabad", "Asia/Kolkata"}
 	case "AMH":
-		return "Africa/Addis_Ababa"
+		return Location{"", "Africa/Addis_Ababa"}
 	case "AMM":
-		return "Asia/Amman"
+		return Location{"Amman", "Asia/Amman"}
 	case "AMQ":
-		return "Asia/Jayapura"
+		return Location{"Ambon", "Asia/Jayapura"}
 	case "AMS":
-		return "Europe/Amsterdam"
+		return Location{"Amsterdam", "Europe/Amsterdam"}
 	case "ANC":
-		return "America/Anchorage"
+		return Location{"Anchorage", "America/Anchorage"}
 	case "ANF":
-		return "America/Santiago"
+		return Location{"Antofagasta", "America/Santiago"}
 	case "ANI":
-		return "America/Anchorage"
+		return Location{"Aniak", "America/Anchorage"}
 	case "ANR":
-		return "Europe/Brussels"
+		return Location{"Antwerp", "Europe/Brussels"}
 	case "ANU":
-		return "America/Antigua"
+		return Location{"St. George", "America/Antigua"}
 	case "ANV":
-		return "America/Anchorage"
+		return Location{"Anvik", "America/Anchorage"}
 	case "ANX":
-		return "Europe/Oslo"
+		return Location{"Andenes", "Europe/Oslo"}
 	case "AOE":
-		return "Europe/Istanbul"
+		return Location{"Eskisehir", "Europe/Istanbul"}
 	case "AOI":
-		return "Europe/Rome"
+		return Location{"Ancona", "Europe/Rome"}
 	case "AOJ":
-		return "Asia/Tokyo"
+		return Location{"Aomori", "Asia/Tokyo"}
 	case "AOK":
-		return "Europe/Athens"
+		return Location{"Karpathos Island", "Europe/Athens"}
 	case "AOO":
-		return "America/New_York"
+		return Location{"Altoona", "America/New_York"}
 	case "AOR":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Alor Satar", "Asia/Kuala_Lumpur"}
 	case "APK":
-		return "Pacific/Tahiti"
+		return Location{"Apataki", "Pacific/Tahiti"}
 	case "APL":
-		return "Africa/Maputo"
+		return Location{"Nampula", "Africa/Maputo"}
 	case "APN":
-		return "America/Detroit"
+		return Location{"Alpena", "America/Detroit"}
 	case "APO":
-		return "America/Bogota"
+		return Location{"Carepa", "America/Bogota"}
 	case "APW":
-		return "Pacific/Apia"
+		return Location{"Apia", "Pacific/Apia"}
 	case "AQG":
-		return "Asia/Shanghai"
+		return Location{"Anqing", "Asia/Shanghai"}
 	case "AQI":
-		return "Asia/Riyadh"
+		return Location{"Qaisumah", "Asia/Riyadh"}
 	case "AQJ":
-		return "Asia/Amman"
+		return Location{"Aqaba", "Asia/Amman"}
 	case "AQP":
-		return "America/Lima"
+		return Location{"Arequipa", "America/Lima"}
 	case "ARC":
-		return "America/Anchorage"
+		return Location{"Arctic Village", "America/Anchorage"}
 	case "ARD":
-		return "Asia/Makassar"
+		return Location{"Alor Island", "Asia/Makassar"}
 	case "ARH":
-		return "Europe/Moscow"
+		return Location{"Archangelsk", "Europe/Moscow"}
 	case "ARI":
-		return "America/Lima"
+		return Location{"Arica", "America/Lima"}
 	case "ARK":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Arusha", "Africa/Dar_es_Salaam"}
 	case "ARM":
-		return "Australia/Sydney"
+		return Location{"Armidale", "Australia/Sydney"}
 	case "ARN":
-		return "Europe/Stockholm"
+		return Location{"Stockholm", "Europe/Stockholm"}
 	case "ART":
-		return "America/New_York"
+		return Location{"Watertown", "America/New_York"}
 	case "ARU":
-		return "America/Sao_Paulo"
+		return Location{"Aracatuba", "America/Sao_Paulo"}
 	case "ASB":
-		return "Asia/Ashgabat"
+		return Location{"Ashgabat", "Asia/Ashgabat"}
 	case "ASE":
-		return "America/Denver"
+		return Location{"Aspen", "America/Denver"}
 	case "ASF":
-		return "Europe/Astrakhan"
+		return Location{"Astrakhan", "Europe/Astrakhan"}
 	case "ASJ":
-		return "Asia/Tokyo"
+		return Location{"Amami", "Asia/Tokyo"}
 	case "ASM":
-		return "Africa/Asmara"
+		return Location{"Asmara", "Africa/Asmara"}
 	case "ASO":
-		return "Africa/Addis_Ababa"
+		return Location{"Asosa", "Africa/Addis_Ababa"}
 	case "ASP":
-		return "Australia/Darwin"
+		return Location{"Alice Springs", "Australia/Darwin"}
 	case "ASR":
-		return "Europe/Istanbul"
+		return Location{"Kayseri", "Europe/Istanbul"}
 	case "ASU":
-		return "America/Asuncion"
+		return Location{"Asuncion", "America/Asuncion"}
 	case "ASV":
-		return "Africa/Nairobi"
+		return Location{"Amboseli National Park", "Africa/Nairobi"}
 	case "ASW":
-		return "Africa/Cairo"
+		return Location{"Aswan", "Africa/Cairo"}
 	case "ATD":
-		return "Pacific/Guadalcanal"
+		return Location{"Atoifi", "Pacific/Guadalcanal"}
 	case "ATH":
-		return "Europe/Athens"
+		return Location{"Athens", "Europe/Athens"}
 	case "ATK":
-		return "America/Anchorage"
+		return Location{"Atqasuk", "America/Anchorage"}
 	case "ATL":
-		return "America/New_York"
+		return Location{"Atlanta", "America/New_York"}
 	case "ATM":
-		return "America/Santarem"
+		return Location{"Altamira", "America/Santarem"}
 	case "ATQ":
-		return "Asia/Kolkata"
+		return Location{"Amritsar", "Asia/Kolkata"}
 	case "ATW":
-		return "America/Chicago"
+		return Location{"Appleton", "America/Chicago"}
 	case "ATY":
-		return "America/Chicago"
+		return Location{"Watertown", "America/Chicago"}
 	case "ATZ":
-		return "Africa/Cairo"
+		return Location{"Assiut", "Africa/Cairo"}
 	case "AUA":
-		return "America/Aruba"
+		return Location{"Oranjestad", "America/Aruba"}
 	case "AUC":
-		return "America/Bogota"
+		return Location{"Arauca", "America/Bogota"}
 	case "AUG":
-		return "America/New_York"
+		return Location{"Augusta", "America/New_York"}
 	case "AUH":
-		return "Asia/Dubai"
+		return Location{"Abu Dhabi", "Asia/Dubai"}
 	case "AUK":
-		return "America/Nome"
+		return Location{"Alakanuk", "America/Nome"}
 	case "AUQ":
-		return "Pacific/Marquesas"
+		return Location{"", "Pacific/Marquesas"}
 	case "AUR":
-		return "Europe/Paris"
+		return Location{"Aurillac", "Europe/Paris"}
 	case "AUS":
-		return "America/Chicago"
+		return Location{"Austin", "America/Chicago"}
 	case "AUU":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "AUX":
-		return "America/Araguaina"
+		return Location{"Araguaina", "America/Araguaina"}
 	case "AUY":
-		return "Pacific/Efate"
+		return Location{"Anelghowhat", "Pacific/Efate"}
 	case "AVA":
-		return "Asia/Shanghai"
+		return Location{"Anshun", "Asia/Shanghai"}
 	case "AVL":
-		return "America/New_York"
+		return Location{"Asheville", "America/New_York"}
 	case "AVP":
-		return "America/New_York"
+		return Location{"Wilkes-Barre/Scranton", "America/New_York"}
 	case "AVV":
-		return "Australia/Melbourne"
+		return Location{"Melbourne", "Australia/Melbourne"}
 	case "AWA":
-		return "Africa/Addis_Ababa"
+		return Location{"Awassa", "Africa/Addis_Ababa"}
 	case "AWD":
-		return "Pacific/Efate"
+		return Location{"Aniwa", "Pacific/Efate"}
 	case "AWZ":
-		return "Asia/Tehran"
+		return Location{"Ahwaz", "Asia/Tehran"}
 	case "AXA":
-		return "America/Anguilla"
+		return Location{"The Valley", "America/Anguilla"}
 	case "AXD":
-		return "Europe/Athens"
+		return Location{"Alexandroupolis", "Europe/Athens"}
 	case "AXJ":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "AXM":
-		return "America/Bogota"
+		return Location{"Armenia", "America/Bogota"}
 	case "AXP":
-		return "America/Nassau"
+		return Location{"Spring Point", "America/Nassau"}
 	case "AXR":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "AXT":
-		return "Asia/Tokyo"
+		return Location{"Akita", "Asia/Tokyo"}
 	case "AYP":
-		return "America/Lima"
+		return Location{"Ayacucho", "America/Lima"}
 	case "AYQ":
-		return "Australia/Darwin"
+		return Location{"Ayers Rock", "Australia/Darwin"}
 	case "AYT":
-		return "Europe/Istanbul"
+		return Location{"Antalya", "Europe/Istanbul"}
 	case "AZA":
-		return "America/Phoenix"
+		return Location{"Phoenix", "America/Phoenix"}
 	case "AZD":
-		return "Asia/Tehran"
+		return Location{"Yazd", "Asia/Tehran"}
 	case "AZO":
-		return "America/Detroit"
+		return Location{"Kalamazoo", "America/Detroit"}
 	case "AZR":
-		return "Africa/Algiers"
+		return Location{"", "Africa/Algiers"}
 	case "AZS":
-		return "America/Santo_Domingo"
+		return Location{"Samana", "America/Santo_Domingo"}
 	case "BAG":
-		return "Asia/Manila"
+		return Location{"Baguio City", "Asia/Manila"}
 	case "BAH":
-		return "Asia/Bahrain"
+		return Location{"Manama", "Asia/Bahrain"}
 	case "BAL":
-		return "Europe/Istanbul"
+		return Location{"Batman", "Europe/Istanbul"}
 	case "BAQ":
-		return "America/Bogota"
+		return Location{"Barranquilla", "America/Bogota"}
 	case "BAS":
-		return "Pacific/Guadalcanal"
+		return Location{"Ballalae", "Pacific/Guadalcanal"}
 	case "BAU":
-		return "America/Sao_Paulo"
+		return Location{"Bauru", "America/Sao_Paulo"}
 	case "BAV":
-		return "Asia/Shanghai"
+		return Location{"Baotou", "Asia/Shanghai"}
 	case "BAX":
-		return "Asia/Barnaul"
+		return Location{"Barnaul", "Asia/Barnaul"}
 	case "BAY":
-		return "Europe/Bucharest"
+		return Location{"Baia Mare", "Europe/Bucharest"}
 	case "BAZ":
-		return "America/Manaus"
+		return Location{"Barcelos", "America/Manaus"}
 	case "BBA":
-		return "America/Santiago"
+		return Location{"Balmaceda", "America/Santiago"}
 	case "BBI":
-		return "Asia/Kolkata"
+		return Location{"Bhubaneswar", "Asia/Kolkata"}
 	case "BBK":
-		return "Africa/Gaborone"
+		return Location{"Kasane", "Africa/Gaborone"}
 	case "BBN":
-		return "Asia/Kuching"
+		return Location{"Bario", "Asia/Kuching"}
 	case "BBU":
-		return "Europe/Bucharest"
+		return Location{"Bucharest", "Europe/Bucharest"}
 	case "BCD":
-		return "Asia/Manila"
+		return Location{"Bacolod City", "Asia/Manila"}
 	case "BCI":
-		return "Australia/Brisbane"
+		return Location{"Barcaldine", "Australia/Brisbane"}
 	case "BCM":
-		return "Europe/Bucharest"
+		return Location{"Bacau", "Europe/Bucharest"}
 	case "BCN":
-		return "Europe/Madrid"
+		return Location{"Barcelona", "Europe/Madrid"}
 	case "BCO":
-		return "Africa/Addis_Ababa"
+		return Location{"Baco", "Africa/Addis_Ababa"}
 	case "BDA":
-		return "Atlantic/Bermuda"
+		return Location{"Hamilton", "Atlantic/Bermuda"}
 	case "BDB":
-		return "Australia/Brisbane"
+		return Location{"Bundaberg", "Australia/Brisbane"}
 	case "BDD":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "BDJ":
-		return "Asia/Makassar"
+		return Location{"Banjarmasin-Borneo Island", "Asia/Makassar"}
 	case "BDL":
-		return "America/New_York"
+		return Location{"Hartford", "America/New_York"}
 	case "BDO":
-		return "Asia/Jakarta"
+		return Location{"Bandung-Java Island", "Asia/Jakarta"}
 	case "BDP":
-		return "Asia/Kathmandu"
+		return Location{"Bhadrapur", "Asia/Kathmandu"}
 	case "BDQ":
-		return "Asia/Kolkata"
+		return Location{"Vadodara", "Asia/Kolkata"}
 	case "BDR":
-		return "America/New_York"
+		return Location{"Bridgeport", "America/New_York"}
 	case "BDS":
-		return "Europe/Rome"
+		return Location{"Brindisi", "Europe/Rome"}
 	case "BDU":
-		return "Europe/Oslo"
+		return Location{"Malselv", "Europe/Oslo"}
 	case "BEB":
-		return "Europe/London"
+		return Location{"Balivanich", "Europe/London"}
 	case "BEG":
-		return "Europe/Belgrade"
+		return Location{"Belgrad", "Europe/Belgrade"}
 	case "BEJ":
-		return "Asia/Makassar"
+		return Location{"Tanjung Redep-Borneo Island", "Asia/Makassar"}
 	case "BEK":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "BEL":
-		return "America/Belem"
+		return Location{"Belem", "America/Belem"}
 	case "BEN":
-		return "Africa/Tripoli"
+		return Location{"Benghazi", "Africa/Tripoli"}
 	case "BER":
-		return "Europe/Berlin"
+		return Location{"Berlin", "Europe/Berlin"}
 	case "BES":
-		return "Europe/Paris"
+		return Location{"Brest/Guipavas", "Europe/Paris"}
 	case "BET":
-		return "America/Anchorage"
+		return Location{"Bethel", "America/Anchorage"}
 	case "BEU":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "BEW":
-		return "Africa/Maputo"
+		return Location{"Beira", "Africa/Maputo"}
 	case "BEY":
-		return "Asia/Beirut"
+		return Location{"Beirut", "Asia/Beirut"}
 	case "BFD":
-		return "America/New_York"
+		return Location{"Bradford", "America/New_York"}
 	case "BFF":
-		return "America/Denver"
+		return Location{"Scottsbluff", "America/Denver"}
 	case "BFJ":
-		return "Pacific/Fiji"
+		return Location{"", "Pacific/Fiji"}
 	case "BFL":
-		return "America/Los_Angeles"
+		return Location{"Bakersfield", "America/Los_Angeles"}
 	case "BFM":
-		return "America/Chicago"
+		return Location{"Mobile", "America/Chicago"}
 	case "BFN":
-		return "Africa/Johannesburg"
+		return Location{"Bloemfontain", "Africa/Johannesburg"}
 	case "BFS":
-		return "Europe/London"
+		return Location{"Belfast", "Europe/London"}
 	case "BFV":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "BFX":
-		return "Africa/Douala"
+		return Location{"Bafoussam", "Africa/Douala"}
 	case "BGA":
-		return "America/Bogota"
+		return Location{"Bucaramanga", "America/Bogota"}
 	case "BGF":
-		return "Africa/Bangui"
+		return Location{"Bangui", "Africa/Bangui"}
 	case "BGI":
-		return "America/Barbados"
+		return Location{"Bridgetown", "America/Barbados"}
 	case "BGM":
-		return "America/New_York"
+		return Location{"Binghamton", "America/New_York"}
 	case "BGN":
-		return "Asia/Magadan"
+		return Location{"Belaya Gora", "Asia/Magadan"}
 	case "BGO":
-		return "Europe/Oslo"
+		return Location{"Bergen", "Europe/Oslo"}
 	case "BGR":
-		return "America/New_York"
+		return Location{"Bangor", "America/New_York"}
 	case "BGW":
-		return "Asia/Baghdad"
+		return Location{"Baghdad", "Asia/Baghdad"}
 	case "BGX":
-		return "America/Sao_Paulo"
+		return Location{"Bage", "America/Sao_Paulo"}
 	case "BGY":
-		return "Europe/Rome"
+		return Location{"Bergamo", "Europe/Rome"}
 	case "BHB":
-		return "America/New_York"
+		return Location{"Bar Harbor", "America/New_York"}
 	case "BHD":
-		return "Europe/London"
+		return Location{"Belfast", "Europe/London"}
 	case "BHE":
-		return "Pacific/Auckland"
+		return Location{"Blenheim", "Pacific/Auckland"}
 	case "BHH":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "BHI":
-		return "America/Argentina/Buenos_Aires"
+		return Location{"Bahia Blanca", "America/Argentina/Buenos_Aires"}
 	case "BHJ":
-		return "Asia/Kolkata"
+		return Location{"Bhuj", "Asia/Kolkata"}
 	case "BHK":
-		return "Asia/Samarkand"
+		return Location{"Bukhara", "Asia/Samarkand"}
 	case "BHM":
-		return "America/Chicago"
+		return Location{"Birmingham", "America/Chicago"}
 	case "BHO":
-		return "Asia/Kolkata"
+		return Location{"Bhopal", "Asia/Kolkata"}
 	case "BHQ":
-		return "Australia/Broken_Hill"
+		return Location{"Broken Hill", "Australia/Broken_Hill"}
 	case "BHR":
-		return "Asia/Kathmandu"
+		return Location{"Bharatpur", "Asia/Kathmandu"}
 	case "BHU":
-		return "Asia/Kolkata"
+		return Location{"Bhavnagar", "Asia/Kolkata"}
 	case "BHV":
-		return "Asia/Karachi"
+		return Location{"Bahawalpur", "Asia/Karachi"}
 	case "BHX":
-		return "Europe/London"
+		return Location{"Birmingham", "Europe/London"}
 	case "BHY":
-		return "Asia/Shanghai"
+		return Location{"Beihai", "Asia/Shanghai"}
 	case "BIA":
-		return "Europe/Paris"
+		return Location{"Bastia/Poretta", "Europe/Paris"}
 	case "BIH":
-		return "America/Los_Angeles"
+		return Location{"Bishop", "America/Los_Angeles"}
 	case "BIK":
-		return "Asia/Jayapura"
+		return Location{"Biak-Supiori Island", "Asia/Jayapura"}
 	case "BIL":
-		return "America/Denver"
+		return Location{"Billings", "America/Denver"}
 	case "BIM":
-		return "America/Nassau"
+		return Location{"South Bimini", "America/Nassau"}
 	case "BIO":
-		return "Europe/Madrid"
+		return Location{"Bilbao", "Europe/Madrid"}
 	case "BIQ":
-		return "Europe/Paris"
+		return Location{"Biarritz/Anglet/Bayonne", "Europe/Paris"}
 	case "BIR":
-		return "Asia/Kathmandu"
+		return Location{"Biratnagar", "Asia/Kathmandu"}
 	case "BIS":
-		return "America/Chicago"
+		return Location{"Bismarck", "America/Chicago"}
 	case "BJA":
-		return "Africa/Algiers"
+		return Location{"Bejaia", "Africa/Algiers"}
 	case "BJC":
-		return "America/Denver"
+		return Location{"Denver", "America/Denver"}
 	case "BJF":
-		return "Europe/Oslo"
+		return Location{"Batsfjord", "Europe/Oslo"}
 	case "BJI":
-		return "America/Chicago"
+		return Location{"Bemidji", "America/Chicago"}
 	case "BJL":
-		return "Africa/Banjul"
+		return Location{"Banjul", "Africa/Banjul"}
 	case "BJM":
-		return "Africa/Bujumbura"
+		return Location{"Bujumbura", "Africa/Bujumbura"}
 	case "BJR":
-		return "Africa/Addis_Ababa"
+		return Location{"Bahir Dar", "Africa/Addis_Ababa"}
 	case "BJV":
-		return "Europe/Istanbul"
+		return Location{"Bodrum", "Europe/Istanbul"}
 	case "BJW":
-		return "Asia/Makassar"
+		return Location{"Bajawa", "Asia/Makassar"}
 	case "BJX":
-		return "America/Mexico_City"
+		return Location{"Silao", "America/Mexico_City"}
 	case "BJZ":
-		return "Europe/Madrid"
+		return Location{"Badajoz", "Europe/Madrid"}
 	case "BKC":
-		return "America/Anchorage"
+		return Location{"Buckland", "America/Anchorage"}
 	case "BKG":
-		return "America/Chicago"
+		return Location{"Branson", "America/Chicago"}
 	case "BKI":
-		return "Asia/Kuching"
+		return Location{"Kota Kinabalu", "Asia/Kuching"}
 	case "BKK":
-		return "Asia/Bangkok"
+		return Location{"Bangkok", "Asia/Bangkok"}
 	case "BKM":
-		return "Asia/Kuching"
+		return Location{"Bakalalan", "Asia/Kuching"}
 	case "BKO":
-		return "Africa/Bamako"
+		return Location{"Senou", "Africa/Bamako"}
 	case "BKQ":
-		return "Australia/Brisbane"
+		return Location{"Blackall", "Australia/Brisbane"}
 	case "BKS":
-		return "Asia/Jakarta"
+		return Location{"Bengkulu-Sumatra Island", "Asia/Jakarta"}
 	case "BKW":
-		return "America/New_York"
+		return Location{"Beckley", "America/New_York"}
 	case "BKZ":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Bukoba", "Africa/Dar_es_Salaam"}
 	case "BLA":
-		return "America/Caracas"
+		return Location{"Barcelona", "America/Caracas"}
 	case "BLB":
-		return "America/Panama"
+		return Location{"Panama City", "America/Panama"}
 	case "BLD":
-		return "America/Los_Angeles"
+		return Location{"Boulder City", "America/Los_Angeles"}
 	case "BLI":
-		return "America/Los_Angeles"
+		return Location{"Bellingham", "America/Los_Angeles"}
 	case "BLJ":
-		return "Africa/Algiers"
+		return Location{"Batna", "Africa/Algiers"}
 	case "BLL":
-		return "Europe/Copenhagen"
+		return Location{"Billund", "Europe/Copenhagen"}
 	case "BLQ":
-		return "Europe/Rome"
+		return Location{"Bologna", "Europe/Rome"}
 	case "BLR":
-		return "Asia/Kolkata"
+		return Location{"Bangalore", "Asia/Kolkata"}
 	case "BLV":
-		return "America/Chicago"
+		return Location{"Belleville", "America/Chicago"}
 	case "BLZ":
-		return "Africa/Blantyre"
+		return Location{"Blantyre", "Africa/Blantyre"}
 	case "BMA":
-		return "Europe/Stockholm"
+		return Location{"Stockholm", "Europe/Stockholm"}
 	case "BME":
-		return "Australia/Perth"
+		return Location{"Broome", "Australia/Perth"}
 	case "BMI":
-		return "America/Chicago"
+		return Location{"Bloomington-Normal", "America/Chicago"}
 	case "BMO":
-		return "Asia/Yangon"
+		return Location{"Banmaw", "Asia/Yangon"}
 	case "BMU":
-		return "Asia/Makassar"
+		return Location{"Bima-Sumbawa Island", "Asia/Makassar"}
 	case "BMV":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Buon Ma Thuot", "Asia/Ho_Chi_Minh"}
 	case "BMW":
-		return "Africa/Algiers"
+		return Location{"Bordj Badji Mokhtar", "Africa/Algiers"}
 	case "BNA":
-		return "America/Chicago"
+		return Location{"Nashville", "America/Chicago"}
 	case "BNC":
-		return "Africa/Lubumbashi"
+		return Location{"Beni", "Africa/Lubumbashi"}
 	case "BND":
-		return "Asia/Tehran"
+		return Location{"Bandar Abbas", "Asia/Tehran"}
 	case "BNE":
-		return "Australia/Brisbane"
+		return Location{"Brisbane", "Australia/Brisbane"}
 	case "BNI":
-		return "Africa/Lagos"
+		return Location{"Benin", "Africa/Lagos"}
 	case "BNK":
-		return "Australia/Sydney"
+		return Location{"Ballina", "Australia/Sydney"}
 	case "BNN":
-		return "Europe/Oslo"
+		return Location{"Bronnoy", "Europe/Oslo"}
 	case "BNS":
-		return "America/Caracas"
+		return Location{"Barinas", "America/Caracas"}
 	case "BNX":
-		return "Europe/Sarajevo"
+		return Location{"Banja Luka", "Europe/Sarajevo"}
 	case "BNY":
-		return "Pacific/Guadalcanal"
+		return Location{"Anua", "Pacific/Guadalcanal"}
 	case "BOB":
-		return "Pacific/Tahiti"
+		return Location{"Motu Mute", "Pacific/Tahiti"}
 	case "BOC":
-		return "America/Panama"
+		return Location{"Isla Colon", "America/Panama"}
 	case "BOD":
-		return "Europe/Paris"
+		return Location{"Bordeaux/Merignac", "Europe/Paris"}
 	case "BOG":
-		return "America/Bogota"
+		return Location{"Bogota", "America/Bogota"}
 	case "BOH":
-		return "Europe/London"
+		return Location{"Bournemouth", "Europe/London"}
 	case "BOI":
-		return "America/Boise"
+		return Location{"Boise", "America/Boise"}
 	case "BOJ":
-		return "Europe/Sofia"
+		return Location{"Burgas", "Europe/Sofia"}
 	case "BOM":
-		return "Asia/Kolkata"
+		return Location{"Mumbai", "Asia/Kolkata"}
 	case "BON":
-		return "America/Kralendijk"
+		return Location{"Kralendijk", "America/Kralendijk"}
 	case "BOO":
-		return "Europe/Oslo"
+		return Location{"Bodo", "Europe/Oslo"}
 	case "BOS":
-		return "America/New_York"
+		return Location{"Boston", "America/New_York"}
 	case "BPG":
-		return "America/Cuiaba"
+		return Location{"Barra Do Garcas", "America/Cuiaba"}
 	case "BPL":
-		return "Asia/Shanghai"
+		return Location{"Bole", "Asia/Shanghai"}
 	case "BPN":
-		return "Asia/Makassar"
+		return Location{"Balikpapan-Borneo Island", "Asia/Makassar"}
 	case "BPS":
-		return "America/Bahia"
+		return Location{"Porto Seguro", "America/Bahia"}
 	case "BPT":
-		return "America/Chicago"
+		return Location{"Beaumont/Port Arthur", "America/Chicago"}
 	case "BPX":
-		return "Asia/Shanghai"
+		return Location{"Bangda", "Asia/Shanghai"}
 	case "BQB":
-		return "Australia/Perth"
+		return Location{"Busselton", "Australia/Perth"}
 	case "BQD":
-		return "Atlantic/Reykjavik"
+		return Location{"Budardalur", "Atlantic/Reykjavik"}
 	case "BQK":
-		return "America/New_York"
+		return Location{"Brunswick", "America/New_York"}
 	case "BQL":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "BQN":
-		return "America/Puerto_Rico"
+		return Location{"Aguadilla", "America/Puerto_Rico"}
 	case "BQS":
-		return "Asia/Yakutsk"
+		return Location{"Blagoveschensk", "Asia/Yakutsk"}
 	case "BQW":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "BRA":
-		return "America/Bahia"
+		return Location{"Barreiras", "America/Bahia"}
 	case "BRB":
-		return "America/Fortaleza"
+		return Location{"", "America/Fortaleza"}
 	case "BRC":
-		return "America/Argentina/Salta"
+		return Location{"San Carlos de Bariloche", "America/Argentina/Salta"}
 	case "BRD":
-		return "America/Chicago"
+		return Location{"Brainerd", "America/Chicago"}
 	case "BRE":
-		return "Europe/Berlin"
+		return Location{"Bremen", "Europe/Berlin"}
 	case "BRI":
-		return "Europe/Rome"
+		return Location{"Bari", "Europe/Rome"}
 	case "BRK":
-		return "Australia/Sydney"
+		return Location{"", "Australia/Sydney"}
 	case "BRL":
-		return "America/Chicago"
+		return Location{"Burlington", "America/Chicago"}
 	case "BRM":
-		return "America/Caracas"
+		return Location{"Barquisimeto", "America/Caracas"}
 	case "BRN":
-		return "Europe/Zurich"
+		return Location{"Bern", "Europe/Zurich"}
 	case "BRO":
-		return "America/Chicago"
+		return Location{"Brownsville", "America/Chicago"}
 	case "BRQ":
-		return "Europe/Prague"
+		return Location{"Brno", "Europe/Prague"}
 	case "BRR":
-		return "Europe/London"
+		return Location{"Eoligarry", "Europe/London"}
 	case "BRS":
-		return "Europe/London"
+		return Location{"Bristol", "Europe/London"}
 	case "BRU":
-		return "Europe/Brussels"
+		return Location{"Brussels", "Europe/Brussels"}
 	case "BRV":
-		return "Europe/Berlin"
+		return Location{"Bremerhaven", "Europe/Berlin"}
 	case "BRW":
-		return "America/Anchorage"
+		return Location{"Barrow", "America/Anchorage"}
 	case "BSA":
-		return "Africa/Mogadishu"
+		return Location{"Bosaso", "Africa/Mogadishu"}
 	case "BSB":
-		return "America/Sao_Paulo"
+		return Location{"Brasilia", "America/Sao_Paulo"}
 	case "BSC":
-		return "America/Bogota"
+		return Location{"Bahia Solano", "America/Bogota"}
 	case "BSD":
-		return "Asia/Shanghai"
+		return Location{"", "Asia/Shanghai"}
 	case "BSG":
-		return "Africa/Malabo"
+		return Location{"", "Africa/Malabo"}
 	case "BSK":
-		return "Africa/Algiers"
+		return Location{"Biskra", "Africa/Algiers"}
 	case "BSL":
-		return "Europe/Paris"
+		return Location{"Bale/Mulhouse", "Europe/Paris"}
 	case "BSO":
-		return "Asia/Manila"
+		return Location{"Basco", "Asia/Manila"}
 	case "BSR":
-		return "Asia/Baghdad"
+		return Location{"Basrah", "Asia/Baghdad"}
 	case "BTC":
-		return "Asia/Colombo"
+		return Location{"Batticaloa", "Asia/Colombo"}
 	case "BTH":
-		return "Asia/Jakarta"
+		return Location{"Batam Island", "Asia/Jakarta"}
 	case "BTI":
-		return "America/Anchorage"
+		return Location{"Barter Island Lrrs", "America/Anchorage"}
 	case "BTJ":
-		return "Asia/Jakarta"
+		return Location{"Banda Aceh-Sumatra Island", "Asia/Jakarta"}
 	case "BTK":
-		return "Asia/Irkutsk"
+		return Location{"Bratsk", "Asia/Irkutsk"}
 	case "BTM":
-		return "America/Denver"
+		return Location{"Butte", "America/Denver"}
 	case "BTR":
-		return "America/Chicago"
+		return Location{"Baton Rouge", "America/Chicago"}
 	case "BTS":
-		return "Europe/Bratislava"
+		return Location{"Bratislava", "Europe/Bratislava"}
 	case "BTT":
-		return "America/Anchorage"
+		return Location{"Bettles", "America/Anchorage"}
 	case "BTU":
-		return "Asia/Kuching"
+		return Location{"Bintulu", "Asia/Kuching"}
 	case "BTV":
-		return "America/New_York"
+		return Location{"Burlington", "America/New_York"}
 	case "BTW":
-		return "Asia/Makassar"
+		return Location{"Batu Licin-Borneo Island", "Asia/Makassar"}
 	case "BUA":
-		return "Pacific/Bougainville"
+		return Location{"Buka Island", "Pacific/Bougainville"}
 	case "BUC":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "BUD":
-		return "Europe/Budapest"
+		return Location{"Budapest", "Europe/Budapest"}
 	case "BUF":
-		return "America/New_York"
+		return Location{"Buffalo", "America/New_York"}
 	case "BUN":
-		return "America/Bogota"
+		return Location{"Buenaventura", "America/Bogota"}
 	case "BUQ":
-		return "Africa/Harare"
+		return Location{"Bulawayo", "Africa/Harare"}
 	case "BUR":
-		return "America/Los_Angeles"
+		return Location{"Burbank", "America/Los_Angeles"}
 	case "BUS":
-		return "Asia/Tbilisi"
+		return Location{"Batumi", "Asia/Tbilisi"}
 	case "BUW":
-		return "Asia/Makassar"
+		return Location{"Bau Bau-Butung Island", "Asia/Makassar"}
 	case "BUX":
-		return "Africa/Lubumbashi"
+		return Location{"", "Africa/Lubumbashi"}
 	case "BUZ":
-		return "Asia/Tehran"
+		return Location{"Bushehr", "Asia/Tehran"}
 	case "BVA":
-		return "Europe/Paris"
+		return Location{"Beauvais/Tille", "Europe/Paris"}
 	case "BVB":
-		return "America/Boa_Vista"
+		return Location{"Boa Vista", "America/Boa_Vista"}
 	case "BVC":
-		return "Atlantic/Cape_Verde"
+		return Location{"Rabil", "Atlantic/Cape_Verde"}
 	case "BVE":
-		return "Europe/Paris"
+		return Location{"Brive-la-Gaillarde", "Europe/Paris"}
 	case "BVG":
-		return "Europe/Oslo"
+		return Location{"Berlevag", "Europe/Oslo"}
 	case "BVH":
-		return "America/Cuiaba"
+		return Location{"Vilhena", "America/Cuiaba"}
 	case "BVI":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "BVJ":
-		return "Asia/Yekaterinburg"
+		return Location{"Bovanenkovo", "Asia/Yekaterinburg"}
 	case "BVS":
-		return "America/Belem"
+		return Location{"Breves", "America/Belem"}
 	case "BWA":
-		return "Asia/Kathmandu"
+		return Location{"Bhairawa", "Asia/Kathmandu"}
 	case "BWI":
-		return "America/New_York"
+		return Location{"Baltimore", "America/New_York"}
 	case "BWK":
-		return "Europe/Zagreb"
+		return Location{"Brac Island", "Europe/Zagreb"}
 	case "BWN":
-		return "Asia/Brunei"
+		return Location{"Bandar Seri Begawan", "Asia/Brunei"}
 	case "BWT":
-		return "Australia/Hobart"
+		return Location{"Burnie", "Australia/Hobart"}
 	case "BXG":
-		return "Australia/Melbourne"
+		return Location{"", "Australia/Melbourne"}
 	case "BXU":
-		return "Asia/Manila"
+		return Location{"Butuan City", "Asia/Manila"}
 	case "BXY":
-		return "Asia/Qyzylorda"
+		return Location{"Baikonur", "Asia/Qyzylorda"}
 	case "BYC":
-		return "America/La_Paz"
+		return Location{"Yacuiba", "America/La_Paz"}
 	case "BYJ":
-		return "Europe/Lisbon"
+		return Location{"Beja", "Europe/Lisbon"}
 	case "BYK":
-		return "Africa/Abidjan"
+		return Location{"", "Africa/Abidjan"}
 	case "BYO":
-		return "America/Campo_Grande"
+		return Location{"Bonito", "America/Campo_Grande"}
 	case "BYP":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "BZE":
-		return "America/Belize"
+		return Location{"Belize City", "America/Belize"}
 	case "BZG":
-		return "Europe/Warsaw"
+		return Location{"Bydgoszcz", "Europe/Warsaw"}
 	case "BZL":
-		return "Asia/Dhaka"
+		return Location{"Barisal", "Asia/Dhaka"}
 	case "BZN":
-		return "America/Denver"
+		return Location{"Bozeman", "America/Denver"}
 	case "BZO":
-		return "Europe/Rome"
+		return Location{"Bolzano", "Europe/Rome"}
 	case "BZR":
-		return "Europe/Paris"
+		return Location{"Beziers/Vias", "Europe/Paris"}
 	case "BZV":
-		return "Africa/Brazzaville"
+		return Location{"Brazzaville", "Africa/Brazzaville"}
 	case "CAB":
-		return "Africa/Luanda"
+		return Location{"Cabinda", "Africa/Luanda"}
 	case "CAC":
-		return "America/Sao_Paulo"
+		return Location{"Cascavel", "America/Sao_Paulo"}
 	case "CAE":
-		return "America/New_York"
+		return Location{"Columbia", "America/New_York"}
 	case "CAF":
-		return "America/Manaus"
+		return Location{"Carauari", "America/Manaus"}
 	case "CAG":
-		return "Europe/Rome"
+		return Location{"Cagliari", "Europe/Rome"}
 	case "CAH":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Ca Mau City", "Asia/Ho_Chi_Minh"}
 	case "CAI":
-		return "Africa/Cairo"
+		return Location{"Cairo", "Africa/Cairo"}
 	case "CAJ":
-		return "America/Caracas"
+		return Location{"Canaima", "America/Caracas"}
 	case "CAK":
-		return "America/New_York"
+		return Location{"Akron", "America/New_York"}
 	case "CAL":
-		return "Europe/London"
+		return Location{"Campbeltown", "Europe/London"}
 	case "CAN":
-		return "Asia/Shanghai"
+		return Location{"Guangzhou", "Asia/Shanghai"}
 	case "CAP":
-		return "America/Port-au-Prince"
+		return Location{"Cap Haitien", "America/Port-au-Prince"}
 	case "CAU":
-		return "America/Recife"
+		return Location{"Caruaru", "America/Recife"}
 	case "CAW":
-		return "America/Sao_Paulo"
+		return Location{"Campos Dos Goytacazes", "America/Sao_Paulo"}
 	case "CAY":
-		return "America/Cayenne"
+		return Location{"Cayenne / Rochambeau", "America/Cayenne"}
 	case "CAZ":
-		return "Australia/Sydney"
+		return Location{"", "Australia/Sydney"}
 	case "CBB":
-		return "America/La_Paz"
+		return Location{"Cochabamba", "America/La_Paz"}
 	case "CBG":
-		return "Europe/London"
+		return Location{"Cambridge", "Europe/London"}
 	case "CBH":
-		return "Africa/Algiers"
+		return Location{"Bechar", "Africa/Algiers"}
 	case "CBL":
-		return "America/Caracas"
+		return Location{"", "America/Caracas"}
 	case "CBO":
-		return "Asia/Manila"
+		return Location{"Cotabato City", "Asia/Manila"}
 	case "CBQ":
-		return "Africa/Lagos"
+		return Location{"Calabar", "Africa/Lagos"}
 	case "CBR":
-		return "Australia/Sydney"
+		return Location{"Canberra", "Australia/Sydney"}
 	case "CBT":
-		return "Africa/Luanda"
+		return Location{"Catumbela", "Africa/Luanda"}
 	case "CCC":
-		return "America/Havana"
+		return Location{"Cayo Coco", "America/Havana"}
 	case "CCF":
-		return "Europe/Paris"
+		return Location{"Carcassonne/Salvaza", "Europe/Paris"}
 	case "CCJ":
-		return "Asia/Kolkata"
+		return Location{"Calicut", "Asia/Kolkata"}
 	case "CCK":
-		return "Indian/Cocos"
+		return Location{"Cocos (Keeling) Islands", "Indian/Cocos"}
 	case "CCP":
-		return "America/Santiago"
+		return Location{"Concepcion", "America/Santiago"}
 	case "CCR":
-		return "America/Los_Angeles"
+		return Location{"Concord", "America/Los_Angeles"}
 	case "CCS":
-		return "America/Caracas"
+		return Location{"Caracas", "America/Caracas"}
 	case "CCU":
-		return "Asia/Kolkata"
+		return Location{"Kolkata", "Asia/Kolkata"}
 	case "CCV":
-		return "Pacific/Efate"
+		return Location{"Craig Cove", "Pacific/Efate"}
 	case "CDB":
-		return "America/Nome"
+		return Location{"Cold Bay", "America/Nome"}
 	case "CDC":
-		return "America/Denver"
+		return Location{"Cedar City", "America/Denver"}
 	case "CDG":
-		return "Europe/Paris"
+		return Location{"Paris", "Europe/Paris"}
 	case "CDP":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "CDR":
-		return "America/Denver"
+		return Location{"Chadron", "America/Denver"}
 	case "CDT":
-		return "Europe/Madrid"
+		return Location{"Calamocha", "Europe/Madrid"}
 	case "CDV":
-		return "America/Anchorage"
+		return Location{"Cordova", "America/Anchorage"}
 	case "CEB":
-		return "Asia/Manila"
+		return Location{"Lapu-Lapu City", "Asia/Manila"}
 	case "CEC":
-		return "America/Los_Angeles"
+		return Location{"Crescent City", "America/Los_Angeles"}
 	case "CED":
-		return "Australia/Adelaide"
+		return Location{"", "Australia/Adelaide"}
 	case "CEE":
-		return "Europe/Moscow"
+		return Location{"Cherepovets", "Europe/Moscow"}
 	case "CEI":
-		return "Asia/Bangkok"
+		return Location{"Chiang Rai", "Asia/Bangkok"}
 	case "CEK":
-		return "Asia/Yekaterinburg"
+		return Location{"Chelyabinsk", "Asia/Yekaterinburg"}
 	case "CEM":
-		return "America/Anchorage"
+		return Location{"Central", "America/Anchorage"}
 	case "CEN":
-		return "America/Hermosillo"
+		return Location{"Ciudad Obregon", "America/Hermosillo"}
 	case "CEZ":
-		return "America/Denver"
+		return Location{"Cortez", "America/Denver"}
 	case "CFB":
-		return "America/Sao_Paulo"
+		return Location{"Cabo Frio", "America/Sao_Paulo"}
 	case "CFE":
-		return "Europe/Paris"
+		return Location{"Clermont-Ferrand/Auvergne", "Europe/Paris"}
 	case "CFN":
-		return "Europe/Dublin"
+		return Location{"Donegal", "Europe/Dublin"}
 	case "CFR":
-		return "Europe/Paris"
+		return Location{"Caen/Carpiquet", "Europe/Paris"}
 	case "CFS":
-		return "Australia/Sydney"
+		return Location{"Coffs Harbour", "Australia/Sydney"}
 	case "CFU":
-		return "Europe/Athens"
+		return Location{"Kerkyra Island", "Europe/Athens"}
 	case "CGB":
-		return "America/Cuiaba"
+		return Location{"Cuiaba", "America/Cuiaba"}
 	case "CGD":
-		return "Asia/Shanghai"
+		return Location{"Changde", "Asia/Shanghai"}
 	case "CGH":
-		return "America/Sao_Paulo"
+		return Location{"Sao Paulo", "America/Sao_Paulo"}
 	case "CGI":
-		return "America/Chicago"
+		return Location{"Cape Girardeau", "America/Chicago"}
 	case "CGK":
-		return "Asia/Jakarta"
+		return Location{"Jakarta", "Asia/Jakarta"}
 	case "CGM":
-		return "Asia/Manila"
+		return Location{"", "Asia/Manila"}
 	case "CGN":
-		return "Europe/Berlin"
+		return Location{"Cologne", "Europe/Berlin"}
 	case "CGO":
-		return "Asia/Shanghai"
+		return Location{"Zhengzhou", "Asia/Shanghai"}
 	case "CGP":
-		return "Asia/Dhaka"
+		return Location{"Chittagong", "Asia/Dhaka"}
 	case "CGQ":
-		return "Asia/Shanghai"
+		return Location{"Changchun", "Asia/Shanghai"}
 	case "CGR":
-		return "America/Campo_Grande"
+		return Location{"Campo Grande", "America/Campo_Grande"}
 	case "CGY":
-		return "Asia/Manila"
+		return Location{"Cagayan De Oro City", "Asia/Manila"}
 	case "CHA":
-		return "America/New_York"
+		return Location{"Chattanooga", "America/New_York"}
 	case "CHC":
-		return "Pacific/Auckland"
+		return Location{"Christchurch", "Pacific/Auckland"}
 	case "CHG":
-		return "Asia/Shanghai"
+		return Location{"Chaoyang", "Asia/Shanghai"}
 	case "CHH":
-		return "America/Lima"
+		return Location{"Chachapoyas", "America/Lima"}
 	case "CHO":
-		return "America/New_York"
+		return Location{"Charlottesville", "America/New_York"}
 	case "CHQ":
-		return "Europe/Athens"
+		return Location{"Souda", "Europe/Athens"}
 	case "CHS":
-		return "America/New_York"
+		return Location{"Charleston", "America/New_York"}
 	case "CHT":
-		return "Pacific/Chatham"
+		return Location{"Waitangi", "Pacific/Chatham"}
 	case "CHU":
-		return "America/Anchorage"
+		return Location{"Chuathbaluk", "America/Anchorage"}
 	case "CHX":
-		return "America/Panama"
+		return Location{"Changuinola", "America/Panama"}
 	case "CHY":
-		return "Pacific/Guadalcanal"
+		return Location{"", "Pacific/Guadalcanal"}
 	case "CIA":
-		return "Europe/Rome"
+		return Location{"Roma", "Europe/Rome"}
 	case "CID":
-		return "America/Chicago"
+		return Location{"Cedar Rapids", "America/Chicago"}
 	case "CIF":
-		return "Asia/Shanghai"
+		return Location{"Chifeng", "Asia/Shanghai"}
 	case "CIH":
-		return "Asia/Shanghai"
+		return Location{"Changzhi", "Asia/Shanghai"}
 	case "CIJ":
-		return "America/La_Paz"
+		return Location{"Cobija", "America/La_Paz"}
 	case "CIK":
-		return "America/Anchorage"
+		return Location{"Chalkyitsik", "America/Anchorage"}
 	case "CIT":
-		return "Asia/Almaty"
+		return Location{"Shymkent", "Asia/Almaty"}
 	case "CIU":
-		return "America/Detroit"
+		return Location{"Sault Ste Marie", "America/Detroit"}
 	case "CIX":
-		return "America/Lima"
+		return Location{"Chiclayo", "America/Lima"}
 	case "CIY":
-		return "Europe/Rome"
+		return Location{"Comiso", "Europe/Rome"}
 	case "CIZ":
-		return "America/Manaus"
+		return Location{"Coari", "America/Manaus"}
 	case "CJA":
-		return "America/Lima"
+		return Location{"Cajamarca", "America/Lima"}
 	case "CJB":
-		return "Asia/Kolkata"
+		return Location{"Coimbatore", "Asia/Kolkata"}
 	case "CJC":
-		return "America/Santiago"
+		return Location{"Calama", "America/Santiago"}
 	case "CJF":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "CJJ":
-		return "Asia/Seoul"
+		return Location{"Cheongju", "Asia/Seoul"}
 	case "CJL":
-		return "Asia/Karachi"
+		return Location{"Chitral", "Asia/Karachi"}
 	case "CJM":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "CJS":
-		return "America/Ojinaga"
+		return Location{"Ciudad Juarez", "America/Ojinaga"}
 	case "CJU":
-		return "Asia/Seoul"
+		return Location{"Jeju City", "Asia/Seoul"}
 	case "CKB":
-		return "America/New_York"
+		return Location{"Clarksburg", "America/New_York"}
 	case "CKG":
-		return "Asia/Shanghai"
+		return Location{"Chongqing", "Asia/Shanghai"}
 	case "CKH":
-		return "Asia/Srednekolymsk"
+		return Location{"Chokurdah", "Asia/Srednekolymsk"}
 	case "CKO":
-		return "America/Sao_Paulo"
+		return Location{"Cornelio Procopio", "America/Sao_Paulo"}
 	case "CKS":
-		return "America/Belem"
+		return Location{"Carajas", "America/Belem"}
 	case "CKW":
-		return "Australia/Perth"
+		return Location{"Christmas Creek mine", "Australia/Perth"}
 	case "CKY":
-		return "Africa/Conakry"
+		return Location{"Conakry", "Africa/Conakry"}
 	case "CKZ":
-		return "Europe/Istanbul"
+		return Location{"Canakkale", "Europe/Istanbul"}
 	case "CLD":
-		return "America/Los_Angeles"
+		return Location{"Carlsbad", "America/Los_Angeles"}
 	case "CLE":
-		return "America/New_York"
+		return Location{"Cleveland", "America/New_York"}
 	case "CLJ":
-		return "Europe/Bucharest"
+		return Location{"Cluj-Napoca", "Europe/Bucharest"}
 	case "CLL":
-		return "America/Chicago"
+		return Location{"College Station", "America/Chicago"}
 	case "CLO":
-		return "America/Bogota"
+		return Location{"Cali", "America/Bogota"}
 	case "CLP":
-		return "America/Anchorage"
+		return Location{"Clarks Point", "America/Anchorage"}
 	case "CLQ":
-		return "America/Mexico_City"
+		return Location{"Colima", "America/Mexico_City"}
 	case "CLT":
-		return "America/New_York"
+		return Location{"Charlotte", "America/New_York"}
 	case "CLV":
-		return "America/Sao_Paulo"
+		return Location{"Caldas Novas", "America/Sao_Paulo"}
 	case "CLY":
-		return "Europe/Paris"
+		return Location{"Calvi/Sainte-Catherine", "Europe/Paris"}
 	case "CMA":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "CMB":
-		return "Asia/Colombo"
+		return Location{"Colombo", "Asia/Colombo"}
 	case "CME":
-		return "America/Merida"
+		return Location{"Ciudad del Carmen", "America/Merida"}
 	case "CMF":
-		return "Europe/Paris"
+		return Location{"Chambery/Aix-les-Bains", "Europe/Paris"}
 	case "CMG":
-		return "America/Campo_Grande"
+		return Location{"Corumba", "America/Campo_Grande"}
 	case "CMH":
-		return "America/New_York"
+		return Location{"Columbus", "America/New_York"}
 	case "CMI":
-		return "America/Chicago"
+		return Location{"Champaign/Urbana", "America/Chicago"}
 	case "CMN":
-		return "Africa/Casablanca"
+		return Location{"Casablanca", "Africa/Casablanca"}
 	case "CMW":
-		return "America/Havana"
+		return Location{"Camaguey", "America/Havana"}
 	case "CMX":
-		return "America/Detroit"
+		return Location{"Hancock", "America/Detroit"}
 	case "CNC":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "CND":
-		return "Europe/Bucharest"
+		return Location{"Constanta", "Europe/Bucharest"}
 	case "CNF":
-		return "America/Sao_Paulo"
+		return Location{"Belo Horizonte", "America/Sao_Paulo"}
 	case "CNJ":
-		return "Australia/Brisbane"
+		return Location{"Cloncurry", "Australia/Brisbane"}
 	case "CNM":
-		return "America/Denver"
+		return Location{"Carlsbad", "America/Denver"}
 	case "CNN":
-		return "Asia/Yakutsk"
+		return Location{"Chulman", "Asia/Yakutsk"}
 	case "CNQ":
-		return "America/Argentina/Cordoba"
+		return Location{"Corrientes", "America/Argentina/Cordoba"}
 	case "CNS":
-		return "Australia/Brisbane"
+		return Location{"Cairns", "Australia/Brisbane"}
 	case "CNX":
-		return "Asia/Bangkok"
+		return Location{"Chiang Mai", "Asia/Bangkok"}
 	case "CNY":
-		return "America/Denver"
+		return Location{"Moab", "America/Denver"}
 	case "COD":
-		return "America/Denver"
+		return Location{"Cody", "America/Denver"}
 	case "COH":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "COK":
-		return "Asia/Kolkata"
+		return Location{"Cochin", "Asia/Kolkata"}
 	case "COO":
-		return "Africa/Porto-Novo"
+		return Location{"Cotonou", "Africa/Porto-Novo"}
 	case "COQ":
-		return "Asia/Choibalsan"
+		return Location{"", "Asia/Choibalsan"}
 	case "COR":
-		return "America/Argentina/Cordoba"
+		return Location{"Cordoba", "America/Argentina/Cordoba"}
 	case "COS":
-		return "America/Denver"
+		return Location{"Colorado Springs", "America/Denver"}
 	case "COU":
-		return "America/Chicago"
+		return Location{"Columbia", "America/Chicago"}
 	case "CPC":
-		return "America/Argentina/Salta"
+		return Location{"Chapelco/San Martin de los Andes", "America/Argentina/Salta"}
 	case "CPD":
-		return "Australia/Adelaide"
+		return Location{"", "Australia/Adelaide"}
 	case "CPE":
-		return "America/Merida"
+		return Location{"Campeche", "America/Merida"}
 	case "CPH":
-		return "Europe/Copenhagen"
+		return Location{"Copenhagen", "Europe/Copenhagen"}
 	case "CPO":
-		return "America/Santiago"
+		return Location{"Copiapo", "America/Santiago"}
 	case "CPR":
-		return "America/Denver"
+		return Location{"Casper", "America/Denver"}
 	case "CPT":
-		return "Africa/Johannesburg"
+		return Location{"Cape Town", "Africa/Johannesburg"}
 	case "CPV":
-		return "America/Fortaleza"
+		return Location{"Campina Grande", "America/Fortaleza"}
 	case "CPX":
-		return "America/Puerto_Rico"
+		return Location{"Culebra Island", "America/Puerto_Rico"}
 	case "CQD":
-		return "Asia/Tehran"
+		return Location{"Shahrekord", "Asia/Tehran"}
 	case "CRA":
-		return "Europe/Bucharest"
+		return Location{"Craiova", "Europe/Bucharest"}
 	case "CRD":
-		return "America/Argentina/Catamarca"
+		return Location{"Comodoro Rivadavia", "America/Argentina/Catamarca"}
 	case "CRI":
-		return "America/Nassau"
+		return Location{"Colonel Hill", "America/Nassau"}
 	case "CRK":
-		return "Asia/Manila"
+		return Location{"Angeles City", "Asia/Manila"}
 	case "CRL":
-		return "Europe/Brussels"
+		return Location{"Brussels", "Europe/Brussels"}
 	case "CRM":
-		return "Asia/Manila"
+		return Location{"Catarman", "Asia/Manila"}
 	case "CRP":
-		return "America/Chicago"
+		return Location{"Corpus Christi", "America/Chicago"}
 	case "CRV":
-		return "Europe/Rome"
+		return Location{"Crotone", "Europe/Rome"}
 	case "CRW":
-		return "America/New_York"
+		return Location{"Charleston", "America/New_York"}
 	case "CRZ":
-		return "Asia/Ashgabat"
+		return Location{"Turkmenabat", "Asia/Ashgabat"}
 	case "CSG":
-		return "America/New_York"
+		return Location{"Columbus", "America/New_York"}
 	case "CSK":
-		return "Africa/Dakar"
+		return Location{"Cap Skirring", "Africa/Dakar"}
 	case "CSU":
-		return "America/Sao_Paulo"
+		return Location{"Santa Cruz Do Sul", "America/Sao_Paulo"}
 	case "CSX":
-		return "Asia/Shanghai"
+		return Location{"Changsha", "Asia/Shanghai"}
 	case "CSY":
-		return "Europe/Moscow"
+		return Location{"Cheboksary", "Europe/Moscow"}
 	case "CTA":
-		return "Europe/Rome"
+		return Location{"Catania", "Europe/Rome"}
 	case "CTC":
-		return "America/Argentina/Catamarca"
+		return Location{"Catamarca", "America/Argentina/Catamarca"}
 	case "CTG":
-		return "America/Bogota"
+		return Location{"Cartagena", "America/Bogota"}
 	case "CTL":
-		return "Australia/Brisbane"
+		return Location{"Charleville", "Australia/Brisbane"}
 	case "CTM":
-		return "America/Cancun"
+		return Location{"Chetumal", "America/Cancun"}
 	case "CTN":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "CTS":
-		return "Asia/Tokyo"
+		return Location{"Chitose / Tomakomai", "Asia/Tokyo"}
 	case "CTU":
-		return "Asia/Shanghai"
+		return Location{"Chengdu", "Asia/Shanghai"}
 	case "CUC":
-		return "America/Bogota"
+		return Location{"Cucuta", "America/Bogota"}
 	case "CUE":
-		return "America/Guayaquil"
+		return Location{"Cuenca", "America/Guayaquil"}
 	case "CUF":
-		return "Europe/Rome"
+		return Location{"Cuneo", "Europe/Rome"}
 	case "CUL":
-		return "America/Mazatlan"
+		return Location{"Culiacan", "America/Mazatlan"}
 	case "CUM":
-		return "America/Caracas"
+		return Location{"", "America/Caracas"}
 	case "CUN":
-		return "America/Cancun"
+		return Location{"Cancun", "America/Cancun"}
 	case "CUQ":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "CUR":
-		return "America/Curacao"
+		return Location{"Willemstad", "America/Curacao"}
 	case "CUU":
-		return "America/Chihuahua"
+		return Location{"Chihuahua", "America/Chihuahua"}
 	case "CUZ":
-		return "America/Lima"
+		return Location{"Cusco", "America/Lima"}
 	case "CVG":
-		return "America/New_York"
+		return Location{"Hebron", "America/New_York"}
 	case "CVM":
-		return "America/Monterrey"
+		return Location{"Ciudad Victoria", "America/Monterrey"}
 	case "CVN":
-		return "America/Denver"
+		return Location{"Clovis", "America/Denver"}
 	case "CVQ":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "CVU":
-		return "Atlantic/Azores"
+		return Location{"Corvo", "Atlantic/Azores"}
 	case "CWA":
-		return "America/Chicago"
+		return Location{"Mosinee", "America/Chicago"}
 	case "CWB":
-		return "America/Sao_Paulo"
+		return Location{"Curitiba", "America/Sao_Paulo"}
 	case "CWL":
-		return "Europe/London"
+		return Location{"Cardiff", "Europe/London"}
 	case "CXB":
-		return "Asia/Dhaka"
+		return Location{"Cox's Bazar", "Asia/Dhaka"}
 	case "CXI":
-		return "Pacific/Kiritimati"
+		return Location{"Banana", "Pacific/Kiritimati"}
 	case "CXJ":
-		return "America/Sao_Paulo"
+		return Location{"Caxias Do Sul", "America/Sao_Paulo"}
 	case "CXR":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Nha Trang", "Asia/Ho_Chi_Minh"}
 	case "CXY":
-		return "America/Nassau"
+		return Location{"Cat Cay", "America/Nassau"}
 	case "CYA":
-		return "America/Port-au-Prince"
+		return Location{"Les Cayes", "America/Port-au-Prince"}
 	case "CYB":
-		return "America/Cayman"
+		return Location{"Cayman Brac", "America/Cayman"}
 	case "CYF":
-		return "America/Nome"
+		return Location{"Chefornak", "America/Nome"}
 	case "CYI":
-		return "Asia/Taipei"
+		return Location{"Chiayi City", "Asia/Taipei"}
 	case "CYO":
-		return "America/Havana"
+		return Location{"Cayo Largo del Sur", "America/Havana"}
 	case "CYP":
-		return "Asia/Manila"
+		return Location{"Calbayog City", "Asia/Manila"}
 	case "CYS":
-		return "America/Denver"
+		return Location{"Cheyenne", "America/Denver"}
 	case "CYZ":
-		return "Asia/Manila"
+		return Location{"Cauayan City", "Asia/Manila"}
 	case "CZL":
-		return "Africa/Algiers"
+		return Location{"Constantine", "Africa/Algiers"}
 	case "CZM":
-		return "America/Cancun"
+		return Location{"Cozumel", "America/Cancun"}
 	case "CZS":
-		return "America/Rio_Branco"
+		return Location{"Cruzeiro Do Sul", "America/Rio_Branco"}
 	case "CZU":
-		return "America/Bogota"
+		return Location{"Corozal", "America/Bogota"}
 	case "CZX":
-		return "Asia/Shanghai"
+		return Location{"Changzhou", "Asia/Shanghai"}
 	case "DAB":
-		return "America/New_York"
+		return Location{"Daytona Beach", "America/New_York"}
 	case "DAC":
-		return "Asia/Dhaka"
+		return Location{"Dhaka", "Asia/Dhaka"}
 	case "DAD":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Da Nang", "Asia/Ho_Chi_Minh"}
 	case "DAL":
-		return "America/Chicago"
+		return Location{"Dallas", "America/Chicago"}
 	case "DAM":
-		return "Asia/Damascus"
+		return Location{"Damascus", "Asia/Damascus"}
 	case "DAR":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Dar es Salaam", "Africa/Dar_es_Salaam"}
 	case "DAT":
-		return "Asia/Shanghai"
+		return Location{"Datong", "Asia/Shanghai"}
 	case "DAU":
-		return "Pacific/Port_Moresby"
+		return Location{"Daru", "Pacific/Port_Moresby"}
 	case "DAV":
-		return "America/Panama"
+		return Location{"David", "America/Panama"}
 	case "DAY":
-		return "America/New_York"
+		return Location{"Dayton", "America/New_York"}
 	case "DBO":
-		return "Australia/Sydney"
+		return Location{"Dubbo", "Australia/Sydney"}
 	case "DBQ":
-		return "America/Chicago"
+		return Location{"Dubuque", "America/Chicago"}
 	case "DBR":
-		return "Asia/Kolkata"
+		return Location{"Darbhanga", "Asia/Kolkata"}
 	case "DBV":
-		return "Europe/Zagreb"
+		return Location{"Dubrovnik", "Europe/Zagreb"}
 	case "DCA":
-		return "America/New_York"
+		return Location{"Washington", "America/New_York"}
 	case "DCM":
-		return "Europe/Paris"
+		return Location{"Castres/Mazamet", "Europe/Paris"}
 	case "DDC":
-		return "America/Chicago"
+		return Location{"Dodge City", "America/Chicago"}
 	case "DDG":
-		return "Asia/Shanghai"
+		return Location{"Dandong", "Asia/Shanghai"}
 	case "DEB":
-		return "Europe/Budapest"
+		return Location{"Debrecen", "Europe/Budapest"}
 	case "DEC":
-		return "America/Chicago"
+		return Location{"Decatur", "America/Chicago"}
 	case "DED":
-		return "Asia/Kolkata"
+		return Location{"Dehradun", "Asia/Kolkata"}
 	case "DEE":
-		return "Asia/Ust-Nera"
+		return Location{"Kunashir Island", "Asia/Ust-Nera"}
 	case "DEL":
-		return "Asia/Kolkata"
+		return Location{"New Delhi", "Asia/Kolkata"}
 	case "DEN":
-		return "America/Denver"
+		return Location{"Denver", "America/Denver"}
 	case "DFW":
-		return "America/Chicago"
+		return Location{"Dallas-Fort Worth", "America/Chicago"}
 	case "DGE":
-		return "Australia/Sydney"
+		return Location{"Mudgee", "Australia/Sydney"}
 	case "DGH":
-		return "Asia/Kolkata"
+		return Location{"Deoghar", "Asia/Kolkata"}
 	case "DGO":
-		return "America/Monterrey"
+		return Location{"Durango", "America/Monterrey"}
 	case "DGT":
-		return "Asia/Manila"
+		return Location{"Dumaguete City", "Asia/Manila"}
 	case "DHI":
-		return "Asia/Kathmandu"
+		return Location{"Dhangarhi", "Asia/Kathmandu"}
 	case "DHM":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "DHN":
-		return "America/Chicago"
+		return Location{"Dothan", "America/Chicago"}
 	case "DIB":
-		return "Asia/Kolkata"
+		return Location{"Dibrugarh", "Asia/Kolkata"}
 	case "DIE":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "DIG":
-		return "Asia/Shanghai"
+		return Location{"Shangri-La", "Asia/Shanghai"}
 	case "DIK":
-		return "America/Denver"
+		return Location{"Dickinson", "America/Denver"}
 	case "DIL":
-		return "Asia/Dili"
+		return Location{"Dili", "Asia/Dili"}
 	case "DIN":
-		return "Asia/Bangkok"
+		return Location{"Dien Bien Phu", "Asia/Bangkok"}
 	case "DIR":
-		return "Africa/Addis_Ababa"
+		return Location{"Dire Dawa", "Africa/Addis_Ababa"}
 	case "DIY":
-		return "Europe/Istanbul"
+		return Location{"Diyarbakir", "Europe/Istanbul"}
 	case "DJB":
-		return "Asia/Jakarta"
+		return Location{"Jambi-Sumatra Island", "Asia/Jakarta"}
 	case "DJE":
-		return "Africa/Tunis"
+		return Location{"Djerba", "Africa/Tunis"}
 	case "DJG":
-		return "Africa/Algiers"
+		return Location{"Djanet", "Africa/Algiers"}
 	case "DJJ":
-		return "Asia/Jayapura"
+		return Location{"Jayapura-Papua Island", "Asia/Jayapura"}
 	case "DKS":
-		return "Asia/Krasnoyarsk"
+		return Location{"Dikson", "Asia/Krasnoyarsk"}
 	case "DLA":
-		return "Africa/Douala"
+		return Location{"Douala", "Africa/Douala"}
 	case "DLC":
-		return "Asia/Shanghai"
+		return Location{"Dalian", "Asia/Shanghai"}
 	case "DLE":
-		return "Europe/Paris"
+		return Location{"Dole/Tavaux", "Europe/Paris"}
 	case "DLG":
-		return "America/Anchorage"
+		return Location{"Dillingham", "America/Anchorage"}
 	case "DLH":
-		return "America/Chicago"
+		return Location{"Duluth", "America/Chicago"}
 	case "DLI":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Dalat", "Asia/Ho_Chi_Minh"}
 	case "DLM":
-		return "Europe/Istanbul"
+		return Location{"Dalaman", "Europe/Istanbul"}
 	case "DLU":
-		return "Asia/Shanghai"
+		return Location{"Xiaguan", "Asia/Shanghai"}
 	case "DLY":
-		return "Pacific/Efate"
+		return Location{"Dillon's Bay", "Pacific/Efate"}
 	case "DLZ":
-		return "Asia/Ulaanbaatar"
+		return Location{"Dalanzadgad", "Asia/Ulaanbaatar"}
 	case "DMB":
-		return "Asia/Almaty"
+		return Location{"Taraz", "Asia/Almaty"}
 	case "DMD":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "DME":
-		return "Europe/Moscow"
+		return Location{"Moscow", "Europe/Moscow"}
 	case "DMK":
-		return "Asia/Bangkok"
+		return Location{"Bangkok", "Asia/Bangkok"}
 	case "DMM":
-		return "Asia/Riyadh"
+		return Location{"Ad Dammam", "Asia/Riyadh"}
 	case "DMU":
-		return "Asia/Kolkata"
+		return Location{"Dimapur", "Asia/Kolkata"}
 	case "DND":
-		return "Europe/London"
+		return Location{"Dundee", "Europe/London"}
 	case "DNH":
-		return "Asia/Shanghai"
+		return Location{"Dunhuang", "Asia/Shanghai"}
 	case "DNZ":
-		return "Europe/Istanbul"
+		return Location{"Denizli", "Europe/Istanbul"}
 	case "DOB":
-		return "Asia/Jayapura"
+		return Location{"Dobo-Kobror Island", "Asia/Jayapura"}
 	case "DOD":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Dodoma", "Africa/Dar_es_Salaam"}
 	case "DOH":
-		return "Asia/Qatar"
+		return Location{"Doha", "Asia/Qatar"}
 	case "DOL":
-		return "Europe/Paris"
+		return Location{"Deauville", "Europe/Paris"}
 	case "DOM":
-		return "America/Dominica"
+		return Location{"Marigot", "America/Dominica"}
 	case "DOP":
-		return "Asia/Kathmandu"
+		return Location{"Dolpa", "Asia/Kathmandu"}
 	case "DOY":
-		return "Asia/Shanghai"
+		return Location{"Dongying", "Asia/Shanghai"}
 	case "DPL":
-		return "Asia/Manila"
+		return Location{"Dipolog City", "Asia/Manila"}
 	case "DPO":
-		return "Australia/Hobart"
+		return Location{"Devonport", "Australia/Hobart"}
 	case "DPS":
-		return "Asia/Makassar"
+		return Location{"Denpasar-Bali Island", "Asia/Makassar"}
 	case "DQA":
-		return "Asia/Shanghai"
+		return Location{"Daqing Shi", "Asia/Shanghai"}
 	case "DQM":
-		return "Asia/Muscat"
+		return Location{"Duqm", "Asia/Muscat"}
 	case "DRB":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "DRG":
-		return "America/Nome"
+		return Location{"Deering", "America/Nome"}
 	case "DRK":
-		return "America/Costa_Rica"
+		return Location{"Puntarenas", "America/Costa_Rica"}
 	case "DRO":
-		return "America/Denver"
+		return Location{"Durango", "America/Denver"}
 	case "DRS":
-		return "Europe/Berlin"
+		return Location{"Dresden", "Europe/Berlin"}
 	case "DRW":
-		return "Australia/Darwin"
+		return Location{"Darwin", "Australia/Darwin"}
 	case "DSE":
-		return "Africa/Addis_Ababa"
+		return Location{"Dessie", "Africa/Addis_Ababa"}
 	case "DSI":
-		return "America/Chicago"
+		return Location{"Destin", "America/Chicago"}
 	case "DSM":
-		return "America/Chicago"
+		return Location{"Des Moines", "America/Chicago"}
 	case "DSN":
-		return "Asia/Shanghai"
+		return Location{"Ordos", "Asia/Shanghai"}
 	case "DSS":
-		return "Africa/Dakar"
+		return Location{"Diass", "Africa/Dakar"}
 	case "DTB":
-		return "Asia/Jakarta"
+		return Location{"Siborong-Borong", "Asia/Jakarta"}
 	case "DTM":
-		return "Europe/Berlin"
+		return Location{"Dortmund", "Europe/Berlin"}
 	case "DTW":
-		return "America/Detroit"
+		return Location{"Detroit", "America/Detroit"}
 	case "DUB":
-		return "Europe/Dublin"
+		return Location{"Dublin", "Europe/Dublin"}
 	case "DUD":
-		return "Pacific/Auckland"
+		return Location{"Dunedin", "Pacific/Auckland"}
 	case "DUE":
-		return "Africa/Luanda"
+		return Location{"Chitato", "Africa/Luanda"}
 	case "DUJ":
-		return "America/New_York"
+		return Location{"Dubois", "America/New_York"}
 	case "DUR":
-		return "Africa/Johannesburg"
+		return Location{"Durban", "Africa/Johannesburg"}
 	case "DUS":
-		return "Europe/Berlin"
+		return Location{"Dusseldorf", "Europe/Berlin"}
 	case "DUT":
-		return "America/Nome"
+		return Location{"Unalaska", "America/Nome"}
 	case "DVL":
-		return "America/Chicago"
+		return Location{"Devils Lake", "America/Chicago"}
 	case "DVO":
-		return "Asia/Manila"
+		return Location{"Davao City", "Asia/Manila"}
 	case "DWC":
-		return "Asia/Dubai"
+		return Location{"Jebel Ali", "Asia/Dubai"}
 	case "DWD":
-		return "Asia/Riyadh"
+		return Location{"Dawadmi", "Asia/Riyadh"}
 	case "DXB":
-		return "Asia/Dubai"
+		return Location{"Dubai", "Asia/Dubai"}
 	case "DYG":
-		return "Asia/Shanghai"
+		return Location{"Dayong", "Asia/Shanghai"}
 	case "DYR":
-		return "Asia/Anadyr"
+		return Location{"Anadyr", "Asia/Anadyr"}
 	case "DYU":
-		return "Asia/Dushanbe"
+		return Location{"Dushanbe", "Asia/Dushanbe"}
 	case "DZA":
-		return "Indian/Mayotte"
+		return Location{"Dzaoudzi", "Indian/Mayotte"}
 	case "DZN":
-		return "Asia/Almaty"
+		return Location{"Zhezkazgan", "Asia/Almaty"}
 	case "EAA":
-		return "America/Anchorage"
+		return Location{"Eagle", "America/Anchorage"}
 	case "EAE":
-		return "Pacific/Efate"
+		return Location{"Sangafa", "Pacific/Efate"}
 	case "EAM":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "EAR":
-		return "America/Chicago"
+		return Location{"Kearney", "America/Chicago"}
 	case "EAS":
-		return "Europe/Madrid"
+		return Location{"Hondarribia", "Europe/Madrid"}
 	case "EAT":
-		return "America/Los_Angeles"
+		return Location{"Wenatchee", "America/Los_Angeles"}
 	case "EAU":
-		return "America/Chicago"
+		return Location{"Eau Claire", "America/Chicago"}
 	case "EBA":
-		return "Europe/Rome"
+		return Location{"Marina  Di Campo", "Europe/Rome"}
 	case "EBB":
-		return "Africa/Kampala"
+		return Location{"Kampala", "Africa/Kampala"}
 	case "EBH":
-		return "Africa/Algiers"
+		return Location{"El Bayadh", "Africa/Algiers"}
 	case "EBJ":
-		return "Europe/Copenhagen"
+		return Location{"Esbjerg", "Europe/Copenhagen"}
 	case "EBL":
-		return "Asia/Baghdad"
+		return Location{"Arbil", "Asia/Baghdad"}
 	case "ECN":
-		return "Asia/Famagusta"
+		return Location{"Nicosia", "Asia/Famagusta"}
 	case "ECP":
-		return "America/Chicago"
+		return Location{"Panama City Beach", "America/Chicago"}
 	case "EDI":
-		return "Europe/London"
+		return Location{"Edinburgh", "Europe/London"}
 	case "EDL":
-		return "Africa/Nairobi"
+		return Location{"Eldoret", "Africa/Nairobi"}
 	case "EDO":
-		return "Europe/Istanbul"
+		return Location{"Edremit", "Europe/Istanbul"}
 	case "EDR":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "EEK":
-		return "America/Nome"
+		return Location{"Eek", "America/Nome"}
 	case "EFL":
-		return "Europe/Athens"
+		return Location{"Kefallinia Island", "Europe/Athens"}
 	case "EGC":
-		return "Europe/Paris"
+		return Location{"Bergerac/Roumaniere", "Europe/Paris"}
 	case "EGE":
-		return "America/Denver"
+		return Location{"Eagle", "America/Denver"}
 	case "EGM":
-		return "Pacific/Guadalcanal"
+		return Location{"Sege", "Pacific/Guadalcanal"}
 	case "EGN":
-		return "Africa/Khartoum"
+		return Location{"Geneina", "Africa/Khartoum"}
 	case "EGS":
-		return "Atlantic/Reykjavik"
+		return Location{"Egilsstadir", "Atlantic/Reykjavik"}
 	case "EGX":
-		return "America/Anchorage"
+		return Location{"Egegik", "America/Anchorage"}
 	case "EIN":
-		return "Europe/Amsterdam"
+		return Location{"Eindhoven", "Europe/Amsterdam"}
 	case "EIS":
-		return "America/Tortola"
+		return Location{"Road Town", "America/Tortola"}
 	case "EJA":
-		return "America/Bogota"
+		return Location{"Barrancabermeja", "America/Bogota"}
 	case "EJH":
-		return "Asia/Riyadh"
+		return Location{"Al Wajh", "Asia/Riyadh"}
 	case "EKO":
-		return "America/Los_Angeles"
+		return Location{"Elko", "America/Los_Angeles"}
 	case "EKS":
-		return "Asia/Sakhalin"
+		return Location{"Shakhtersk", "Asia/Sakhalin"}
 	case "ELC":
-		return "Australia/Darwin"
+		return Location{"Elcho Island", "Australia/Darwin"}
 	case "ELD":
-		return "America/Chicago"
+		return Location{"El Dorado", "America/Chicago"}
 	case "ELF":
-		return "Africa/Khartoum"
+		return Location{"El Fasher", "Africa/Khartoum"}
 	case "ELG":
-		return "Africa/Algiers"
+		return Location{"", "Africa/Algiers"}
 	case "ELH":
-		return "America/Nassau"
+		return Location{"North Eleuthera", "America/Nassau"}
 	case "ELI":
-		return "America/Nome"
+		return Location{"Elim", "America/Nome"}
 	case "ELM":
-		return "America/New_York"
+		return Location{"Elmira/Corning", "America/New_York"}
 	case "ELP":
-		return "America/Denver"
+		return Location{"El Paso", "America/Denver"}
 	case "ELQ":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "ELS":
-		return "Africa/Johannesburg"
+		return Location{"East London", "Africa/Johannesburg"}
 	case "ELU":
-		return "Africa/Algiers"
+		return Location{"Guemar", "Africa/Algiers"}
 	case "EMA":
-		return "Europe/London"
+		return Location{"Nottingham", "Europe/London"}
 	case "EMD":
-		return "Australia/Brisbane"
+		return Location{"Emerald", "Australia/Brisbane"}
 	case "EMK":
-		return "America/Nome"
+		return Location{"Emmonak", "America/Nome"}
 	case "EMN":
-		return "Africa/Nouakchott"
+		return Location{"Nema", "Africa/Nouakchott"}
 	case "ENA":
-		return "America/Anchorage"
+		return Location{"Kenai", "America/Anchorage"}
 	case "ENE":
-		return "Asia/Makassar"
+		return Location{"Ende-Flores Island", "Asia/Makassar"}
 	case "ENH":
-		return "Asia/Shanghai"
+		return Location{"Enshi", "Asia/Shanghai"}
 	case "ENI":
-		return "Asia/Manila"
+		return Location{"El Nido", "Asia/Manila"}
 	case "ENU":
-		return "Africa/Lagos"
+		return Location{"Enegu", "Africa/Lagos"}
 	case "ENY":
-		return "Asia/Shanghai"
+		return Location{"Yan'an", "Asia/Shanghai"}
 	case "EOH":
-		return "America/Bogota"
+		return Location{"Medellin", "America/Bogota"}
 	case "EPR":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "EPU":
-		return "Europe/Tallinn"
+		return Location{"Parnu", "Europe/Tallinn"}
 	case "EQS":
-		return "America/Argentina/Catamarca"
+		return Location{"Esquel", "America/Argentina/Catamarca"}
 	case "ERC":
-		return "Europe/Istanbul"
+		return Location{"Erzincan", "Europe/Istanbul"}
 	case "ERF":
-		return "Europe/Berlin"
+		return Location{"Erfurt", "Europe/Berlin"}
 	case "ERG":
-		return "Asia/Irkutsk"
+		return Location{"Erbogachen", "Asia/Irkutsk"}
 	case "ERH":
-		return "Africa/Casablanca"
+		return Location{"Errachidia", "Africa/Casablanca"}
 	case "ERI":
-		return "America/New_York"
+		return Location{"Erie", "America/New_York"}
 	case "ERL":
-		return "Asia/Shanghai"
+		return Location{"Erenhot", "Asia/Shanghai"}
 	case "ERN":
-		return "America/Eirunepe"
+		return Location{"Eirunepe", "America/Eirunepe"}
 	case "ERS":
-		return "Africa/Windhoek"
+		return Location{"Windhoek", "Africa/Windhoek"}
 	case "ERZ":
-		return "Europe/Istanbul"
+		return Location{"Erzurum", "Europe/Istanbul"}
 	case "ESB":
-		return "Europe/Istanbul"
+		return Location{"Ankara", "Europe/Istanbul"}
 	case "ESC":
-		return "America/Detroit"
+		return Location{"Escanaba", "America/Detroit"}
 	case "ESD":
-		return "America/Los_Angeles"
+		return Location{"Eastsound", "America/Los_Angeles"}
 	case "ESU":
-		return "Africa/Casablanca"
+		return Location{"Essaouira", "Africa/Casablanca"}
 	case "ETM":
-		return "Asia/Jerusalem"
+		return Location{"Eilat", "Asia/Jerusalem"}
 	case "ETZ":
-		return "Europe/Paris"
+		return Location{"Metz / Nancy", "Europe/Paris"}
 	case "EUA":
-		return "Pacific/Tongatapu"
+		return Location{"Eua Island", "Pacific/Tongatapu"}
 	case "EUG":
-		return "America/Los_Angeles"
+		return Location{"Eugene", "America/Los_Angeles"}
 	case "EUN":
-		return "Africa/El_Aaiun"
+		return Location{"El Aaiun", "Africa/El_Aaiun"}
 	case "EUQ":
-		return "Asia/Manila"
+		return Location{"San Jose", "Asia/Manila"}
 	case "EUX":
-		return "America/Kralendijk"
+		return Location{"Sint Eustatius", "America/Kralendijk"}
 	case "EVE":
-		return "Europe/Oslo"
+		return Location{"Evenes", "Europe/Oslo"}
 	case "EVG":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "EVN":
-		return "Asia/Yerevan"
+		return Location{"Yerevan", "Asia/Yerevan"}
 	case "EVV":
-		return "America/Chicago"
+		return Location{"Evansville", "America/Chicago"}
 	case "EWB":
-		return "America/New_York"
+		return Location{"New Bedford", "America/New_York"}
 	case "EWN":
-		return "America/New_York"
+		return Location{"New Bern", "America/New_York"}
 	case "EWR":
-		return "America/New_York"
+		return Location{"Newark", "America/New_York"}
 	case "EXT":
-		return "Europe/London"
+		return Location{"Exeter", "Europe/London"}
 	case "EYP":
-		return "America/Bogota"
+		return Location{"El Yopal", "America/Bogota"}
 	case "EYW":
-		return "America/New_York"
+		return Location{"Key West", "America/New_York"}
 	case "EZE":
-		return "America/Argentina/Buenos_Aires"
+		return Location{"Ezeiza", "America/Argentina/Buenos_Aires"}
 	case "EZS":
-		return "Europe/Istanbul"
+		return Location{"Elazig", "Europe/Istanbul"}
 	case "EZV":
-		return "Asia/Yekaterinburg"
+		return Location{"", "Asia/Yekaterinburg"}
 	case "FAC":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "FAE":
-		return "Atlantic/Faroe"
+		return Location{"Vagar", "Atlantic/Faroe"}
 	case "FAI":
-		return "America/Anchorage"
+		return Location{"Fairbanks", "America/Anchorage"}
 	case "FAO":
-		return "Europe/Lisbon"
+		return Location{"Faro", "Europe/Lisbon"}
 	case "FAR":
-		return "America/Chicago"
+		return Location{"Fargo", "America/Chicago"}
 	case "FAT":
-		return "America/Los_Angeles"
+		return Location{"Fresno", "America/Los_Angeles"}
 	case "FAV":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "FAY":
-		return "America/New_York"
+		return Location{"Fayetteville", "America/New_York"}
 	case "FBE":
-		return "America/Sao_Paulo"
+		return Location{"Francisco Beltrao", "America/Sao_Paulo"}
 	case "FBM":
-		return "Africa/Lubumbashi"
+		return Location{"Lubumbashi", "Africa/Lubumbashi"}
 	case "FCA":
-		return "America/Denver"
+		return Location{"Kalispell", "America/Denver"}
 	case "FCO":
-		return "Europe/Rome"
+		return Location{"Rome", "Europe/Rome"}
 	case "FDE":
-		return "Europe/Oslo"
+		return Location{"Forde", "Europe/Oslo"}
 	case "FDF":
-		return "America/Martinique"
+		return Location{"Fort-de-France", "America/Martinique"}
 	case "FDH":
-		return "Europe/Berlin"
+		return Location{"Friedrichshafen", "Europe/Berlin"}
 	case "FEC":
-		return "America/Bahia"
+		return Location{"Feira De Santana", "America/Bahia"}
 	case "FEG":
-		return "Asia/Tashkent"
+		return Location{"Fergana", "Asia/Tashkent"}
 	case "FEN":
-		return "America/Noronha"
+		return Location{"Fernando De Noronha", "America/Noronha"}
 	case "FEZ":
-		return "Africa/Casablanca"
+		return Location{"Fes", "Africa/Casablanca"}
 	case "FGU":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "FHZ":
-		return "Pacific/Tahiti"
+		return Location{"Fakahina", "Pacific/Tahiti"}
 	case "FIH":
-		return "Africa/Kinshasa"
+		return Location{"Kinshasa", "Africa/Kinshasa"}
 	case "FIZ":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "FJR":
-		return "Asia/Dubai"
+		return Location{"", "Asia/Dubai"}
 	case "FKB":
-		return "Europe/Berlin"
+		return Location{"Baden-Baden", "Europe/Berlin"}
 	case "FKI":
-		return "Africa/Lubumbashi"
+		return Location{"Kisangani", "Africa/Lubumbashi"}
 	case "FKQ":
-		return "Asia/Jayapura"
+		return Location{"Fakfak-Papua Island", "Asia/Jayapura"}
 	case "FKS":
-		return "Asia/Tokyo"
+		return Location{"Sukagawa", "Asia/Tokyo"}
 	case "FLA":
-		return "America/Bogota"
+		return Location{"Florencia", "America/Bogota"}
 	case "FLG":
-		return "America/Phoenix"
+		return Location{"Flagstaff", "America/Phoenix"}
 	case "FLL":
-		return "America/New_York"
+		return Location{"Fort Lauderdale", "America/New_York"}
 	case "FLN":
-		return "America/Sao_Paulo"
+		return Location{"Florianopolis", "America/Sao_Paulo"}
 	case "FLO":
-		return "America/New_York"
+		return Location{"Florence", "America/New_York"}
 	case "FLR":
-		return "Europe/Rome"
+		return Location{"Firenze", "Europe/Rome"}
 	case "FLS":
-		return "Australia/Hobart"
+		return Location{"", "Australia/Hobart"}
 	case "FLW":
-		return "Atlantic/Azores"
+		return Location{"Santa Cruz das Flores", "Atlantic/Azores"}
 	case "FLZ":
-		return "Asia/Jakarta"
+		return Location{"Sibolga-Sumatra Island", "Asia/Jakarta"}
 	case "FMA":
-		return "America/Argentina/Cordoba"
+		return Location{"Formosa", "America/Argentina/Cordoba"}
 	case "FMI":
-		return "Africa/Lubumbashi"
+		return Location{"", "Africa/Lubumbashi"}
 	case "FMM":
-		return "Europe/Berlin"
+		return Location{"Memmingen", "Europe/Berlin"}
 	case "FMO":
-		return "Europe/Berlin"
+		return Location{"Munster", "Europe/Berlin"}
 	case "FNA":
-		return "Africa/Freetown"
+		return Location{"Freetown", "Africa/Freetown"}
 	case "FNC":
-		return "Atlantic/Madeira"
+		return Location{"Funchal", "Atlantic/Madeira"}
 	case "FNI":
-		return "Europe/Paris"
+		return Location{"Nimes/Garons", "Europe/Paris"}
 	case "FNT":
-		return "America/Detroit"
+		return Location{"Flint", "America/Detroit"}
 	case "FOC":
-		return "Asia/Shanghai"
+		return Location{"Fuzhou", "Asia/Shanghai"}
 	case "FOD":
-		return "America/Chicago"
+		return Location{"Fort Dodge", "America/Chicago"}
 	case "FOG":
-		return "Europe/Rome"
+		return Location{"Foggia", "Europe/Rome"}
 	case "FON":
-		return "America/Costa_Rica"
+		return Location{"La Fortuna/San Carlos", "America/Costa_Rica"}
 	case "FOR":
-		return "America/Fortaleza"
+		return Location{"Fortaleza", "America/Fortaleza"}
 	case "FPO":
-		return "America/Nassau"
+		return Location{"Freeport", "America/Nassau"}
 	case "FRA":
-		return "Europe/Berlin"
+		return Location{"Frankfurt-am-Main", "Europe/Berlin"}
 	case "FRD":
-		return "America/Los_Angeles"
+		return Location{"Friday Harbor", "America/Los_Angeles"}
 	case "FRE":
-		return "Pacific/Guadalcanal"
+		return Location{"Fera Island", "Pacific/Guadalcanal"}
 	case "FRL":
-		return "Europe/Rome"
+		return Location{"Forli", "Europe/Rome"}
 	case "FRO":
-		return "Europe/Oslo"
+		return Location{"Floro", "Europe/Oslo"}
 	case "FRS":
-		return "America/Guatemala"
+		return Location{"San Benito", "America/Guatemala"}
 	case "FRU":
-		return "Asia/Bishkek"
+		return Location{"Bishkek", "Asia/Bishkek"}
 	case "FRW":
-		return "Africa/Gaborone"
+		return Location{"Francistown", "Africa/Gaborone"}
 	case "FSC":
-		return "Europe/Paris"
+		return Location{"Figari Sud-Corse", "Europe/Paris"}
 	case "FSD":
-		return "America/Chicago"
+		return Location{"Sioux Falls", "America/Chicago"}
 	case "FSM":
-		return "America/Chicago"
+		return Location{"Fort Smith", "America/Chicago"}
 	case "FSZ":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "FTA":
-		return "Pacific/Efate"
+		return Location{"Futuna Island", "Pacific/Efate"}
 	case "FTE":
-		return "America/Argentina/Rio_Gallegos"
+		return Location{"El Calafate", "America/Argentina/Rio_Gallegos"}
 	case "FTU":
-		return "Indian/Antananarivo"
+		return Location{"Tolanaro", "Indian/Antananarivo"}
 	case "FUE":
-		return "Atlantic/Canary"
+		return Location{"Fuerteventura Island", "Atlantic/Canary"}
 	case "FUG":
-		return "Asia/Shanghai"
+		return Location{"Fuyang", "Asia/Shanghai"}
 	case "FUJ":
-		return "Asia/Tokyo"
+		return Location{"Goto", "Asia/Tokyo"}
 	case "FUK":
-		return "Asia/Tokyo"
+		return Location{"Fukuoka", "Asia/Tokyo"}
 	case "FUN":
-		return "Pacific/Funafuti"
+		return Location{"Funafuti", "Pacific/Funafuti"}
 	case "FUO":
-		return "Asia/Shanghai"
+		return Location{"Foshan", "Asia/Shanghai"}
 	case "FUT":
-		return "Pacific/Wallis"
+		return Location{"Futuna Island", "Pacific/Wallis"}
 	case "FVM":
-		return "Indian/Maldives"
+		return Location{"Fuvahmulah Island", "Indian/Maldives"}
 	case "FWA":
-		return "America/Indiana/Indianapolis"
+		return Location{"Fort Wayne", "America/Indiana/Indianapolis"}
 	case "FYU":
-		return "America/Anchorage"
+		return Location{"Fort Yukon", "America/Anchorage"}
 	case "GAE":
-		return "Africa/Tunis"
+		return Location{"Gabes", "Africa/Tunis"}
 	case "GAJ":
-		return "Asia/Tokyo"
+		return Location{"Yamagata", "Asia/Tokyo"}
 	case "GAL":
-		return "America/Anchorage"
+		return Location{"Galena", "America/Anchorage"}
 	case "GAM":
-		return "America/Nome"
+		return Location{"Gambell", "America/Nome"}
 	case "GAN":
-		return "Indian/Maldives"
+		return Location{"Gan", "Indian/Maldives"}
 	case "GAU":
-		return "Asia/Kolkata"
+		return Location{"Guwahati", "Asia/Kolkata"}
 	case "GAY":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "GBE":
-		return "Africa/Gaborone"
+		return Location{"Gaborone", "Africa/Gaborone"}
 	case "GBI":
-		return "America/Nassau"
+		return Location{"Grand Bahama", "America/Nassau"}
 	case "GBT":
-		return "Asia/Tehran"
+		return Location{"Gorgan", "Asia/Tehran"}
 	case "GCC":
-		return "America/Denver"
+		return Location{"Gillette", "America/Denver"}
 	case "GCI":
-		return "Europe/Guernsey"
+		return Location{"Saint Peter Port", "Europe/Guernsey"}
 	case "GCK":
-		return "America/Chicago"
+		return Location{"Garden City", "America/Chicago"}
 	case "GCM":
-		return "America/Cayman"
+		return Location{"Georgetown", "America/Cayman"}
 	case "GCN":
-		return "America/Phoenix"
+		return Location{"Grand Canyon", "America/Phoenix"}
 	case "GCW":
-		return "America/Phoenix"
+		return Location{"Peach Springs", "America/Phoenix"}
 	case "GDE":
-		return "Africa/Addis_Ababa"
+		return Location{"Gode", "Africa/Addis_Ababa"}
 	case "GDL":
-		return "America/Mexico_City"
+		return Location{"Guadalajara", "America/Mexico_City"}
 	case "GDN":
-		return "Europe/Warsaw"
+		return Location{"Gdansk", "Europe/Warsaw"}
 	case "GDQ":
-		return "Africa/Addis_Ababa"
+		return Location{"Gondar", "Africa/Addis_Ababa"}
 	case "GDT":
-		return "America/Grand_Turk"
+		return Location{"Cockburn Town", "America/Grand_Turk"}
 	case "GDV":
-		return "America/Denver"
+		return Location{"Glendive", "America/Denver"}
 	case "GDX":
-		return "Asia/Magadan"
+		return Location{"Magadan", "Asia/Magadan"}
 	case "GEA":
-		return "Pacific/Noumea"
+		return Location{"Noumea", "Pacific/Noumea"}
 	case "GEG":
-		return "America/Los_Angeles"
+		return Location{"Spokane", "America/Los_Angeles"}
 	case "GEL":
-		return "America/Sao_Paulo"
+		return Location{"Santo Angelo", "America/Sao_Paulo"}
 	case "GEO":
-		return "America/Guyana"
+		return Location{"Georgetown", "America/Guyana"}
 	case "GER":
-		return "America/Havana"
+		return Location{"Nueva Gerona", "America/Havana"}
 	case "GES":
-		return "Asia/Manila"
+		return Location{"General Santos City", "Asia/Manila"}
 	case "GET":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "GEV":
-		return "Europe/Stockholm"
+		return Location{"Gallivare", "Europe/Stockholm"}
 	case "GFF":
-		return "Australia/Sydney"
+		return Location{"Griffith", "Australia/Sydney"}
 	case "GFK":
-		return "America/Chicago"
-	case "GGB":
-		return "America/Cuiaba"
+		return Location{"Grand Forks", "America/Chicago"}
 	case "GGF":
-		return "America/Santarem"
+		return Location{"Almeirim", "America/Santarem"}
 	case "GGG":
-		return "America/Chicago"
+		return Location{"Longview", "America/Chicago"}
 	case "GGM":
-		return "Africa/Nairobi"
+		return Location{"Kakamega", "Africa/Nairobi"}
 	case "GGT":
-		return "America/Nassau"
+		return Location{"George Town", "America/Nassau"}
 	case "GGW":
-		return "America/Denver"
+		return Location{"Glasgow", "America/Denver"}
 	case "GHA":
-		return "Africa/Algiers"
+		return Location{"Ghardaia", "Africa/Algiers"}
 	case "GHB":
-		return "America/Nassau"
+		return Location{"Governor's Harbour", "America/Nassau"}
 	case "GHC":
-		return "America/Nassau"
+		return Location{"", "America/Nassau"}
 	case "GIB":
-		return "Europe/Gibraltar"
+		return Location{"Gibraltar", "Europe/Gibraltar"}
 	case "GIC":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "GIG":
-		return "America/Sao_Paulo"
+		return Location{"Rio De Janeiro", "America/Sao_Paulo"}
 	case "GIL":
-		return "Asia/Karachi"
+		return Location{"Gilgit", "Asia/Karachi"}
 	case "GIS":
-		return "Pacific/Auckland"
+		return Location{"Gisborne", "Pacific/Auckland"}
 	case "GIU":
-		return "Asia/Colombo"
+		return Location{"Sigiriya", "Asia/Colombo"}
 	case "GIZ":
-		return "Asia/Riyadh"
+		return Location{"Jizan", "Asia/Riyadh"}
 	case "GJA":
-		return "America/Tegucigalpa"
+		return Location{"Guanaja", "America/Tegucigalpa"}
 	case "GJL":
-		return "Africa/Algiers"
+		return Location{"Jijel", "Africa/Algiers"}
 	case "GJT":
-		return "America/Denver"
+		return Location{"Grand Junction", "America/Denver"}
 	case "GKA":
-		return "Pacific/Port_Moresby"
+		return Location{"Goronka", "Pacific/Port_Moresby"}
 	case "GLA":
-		return "Europe/London"
+		return Location{"Glasgow", "Europe/London"}
 	case "GLF":
-		return "America/Costa_Rica"
+		return Location{"Golfito", "America/Costa_Rica"}
 	case "GLH":
-		return "America/Chicago"
+		return Location{"Greenville", "America/Chicago"}
 	case "GLT":
-		return "Australia/Brisbane"
+		return Location{"Gladstone", "Australia/Brisbane"}
 	case "GLV":
-		return "America/Nome"
+		return Location{"Golovin", "America/Nome"}
 	case "GMA":
-		return "Africa/Kinshasa"
+		return Location{"Gemena", "Africa/Kinshasa"}
 	case "GMB":
-		return "Africa/Addis_Ababa"
+		return Location{"Gambela", "Africa/Addis_Ababa"}
 	case "GMO":
-		return "Africa/Lagos"
+		return Location{"Gombe", "Africa/Lagos"}
 	case "GMP":
-		return "Asia/Seoul"
+		return Location{"Seoul", "Asia/Seoul"}
 	case "GMR":
-		return "Pacific/Gambier"
+		return Location{"", "Pacific/Gambier"}
 	case "GMZ":
-		return "Atlantic/Canary"
+		return Location{"Alajero", "Atlantic/Canary"}
 	case "GNB":
-		return "Europe/Paris"
+		return Location{"Grenoble/Saint-Geoirs", "Europe/Paris"}
 	case "GND":
-		return "America/Grenada"
+		return Location{"Saint George's", "America/Grenada"}
 	case "GNJ":
-		return "Asia/Baku"
+		return Location{"Ganja", "Asia/Baku"}
 	case "GNM":
-		return "America/Bahia"
+		return Location{"Guanambi", "America/Bahia"}
 	case "GNS":
-		return "Asia/Jakarta"
+		return Location{"Gunung Sitoli-Nias Island", "Asia/Jakarta"}
 	case "GNV":
-		return "America/New_York"
+		return Location{"Gainesville", "America/New_York"}
 	case "GNY":
-		return "Europe/Istanbul"
+		return Location{"Sanliurfa", "Europe/Istanbul"}
 	case "GOA":
-		return "Europe/Rome"
+		return Location{"Genova", "Europe/Rome"}
 	case "GOB":
-		return "Africa/Addis_Ababa"
+		return Location{"Goba", "Africa/Addis_Ababa"}
 	case "GOH":
-		return "America/Nuuk"
+		return Location{"Nuuk", "America/Nuuk"}
 	case "GOI":
-		return "Asia/Kolkata"
+		return Location{"Dabolim", "Asia/Kolkata"}
 	case "GOJ":
-		return "Europe/Moscow"
+		return Location{"Nizhny Novgorod", "Europe/Moscow"}
 	case "GOM":
-		return "Africa/Kigali"
+		return Location{"Goma", "Africa/Kigali"}
 	case "GOP":
-		return "Asia/Kolkata"
+		return Location{"Gorakhpur", "Asia/Kolkata"}
 	case "GOQ":
-		return "Asia/Shanghai"
+		return Location{"Golmud", "Asia/Shanghai"}
 	case "GOT":
-		return "Europe/Stockholm"
+		return Location{"Gothenburg", "Europe/Stockholm"}
 	case "GOU":
-		return "Africa/Douala"
+		return Location{"Garoua", "Africa/Douala"}
 	case "GOV":
-		return "Australia/Darwin"
+		return Location{"Nhulunbuy", "Australia/Darwin"}
 	case "GPA":
-		return "Europe/Athens"
+		return Location{"Patras", "Europe/Athens"}
 	case "GPB":
-		return "America/Sao_Paulo"
+		return Location{"Guarapuava", "America/Sao_Paulo"}
 	case "GPI":
-		return "America/Bogota"
+		return Location{"Guapi", "America/Bogota"}
 	case "GPS":
-		return "Pacific/Galapagos"
+		return Location{"Baltra", "Pacific/Galapagos"}
 	case "GPT":
-		return "America/Chicago"
+		return Location{"Gulfport", "America/Chicago"}
 	case "GRB":
-		return "America/Chicago"
+		return Location{"Green Bay", "America/Chicago"}
 	case "GRI":
-		return "America/Chicago"
+		return Location{"Grand Island", "America/Chicago"}
 	case "GRJ":
-		return "Africa/Johannesburg"
+		return Location{"George", "Africa/Johannesburg"}
 	case "GRK":
-		return "America/Chicago"
+		return Location{"Fort Hood/Killeen", "America/Chicago"}
 	case "GRO":
-		return "Europe/Madrid"
+		return Location{"Girona", "Europe/Madrid"}
 	case "GRQ":
-		return "Europe/Amsterdam"
+		return Location{"Groningen", "Europe/Amsterdam"}
 	case "GRR":
-		return "America/Detroit"
+		return Location{"Grand Rapids", "America/Detroit"}
 	case "GRU":
-		return "America/Sao_Paulo"
+		return Location{"Sao Paulo", "America/Sao_Paulo"}
 	case "GRV":
-		return "Europe/Moscow"
+		return Location{"Grozny", "Europe/Moscow"}
 	case "GRW":
-		return "Atlantic/Azores"
+		return Location{"Santa Cruz da Graciosa", "Atlantic/Azores"}
 	case "GRX":
-		return "Europe/Madrid"
+		return Location{"Granada", "Europe/Madrid"}
 	case "GRZ":
-		return "Europe/Vienna"
+		return Location{"Graz", "Europe/Vienna"}
 	case "GSM":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "GSO":
-		return "America/New_York"
+		return Location{"Greensboro", "America/New_York"}
 	case "GSP":
-		return "America/New_York"
+		return Location{"Greenville", "America/New_York"}
 	case "GST":
-		return "America/Juneau"
+		return Location{"Gustavus", "America/Juneau"}
 	case "GSV":
-		return "Europe/Saratov"
+		return Location{"Saratov", "Europe/Saratov"}
 	case "GTE":
-		return "Australia/Darwin"
+		return Location{"Groote Eylandt", "Australia/Darwin"}
 	case "GTF":
-		return "America/Denver"
+		return Location{"Great Falls", "America/Denver"}
 	case "GTO":
-		return "Asia/Makassar"
+		return Location{"Gorontalo-Celebes Island", "Asia/Makassar"}
 	case "GTP":
-		return "America/Los_Angeles"
+		return Location{"Grants Pass", "America/Los_Angeles"}
 	case "GTR":
-		return "America/Chicago"
+		return Location{"Columbus/W Point/Starkville", "America/Chicago"}
 	case "GTS":
-		return "Australia/Adelaide"
+		return Location{"", "Australia/Adelaide"}
 	case "GUA":
-		return "America/Guatemala"
+		return Location{"Guatemala City", "America/Guatemala"}
 	case "GUC":
-		return "America/Denver"
+		return Location{"Gunnison", "America/Denver"}
 	case "GUM":
-		return "Pacific/Guam"
+		return Location{"Hagatna", "Pacific/Guam"}
 	case "GUP":
-		return "America/Denver"
+		return Location{"Gallup", "America/Denver"}
 	case "GUR":
-		return "Pacific/Port_Moresby"
+		return Location{"Gurney", "Pacific/Port_Moresby"}
 	case "GUW":
-		return "Asia/Atyrau"
+		return Location{"Atyrau", "Asia/Atyrau"}
 	case "GVA":
-		return "Europe/Paris"
+		return Location{"Geneva", "Europe/Paris"}
 	case "GVR":
-		return "America/Sao_Paulo"
+		return Location{"Governador Valadares", "America/Sao_Paulo"}
 	case "GWD":
-		return "Asia/Karachi"
+		return Location{"Gwadar", "Asia/Karachi"}
 	case "GWL":
-		return "Asia/Kolkata"
+		return Location{"Gwalior", "Asia/Kolkata"}
 	case "GWT":
-		return "Europe/Berlin"
+		return Location{"Westerland", "Europe/Berlin"}
 	case "GXF":
-		return "Asia/Aden"
+		return Location{"Sayun", "Asia/Aden"}
 	case "GYD":
-		return "Asia/Baku"
+		return Location{"Baku", "Asia/Baku"}
 	case "GYE":
-		return "America/Guayaquil"
+		return Location{"Guayaquil", "America/Guayaquil"}
 	case "GYN":
-		return "America/Sao_Paulo"
+		return Location{"Goiania", "America/Sao_Paulo"}
 	case "GYS":
-		return "Asia/Shanghai"
+		return Location{"Guangyuan", "Asia/Shanghai"}
 	case "GYU":
-		return "Asia/Shanghai"
+		return Location{"Guyuan", "Asia/Shanghai"}
 	case "GZO":
-		return "Pacific/Guadalcanal"
+		return Location{"Gizo", "Pacific/Guadalcanal"}
 	case "GZP":
-		return "Europe/Istanbul"
+		return Location{"Gazipasa", "Europe/Istanbul"}
 	case "GZT":
-		return "Europe/Istanbul"
+		return Location{"Gaziantep", "Europe/Istanbul"}
 	case "HAA":
-		return "Europe/Oslo"
+		return Location{"Hasvik", "Europe/Oslo"}
 	case "HAC":
-		return "Asia/Tokyo"
+		return Location{"Hachijojima", "Asia/Tokyo"}
 	case "HAD":
-		return "Europe/Stockholm"
+		return Location{"Halmstad", "Europe/Stockholm"}
 	case "HAH":
-		return "Indian/Comoro"
+		return Location{"Moroni", "Indian/Comoro"}
 	case "HAJ":
-		return "Europe/Berlin"
+		return Location{"Hannover", "Europe/Berlin"}
 	case "HAK":
-		return "Asia/Shanghai"
+		return Location{"Haikou", "Asia/Shanghai"}
 	case "HAM":
-		return "Europe/Berlin"
+		return Location{"Hamburg", "Europe/Berlin"}
 	case "HAN":
-		return "Asia/Bangkok"
+		return Location{"Hanoi", "Asia/Bangkok"}
 	case "HAQ":
-		return "Indian/Maldives"
+		return Location{"Haa Dhaalu Atoll", "Indian/Maldives"}
 	case "HAS":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "HAU":
-		return "Europe/Oslo"
+		return Location{"Karmoy", "Europe/Oslo"}
 	case "HAV":
-		return "America/Havana"
+		return Location{"Havana", "America/Havana"}
 	case "HAY":
-		return "America/Bogota"
+		return Location{"Aguachica", "America/Bogota"}
 	case "HBA":
-		return "Australia/Hobart"
+		return Location{"Hobart", "Australia/Hobart"}
 	case "HBE":
-		return "Africa/Cairo"
+		return Location{"Alexandria", "Africa/Cairo"}
 	case "HBX":
-		return "Asia/Kolkata"
+		return Location{"Hubli", "Asia/Kolkata"}
 	case "HCQ":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "HCR":
-		return "America/Anchorage"
+		return Location{"Holy Cross", "America/Anchorage"}
 	case "HDF":
-		return "Europe/Berlin"
+		return Location{"Heringsdorf", "Europe/Berlin"}
 	case "HDG":
-		return "Asia/Shanghai"
+		return Location{"Handan", "Asia/Shanghai"}
 	case "HDK":
-		return "Indian/Maldives"
+		return Location{"Kulhudhuffushi", "Indian/Maldives"}
 	case "HDN":
-		return "America/Denver"
+		return Location{"Hayden", "America/Denver"}
 	case "HDS":
-		return "Africa/Johannesburg"
+		return Location{"Hoedspruit", "Africa/Johannesburg"}
 	case "HDY":
-		return "Asia/Bangkok"
+		return Location{"Hat Yai", "Asia/Bangkok"}
 	case "HEA":
-		return "Asia/Kabul"
+		return Location{"", "Asia/Kabul"}
 	case "HEH":
-		return "Asia/Yangon"
+		return Location{"Heho", "Asia/Yangon"}
 	case "HEK":
-		return "Asia/Shanghai"
+		return Location{"Heihe", "Asia/Shanghai"}
 	case "HEL":
-		return "Europe/Helsinki"
+		return Location{"Helsinki", "Europe/Helsinki"}
 	case "HER":
-		return "Europe/Athens"
+		return Location{"Heraklion", "Europe/Athens"}
 	case "HET":
-		return "Asia/Shanghai"
+		return Location{"Hohhot", "Asia/Shanghai"}
 	case "HFE":
-		return "Asia/Shanghai"
+		return Location{"Hefei", "Asia/Shanghai"}
 	case "HFS":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "HFT":
-		return "Europe/Oslo"
+		return Location{"Hammerfest", "Europe/Oslo"}
 	case "HGA":
-		return "Africa/Mogadishu"
+		return Location{"Hargeisa", "Africa/Mogadishu"}
 	case "HGD":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "HGH":
-		return "Asia/Shanghai"
+		return Location{"Hangzhou", "Asia/Shanghai"}
 	case "HGN":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "HGO":
-		return "Africa/Abidjan"
+		return Location{"", "Africa/Abidjan"}
 	case "HGR":
-		return "America/New_York"
+		return Location{"Hagerstown", "America/New_York"}
 	case "HGU":
-		return "Pacific/Port_Moresby"
+		return Location{"Mount Hagen", "Pacific/Port_Moresby"}
 	case "HHH":
-		return "America/New_York"
+		return Location{"Hilton Head Island", "America/New_York"}
 	case "HHN":
-		return "Europe/Berlin"
+		return Location{"Hahn", "Europe/Berlin"}
 	case "HHQ":
-		return "Asia/Bangkok"
+		return Location{"Hua Hin", "Asia/Bangkok"}
 	case "HHR":
-		return "America/Los_Angeles"
+		return Location{"Hawthorne", "America/Los_Angeles"}
 	case "HHZ":
-		return "Pacific/Tahiti"
+		return Location{"Hikueru Atoll", "Pacific/Tahiti"}
 	case "HIA":
-		return "Asia/Shanghai"
+		return Location{"Huai'an", "Asia/Shanghai"}
 	case "HIB":
-		return "America/Chicago"
+		return Location{"Hibbing", "America/Chicago"}
 	case "HID":
-		return "Australia/Brisbane"
+		return Location{"Horn Island", "Australia/Brisbane"}
 	case "HIJ":
-		return "Asia/Tokyo"
+		return Location{"Hiroshima", "Asia/Tokyo"}
 	case "HIN":
-		return "Asia/Seoul"
+		return Location{"Sacheon", "Asia/Seoul"}
 	case "HIR":
-		return "Pacific/Guadalcanal"
+		return Location{"Honiara", "Pacific/Guadalcanal"}
 	case "HJJ":
-		return "Asia/Shanghai"
+		return Location{"Huaihua", "Asia/Shanghai"}
 	case "HJR":
-		return "Asia/Kolkata"
+		return Location{"Khajuraho", "Asia/Kolkata"}
 	case "HKD":
-		return "Asia/Tokyo"
+		return Location{"Hakodate", "Asia/Tokyo"}
 	case "HKG":
-		return "Asia/Hong_Kong"
+		return Location{"Hong Kong", "Asia/Hong_Kong"}
 	case "HKK":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "HKN":
-		return "Pacific/Port_Moresby"
+		return Location{"Hoskins", "Pacific/Port_Moresby"}
 	case "HKT":
-		return "Asia/Bangkok"
+		return Location{"Phuket", "Asia/Bangkok"}
 	case "HLA":
-		return "Africa/Johannesburg"
+		return Location{"Johannesburg", "Africa/Johannesburg"}
 	case "HLD":
-		return "Asia/Shanghai"
+		return Location{"Hailar", "Asia/Shanghai"}
 	case "HLH":
-		return "Asia/Shanghai"
+		return Location{"Ulanhot", "Asia/Shanghai"}
 	case "HLN":
-		return "America/Denver"
+		return Location{"Helena", "America/Denver"}
 	case "HLP":
-		return "Asia/Jakarta"
+		return Location{"Jakarta", "Asia/Jakarta"}
 	case "HLZ":
-		return "Pacific/Auckland"
+		return Location{"Hamilton", "Pacific/Auckland"}
 	case "HMA":
-		return "Asia/Yekaterinburg"
+		return Location{"Khanty-Mansiysk", "Asia/Yekaterinburg"}
 	case "HMB":
-		return "Africa/Cairo"
+		return Location{"Sohag", "Africa/Cairo"}
 	case "HME":
-		return "Africa/Algiers"
+		return Location{"Hassi Messaoud", "Africa/Algiers"}
 	case "HMI":
-		return "Asia/Shanghai"
+		return Location{"Hami", "Asia/Shanghai"}
 	case "HMO":
-		return "America/Hermosillo"
+		return Location{"Hermosillo", "America/Hermosillo"}
 	case "HMV":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "HNA":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "HND":
-		return "Asia/Tokyo"
+		return Location{"Tokyo", "Asia/Tokyo"}
 	case "HNH":
-		return "America/Juneau"
+		return Location{"Hoonah", "America/Juneau"}
 	case "HNL":
-		return "Pacific/Honolulu"
+		return Location{"Honolulu", "Pacific/Honolulu"}
 	case "HNM":
-		return "Pacific/Honolulu"
+		return Location{"Hana", "Pacific/Honolulu"}
 	case "HNS":
-		return "America/Juneau"
+		return Location{"Haines", "America/Juneau"}
 	case "HNY":
-		return "Asia/Shanghai"
+		return Location{"Hengyang", "Asia/Shanghai"}
 	case "HOB":
-		return "America/Denver"
+		return Location{"Hobbs", "America/Denver"}
 	case "HOF":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "HOG":
-		return "America/Havana"
+		return Location{"Holguin", "America/Havana"}
 	case "HOI":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "HOM":
-		return "America/Anchorage"
+		return Location{"Homer", "America/Anchorage"}
 	case "HOR":
-		return "Atlantic/Azores"
+		return Location{"Horta", "Atlantic/Azores"}
 	case "HOT":
-		return "America/Chicago"
+		return Location{"Hot Springs", "America/Chicago"}
 	case "HOU":
-		return "America/Chicago"
+		return Location{"Houston", "America/Chicago"}
 	case "HOV":
-		return "Europe/Oslo"
+		return Location{"Orsta", "Europe/Oslo"}
 	case "HOX":
-		return "Asia/Yangon"
+		return Location{"Hommalinn", "Asia/Yangon"}
 	case "HPA":
-		return "Pacific/Tongatapu"
+		return Location{"Lifuka", "Pacific/Tongatapu"}
 	case "HPB":
-		return "America/Nome"
+		return Location{"Hooper Bay", "America/Nome"}
 	case "HPH":
-		return "Asia/Bangkok"
+		return Location{"Haiphong", "Asia/Bangkok"}
 	case "HPN":
-		return "America/New_York"
+		return Location{"White Plains", "America/New_York"}
 	case "HRB":
-		return "Asia/Shanghai"
+		return Location{"Harbin", "Asia/Shanghai"}
 	case "HRE":
-		return "Africa/Harare"
+		return Location{"Harare", "Africa/Harare"}
 	case "HRG":
-		return "Africa/Cairo"
+		return Location{"Hurghada", "Africa/Cairo"}
 	case "HRL":
-		return "America/Chicago"
+		return Location{"Harlingen", "America/Chicago"}
 	case "HRO":
-		return "America/Chicago"
+		return Location{"Harrison", "America/Chicago"}
 	case "HSA":
-		return "Asia/Almaty"
+		return Location{"Turkistan", "Asia/Almaty"}
 	case "HSG":
-		return "Asia/Tokyo"
+		return Location{"Saga", "Asia/Tokyo"}
 	case "HSL":
-		return "America/Anchorage"
+		return Location{"Huslia", "America/Anchorage"}
 	case "HSN":
-		return "Asia/Shanghai"
+		return Location{"Zhoushan", "Asia/Shanghai"}
 	case "HSV":
-		return "America/Chicago"
+		return Location{"Huntsville", "America/Chicago"}
 	case "HTA":
-		return "Asia/Chita"
+		return Location{"Chita", "Asia/Chita"}
 	case "HTG":
-		return "Asia/Krasnoyarsk"
+		return Location{"Khatanga", "Asia/Krasnoyarsk"}
 	case "HTI":
-		return "Australia/Lindeman"
+		return Location{"Hamilton Island", "Australia/Lindeman"}
 	case "HTN":
-		return "Asia/Shanghai"
+		return Location{"Hotan", "Asia/Shanghai"}
 	case "HTO":
-		return "America/New_York"
+		return Location{"East Hampton", "America/New_York"}
 	case "HTS":
-		return "America/New_York"
+		return Location{"Huntington", "America/New_York"}
 	case "HTY":
-		return "Europe/Istanbul"
+		return Location{"Hatay", "Europe/Istanbul"}
 	case "HUH":
-		return "Pacific/Tahiti"
+		return Location{"Fare", "Pacific/Tahiti"}
 	case "HUI":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Hue", "Asia/Ho_Chi_Minh"}
 	case "HUN":
-		return "Asia/Taipei"
+		return Location{"Hualien City", "Asia/Taipei"}
 	case "HUS":
-		return "America/Anchorage"
+		return Location{"Hughes", "America/Anchorage"}
 	case "HUU":
-		return "America/Lima"
+		return Location{"Huanuco", "America/Lima"}
 	case "HUX":
-		return "America/Mexico_City"
+		return Location{"Huatulco", "America/Mexico_City"}
 	case "HUY":
-		return "Europe/London"
+		return Location{"Grimsby", "Europe/London"}
 	case "HUZ":
-		return "Asia/Shanghai"
+		return Location{"Huizhou", "Asia/Shanghai"}
 	case "HVB":
-		return "Australia/Brisbane"
+		return Location{"Hervey Bay", "Australia/Brisbane"}
 	case "HVD":
-		return "Asia/Hovd"
+		return Location{"Khovd", "Asia/Hovd"}
 	case "HVG":
-		return "Europe/Oslo"
+		return Location{"Honningsvag", "Europe/Oslo"}
 	case "HVN":
-		return "America/New_York"
+		return Location{"New Haven", "America/New_York"}
 	case "HVR":
-		return "America/Denver"
+		return Location{"Havre", "America/Denver"}
 	case "HYA":
-		return "America/New_York"
+		return Location{"Hyannis", "America/New_York"}
 	case "HYD":
-		return "Asia/Kolkata"
+		return Location{"Hyderabad", "Asia/Kolkata"}
 	case "HYN":
-		return "Asia/Shanghai"
+		return Location{"Huangyan", "Asia/Shanghai"}
 	case "HYS":
-		return "America/Chicago"
+		return Location{"Hays", "America/Chicago"}
 	case "HZG":
-		return "Asia/Shanghai"
+		return Location{"Hanzhong", "Asia/Shanghai"}
 	case "IAA":
-		return "Asia/Krasnoyarsk"
+		return Location{"Igarka", "Asia/Krasnoyarsk"}
 	case "IAD":
-		return "America/New_York"
+		return Location{"Dulles", "America/New_York"}
 	case "IAG":
-		return "America/New_York"
+		return Location{"Niagara Falls", "America/New_York"}
 	case "IAH":
-		return "America/Chicago"
+		return Location{"Houston", "America/Chicago"}
 	case "IAM":
-		return "Africa/Algiers"
+		return Location{"Amenas", "Africa/Algiers"}
 	case "IAN":
-		return "America/Anchorage"
+		return Location{"Kiana", "America/Anchorage"}
 	case "IAO":
-		return "Asia/Manila"
+		return Location{"Del Carmen", "Asia/Manila"}
 	case "IAR":
-		return "Europe/Moscow"
+		return Location{"", "Europe/Moscow"}
 	case "IAS":
-		return "Europe/Bucharest"
+		return Location{"Iasi", "Europe/Bucharest"}
 	case "IBA":
-		return "Africa/Lagos"
+		return Location{"Ibadan", "Africa/Lagos"}
 	case "IBE":
-		return "America/Bogota"
+		return Location{"Ibague", "America/Bogota"}
 	case "IBR":
-		return "Asia/Tokyo"
+		return Location{"Omitama", "Asia/Tokyo"}
 	case "IBZ":
-		return "Europe/Madrid"
+		return Location{"Ibiza", "Europe/Madrid"}
 	case "ICI":
-		return "Pacific/Fiji"
+		return Location{"Cicia", "Pacific/Fiji"}
 	case "ICN":
-		return "Asia/Seoul"
+		return Location{"Seoul", "Asia/Seoul"}
 	case "ICT":
-		return "America/Chicago"
+		return Location{"Wichita", "America/Chicago"}
 	case "IDA":
-		return "America/Boise"
+		return Location{"Idaho Falls", "America/Boise"}
 	case "IDR":
-		return "Asia/Kolkata"
+		return Location{"Indore", "Asia/Kolkata"}
 	case "IEG":
-		return "Europe/Warsaw"
+		return Location{"Babimost", "Europe/Warsaw"}
 	case "IEV":
-		return "Europe/Kiev"
+		return Location{"Kiev", "Europe/Kiev"}
 	case "IFJ":
-		return "Atlantic/Reykjavik"
+		return Location{"Isafjordur", "Atlantic/Reykjavik"}
 	case "IFN":
-		return "Asia/Tehran"
+		return Location{"Isfahan", "Asia/Tehran"}
 	case "IFU":
-		return "Indian/Maldives"
+		return Location{"Ifuru", "Indian/Maldives"}
 	case "IGA":
-		return "America/Nassau"
+		return Location{"Matthew Town", "America/Nassau"}
 	case "IGD":
-		return "Europe/Istanbul"
+		return Location{"Igdir", "Europe/Istanbul"}
 	case "IGG":
-		return "America/Anchorage"
+		return Location{"Igiugig", "America/Anchorage"}
 	case "IGR":
-		return "America/Argentina/Cordoba"
+		return Location{"Puerto Iguazu", "America/Argentina/Cordoba"}
 	case "IGT":
-		return "Europe/Moscow"
+		return Location{"Magas", "Europe/Moscow"}
 	case "IGU":
-		return "America/Argentina/Cordoba"
+		return Location{"Foz Do Iguacu", "America/Argentina/Cordoba"}
 	case "IIL":
-		return "Asia/Tehran"
+		return Location{"Ilam", "Asia/Tehran"}
 	case "IJK":
-		return "Europe/Samara"
+		return Location{"Izhevsk", "Europe/Samara"}
 	case "IKA":
-		return "Asia/Tehran"
+		return Location{"Tehran", "Asia/Tehran"}
 	case "IKI":
-		return "Asia/Tokyo"
+		return Location{"Iki", "Asia/Tokyo"}
 	case "IKO":
-		return "America/Nome"
+		return Location{"Nikolski", "America/Nome"}
 	case "IKS":
-		return "Asia/Yakutsk"
+		return Location{"Tiksi", "Asia/Yakutsk"}
 	case "IKT":
-		return "Asia/Irkutsk"
+		return Location{"Irkutsk", "Asia/Irkutsk"}
 	case "IKU":
-		return "Asia/Bishkek"
+		return Location{"Tamchy", "Asia/Bishkek"}
 	case "ILD":
-		return "Europe/Madrid"
+		return Location{"Lleida", "Europe/Madrid"}
 	case "ILG":
-		return "America/New_York"
+		return Location{"Wilmington", "America/New_York"}
 	case "ILI":
-		return "America/Anchorage"
+		return Location{"Iliamna", "America/Anchorage"}
 	case "ILM":
-		return "America/New_York"
+		return Location{"Wilmington", "America/New_York"}
 	case "ILO":
-		return "Asia/Manila"
+		return Location{"Iloilo City", "Asia/Manila"}
 	case "ILP":
-		return "Pacific/Noumea"
+		return Location{"Ile des Pins", "Pacific/Noumea"}
 	case "ILQ":
-		return "America/Lima"
+		return Location{"Ilo", "America/Lima"}
 	case "ILR":
-		return "Africa/Lagos"
+		return Location{"Ilorin", "Africa/Lagos"}
 	case "ILY":
-		return "Europe/London"
+		return Location{"Port Ellen", "Europe/London"}
 	case "IMF":
-		return "Asia/Kolkata"
+		return Location{"Imphal", "Asia/Kolkata"}
 	case "IMK":
-		return "Asia/Kathmandu"
+		return Location{"Simikot", "Asia/Kathmandu"}
 	case "IMP":
-		return "America/Fortaleza"
+		return Location{"Imperatriz", "America/Fortaleza"}
 	case "IMT":
-		return "America/Chicago"
+		return Location{"Iron Mountain Kingsford", "America/Chicago"}
 	case "INC":
-		return "Asia/Shanghai"
+		return Location{"Yinchuan", "Asia/Shanghai"}
 	case "IND":
-		return "America/Indiana/Indianapolis"
+		return Location{"Indianapolis", "America/Indiana/Indianapolis"}
 	case "INF":
-		return "Africa/Algiers"
+		return Location{"In Guezzam", "Africa/Algiers"}
 	case "INH":
-		return "Africa/Maputo"
+		return Location{"Inhambabe", "Africa/Maputo"}
 	case "INI":
-		return "Europe/Belgrade"
+		return Location{"Nis", "Europe/Belgrade"}
 	case "INL":
-		return "America/Chicago"
+		return Location{"International Falls", "America/Chicago"}
 	case "INN":
-		return "Europe/Vienna"
+		return Location{"Innsbruck", "Europe/Vienna"}
 	case "INU":
-		return "Pacific/Nauru"
+		return Location{"Yaren District", "Pacific/Nauru"}
 	case "INV":
-		return "Europe/London"
+		return Location{"Inverness", "Europe/London"}
 	case "IOA":
-		return "Europe/Athens"
+		return Location{"Ioannina", "Europe/Athens"}
 	case "IOM":
-		return "Europe/Isle_of_Man"
+		return Location{"Castletown", "Europe/Isle_of_Man"}
 	case "IOS":
-		return "America/Bahia"
+		return Location{"Ilheus", "America/Bahia"}
 	case "IPA":
-		return "Pacific/Efate"
+		return Location{"Ipota", "Pacific/Efate"}
 	case "IPC":
-		return "Pacific/Easter"
+		return Location{"Isla De Pascua", "Pacific/Easter"}
 	case "IPH":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Ipoh", "Asia/Kuala_Lumpur"}
 	case "IPI":
-		return "America/Bogota"
+		return Location{"Ipiales", "America/Bogota"}
 	case "IPL":
-		return "America/Los_Angeles"
+		return Location{"Imperial", "America/Los_Angeles"}
 	case "IPN":
-		return "America/Sao_Paulo"
+		return Location{"Ipatinga", "America/Sao_Paulo"}
 	case "IQA":
-		return "Asia/Baghdad"
+		return Location{"Hit", "Asia/Baghdad"}
 	case "IQM":
-		return "Asia/Shanghai"
+		return Location{"Qiemo", "Asia/Shanghai"}
 	case "IQN":
-		return "Asia/Shanghai"
+		return Location{"Qingyang", "Asia/Shanghai"}
 	case "IQQ":
-		return "America/Santiago"
+		return Location{"Iquique", "America/Santiago"}
 	case "IQT":
-		return "America/Lima"
+		return Location{"Iquitos", "America/Lima"}
 	case "IRA":
-		return "Pacific/Guadalcanal"
+		return Location{"Kirakira", "Pacific/Guadalcanal"}
 	case "IRC":
-		return "America/Anchorage"
+		return Location{"Circle", "America/Anchorage"}
 	case "IRG":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "IRI":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Nduli", "Africa/Dar_es_Salaam"}
 	case "IRJ":
-		return "America/Argentina/La_Rioja"
+		return Location{"La Rioja", "America/Argentina/La_Rioja"}
 	case "IRK":
-		return "America/Chicago"
+		return Location{"Kirksville", "America/Chicago"}
 	case "IRM":
-		return "Asia/Yekaterinburg"
+		return Location{"", "Asia/Yekaterinburg"}
 	case "IRP":
-		return "Africa/Lubumbashi"
+		return Location{"", "Africa/Lubumbashi"}
 	case "IRZ":
-		return "America/Manaus"
+		return Location{"Santa Isabel Do Rio Negro", "America/Manaus"}
 	case "ISA":
-		return "Australia/Brisbane"
+		return Location{"Mount Isa", "Australia/Brisbane"}
 	case "ISB":
-		return "Asia/Karachi"
+		return Location{"Islamabad", "Asia/Karachi"}
 	case "ISE":
-		return "Europe/Istanbul"
+		return Location{"Isparta", "Europe/Istanbul"}
 	case "ISG":
-		return "Asia/Tokyo"
+		return Location{"Ishigaki", "Asia/Tokyo"}
 	case "ISK":
-		return "Asia/Kolkata"
-	case "ISL":
-		return "Europe/Istanbul"
+		return Location{"Nashik", "Asia/Kolkata"}
 	case "ISP":
-		return "America/New_York"
+		return Location{"Islip", "America/New_York"}
 	case "IST":
-		return "Europe/Istanbul"
+		return Location{"Arnavutkoy", "Europe/Istanbul"}
 	case "ISU":
-		return "Asia/Baghdad"
+		return Location{"Sulaymaniyah", "Asia/Baghdad"}
 	case "ITB":
-		return "America/Santarem"
+		return Location{"Itaituba", "America/Santarem"}
 	case "ITH":
-		return "America/New_York"
+		return Location{"Ithaca", "America/New_York"}
 	case "ITM":
-		return "Asia/Tokyo"
+		return Location{"Osaka", "Asia/Tokyo"}
 	case "ITO":
-		return "Pacific/Honolulu"
+		return Location{"Hilo", "Pacific/Honolulu"}
 	case "IUE":
-		return "Pacific/Niue"
+		return Location{"Alofi", "Pacific/Niue"}
 	case "IVC":
-		return "Pacific/Auckland"
+		return Location{"Invercargill", "Pacific/Auckland"}
 	case "IVL":
-		return "Europe/Helsinki"
+		return Location{"Ivalo", "Europe/Helsinki"}
 	case "IVR":
-		return "Australia/Sydney"
+		return Location{"", "Australia/Sydney"}
 	case "IWA":
-		return "Europe/Moscow"
+		return Location{"Ivanovo", "Europe/Moscow"}
 	case "IWD":
-		return "America/Menominee"
+		return Location{"Ironwood", "America/Menominee"}
 	case "IWJ":
-		return "Asia/Tokyo"
+		return Location{"Masuda", "Asia/Tokyo"}
 	case "IWK":
-		return "Asia/Tokyo"
+		return Location{"Iwakuni", "Asia/Tokyo"}
 	case "IXA":
-		return "Asia/Dhaka"
+		return Location{"Agartala", "Asia/Dhaka"}
 	case "IXB":
-		return "Asia/Kolkata"
+		return Location{"Siliguri", "Asia/Kolkata"}
 	case "IXC":
-		return "Asia/Kolkata"
+		return Location{"Chandigarh", "Asia/Kolkata"}
 	case "IXD":
-		return "Asia/Kolkata"
+		return Location{"Allahabad", "Asia/Kolkata"}
 	case "IXE":
-		return "Asia/Kolkata"
+		return Location{"Mangalore", "Asia/Kolkata"}
 	case "IXG":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "IXJ":
-		return "Asia/Kolkata"
+		return Location{"Jammu", "Asia/Kolkata"}
 	case "IXL":
-		return "Asia/Kolkata"
+		return Location{"Leh", "Asia/Kolkata"}
 	case "IXM":
-		return "Asia/Kolkata"
+		return Location{"Madurai", "Asia/Kolkata"}
 	case "IXR":
-		return "Asia/Kolkata"
+		return Location{"Ranchi", "Asia/Kolkata"}
 	case "IXS":
-		return "Asia/Kolkata"
+		return Location{"Silchar", "Asia/Kolkata"}
 	case "IXU":
-		return "Asia/Kolkata"
+		return Location{"Aurangabad", "Asia/Kolkata"}
 	case "IXW":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "IXY":
-		return "Asia/Kolkata"
+		return Location{"Kandla", "Asia/Kolkata"}
 	case "IXZ":
-		return "Asia/Kolkata"
+		return Location{"Port Blair", "Asia/Kolkata"}
 	case "IZA":
-		return "America/Sao_Paulo"
+		return Location{"Juiz De Fora", "America/Sao_Paulo"}
 	case "IZO":
-		return "Asia/Tokyo"
+		return Location{"Izumo", "Asia/Tokyo"}
 	case "JAC":
-		return "America/Denver"
+		return Location{"Jackson", "America/Denver"}
 	case "JAE":
-		return "America/Lima"
+		return Location{"Jaen", "America/Lima"}
 	case "JAF":
-		return "Asia/Colombo"
+		return Location{"Jaffna", "Asia/Colombo"}
 	case "JAI":
-		return "Asia/Kolkata"
+		return Location{"Jaipur", "Asia/Kolkata"}
 	case "JAN":
-		return "America/Chicago"
+		return Location{"Jackson", "America/Chicago"}
 	case "JAU":
-		return "America/Lima"
+		return Location{"Jauja", "America/Lima"}
 	case "JAV":
-		return "America/Nuuk"
+		return Location{"Ilulissat", "America/Nuuk"}
 	case "JAX":
-		return "America/New_York"
+		return Location{"Jacksonville", "America/New_York"}
 	case "JBQ":
-		return "America/Santo_Domingo"
+		return Location{"La Isabela", "America/Santo_Domingo"}
 	case "JBR":
-		return "America/Chicago"
+		return Location{"Jonesboro", "America/Chicago"}
 	case "JCK":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "JDH":
-		return "Asia/Kolkata"
+		return Location{"Jodhpur", "Asia/Kolkata"}
 	case "JDO":
-		return "America/Fortaleza"
+		return Location{"Juazeiro Do Norte", "America/Fortaleza"}
 	case "JDZ":
-		return "Asia/Shanghai"
+		return Location{"Jingdezhen", "Asia/Shanghai"}
 	case "JED":
-		return "Asia/Riyadh"
+		return Location{"Jeddah", "Asia/Riyadh"}
 	case "JEE":
-		return "America/Port-au-Prince"
+		return Location{"Jeremie", "America/Port-au-Prince"}
 	case "JEG":
-		return "America/Nuuk"
+		return Location{"Aasiaat", "America/Nuuk"}
 	case "JEK":
-		return "Africa/Harare"
+		return Location{"Lower Zambezi National Park", "Africa/Harare"}
 	case "JER":
-		return "Europe/Jersey"
+		return Location{"Saint Helier", "Europe/Jersey"}
 	case "JFK":
-		return "America/New_York"
+		return Location{"New York", "America/New_York"}
 	case "JFR":
-		return "America/Nuuk"
+		return Location{"Paamiut", "America/Nuuk"}
 	case "JGA":
-		return "Asia/Kolkata"
+		return Location{"Jamnagar", "Asia/Kolkata"}
 	case "JGN":
-		return "Asia/Shanghai"
+		return Location{"Jiayuguan", "Asia/Shanghai"}
 	case "JGS":
-		return "Asia/Shanghai"
+		return Location{"Ji'an", "Asia/Shanghai"}
 	case "JHB":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Senai", "Asia/Kuala_Lumpur"}
 	case "JHG":
-		return "Asia/Shanghai"
+		return Location{"Jinghong", "Asia/Shanghai"}
 	case "JHM":
-		return "Pacific/Honolulu"
+		return Location{"Lahaina", "Pacific/Honolulu"}
 	case "JHS":
-		return "America/Nuuk"
+		return Location{"Sisimiut", "America/Nuuk"}
 	case "JIA":
-		return "America/Cuiaba"
+		return Location{"Juina", "America/Cuiaba"}
 	case "JIB":
-		return "Africa/Djibouti"
+		return Location{"Djibouti City", "Africa/Djibouti"}
 	case "JIC":
-		return "Asia/Shanghai"
+		return Location{"Jinchang", "Asia/Shanghai"}
 	case "JIJ":
-		return "Africa/Addis_Ababa"
+		return Location{"Jijiga", "Africa/Addis_Ababa"}
 	case "JIK":
-		return "Europe/Athens"
+		return Location{"Ikaria Island", "Europe/Athens"}
 	case "JIM":
-		return "Africa/Addis_Ababa"
+		return Location{"Jimma", "Africa/Addis_Ababa"}
 	case "JIN":
-		return "Africa/Kampala"
+		return Location{"Jinja", "Africa/Kampala"}
 	case "JIQ":
-		return "Asia/Shanghai"
+		return Location{"Chongqing", "Asia/Shanghai"}
 	case "JIU":
-		return "Asia/Shanghai"
+		return Location{"Jiujiang", "Asia/Shanghai"}
 	case "JJD":
-		return "America/Fortaleza"
+		return Location{"Jijoca de Jericoacoara", "America/Fortaleza"}
 	case "JJN":
-		return "Asia/Shanghai"
+		return Location{"Quanzhou", "Asia/Shanghai"}
 	case "JKH":
-		return "Europe/Athens"
+		return Location{"Chios Island", "Europe/Athens"}
 	case "JKL":
-		return "Europe/Athens"
+		return Location{"Kalymnos Island", "Europe/Athens"}
 	case "JKR":
-		return "Asia/Kathmandu"
+		return Location{"Janakpur", "Asia/Kathmandu"}
 	case "JLN":
-		return "America/Chicago"
+		return Location{"Joplin", "America/Chicago"}
 	case "JLR":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "JMK":
-		return "Europe/Athens"
+		return Location{"Mykonos Island", "Europe/Athens"}
 	case "JMO":
-		return "Asia/Kathmandu"
+		return Location{"Jomsom", "Asia/Kathmandu"}
 	case "JMS":
-		return "America/Chicago"
+		return Location{"Jamestown", "America/Chicago"}
 	case "JMU":
-		return "Asia/Shanghai"
+		return Location{"Jiamusi", "Asia/Shanghai"}
 	case "JNB":
-		return "Africa/Johannesburg"
+		return Location{"Johannesburg", "Africa/Johannesburg"}
 	case "JNG":
-		return "Asia/Shanghai"
+		return Location{"Jining", "Asia/Shanghai"}
 	case "JNU":
-		return "America/Juneau"
+		return Location{"Juneau", "America/Juneau"}
 	case "JNX":
-		return "Europe/Athens"
+		return Location{"Naxos Island", "Europe/Athens"}
 	case "JNZ":
-		return "Asia/Shanghai"
+		return Location{"Jinzhou", "Asia/Shanghai"}
 	case "JOE":
-		return "Europe/Helsinki"
+		return Location{"Joensuu / Liperi", "Europe/Helsinki"}
 	case "JOG":
-		return "Asia/Jakarta"
+		return Location{"Yogyakarta-Java Island", "Asia/Jakarta"}
 	case "JOI":
-		return "America/Sao_Paulo"
+		return Location{"Joinville", "America/Sao_Paulo"}
 	case "JOK":
-		return "Europe/Moscow"
+		return Location{"Yoshkar-Ola", "Europe/Moscow"}
 	case "JOS":
-		return "Africa/Lagos"
+		return Location{"Jos", "Africa/Lagos"}
 	case "JPA":
-		return "America/Fortaleza"
+		return Location{"Joao Pessoa", "America/Fortaleza"}
 	case "JPR":
-		return "America/Porto_Velho"
+		return Location{"Ji-Parana", "America/Porto_Velho"}
 	case "JQA":
-		return "America/Nuuk"
+		return Location{"Uummannaq", "America/Nuuk"}
 	case "JRG":
-		return "Asia/Kolkata"
+		return Location{"Jharsuguda", "Asia/Kolkata"}
 	case "JRH":
-		return "Asia/Kolkata"
+		return Location{"Jorhat", "Asia/Kolkata"}
 	case "JRO":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Arusha", "Africa/Dar_es_Salaam"}
 	case "JSA":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "JSH":
-		return "Europe/Athens"
+		return Location{"Crete Island", "Europe/Athens"}
 	case "JSI":
-		return "Europe/Athens"
+		return Location{"Skiathos", "Europe/Athens"}
 	case "JSR":
-		return "Asia/Dhaka"
+		return Location{"Jashahor", "Asia/Dhaka"}
 	case "JST":
-		return "America/New_York"
+		return Location{"Johnstown", "America/New_York"}
 	case "JSU":
-		return "America/Nuuk"
+		return Location{"Maniitsoq", "America/Nuuk"}
 	case "JSY":
-		return "Europe/Athens"
+		return Location{"Syros Island", "Europe/Athens"}
 	case "JTC":
-		return "America/Sao_Paulo"
+		return Location{"Bauru", "America/Sao_Paulo"}
 	case "JTR":
-		return "Europe/Athens"
+		return Location{"Santorini Island", "Europe/Athens"}
 	case "JTY":
-		return "Europe/Athens"
+		return Location{"Astypalaia Island", "Europe/Athens"}
 	case "JUB":
-		return "Africa/Juba"
+		return Location{"Juba", "Africa/Juba"}
 	case "JUJ":
-		return "America/Argentina/Jujuy"
+		return Location{"San Salvador de Jujuy", "America/Argentina/Jujuy"}
 	case "JUL":
-		return "America/Lima"
+		return Location{"Juliaca", "America/Lima"}
 	case "JUM":
-		return "Asia/Kathmandu"
+		return Location{"Jumla", "Asia/Kathmandu"}
 	case "JUV":
-		return "America/Nuuk"
+		return Location{"Upernavik", "America/Nuuk"}
 	case "JUZ":
-		return "Asia/Shanghai"
+		return Location{"Quzhou", "Asia/Shanghai"}
 	case "JYV":
-		return "Europe/Helsinki"
+		return Location{"Jyvaskylan Maalaiskunta", "Europe/Helsinki"}
 	case "JZH":
-		return "Asia/Shanghai"
+		return Location{"Jiuzhaigou", "Asia/Shanghai"}
 	case "KAD":
-		return "Africa/Lagos"
+		return Location{"Kaduna", "Africa/Lagos"}
 	case "KAJ":
-		return "Europe/Helsinki"
+		return Location{"Kajaani", "Europe/Helsinki"}
 	case "KAL":
-		return "America/Anchorage"
+		return Location{"Kaltag", "America/Anchorage"}
 	case "KAN":
-		return "Africa/Lagos"
+		return Location{"Kano", "Africa/Lagos"}
 	case "KAO":
-		return "Europe/Helsinki"
+		return Location{"Kuusamo", "Europe/Helsinki"}
 	case "KAW":
-		return "Asia/Yangon"
+		return Location{"Kawthoung", "Asia/Yangon"}
 	case "KAZ":
-		return "Asia/Jayapura"
+		return Location{"Kao-Celebes Island", "Asia/Jayapura"}
 	case "KBH":
-		return "Asia/Karachi"
+		return Location{"Kalat", "Asia/Karachi"}
 	case "KBL":
-		return "Asia/Kabul"
+		return Location{"Kabul", "Asia/Kabul"}
 	case "KBP":
-		return "Europe/Kiev"
+		return Location{"Kiev", "Europe/Kiev"}
 	case "KBR":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Kota Baharu", "Asia/Kuala_Lumpur"}
 	case "KBU":
-		return "Asia/Makassar"
+		return Location{"Laut Island", "Asia/Makassar"}
 	case "KBV":
-		return "Asia/Bangkok"
+		return Location{"Krabi", "Asia/Bangkok"}
 	case "KCA":
-		return "Asia/Shanghai"
+		return Location{"Kuqa", "Asia/Shanghai"}
 	case "KCH":
-		return "Asia/Kuching"
+		return Location{"Kuching", "Asia/Kuching"}
 	case "KCK":
-		return "Asia/Irkutsk"
+		return Location{"Kirensk", "Asia/Irkutsk"}
 	case "KCM":
-		return "Europe/Istanbul"
+		return Location{"Kahramanmaras", "Europe/Istanbul"}
 	case "KCT":
-		return "Asia/Colombo"
+		return Location{"Galle", "Asia/Colombo"}
 	case "KCZ":
-		return "Asia/Tokyo"
+		return Location{"Nankoku", "Asia/Tokyo"}
 	case "KDH":
-		return "Asia/Kabul"
+		return Location{"", "Asia/Kabul"}
 	case "KDI":
-		return "Asia/Makassar"
+		return Location{"Kendari-Celebes Island", "Asia/Makassar"}
 	case "KDM":
-		return "Indian/Maldives"
+		return Location{"Huvadhu Atoll", "Indian/Maldives"}
 	case "KDO":
-		return "Indian/Maldives"
+		return Location{"Kadhdhoo", "Indian/Maldives"}
 	case "KDU":
-		return "Asia/Karachi"
+		return Location{"Skardu", "Asia/Karachi"}
 	case "KDV":
-		return "Pacific/Fiji"
+		return Location{"Vunisea", "Pacific/Fiji"}
 	case "KEF":
-		return "Atlantic/Reykjavik"
+		return Location{"Reykjavik", "Atlantic/Reykjavik"}
 	case "KEJ":
-		return "Asia/Novokuznetsk"
+		return Location{"Kemerovo", "Asia/Novokuznetsk"}
 	case "KEM":
-		return "Europe/Helsinki"
+		return Location{"Kemi / Tornio", "Europe/Helsinki"}
 	case "KEO":
-		return "Africa/Abidjan"
+		return Location{"Odienne", "Africa/Abidjan"}
 	case "KEP":
-		return "Asia/Kathmandu"
+		return Location{"Nepalgunj", "Asia/Kathmandu"}
 	case "KER":
-		return "Asia/Tehran"
+		return Location{"Kerman", "Asia/Tehran"}
 	case "KET":
-		return "Asia/Yangon"
+		return Location{"Kengtung", "Asia/Yangon"}
 	case "KEU":
-		return "Africa/Nairobi"
+		return Location{"Keekorok", "Africa/Nairobi"}
 	case "KFE":
-		return "Asia/Makassar"
+		return Location{"Cloudbreak Village", "Asia/Makassar"}
 	case "KFP":
-		return "America/Nome"
+		return Location{"False Pass", "America/Nome"}
 	case "KFS":
-		return "Europe/Istanbul"
+		return Location{"Kastamonu", "Europe/Istanbul"}
 	case "KGA":
-		return "Africa/Lubumbashi"
+		return Location{"Kananga", "Africa/Lubumbashi"}
 	case "KGC":
-		return "Australia/Adelaide"
+		return Location{"", "Australia/Adelaide"}
 	case "KGD":
-		return "Europe/Kaliningrad"
+		return Location{"Kaliningrad", "Europe/Kaliningrad"}
 	case "KGE":
-		return "Pacific/Guadalcanal"
+		return Location{"Kagau Island", "Pacific/Guadalcanal"}
 	case "KGF":
-		return "Asia/Almaty"
+		return Location{"Karaganda", "Asia/Almaty"}
 	case "KGI":
-		return "Australia/Perth"
+		return Location{"Kalgoorlie", "Australia/Perth"}
 	case "KGK":
-		return "America/Anchorage"
+		return Location{"Koliganek", "America/Anchorage"}
 	case "KGL":
-		return "Africa/Kigali"
+		return Location{"Kigali", "Africa/Kigali"}
 	case "KGP":
-		return "Asia/Yekaterinburg"
+		return Location{"Kogalym", "Asia/Yekaterinburg"}
 	case "KGS":
-		return "Europe/Athens"
+		return Location{"Kos Island", "Europe/Athens"}
 	case "KHG":
-		return "Asia/Shanghai"
+		return Location{"Kashgar", "Asia/Shanghai"}
 	case "KHH":
-		return "Asia/Taipei"
+		return Location{"Kaohsiung City", "Asia/Taipei"}
 	case "KHI":
-		return "Asia/Karachi"
+		return Location{"Karachi", "Asia/Karachi"}
 	case "KHM":
-		return "Asia/Yangon"
+		return Location{"Kanti", "Asia/Yangon"}
 	case "KHN":
-		return "Asia/Shanghai"
+		return Location{"Nanchang", "Asia/Shanghai"}
 	case "KHS":
-		return "Asia/Muscat"
+		return Location{"Khasab", "Asia/Muscat"}
 	case "KHV":
-		return "Asia/Vladivostok"
+		return Location{"Khabarovsk", "Asia/Vladivostok"}
 	case "KID":
-		return "Europe/Stockholm"
+		return Location{"Kristianstad", "Europe/Stockholm"}
 	case "KIE":
-		return "Pacific/Bougainville"
+		return Location{"Kieta", "Pacific/Bougainville"}
 	case "KIH":
-		return "Asia/Tehran"
+		return Location{"Kish Island", "Asia/Tehran"}
 	case "KIJ":
-		return "Asia/Tokyo"
+		return Location{"Niigata", "Asia/Tokyo"}
 	case "KIK":
-		return "Asia/Baghdad"
+		return Location{"Kirkuk", "Asia/Baghdad"}
 	case "KIM":
-		return "Africa/Johannesburg"
+		return Location{"Kimberley", "Africa/Johannesburg"}
 	case "KIN":
-		return "America/Jamaica"
+		return Location{"Kingston", "America/Jamaica"}
 	case "KIR":
-		return "Europe/Dublin"
+		return Location{"Killarney", "Europe/Dublin"}
 	case "KIS":
-		return "Africa/Nairobi"
+		return Location{"Kisumu", "Africa/Nairobi"}
 	case "KIT":
-		return "Europe/Athens"
+		return Location{"Kithira Island", "Europe/Athens"}
 	case "KIV":
-		return "Europe/Chisinau"
+		return Location{"Chisinau", "Europe/Chisinau"}
 	case "KIX":
-		return "Asia/Tokyo"
+		return Location{"Osaka", "Asia/Tokyo"}
 	case "KJA":
-		return "Asia/Krasnoyarsk"
+		return Location{"Krasnoyarsk", "Asia/Krasnoyarsk"}
 	case "KKA":
-		return "America/Anchorage"
+		return Location{"Koyuk", "America/Anchorage"}
 	case "KKC":
-		return "Asia/Bangkok"
+		return Location{"Khon Kaen", "Asia/Bangkok"}
 	case "KKE":
-		return "Pacific/Auckland"
+		return Location{"Kerikeri", "Pacific/Auckland"}
 	case "KKH":
-		return "America/Nome"
+		return Location{"Kongiganak", "America/Nome"}
 	case "KKJ":
-		return "Asia/Tokyo"
+		return Location{"Kitakyushu", "Asia/Tokyo"}
 	case "KKN":
-		return "Europe/Oslo"
+		return Location{"Kirkenes", "Europe/Oslo"}
 	case "KKQ":
-		return "Asia/Yekaterinburg"
+		return Location{"Krasnoselkup", "Asia/Yekaterinburg"}
 	case "KKR":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "KKS":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "KKX":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "KLF":
-		return "Europe/Moscow"
+		return Location{"Kaluga", "Europe/Moscow"}
 	case "KLG":
-		return "America/Anchorage"
+		return Location{"Kalskag", "America/Anchorage"}
 	case "KLH":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "KLN":
-		return "America/Anchorage"
+		return Location{"Larsen Bay", "America/Anchorage"}
 	case "KLO":
-		return "Asia/Manila"
+		return Location{"Kalibo", "Asia/Manila"}
 	case "KLR":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "KLU":
-		return "Europe/Vienna"
+		return Location{"Klagenfurt am Worthersee", "Europe/Vienna"}
 	case "KLX":
-		return "Europe/Athens"
+		return Location{"Kalamata", "Europe/Athens"}
 	case "KME":
-		return "Africa/Kigali"
+		return Location{"Kamembe", "Africa/Kigali"}
 	case "KMG":
-		return "Asia/Shanghai"
+		return Location{"Kunming", "Asia/Shanghai"}
 	case "KMI":
-		return "Asia/Tokyo"
+		return Location{"Miyazaki", "Asia/Tokyo"}
 	case "KMJ":
-		return "Asia/Tokyo"
+		return Location{"Kumamoto", "Asia/Tokyo"}
 	case "KMO":
-		return "America/Anchorage"
+		return Location{"Manokotak", "America/Anchorage"}
 	case "KMQ":
-		return "Asia/Tokyo"
+		return Location{"Kanazawa", "Asia/Tokyo"}
 	case "KMS":
-		return "Africa/Accra"
+		return Location{"Kumasi", "Africa/Accra"}
 	case "KMV":
-		return "Asia/Yangon"
+		return Location{"Kalemyo", "Asia/Yangon"}
 	case "KND":
-		return "Africa/Lubumbashi"
+		return Location{"Kindu", "Africa/Lubumbashi"}
 	case "KNG":
-		return "Asia/Jayapura"
+		return Location{"Kaimana-Papua Island", "Asia/Jayapura"}
 	case "KNH":
-		return "Asia/Taipei"
+		return Location{"Shang-I", "Asia/Taipei"}
 	case "KNK":
-		return "America/Anchorage"
+		return Location{"Kokhanok", "America/Anchorage"}
 	case "KNO":
-		return "Asia/Jakarta"
+		return Location{"Medan-Sumatra Island", "Asia/Jakarta"}
 	case "KNQ":
-		return "Pacific/Noumea"
+		return Location{"Kone", "Pacific/Noumea"}
 	case "KNS":
-		return "Australia/Currie"
+		return Location{"", "Australia/Currie"}
 	case "KNU":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "KNW":
-		return "America/Anchorage"
+		return Location{"New Stuyahok", "America/Anchorage"}
 	case "KNX":
-		return "Australia/Perth"
+		return Location{"Kununurra", "Australia/Perth"}
 	case "KOA":
-		return "Pacific/Honolulu"
+		return Location{"Kailua/Kona", "Pacific/Honolulu"}
 	case "KOE":
-		return "Asia/Makassar"
+		return Location{"Kupang-Timor Island", "Asia/Makassar"}
 	case "KOI":
-		return "Europe/London"
+		return Location{"Orkney Islands", "Europe/London"}
 	case "KOJ":
-		return "Asia/Tokyo"
+		return Location{"Kagoshima", "Asia/Tokyo"}
 	case "KOK":
-		return "Europe/Helsinki"
+		return Location{"Kokkola / Kruunupyy", "Europe/Helsinki"}
 	case "KOO":
-		return "Africa/Lubumbashi"
+		return Location{"Kongolo", "Africa/Lubumbashi"}
 	case "KOP":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "KOS":
-		return "Asia/Phnom_Penh"
+		return Location{"Sihanukville", "Asia/Phnom_Penh"}
 	case "KOT":
-		return "America/Nome"
+		return Location{"Kotlik", "America/Nome"}
 	case "KOV":
-		return "Asia/Almaty"
+		return Location{"Kokshetau", "Asia/Almaty"}
 	case "KOW":
-		return "Asia/Shanghai"
+		return Location{"Ganzhou", "Asia/Shanghai"}
 	case "KPN":
-		return "America/Nome"
+		return Location{"Kipnuk", "America/Nome"}
 	case "KPO":
-		return "Asia/Seoul"
+		return Location{"Pohang", "Asia/Seoul"}
 	case "KPV":
-		return "America/Anchorage"
+		return Location{"Perryville", "America/Anchorage"}
 	case "KPW":
-		return "Asia/Anadyr"
+		return Location{"Keperveem", "Asia/Anadyr"}
 	case "KQH":
-		return "Asia/Kolkata"
+		return Location{"Kishangarh", "Asia/Kolkata"}
 	case "KQT":
-		return "Asia/Dushanbe"
+		return Location{"Kurgan-Tyube", "Asia/Dushanbe"}
 	case "KRF":
-		return "Europe/Stockholm"
+		return Location{"Kramfors / Solleftea", "Europe/Stockholm"}
 	case "KRK":
-		return "Europe/Warsaw"
+		return Location{"Krakow", "Europe/Warsaw"}
 	case "KRL":
-		return "Asia/Shanghai"
+		return Location{"Korla", "Asia/Shanghai"}
 	case "KRN":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "KRO":
-		return "Asia/Yekaterinburg"
+		return Location{"Kurgan", "Asia/Yekaterinburg"}
 	case "KRP":
-		return "Europe/Copenhagen"
+		return Location{"Karup", "Europe/Copenhagen"}
 	case "KRS":
-		return "Europe/Oslo"
+		return Location{"Kjevik", "Europe/Oslo"}
 	case "KRT":
-		return "Africa/Khartoum"
+		return Location{"Khartoum", "Africa/Khartoum"}
 	case "KRW":
-		return "Asia/Ashgabat"
+		return Location{"Krasnovodsk", "Asia/Ashgabat"}
 	case "KRY":
-		return "Asia/Shanghai"
+		return Location{"Karamay", "Asia/Shanghai"}
 	case "KSA":
-		return "Pacific/Kosrae"
+		return Location{"Okat", "Pacific/Kosrae"}
 	case "KSC":
-		return "Europe/Bratislava"
+		return Location{"Kosice", "Europe/Bratislava"}
 	case "KSE":
-		return "Africa/Kampala"
+		return Location{"Kasese", "Africa/Kampala"}
 	case "KSF":
-		return "Europe/Berlin"
+		return Location{"Kassel", "Europe/Berlin"}
 	case "KSH":
-		return "Asia/Tehran"
+		return Location{"Kermanshah", "Asia/Tehran"}
 	case "KSJ":
-		return "Europe/Athens"
+		return Location{"Kasos Island", "Europe/Athens"}
 	case "KSL":
-		return "Africa/Khartoum"
+		return Location{"Kassala", "Africa/Khartoum"}
 	case "KSM":
-		return "America/Nome"
+		return Location{"St Mary's", "America/Nome"}
 	case "KSN":
-		return "Asia/Qostanay"
+		return Location{"Kostanay", "Asia/Qostanay"}
 	case "KSO":
-		return "Europe/Athens"
+		return Location{"Kastoria", "Europe/Athens"}
 	case "KSQ":
-		return "Asia/Samarkand"
+		return Location{"Karshi", "Asia/Samarkand"}
 	case "KSU":
-		return "Europe/Oslo"
+		return Location{"Kvernberget", "Europe/Oslo"}
 	case "KSY":
-		return "Europe/Istanbul"
+		return Location{"Kars", "Europe/Istanbul"}
 	case "KSZ":
-		return "Europe/Moscow"
+		return Location{"Kotlas", "Europe/Moscow"}
 	case "KTA":
-		return "Australia/Perth"
+		return Location{"Karratha", "Australia/Perth"}
 	case "KTG":
-		return "Asia/Pontianak"
+		return Location{"Ketapang-Borneo Island", "Asia/Pontianak"}
 	case "KTL":
-		return "Africa/Nairobi"
+		return Location{"Kitale", "Africa/Nairobi"}
 	case "KTM":
-		return "Asia/Kathmandu"
+		return Location{"Kathmandu", "Asia/Kathmandu"}
 	case "KTN":
-		return "America/Sitka"
+		return Location{"Ketchikan", "America/Sitka"}
 	case "KTR":
-		return "Australia/Darwin"
+		return Location{"", "Australia/Darwin"}
 	case "KTS":
-		return "America/Nome"
+		return Location{"Brevig Mission", "America/Nome"}
 	case "KTT":
-		return "Europe/Helsinki"
+		return Location{"Kittila", "Europe/Helsinki"}
 	case "KTW":
-		return "Europe/Warsaw"
+		return Location{"Katowice", "Europe/Warsaw"}
 	case "KUA":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Kuantan", "Asia/Kuala_Lumpur"}
 	case "KUF":
-		return "Europe/Samara"
+		return Location{"Samara", "Europe/Samara"}
 	case "KUG":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "KUH":
-		return "Asia/Tokyo"
+		return Location{"Kushiro", "Asia/Tokyo"}
 	case "KUK":
-		return "America/Nome"
+		return Location{"Kasigluk", "America/Nome"}
 	case "KUL":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Kuala Lumpur", "Asia/Kuala_Lumpur"}
 	case "KUM":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "KUN":
-		return "Europe/Vilnius"
+		return Location{"Kaunas", "Europe/Vilnius"}
 	case "KUO":
-		return "Europe/Helsinki"
+		return Location{"Kuopio / Siilinjarvi", "Europe/Helsinki"}
 	case "KUS":
-		return "America/Nuuk"
+		return Location{"Kulusuk", "America/Nuuk"}
 	case "KUT":
-		return "Asia/Tbilisi"
+		return Location{"Kutaisi", "Asia/Tbilisi"}
 	case "KUV":
-		return "Asia/Seoul"
+		return Location{"Kunsan", "Asia/Seoul"}
 	case "KVA":
-		return "Europe/Athens"
+		return Location{"Kavala", "Europe/Athens"}
 	case "KVC":
-		return "America/Nome"
+		return Location{"King Cove", "America/Nome"}
 	case "KVG":
-		return "Pacific/Port_Moresby"
+		return Location{"Kavieng", "Pacific/Port_Moresby"}
 	case "KVK":
-		return "Europe/Moscow"
+		return Location{"Apatity", "Europe/Moscow"}
 	case "KVL":
-		return "America/Nome"
+		return Location{"Kivalina", "America/Nome"}
 	case "KVX":
-		return "Europe/Kirov"
+		return Location{"Kirov", "Europe/Kirov"}
 	case "KWA":
-		return "Pacific/Kwajalein"
+		return Location{"Kwajalein", "Pacific/Kwajalein"}
 	case "KWE":
-		return "Asia/Shanghai"
+		return Location{"Guiyang", "Asia/Shanghai"}
 	case "KWI":
-		return "Asia/Kuwait"
+		return Location{"Kuwait City", "Asia/Kuwait"}
 	case "KWJ":
-		return "Asia/Seoul"
+		return Location{"Gwangju", "Asia/Seoul"}
 	case "KWK":
-		return "America/Nome"
+		return Location{"Kwigillingok", "America/Nome"}
 	case "KWL":
-		return "Asia/Shanghai"
+		return Location{"Guilin City", "Asia/Shanghai"}
 	case "KWM":
-		return "Australia/Brisbane"
+		return Location{"Kowanyama", "Australia/Brisbane"}
 	case "KWN":
-		return "America/Anchorage"
+		return Location{"Quinhagak", "America/Anchorage"}
 	case "KWT":
-		return "America/Anchorage"
+		return Location{"Kwethluk", "America/Anchorage"}
 	case "KWZ":
-		return "Africa/Lubumbashi"
+		return Location{"", "Africa/Lubumbashi"}
 	case "KXB":
-		return "Asia/Makassar"
+		return Location{"Kolaka", "Asia/Makassar"}
 	case "KXF":
-		return "Pacific/Fiji"
+		return Location{"Koro Island", "Pacific/Fiji"}
 	case "KXK":
-		return "Asia/Vladivostok"
+		return Location{"Komsomolsk-on-Amur", "Asia/Vladivostok"}
 	case "KXU":
-		return "Pacific/Tahiti"
+		return Location{"Katiu", "Pacific/Tahiti"}
 	case "KYA":
-		return "Europe/Istanbul"
+		return Location{"Konya", "Europe/Istanbul"}
 	case "KYK":
-		return "America/Anchorage"
+		return Location{"Karluk", "America/Anchorage"}
 	case "KYP":
-		return "Asia/Yangon"
+		return Location{"Kyaukpyu", "Asia/Yangon"}
 	case "KYU":
-		return "America/Anchorage"
+		return Location{"Koyukuk", "America/Anchorage"}
 	case "KYZ":
-		return "Asia/Krasnoyarsk"
+		return Location{"Kyzyl", "Asia/Krasnoyarsk"}
 	case "KZI":
-		return "Europe/Athens"
+		return Location{"Kozani", "Europe/Athens"}
 	case "KZN":
-		return "Europe/Moscow"
+		return Location{"Kazan", "Europe/Moscow"}
 	case "KZO":
-		return "Asia/Qyzylorda"
+		return Location{"Kzyl-Orda", "Asia/Qyzylorda"}
 	case "KZR":
-		return "Europe/Istanbul"
+		return Location{"Altintas", "Europe/Istanbul"}
 	case "KZS":
-		return "Europe/Athens"
+		return Location{"Kastelorizo Island", "Europe/Athens"}
 	case "LAD":
-		return "Africa/Luanda"
+		return Location{"Luanda", "Africa/Luanda"}
 	case "LAE":
-		return "Pacific/Port_Moresby"
+		return Location{"Nadzab", "Pacific/Port_Moresby"}
 	case "LAH":
-		return "Asia/Jayapura"
+		return Location{"Labuha-Halmahera Island", "Asia/Jayapura"}
 	case "LAK":
-		return "America/Inuvik"
+		return Location{"Aklavik", "America/Inuvik"}
 	case "LAN":
-		return "America/Detroit"
+		return Location{"Lansing", "America/Detroit"}
 	case "LAO":
-		return "Asia/Manila"
+		return Location{"Laoag City", "Asia/Manila"}
 	case "LAP":
-		return "America/Mazatlan"
+		return Location{"La Paz", "America/Mazatlan"}
 	case "LAQ":
-		return "Africa/Tripoli"
+		return Location{"Al Bayda'", "Africa/Tripoli"}
 	case "LAR":
-		return "America/Denver"
+		return Location{"Laramie", "America/Denver"}
 	case "LAS":
-		return "America/Los_Angeles"
+		return Location{"Las Vegas", "America/Los_Angeles"}
 	case "LAU":
-		return "Africa/Nairobi"
+		return Location{"Lamu", "Africa/Nairobi"}
 	case "LAW":
-		return "America/Chicago"
+		return Location{"Lawton", "America/Chicago"}
 	case "LAX":
-		return "America/Los_Angeles"
+		return Location{"Los Angeles", "America/Los_Angeles"}
 	case "LBA":
-		return "Europe/London"
+		return Location{"Leeds", "Europe/London"}
 	case "LBB":
-		return "America/Chicago"
+		return Location{"Lubbock", "America/Chicago"}
 	case "LBC":
-		return "Europe/Berlin"
+		return Location{"Lubeck", "Europe/Berlin"}
 	case "LBD":
-		return "Asia/Dushanbe"
+		return Location{"Khudzhand", "Asia/Dushanbe"}
 	case "LBE":
-		return "America/New_York"
+		return Location{"Latrobe", "America/New_York"}
 	case "LBF":
-		return "America/Chicago"
+		return Location{"North Platte", "America/Chicago"}
 	case "LBJ":
-		return "Asia/Makassar"
+		return Location{"Labuan Bajo-Flores Island", "Asia/Makassar"}
 	case "LBL":
-		return "America/Chicago"
+		return Location{"Liberal", "America/Chicago"}
 	case "LBR":
-		return "America/Manaus"
+		return Location{"Labrea", "America/Manaus"}
 	case "LBS":
-		return "Pacific/Fiji"
+		return Location{"", "Pacific/Fiji"}
 	case "LBU":
-		return "Asia/Kuching"
+		return Location{"Labuan", "Asia/Kuching"}
 	case "LBV":
-		return "Africa/Libreville"
+		return Location{"Libreville", "Africa/Libreville"}
 	case "LCA":
-		return "Asia/Nicosia"
+		return Location{"Larnarca", "Asia/Nicosia"}
 	case "LCE":
-		return "America/Tegucigalpa"
+		return Location{"La Ceiba", "America/Tegucigalpa"}
 	case "LCG":
-		return "Europe/Madrid"
+		return Location{"Culleredo", "Europe/Madrid"}
 	case "LCH":
-		return "America/Chicago"
+		return Location{"Lake Charles", "America/Chicago"}
 	case "LCJ":
-		return "Europe/Warsaw"
+		return Location{"Lodz", "Europe/Warsaw"}
 	case "LCK":
-		return "America/New_York"
+		return Location{"Columbus", "America/New_York"}
 	case "LCX":
-		return "Asia/Shanghai"
+		return Location{"Longyan", "Asia/Shanghai"}
 	case "LCY":
-		return "Europe/London"
+		return Location{"London", "Europe/London"}
 	case "LDB":
-		return "America/Sao_Paulo"
+		return Location{"Londrina", "America/Sao_Paulo"}
 	case "LDE":
-		return "Europe/Paris"
+		return Location{"Tarbes/Lourdes/Pyrenees", "Europe/Paris"}
 	case "LDH":
-		return "Australia/Lord_Howe"
+		return Location{"Lord Howe Island", "Australia/Lord_Howe"}
 	case "LDS":
-		return "Asia/Shanghai"
+		return Location{"Yichun", "Asia/Shanghai"}
 	case "LDU":
-		return "Asia/Kuching"
+		return Location{"Lahad Datu", "Asia/Kuching"}
 	case "LDY":
-		return "Europe/London"
+		return Location{"Derry", "Europe/London"}
 	case "LEA":
-		return "Australia/Perth"
+		return Location{"Exmouth", "Australia/Perth"}
 	case "LEB":
-		return "America/New_York"
+		return Location{"Lebanon", "America/New_York"}
 	case "LEC":
-		return "America/Bahia"
+		return Location{"Lencois", "America/Bahia"}
 	case "LED":
-		return "Europe/Moscow"
+		return Location{"St. Petersburg", "Europe/Moscow"}
 	case "LEI":
-		return "Europe/Madrid"
+		return Location{"Almeria", "Europe/Madrid"}
 	case "LEJ":
-		return "Europe/Berlin"
+		return Location{"Leipzig", "Europe/Berlin"}
 	case "LEN":
-		return "Europe/Madrid"
+		return Location{"Leon", "Europe/Madrid"}
 	case "LET":
-		return "America/Bogota"
+		return Location{"Leticia", "America/Bogota"}
 	case "LEU":
-		return "Europe/Madrid"
+		return Location{"Montferrer / Castellbo", "Europe/Madrid"}
 	case "LEX":
-		return "America/New_York"
+		return Location{"Lexington", "America/New_York"}
 	case "LFR":
-		return "America/Caracas"
+		return Location{"", "America/Caracas"}
 	case "LFT":
-		return "America/Chicago"
+		return Location{"Lafayette", "America/Chicago"}
 	case "LFW":
-		return "Africa/Lome"
+		return Location{"Lome", "Africa/Lome"}
 	case "LGA":
-		return "America/New_York"
+		return Location{"New York", "America/New_York"}
 	case "LGB":
-		return "America/Los_Angeles"
+		return Location{"Long Beach", "America/Los_Angeles"}
 	case "LGG":
-		return "Europe/Brussels"
+		return Location{"Liege", "Europe/Brussels"}
 	case "LGI":
-		return "America/Nassau"
+		return Location{"Deadman's Cay", "America/Nassau"}
 	case "LGK":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Langkawi", "Asia/Kuala_Lumpur"}
 	case "LGL":
-		return "Asia/Kuching"
+		return Location{"Long Datih", "Asia/Kuching"}
 	case "LGW":
-		return "Europe/London"
+		return Location{"London", "Europe/London"}
 	case "LHE":
-		return "Asia/Karachi"
+		return Location{"Lahore", "Asia/Karachi"}
 	case "LHG":
-		return "Australia/Sydney"
+		return Location{"", "Australia/Sydney"}
 	case "LHR":
-		return "Europe/London"
+		return Location{"London", "Europe/London"}
 	case "LHW":
-		return "Asia/Shanghai"
+		return Location{"Lanzhou", "Asia/Shanghai"}
 	case "LIF":
-		return "Pacific/Noumea"
+		return Location{"Lifou", "Pacific/Noumea"}
 	case "LIG":
-		return "Europe/Paris"
+		return Location{"Limoges/Bellegarde", "Europe/Paris"}
 	case "LIH":
-		return "Pacific/Honolulu"
+		return Location{"Lihue", "Pacific/Honolulu"}
 	case "LIL":
-		return "Europe/Paris"
+		return Location{"Lille/Lesquin", "Europe/Paris"}
 	case "LIM":
-		return "America/Lima"
+		return Location{"Lima", "America/Lima"}
 	case "LIN":
-		return "Europe/Rome"
+		return Location{"Milan", "Europe/Rome"}
 	case "LIO":
-		return "America/Costa_Rica"
+		return Location{"Puerto Limon", "America/Costa_Rica"}
 	case "LIR":
-		return "America/Costa_Rica"
+		return Location{"Liberia", "America/Costa_Rica"}
 	case "LIS":
-		return "Europe/Lisbon"
+		return Location{"Lisbon", "Europe/Lisbon"}
 	case "LIT":
-		return "America/Chicago"
+		return Location{"Little Rock", "America/Chicago"}
 	case "LIW":
-		return "Asia/Yangon"
+		return Location{"Loikaw", "Asia/Yangon"}
 	case "LJG":
-		return "Asia/Shanghai"
+		return Location{"Lijiang", "Asia/Shanghai"}
 	case "LJU":
-		return "Europe/Ljubljana"
+		return Location{"Ljubljana", "Europe/Ljubljana"}
 	case "LKA":
-		return "Asia/Makassar"
+		return Location{"Larantuka-Flores Island", "Asia/Makassar"}
 	case "LKB":
-		return "Pacific/Fiji"
+		return Location{"Lakeba Island", "Pacific/Fiji"}
 	case "LKH":
-		return "Asia/Kuching"
+		return Location{"Long Akah", "Asia/Kuching"}
 	case "LKL":
-		return "Europe/Oslo"
+		return Location{"Lakselv", "Europe/Oslo"}
 	case "LKN":
-		return "Europe/Oslo"
+		return Location{"Leknes", "Europe/Oslo"}
 	case "LKO":
-		return "Asia/Kolkata"
+		return Location{"Lucknow", "Asia/Kolkata"}
 	case "LKY":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Lake Manyara National Park", "Africa/Dar_es_Salaam"}
 	case "LLA":
-		return "Europe/Stockholm"
+		return Location{"Lulea", "Europe/Stockholm"}
 	case "LLF":
-		return "Asia/Shanghai"
+		return Location{"Yongzhou", "Asia/Shanghai"}
 	case "LLI":
-		return "Africa/Addis_Ababa"
+		return Location{"Lalibela", "Africa/Addis_Ababa"}
 	case "LLJ":
-		return "Asia/Dhaka"
+		return Location{"Lalmonirhat", "Asia/Dhaka"}
 	case "LLK":
-		return "Asia/Baku"
+		return Location{"Lankaran", "Asia/Baku"}
 	case "LLW":
-		return "Africa/Blantyre"
+		return Location{"Lilongwe", "Africa/Blantyre"}
 	case "LMA":
-		return "America/Anchorage"
+		return Location{"Minchumina", "America/Anchorage"}
 	case "LMM":
-		return "America/Mazatlan"
+		return Location{"Los Mochis", "America/Mazatlan"}
 	case "LMN":
-		return "Asia/Brunei"
+		return Location{"Limbang", "Asia/Brunei"}
 	case "LMP":
-		return "Europe/Rome"
+		return Location{"Lampedusa", "Europe/Rome"}
 	case "LNB":
-		return "Pacific/Efate"
+		return Location{"Lamen Bay", "Pacific/Efate"}
 	case "LNE":
-		return "Pacific/Efate"
+		return Location{"Lonorore", "Pacific/Efate"}
 	case "LNJ":
-		return "Asia/Shanghai"
+		return Location{"Lincang", "Asia/Shanghai"}
 	case "LNK":
-		return "America/Chicago"
+		return Location{"Lincoln", "America/Chicago"}
 	case "LNO":
-		return "Australia/Perth"
+		return Location{"Leonora", "Australia/Perth"}
 	case "LNS":
-		return "America/New_York"
+		return Location{"Lancaster", "America/New_York"}
 	case "LNV":
-		return "Pacific/Port_Moresby"
+		return Location{"Londolovit", "Pacific/Port_Moresby"}
 	case "LNY":
-		return "Pacific/Honolulu"
+		return Location{"Lanai City", "Pacific/Honolulu"}
 	case "LNZ":
-		return "Europe/Vienna"
+		return Location{"Linz", "Europe/Vienna"}
 	case "LOD":
-		return "Pacific/Efate"
+		return Location{"Longana", "Pacific/Efate"}
 	case "LOE":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "LOK":
-		return "Africa/Nairobi"
+		return Location{"Lodwar", "Africa/Nairobi"}
 	case "LOO":
-		return "Africa/Algiers"
+		return Location{"Laghouat", "Africa/Algiers"}
 	case "LOP":
-		return "Asia/Makassar"
+		return Location{"Mataram", "Asia/Makassar"}
 	case "LOS":
-		return "Africa/Lagos"
+		return Location{"Lagos", "Africa/Lagos"}
 	case "LOY":
-		return "Africa/Nairobi"
+		return Location{"Loyengalani", "Africa/Nairobi"}
 	case "LPA":
-		return "Atlantic/Canary"
+		return Location{"Gran Canaria Island", "Atlantic/Canary"}
 	case "LPB":
-		return "America/La_Paz"
+		return Location{"La Paz / El Alto", "America/La_Paz"}
 	case "LPI":
-		return "Europe/Stockholm"
+		return Location{"Linkoping", "Europe/Stockholm"}
 	case "LPL":
-		return "Europe/London"
+		return Location{"Liverpool", "Europe/London"}
 	case "LPM":
-		return "Pacific/Efate"
+		return Location{"Lamap", "Pacific/Efate"}
 	case "LPP":
-		return "Europe/Helsinki"
+		return Location{"Lappeenranta", "Europe/Helsinki"}
 	case "LPQ":
-		return "Asia/Vientiane"
+		return Location{"Luang Phabang", "Asia/Vientiane"}
 	case "LPT":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "LPY":
-		return "Europe/Paris"
+		return Location{"Le Puy/Loudes", "Europe/Paris"}
 	case "LQM":
-		return "America/Bogota"
+		return Location{"Puerto Leguizamo", "America/Bogota"}
 	case "LRD":
-		return "America/Chicago"
+		return Location{"Laredo", "America/Chicago"}
 	case "LRE":
-		return "Australia/Brisbane"
+		return Location{"Longreach", "Australia/Brisbane"}
 	case "LRH":
-		return "Europe/Paris"
+		return Location{"La Rochelle/Ile de Re", "Europe/Paris"}
 	case "LRM":
-		return "America/Santo_Domingo"
+		return Location{"La Romana", "America/Santo_Domingo"}
 	case "LRR":
-		return "Asia/Tehran"
+		return Location{"Lar", "Asia/Tehran"}
 	case "LRS":
-		return "Europe/Athens"
+		return Location{"Leros Island", "Europe/Athens"}
 	case "LRT":
-		return "Europe/Paris"
+		return Location{"Lorient/Lann/Bihoue", "Europe/Paris"}
 	case "LRU":
-		return "America/Denver"
+		return Location{"Las Cruces", "America/Denver"}
 	case "LRV":
-		return "America/Caracas"
+		return Location{"Los Roques", "America/Caracas"}
 	case "LSC":
-		return "America/Santiago"
+		return Location{"La Serena-Coquimbo", "America/Santiago"}
 	case "LSE":
-		return "America/Chicago"
+		return Location{"La Crosse", "America/Chicago"}
 	case "LSH":
-		return "Asia/Yangon"
+		return Location{"Lashio", "Asia/Yangon"}
 	case "LSI":
-		return "Europe/London"
+		return Location{"Lerwick", "Europe/London"}
 	case "LSP":
-		return "America/Caracas"
+		return Location{"Paraguana", "America/Caracas"}
 	case "LSQ":
-		return "America/Santiago"
+		return Location{"Los Angeles", "America/Santiago"}
 	case "LST":
-		return "Australia/Hobart"
+		return Location{"Launceston", "Australia/Hobart"}
 	case "LSW":
-		return "Asia/Jakarta"
+		return Location{"Lhok Seumawe-Sumatra Island", "Asia/Jakarta"}
 	case "LTI":
-		return "Asia/Hovd"
+		return Location{"Altai", "Asia/Hovd"}
 	case "LTN":
-		return "Europe/London"
+		return Location{"London", "Europe/London"}
 	case "LTO":
-		return "America/Mazatlan"
+		return Location{"Loreto", "America/Mazatlan"}
 	case "LUA":
-		return "Asia/Kathmandu"
+		return Location{"Lukla", "Asia/Kathmandu"}
 	case "LUD":
-		return "Africa/Windhoek"
+		return Location{"Luderitz", "Africa/Windhoek"}
 	case "LUG":
-		return "Europe/Zurich"
+		return Location{"Lugano", "Europe/Zurich"}
 	case "LUM":
-		return "Asia/Shanghai"
+		return Location{"Luxi", "Asia/Shanghai"}
 	case "LUN":
-		return "Africa/Lusaka"
+		return Location{"Lusaka", "Africa/Lusaka"}
 	case "LUO":
-		return "Africa/Luanda"
+		return Location{"Luena", "Africa/Luanda"}
 	case "LUP":
-		return "Pacific/Honolulu"
+		return Location{"Kalaupapa", "Pacific/Honolulu"}
 	case "LUQ":
-		return "America/Argentina/San_Luis"
+		return Location{"San Luis", "America/Argentina/San_Luis"}
 	case "LUR":
-		return "America/Nome"
+		return Location{"Cape Lisburne", "America/Nome"}
 	case "LUV":
-		return "Asia/Jayapura"
+		return Location{"Langgur-Seram Island", "Asia/Jayapura"}
 	case "LUW":
-		return "Asia/Makassar"
+		return Location{"Luwok-Celebes Island", "Asia/Makassar"}
 	case "LUX":
-		return "Europe/Luxembourg"
+		return Location{"Luxembourg", "Europe/Luxembourg"}
 	case "LUZ":
-		return "Europe/Warsaw"
+		return Location{"Lublin", "Europe/Warsaw"}
 	case "LVI":
-		return "Africa/Lusaka"
+		return Location{"Livingstone", "Africa/Lusaka"}
 	case "LVO":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "LWB":
-		return "America/New_York"
+		return Location{"Lewisburg", "America/New_York"}
 	case "LWS":
-		return "America/Los_Angeles"
+		return Location{"Lewiston", "America/Los_Angeles"}
 	case "LWY":
-		return "Asia/Kuching"
+		return Location{"Lawas", "Asia/Kuching"}
 	case "LXA":
-		return "Asia/Shanghai"
+		return Location{"Lhasa", "Asia/Shanghai"}
 	case "LXG":
-		return "Asia/Vientiane"
+		return Location{"Luang Namtha", "Asia/Vientiane"}
 	case "LXR":
-		return "Africa/Cairo"
+		return Location{"Luxor", "Africa/Cairo"}
 	case "LXS":
-		return "Europe/Athens"
+		return Location{"Limnos Island", "Europe/Athens"}
 	case "LYA":
-		return "Asia/Shanghai"
+		return Location{"Luoyang", "Asia/Shanghai"}
 	case "LYB":
-		return "America/Cayman"
+		return Location{"Little Cayman", "America/Cayman"}
 	case "LYC":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "LYG":
-		return "Asia/Shanghai"
+		return Location{"Lianyungang", "Asia/Shanghai"}
 	case "LYH":
-		return "America/New_York"
+		return Location{"Lynchburg", "America/New_York"}
 	case "LYI":
-		return "Asia/Shanghai"
+		return Location{"Linyi", "Asia/Shanghai"}
 	case "LYP":
-		return "Asia/Karachi"
+		return Location{"Faisalabad", "Asia/Karachi"}
 	case "LYR":
-		return "Arctic/Longyearbyen"
+		return Location{"Longyearbyen", "Arctic/Longyearbyen"}
 	case "LYS":
-		return "Europe/Paris"
+		return Location{"Lyon", "Europe/Paris"}
 	case "LZH":
-		return "Asia/Shanghai"
+		return Location{"Liuzhou", "Asia/Shanghai"}
 	case "LZN":
-		return "Asia/Taipei"
+		return Location{"Nangang Island", "Asia/Taipei"}
 	case "LZO":
-		return "Asia/Shanghai"
+		return Location{"Luzhou", "Asia/Shanghai"}
 	case "LZY":
-		return "Asia/Shanghai"
+		return Location{"Nyingchi", "Asia/Shanghai"}
 	case "MAA":
-		return "Asia/Kolkata"
+		return Location{"Chennai", "Asia/Kolkata"}
 	case "MAB":
-		return "America/Belem"
+		return Location{"Maraba", "America/Belem"}
 	case "MAD":
-		return "Europe/Madrid"
+		return Location{"Madrid", "Europe/Madrid"}
 	case "MAF":
-		return "America/Chicago"
+		return Location{"Midland", "America/Chicago"}
 	case "MAG":
-		return "Pacific/Port_Moresby"
+		return Location{"Madang", "Pacific/Port_Moresby"}
 	case "MAH":
-		return "Europe/Madrid"
+		return Location{"Menorca Island", "Europe/Madrid"}
 	case "MAJ":
-		return "Pacific/Majuro"
+		return Location{"Majuro Atoll", "Pacific/Majuro"}
 	case "MAM":
-		return "America/Matamoros"
+		return Location{"Matamoros", "America/Matamoros"}
 	case "MAN":
-		return "Europe/London"
+		return Location{"Manchester", "Europe/London"}
 	case "MAO":
-		return "America/Manaus"
+		return Location{"Manaus", "America/Manaus"}
 	case "MAQ":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "MAR":
-		return "America/Caracas"
+		return Location{"Maracaibo", "America/Caracas"}
 	case "MAS":
-		return "Pacific/Port_Moresby"
+		return Location{"", "Pacific/Port_Moresby"}
 	case "MAU":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "MAZ":
-		return "America/Puerto_Rico"
+		return Location{"Mayaguez", "America/Puerto_Rico"}
 	case "MBA":
-		return "Africa/Nairobi"
+		return Location{"Mombasa", "Africa/Nairobi"}
 	case "MBE":
-		return "Asia/Tokyo"
+		return Location{"Monbetsu", "Asia/Tokyo"}
 	case "MBI":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Mbeya", "Africa/Dar_es_Salaam"}
 	case "MBJ":
-		return "America/Jamaica"
+		return Location{"Montego Bay", "America/Jamaica"}
 	case "MBL":
-		return "America/Detroit"
+		return Location{"Manistee", "America/Detroit"}
 	case "MBQ":
-		return "Africa/Kampala"
+		return Location{"Mbarara", "Africa/Kampala"}
 	case "MBS":
-		return "America/Detroit"
+		return Location{"Saginaw", "America/Detroit"}
 	case "MBT":
-		return "Asia/Manila"
+		return Location{"Masbate", "Asia/Manila"}
 	case "MBZ":
-		return "America/Manaus"
+		return Location{"Maues", "America/Manaus"}
 	case "MCE":
-		return "America/Los_Angeles"
+		return Location{"Merced", "America/Los_Angeles"}
 	case "MCI":
-		return "America/Chicago"
+		return Location{"Kansas City", "America/Chicago"}
 	case "MCK":
-		return "America/Chicago"
+		return Location{"Mc Cook", "America/Chicago"}
 	case "MCN":
-		return "America/New_York"
+		return Location{"Macon", "America/New_York"}
 	case "MCO":
-		return "America/New_York"
+		return Location{"Orlando", "America/New_York"}
 	case "MCP":
-		return "America/Belem"
+		return Location{"Macapa", "America/Belem"}
 	case "MCT":
-		return "Asia/Muscat"
+		return Location{"Muscat", "Asia/Muscat"}
 	case "MCV":
-		return "Australia/Darwin"
+		return Location{"McArthur River Mine", "Australia/Darwin"}
 	case "MCW":
-		return "America/Chicago"
+		return Location{"Mason City", "America/Chicago"}
 	case "MCX":
-		return "Europe/Moscow"
+		return Location{"Makhachkala", "Europe/Moscow"}
 	case "MCY":
-		return "Australia/Brisbane"
+		return Location{"Maroochydore", "Australia/Brisbane"}
 	case "MCZ":
-		return "America/Maceio"
+		return Location{"Maceio", "America/Maceio"}
 	case "MDC":
-		return "Asia/Makassar"
+		return Location{"Manado-Celebes Island", "Asia/Makassar"}
 	case "MDE":
-		return "America/Bogota"
+		return Location{"Rionegro", "America/Bogota"}
 	case "MDG":
-		return "Asia/Shanghai"
+		return Location{"Mudanjiang", "Asia/Shanghai"}
 	case "MDI":
-		return "Africa/Lagos"
+		return Location{"Makurdi", "Africa/Lagos"}
 	case "MDK":
-		return "Africa/Kinshasa"
+		return Location{"Mbandaka", "Africa/Kinshasa"}
 	case "MDL":
-		return "Asia/Yangon"
+		return Location{"Mandalay", "Asia/Yangon"}
 	case "MDQ":
-		return "America/Argentina/Buenos_Aires"
+		return Location{"Mar del Plata", "America/Argentina/Buenos_Aires"}
 	case "MDT":
-		return "America/New_York"
+		return Location{"Harrisburg", "America/New_York"}
 	case "MDW":
-		return "America/Chicago"
+		return Location{"Chicago", "America/Chicago"}
 	case "MDZ":
-		return "America/Argentina/Mendoza"
+		return Location{"Mendoza", "America/Argentina/Mendoza"}
 	case "MEB":
-		return "Australia/Melbourne"
+		return Location{"", "Australia/Melbourne"}
 	case "MEC":
-		return "America/Guayaquil"
+		return Location{"Manta", "America/Guayaquil"}
 	case "MED":
-		return "Asia/Riyadh"
+		return Location{"Medina", "Asia/Riyadh"}
 	case "MEE":
-		return "Pacific/Noumea"
+		return Location{"Mare", "Pacific/Noumea"}
 	case "MEH":
-		return "Europe/Oslo"
+		return Location{"Mehamn", "Europe/Oslo"}
 	case "MEI":
-		return "America/Chicago"
+		return Location{"Meridian", "America/Chicago"}
 	case "MEL":
-		return "Australia/Melbourne"
+		return Location{"Melbourne", "Australia/Melbourne"}
 	case "MEM":
-		return "America/Chicago"
+		return Location{"Memphis", "America/Chicago"}
 	case "MEQ":
-		return "Asia/Jakarta"
+		return Location{"Peureumeue-Sumatra Island", "Asia/Jakarta"}
 	case "MEU":
-		return "America/Santarem"
+		return Location{"Almeirim", "America/Santarem"}
 	case "MEX":
-		return "America/Mexico_City"
+		return Location{"Mexico City", "America/Mexico_City"}
 	case "MFA":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Mafia Island", "Africa/Dar_es_Salaam"}
 	case "MFE":
-		return "America/Chicago"
+		return Location{"Mc Allen", "America/Chicago"}
 	case "MFK":
-		return "Asia/Taipei"
+		return Location{"Beigan Island", "Asia/Taipei"}
 	case "MFM":
-		return "Asia/Macau"
+		return Location{"Taipa", "Asia/Macau"}
 	case "MFR":
-		return "America/Los_Angeles"
+		return Location{"Medford", "America/Los_Angeles"}
 	case "MFU":
-		return "Africa/Lusaka"
+		return Location{"Mfuwe", "Africa/Lusaka"}
 	case "MGA":
-		return "America/Managua"
+		return Location{"Managua", "America/Managua"}
 	case "MGB":
-		return "Australia/Adelaide"
+		return Location{"", "Australia/Adelaide"}
 	case "MGF":
-		return "America/Sao_Paulo"
+		return Location{"Maringa", "America/Sao_Paulo"}
 	case "MGH":
-		return "Africa/Johannesburg"
+		return Location{"Margate", "Africa/Johannesburg"}
 	case "MGM":
-		return "America/Chicago"
+		return Location{"Montgomery", "America/Chicago"}
 	case "MGQ":
-		return "Africa/Mogadishu"
+		return Location{"Mogadishu", "Africa/Mogadishu"}
 	case "MGT":
-		return "Australia/Darwin"
+		return Location{"Milingimbi Island", "Australia/Darwin"}
 	case "MGW":
-		return "America/New_York"
+		return Location{"Morgantown", "America/New_York"}
 	case "MGZ":
-		return "Asia/Yangon"
+		return Location{"Mkeik", "Asia/Yangon"}
 	case "MHC":
-		return "America/Santiago"
+		return Location{"Dalcahue", "America/Santiago"}
 	case "MHD":
-		return "Asia/Tehran"
+		return Location{"Mashhad", "Asia/Tehran"}
 	case "MHG":
-		return "Europe/Berlin"
+		return Location{"Mannheim", "Europe/Berlin"}
 	case "MHH":
-		return "America/Nassau"
+		return Location{"Marsh Harbour", "America/Nassau"}
 	case "MHK":
-		return "America/Chicago"
+		return Location{"Manhattan", "America/Chicago"}
 	case "MHQ":
-		return "Europe/Mariehamn"
+		return Location{"", "Europe/Mariehamn"}
 	case "MHT":
-		return "America/New_York"
+		return Location{"Manchester", "America/New_York"}
 	case "MIA":
-		return "America/New_York"
+		return Location{"Miami", "America/New_York"}
 	case "MID":
-		return "America/Merida"
+		return Location{"Merida", "America/Merida"}
 	case "MIG":
-		return "Asia/Shanghai"
+		return Location{"Mianyang", "Asia/Shanghai"}
 	case "MII":
-		return "America/Sao_Paulo"
+		return Location{"Marilia", "America/Sao_Paulo"}
 	case "MIM":
-		return "Australia/Sydney"
+		return Location{"Merimbula", "Australia/Sydney"}
 	case "MIR":
-		return "Africa/Tunis"
+		return Location{"Monastir", "Africa/Tunis"}
 	case "MIS":
-		return "Pacific/Port_Moresby"
+		return Location{"Misima Island", "Pacific/Port_Moresby"}
 	case "MIU":
-		return "Africa/Lagos"
+		return Location{"Maiduguri", "Africa/Lagos"}
 	case "MJC":
-		return "Africa/Abidjan"
+		return Location{"", "Africa/Abidjan"}
 	case "MJF":
-		return "Europe/Oslo"
+		return Location{"", "Europe/Oslo"}
 	case "MJI":
-		return "Africa/Tripoli"
+		return Location{"Tripoli", "Africa/Tripoli"}
 	case "MJK":
-		return "Australia/Perth"
+		return Location{"Monkey Mia", "Australia/Perth"}
 	case "MJM":
-		return "Africa/Lubumbashi"
+		return Location{"Mbuji Mayi", "Africa/Lubumbashi"}
 	case "MJN":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "MJT":
-		return "Europe/Athens"
+		return Location{"Mytilene", "Europe/Athens"}
 	case "MJU":
-		return "Asia/Makassar"
+		return Location{"Mamuju-Celebes Island", "Asia/Makassar"}
 	case "MJZ":
-		return "Asia/Yakutsk"
+		return Location{"Mirny", "Asia/Yakutsk"}
 	case "MKE":
-		return "America/Chicago"
+		return Location{"Milwaukee", "America/Chicago"}
 	case "MKG":
-		return "America/Detroit"
+		return Location{"Muskegon", "America/Detroit"}
 	case "MKK":
-		return "Pacific/Honolulu"
+		return Location{"Kaunakakai", "Pacific/Honolulu"}
 	case "MKL":
-		return "America/Chicago"
+		return Location{"Jackson", "America/Chicago"}
 	case "MKM":
-		return "Asia/Kuching"
+		return Location{"Mukah", "Asia/Kuching"}
 	case "MKP":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "MKQ":
-		return "Asia/Jayapura"
+		return Location{"Merauke-Papua Island", "Asia/Jayapura"}
 	case "MKR":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "MKW":
-		return "Asia/Jayapura"
+		return Location{"Manokwari-Papua Island", "Asia/Jayapura"}
 	case "MKY":
-		return "Australia/Brisbane"
-	case "MKZ":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Mackay", "Australia/Brisbane"}
 	case "MLA":
-		return "Europe/Malta"
+		return Location{"Luqa", "Europe/Malta"}
 	case "MLB":
-		return "America/New_York"
+		return Location{"Melbourne", "America/New_York"}
 	case "MLE":
-		return "Indian/Maldives"
+		return Location{"Male", "Indian/Maldives"}
 	case "MLG":
-		return "Asia/Jakarta"
+		return Location{"Malang-Java Island", "Asia/Jakarta"}
 	case "MLH":
-		return "Europe/Paris"
+		return Location{"Bale/Mulhouse", "Europe/Paris"}
 	case "MLI":
-		return "America/Chicago"
+		return Location{"Moline", "America/Chicago"}
 	case "MLL":
-		return "America/Anchorage"
+		return Location{"Marshall", "America/Anchorage"}
 	case "MLM":
-		return "America/Mexico_City"
+		return Location{"Morelia", "America/Mexico_City"}
 	case "MLN":
-		return "Africa/Casablanca"
+		return Location{"Melilla Island", "Africa/Casablanca"}
 	case "MLO":
-		return "Europe/Athens"
+		return Location{"Milos Island", "Europe/Athens"}
 	case "MLU":
-		return "America/Chicago"
+		return Location{"Monroe", "America/Chicago"}
 	case "MLX":
-		return "Europe/Istanbul"
+		return Location{"Malatya", "Europe/Istanbul"}
 	case "MLY":
-		return "America/Anchorage"
+		return Location{"Manley Hot Springs", "America/Anchorage"}
 	case "MMB":
-		return "Asia/Tokyo"
+		return Location{"Ozora", "Asia/Tokyo"}
 	case "MME":
-		return "Europe/London"
+		return Location{"Durham", "Europe/London"}
 	case "MMG":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "MMH":
-		return "America/Los_Angeles"
+		return Location{"Mammoth Lakes", "America/Los_Angeles"}
 	case "MMJ":
-		return "Asia/Tokyo"
+		return Location{"Matsumoto", "Asia/Tokyo"}
 	case "MMK":
-		return "Europe/Moscow"
+		return Location{"Murmansk", "Europe/Moscow"}
 	case "MMO":
-		return "Atlantic/Cape_Verde"
+		return Location{"Vila do Maio", "Atlantic/Cape_Verde"}
 	case "MMX":
-		return "Europe/Stockholm"
+		return Location{"Malmo", "Europe/Stockholm"}
 	case "MMY":
-		return "Asia/Tokyo"
+		return Location{"Miyako City", "Asia/Tokyo"}
 	case "MNA":
-		return "Asia/Makassar"
+		return Location{"Karakelong Island", "Asia/Makassar"}
 	case "MNC":
-		return "Africa/Maputo"
+		return Location{"Nacala", "Africa/Maputo"}
 	case "MNG":
-		return "Australia/Darwin"
+		return Location{"Maningrida", "Australia/Darwin"}
 	case "MNI":
-		return "America/Montserrat"
+		return Location{"Gerald's Park", "America/Montserrat"}
 	case "MNL":
-		return "Asia/Manila"
+		return Location{"Manila", "Asia/Manila"}
 	case "MNS":
-		return "Africa/Lusaka"
+		return Location{"Mansa", "Africa/Lusaka"}
 	case "MNU":
-		return "Asia/Yangon"
+		return Location{"Mawlamyine", "Asia/Yangon"}
 	case "MNX":
-		return "America/Manaus"
+		return Location{"Manicore", "America/Manaus"}
 	case "MOB":
-		return "America/Chicago"
+		return Location{"Mobile", "America/Chicago"}
 	case "MOC":
-		return "America/Sao_Paulo"
+		return Location{"Montes Claros", "America/Sao_Paulo"}
 	case "MOF":
-		return "Asia/Makassar"
+		return Location{"Maumere-Flores Island", "Asia/Makassar"}
 	case "MOG":
-		return "Asia/Yangon"
+		return Location{"Mong Hsat", "Asia/Yangon"}
 	case "MOL":
-		return "Europe/Oslo"
+		return Location{"Aro", "Europe/Oslo"}
 	case "MOO":
-		return "Australia/Adelaide"
+		return Location{"", "Australia/Adelaide"}
 	case "MOQ":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "MOT":
-		return "America/Chicago"
+		return Location{"Minot", "America/Chicago"}
 	case "MOU":
-		return "America/Nome"
+		return Location{"Mountain Village", "America/Nome"}
 	case "MOV":
-		return "Australia/Brisbane"
+		return Location{"Moranbah", "Australia/Brisbane"}
 	case "MOZ":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "MPA":
-		return "Africa/Windhoek"
+		return Location{"Mpacha", "Africa/Windhoek"}
 	case "MPH":
-		return "Asia/Manila"
+		return Location{"Malay", "Asia/Manila"}
 	case "MPL":
-		return "Europe/Paris"
+		return Location{"Montpellier/Mediterranee", "Europe/Paris"}
 	case "MPM":
-		return "Africa/Maputo"
+		return Location{"Maputo", "Africa/Maputo"}
 	case "MPN":
-		return "Atlantic/Stanley"
+		return Location{"Mount Pleasant", "Atlantic/Stanley"}
 	case "MQF":
-		return "Asia/Yekaterinburg"
+		return Location{"Magnitogorsk", "Asia/Yekaterinburg"}
 	case "MQJ":
-		return "Asia/Srednekolymsk"
+		return Location{"Honuu", "Asia/Srednekolymsk"}
 	case "MQL":
-		return "Australia/Melbourne"
+		return Location{"Mildura", "Australia/Melbourne"}
 	case "MQM":
-		return "Europe/Istanbul"
+		return Location{"Mardin", "Europe/Istanbul"}
 	case "MQN":
-		return "Europe/Oslo"
+		return Location{"Mo i Rana", "Europe/Oslo"}
 	case "MQP":
-		return "Africa/Johannesburg"
+		return Location{"Mpumalanga", "Africa/Johannesburg"}
 	case "MQT":
-		return "America/Detroit"
+		return Location{"Marquette", "America/Detroit"}
 	case "MQX":
-		return "Africa/Addis_Ababa"
+		return Location{"", "Africa/Addis_Ababa"}
 	case "MRD":
-		return "America/Caracas"
+		return Location{"Merida", "America/Caracas"}
 	case "MRE":
-		return "Africa/Nairobi"
+		return Location{"Masai Mara", "Africa/Nairobi"}
 	case "MRS":
-		return "Europe/Paris"
+		return Location{"Marseille", "Europe/Paris"}
 	case "MRU":
-		return "Indian/Mauritius"
+		return Location{"Port Louis", "Indian/Mauritius"}
 	case "MRV":
-		return "Europe/Moscow"
+		return Location{"Mineralnyye Vody", "Europe/Moscow"}
 	case "MRX":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "MRY":
-		return "America/Los_Angeles"
+		return Location{"Monterey", "America/Los_Angeles"}
 	case "MRZ":
-		return "Australia/Sydney"
+		return Location{"Moree", "Australia/Sydney"}
 	case "MSH":
-		return "Asia/Muscat"
+		return Location{"Masirah", "Asia/Muscat"}
 	case "MSJ":
-		return "Asia/Tokyo"
+		return Location{"Misawa", "Asia/Tokyo"}
 	case "MSL":
-		return "America/Chicago"
+		return Location{"Muscle Shoals", "America/Chicago"}
 	case "MSN":
-		return "America/Chicago"
+		return Location{"Madison", "America/Chicago"}
 	case "MSO":
-		return "America/Denver"
+		return Location{"Missoula", "America/Denver"}
 	case "MSP":
-		return "America/Chicago"
+		return Location{"Minneapolis", "America/Chicago"}
 	case "MSQ":
-		return "Europe/Minsk"
+		return Location{"Minsk", "Europe/Minsk"}
 	case "MSR":
-		return "Europe/Istanbul"
+		return Location{"Mus", "Europe/Istanbul"}
 	case "MSS":
-		return "America/New_York"
+		return Location{"Massena", "America/New_York"}
 	case "MST":
-		return "Europe/Amsterdam"
+		return Location{"Maastricht", "Europe/Amsterdam"}
 	case "MSU":
-		return "Africa/Maseru"
+		return Location{"Maseru", "Africa/Maseru"}
 	case "MSY":
-		return "America/Chicago"
+		return Location{"New Orleans", "America/Chicago"}
 	case "MSZ":
-		return "Africa/Luanda"
+		return Location{"Namibe", "Africa/Luanda"}
 	case "MTE":
-		return "America/Santarem"
+		return Location{"Monte Alegre", "America/Santarem"}
 	case "MTJ":
-		return "America/Denver"
+		return Location{"Montrose", "America/Denver"}
 	case "MTR":
-		return "America/Bogota"
+		return Location{"Monteria", "America/Bogota"}
 	case "MTT":
-		return "America/Mexico_City"
+		return Location{"Minatitlan", "America/Mexico_City"}
 	case "MTV":
-		return "Pacific/Efate"
+		return Location{"Ablow", "Pacific/Efate"}
 	case "MTY":
-		return "America/Monterrey"
+		return Location{"Monterrey", "America/Monterrey"}
 	case "MUA":
-		return "Pacific/Guadalcanal"
+		return Location{"", "Pacific/Guadalcanal"}
 	case "MUB":
-		return "Africa/Gaborone"
+		return Location{"Maun", "Africa/Gaborone"}
 	case "MUC":
-		return "Europe/Berlin"
+		return Location{"Munich", "Europe/Berlin"}
 	case "MUE":
-		return "Pacific/Honolulu"
+		return Location{"Kamuela", "Pacific/Honolulu"}
 	case "MUH":
-		return "Africa/Cairo"
+		return Location{"Mersa Matruh", "Africa/Cairo"}
 	case "MUN":
-		return "America/Caracas"
+		return Location{"", "America/Caracas"}
 	case "MUR":
-		return "Asia/Kuching"
+		return Location{"Marudi", "Asia/Kuching"}
 	case "MUX":
-		return "Asia/Karachi"
+		return Location{"Multan", "Asia/Karachi"}
 	case "MVB":
-		return "Africa/Libreville"
+		return Location{"Franceville", "Africa/Libreville"}
 	case "MVD":
-		return "America/Montevideo"
+		return Location{"Montevideo", "America/Montevideo"}
 	case "MVF":
-		return "America/Fortaleza"
+		return Location{"Mossoro", "America/Fortaleza"}
 	case "MVP":
-		return "America/Bogota"
+		return Location{"Mitu", "America/Bogota"}
 	case "MVR":
-		return "Africa/Douala"
+		return Location{"Maroua", "Africa/Douala"}
 	case "MVT":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "MVY":
-		return "America/New_York"
+		return Location{"Martha's Vineyard", "America/New_York"}
 	case "MWA":
-		return "America/Chicago"
+		return Location{"Marion", "America/Chicago"}
 	case "MWF":
-		return "Pacific/Efate"
+		return Location{"Maewo Island", "Pacific/Efate"}
 	case "MWQ":
-		return "Asia/Yangon"
+		return Location{"Magway", "Asia/Yangon"}
 	case "MWX":
-		return "Asia/Seoul"
+		return Location{"", "Asia/Seoul"}
 	case "MWZ":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Mwanza", "Africa/Dar_es_Salaam"}
 	case "MXH":
-		return "Pacific/Port_Moresby"
+		return Location{"Moro", "Pacific/Port_Moresby"}
 	case "MXL":
-		return "America/Tijuana"
+		return Location{"Mexicali", "America/Tijuana"}
 	case "MXP":
-		return "Europe/Rome"
+		return Location{"Milan", "Europe/Rome"}
 	case "MXV":
-		return "Asia/Ulaanbaatar"
+		return Location{"Moron", "Asia/Ulaanbaatar"}
 	case "MXX":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "MXZ":
-		return "Asia/Shanghai"
+		return Location{"Meixian", "Asia/Shanghai"}
 	case "MYA":
-		return "Australia/Sydney"
+		return Location{"Moruya", "Australia/Sydney"}
 	case "MYD":
-		return "Africa/Nairobi"
+		return Location{"Malindi", "Africa/Nairobi"}
 	case "MYG":
-		return "America/Nassau"
+		return Location{"Mayaguana", "America/Nassau"}
 	case "MYI":
-		return "Australia/Brisbane"
+		return Location{"Murray Island", "Australia/Brisbane"}
 	case "MYJ":
-		return "Asia/Tokyo"
+		return Location{"Matsuyama", "Asia/Tokyo"}
 	case "MYP":
-		return "Asia/Ashgabat"
+		return Location{"Mary", "Asia/Ashgabat"}
 	case "MYQ":
-		return "Asia/Kolkata"
+		return Location{"Mysore", "Asia/Kolkata"}
 	case "MYR":
-		return "America/New_York"
+		return Location{"Myrtle Beach", "America/New_York"}
 	case "MYT":
-		return "Asia/Yangon"
+		return Location{"Myitkyina", "Asia/Yangon"}
 	case "MYU":
-		return "America/Nome"
+		return Location{"Mekoryuk", "America/Nome"}
 	case "MYW":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Mtwara", "Africa/Dar_es_Salaam"}
 	case "MYY":
-		return "Asia/Kuching"
+		return Location{"Miri", "Asia/Kuching"}
 	case "MZA":
-		return "America/Lima"
+		return Location{"Mazamari", "America/Lima"}
 	case "MZG":
-		return "Asia/Taipei"
+		return Location{"Makung City", "Asia/Taipei"}
 	case "MZH":
-		return "Europe/Istanbul"
+		return Location{"Amasya", "Europe/Istanbul"}
 	case "MZL":
-		return "America/Bogota"
+		return Location{"Manizales", "America/Bogota"}
 	case "MZR":
-		return "Asia/Kabul"
+		return Location{"", "Asia/Kabul"}
 	case "MZT":
-		return "America/Mazatlan"
+		return Location{"Mazatlan", "America/Mazatlan"}
 	case "MZV":
-		return "Asia/Kuching"
+		return Location{"Mulu", "Asia/Kuching"}
 	case "MZW":
-		return "Africa/Algiers"
+		return Location{"Mecheria", "Africa/Algiers"}
 	case "NAA":
-		return "Australia/Sydney"
+		return Location{"Narrabri", "Australia/Sydney"}
 	case "NAG":
-		return "Asia/Kolkata"
+		return Location{"Naqpur", "Asia/Kolkata"}
 	case "NAH":
-		return "Asia/Makassar"
+		return Location{"Tahuna-Sangihe Island", "Asia/Makassar"}
 	case "NAJ":
-		return "Asia/Baku"
+		return Location{"Nakhchivan", "Asia/Baku"}
 	case "NAM":
-		return "Asia/Jayapura"
+		return Location{"Namlea-Buru Island", "Asia/Jayapura"}
 	case "NAN":
-		return "Pacific/Fiji"
+		return Location{"Nadi", "Pacific/Fiji"}
 	case "NAO":
-		return "Asia/Shanghai"
+		return Location{"Nanchong", "Asia/Shanghai"}
 	case "NAP":
-		return "Europe/Rome"
+		return Location{"Napoli", "Europe/Rome"}
 	case "NAQ":
-		return "America/Thule"
+		return Location{"Qaanaaq", "America/Thule"}
 	case "NAS":
-		return "America/Nassau"
+		return Location{"Nassau", "America/Nassau"}
 	case "NAT":
-		return "America/Fortaleza"
+		return Location{"Natal", "America/Fortaleza"}
 	case "NAU":
-		return "Pacific/Tahiti"
+		return Location{"Napuka Island", "Pacific/Tahiti"}
 	case "NAV":
-		return "Europe/Istanbul"
+		return Location{"Nevsehir", "Europe/Istanbul"}
 	case "NAW":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "NBC":
-		return "Europe/Moscow"
+		return Location{"Nizhnekamsk", "Europe/Moscow"}
 	case "NBE":
-		return "Africa/Tunis"
+		return Location{"Enfidha", "Africa/Tunis"}
 	case "NBO":
-		return "Africa/Nairobi"
+		return Location{"Nairobi", "Africa/Nairobi"}
 	case "NBX":
-		return "Asia/Jayapura"
+		return Location{"Nabire-Papua Island", "Asia/Jayapura"}
 	case "NCE":
-		return "Europe/Paris"
+		return Location{"Nice", "Europe/Paris"}
 	case "NCL":
-		return "Europe/London"
+		return Location{"Newcastle", "Europe/London"}
 	case "NCU":
-		return "Asia/Samarkand"
+		return Location{"Nukus", "Asia/Samarkand"}
 	case "NDB":
-		return "Africa/El_Aaiun"
+		return Location{"Nouadhibou", "Africa/El_Aaiun"}
 	case "NDG":
-		return "Asia/Shanghai"
+		return Location{"Qiqihar", "Asia/Shanghai"}
 	case "NDJ":
-		return "Africa/Ndjamena"
+		return Location{"N'Djamena", "Africa/Ndjamena"}
 	case "NDR":
-		return "Africa/Casablanca"
+		return Location{"Nador", "Africa/Casablanca"}
 	case "NDU":
-		return "Africa/Windhoek"
+		return Location{"Rundu", "Africa/Windhoek"}
 	case "NEU":
-		return "Asia/Vientiane"
+		return Location{"", "Asia/Vientiane"}
 	case "NEV":
-		return "America/St_Kitts"
+		return Location{"Charlestown", "America/St_Kitts"}
 	case "NGB":
-		return "Asia/Shanghai"
+		return Location{"Ningbo", "Asia/Shanghai"}
 	case "NGE":
-		return "Africa/Douala"
+		return Location{"N'Gaoundere", "Africa/Douala"}
 	case "NGO":
-		return "Asia/Tokyo"
+		return Location{"Tokoname", "Asia/Tokyo"}
 	case "NGQ":
-		return "Asia/Shanghai"
+		return Location{"Shiquanhe", "Asia/Shanghai"}
 	case "NGS":
-		return "Asia/Tokyo"
+		return Location{"Nagasaki", "Asia/Tokyo"}
 	case "NHV":
-		return "Pacific/Marquesas"
+		return Location{"", "Pacific/Marquesas"}
 	case "NIM":
-		return "Africa/Niamey"
+		return Location{"Niamey", "Africa/Niamey"}
 	case "NJC":
-		return "Asia/Yekaterinburg"
+		return Location{"Nizhnevartovsk", "Asia/Yekaterinburg"}
 	case "NJF":
-		return "Asia/Baghdad"
+		return Location{"Najaf", "Asia/Baghdad"}
 	case "NKC":
-		return "Africa/Nouakchott"
+		return Location{"Nouakchott", "Africa/Nouakchott"}
 	case "NKG":
-		return "Asia/Shanghai"
+		return Location{"Nanjing", "Asia/Shanghai"}
 	case "NKM":
-		return "Asia/Tokyo"
+		return Location{"Nagoya", "Asia/Tokyo"}
 	case "NLA":
-		return "Africa/Lusaka"
+		return Location{"Ndola", "Africa/Lusaka"}
 	case "NLD":
-		return "America/Matamoros"
+		return Location{"Nuevo Laredo", "America/Matamoros"}
 	case "NLF":
-		return "Australia/Brisbane"
+		return Location{"Darnley Island", "Australia/Brisbane"}
 	case "NLG":
-		return "America/Anchorage"
+		return Location{"Nelson Lagoon", "America/Anchorage"}
 	case "NLI":
-		return "Asia/Vladivostok"
+		return Location{"Nikolayevsk-na-Amure Airport", "Asia/Vladivostok"}
 	case "NLK":
-		return "Pacific/Norfolk"
+		return Location{"Burnt Pine", "Pacific/Norfolk"}
 	case "NLU":
-		return "America/Mexico_City"
+		return Location{"Santa Lucia", "America/Mexico_City"}
 	case "NMA":
-		return "Asia/Tashkent"
+		return Location{"Namangan", "Asia/Tashkent"}
 	case "NME":
-		return "America/Nome"
+		return Location{"Nightmute", "America/Nome"}
 	case "NNB":
-		return "Pacific/Guadalcanal"
+		return Location{"Santa Ana Island", "Pacific/Guadalcanal"}
 	case "NNG":
-		return "Asia/Shanghai"
+		return Location{"Nanning", "Asia/Shanghai"}
 	case "NNL":
-		return "America/Anchorage"
+		return Location{"Nondalton", "America/Anchorage"}
 	case "NNM":
-		return "Europe/Moscow"
+		return Location{"Naryan Mar", "Europe/Moscow"}
 	case "NNT":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "NNY":
-		return "Asia/Shanghai"
+		return Location{"Nanyang", "Asia/Shanghai"}
 	case "NOB":
-		return "America/Costa_Rica"
+		return Location{"Nicoya", "America/Costa_Rica"}
 	case "NOC":
-		return "Europe/Dublin"
+		return Location{"Charleston", "Europe/Dublin"}
 	case "NOJ":
-		return "Asia/Yekaterinburg"
+		return Location{"Noyabrsk", "Asia/Yekaterinburg"}
 	case "NOP":
-		return "Europe/Istanbul"
+		return Location{"Sinop", "Europe/Istanbul"}
 	case "NOS":
-		return "Indian/Antananarivo"
+		return Location{"Nosy Be", "Indian/Antananarivo"}
 	case "NOU":
-		return "Pacific/Noumea"
+		return Location{"Noumea", "Pacific/Noumea"}
 	case "NOV":
-		return "Africa/Luanda"
+		return Location{"Huambo", "Africa/Luanda"}
 	case "NOZ":
-		return "Asia/Novokuznetsk"
+		return Location{"Novokuznetsk", "Asia/Novokuznetsk"}
 	case "NPE":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "NPL":
-		return "Pacific/Auckland"
+		return Location{"New Plymouth", "Pacific/Auckland"}
 	case "NPT":
-		return "America/New_York"
+		return Location{"Newport", "America/New_York"}
 	case "NQN":
-		return "America/Argentina/Salta"
+		return Location{"Neuquen", "America/Argentina/Salta"}
 	case "NQU":
-		return "America/Bogota"
+		return Location{"Nuqui", "America/Bogota"}
 	case "NQY":
-		return "Europe/London"
+		return Location{"Newquay", "Europe/London"}
 	case "NQZ":
-		return "Asia/Almaty"
+		return Location{"Astana", "Asia/Almaty"}
 	case "NRA":
-		return "Australia/Sydney"
+		return Location{"Narrandera", "Australia/Sydney"}
 	case "NRK":
-		return "Europe/Stockholm"
+		return Location{"Norrkoping", "Europe/Stockholm"}
 	case "NRN":
-		return "Europe/Amsterdam"
+		return Location{"Weeze", "Europe/Amsterdam"}
 	case "NRR":
-		return "America/Puerto_Rico"
+		return Location{"Ceiba", "America/Puerto_Rico"}
 	case "NRT":
-		return "Asia/Tokyo"
+		return Location{"Tokyo", "Asia/Tokyo"}
 	case "NSH":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "NSI":
-		return "Africa/Douala"
+		return Location{"Yaounde", "Africa/Douala"}
 	case "NSK":
-		return "Asia/Krasnoyarsk"
+		return Location{"Norilsk", "Asia/Krasnoyarsk"}
 	case "NSN":
-		return "Pacific/Auckland"
+		return Location{"Nelson", "Pacific/Auckland"}
 	case "NST":
-		return "Asia/Bangkok"
+		return Location{"Nakhon Si Thammarat", "Asia/Bangkok"}
 	case "NTE":
-		return "Europe/Paris"
+		return Location{"Nantes", "Europe/Paris"}
 	case "NTG":
-		return "Asia/Shanghai"
+		return Location{"Nantong", "Asia/Shanghai"}
 	case "NTL":
-		return "Australia/Sydney"
+		return Location{"Williamtown", "Australia/Sydney"}
 	case "NTN":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "NTQ":
-		return "Asia/Tokyo"
+		return Location{"Wajima", "Asia/Tokyo"}
 	case "NTT":
-		return "Pacific/Tongatapu"
+		return Location{"Niuatoputapu", "Pacific/Tongatapu"}
 	case "NTX":
-		return "Asia/Jakarta"
+		return Location{"Ranai-Natuna Besar Island", "Asia/Jakarta"}
 	case "NUE":
-		return "Europe/Berlin"
+		return Location{"Nuremberg", "Europe/Berlin"}
 	case "NUI":
-		return "America/Anchorage"
+		return Location{"Nuiqsut", "America/Anchorage"}
 	case "NUK":
-		return "Pacific/Tahiti"
+		return Location{"Nukutavake", "Pacific/Tahiti"}
 	case "NUL":
-		return "America/Anchorage"
+		return Location{"Nulato", "America/Anchorage"}
 	case "NUS":
-		return "Pacific/Efate"
+		return Location{"Norsup", "Pacific/Efate"}
 	case "NUX":
-		return "Asia/Yekaterinburg"
+		return Location{"Novy Urengoy", "Asia/Yekaterinburg"}
 	case "NVA":
-		return "America/Bogota"
+		return Location{"Neiva", "America/Bogota"}
 	case "NVI":
-		return "Asia/Samarkand"
+		return Location{"Navoi", "Asia/Samarkand"}
 	case "NVT":
-		return "America/Sao_Paulo"
+		return Location{"Navegantes", "America/Sao_Paulo"}
 	case "NWI":
-		return "Europe/London"
+		return Location{"Norwich", "Europe/London"}
 	case "NYA":
-		return "Asia/Yekaterinburg"
+		return Location{"Nyagan", "Asia/Yekaterinburg"}
 	case "NYI":
-		return "Africa/Accra"
+		return Location{"Sunyani", "Africa/Accra"}
 	case "NYK":
-		return "Africa/Nairobi"
+		return Location{"Nanyuki", "Africa/Nairobi"}
 	case "NYM":
-		return "Asia/Yekaterinburg"
+		return Location{"Nadym", "Asia/Yekaterinburg"}
 	case "NYO":
-		return "Europe/Stockholm"
+		return Location{"Stockholm / Nykoping", "Europe/Stockholm"}
 	case "NYR":
-		return "Asia/Yakutsk"
+		return Location{"Nyurba", "Asia/Yakutsk"}
 	case "NYT":
-		return "Asia/Yangon"
+		return Location{"Pyinmana", "Asia/Yangon"}
 	case "NYU":
-		return "Asia/Yangon"
+		return Location{"Nyaung U", "Asia/Yangon"}
 	case "NYW":
-		return "Asia/Yangon"
+		return Location{"Monywar", "Asia/Yangon"}
 	case "OAG":
-		return "Australia/Sydney"
+		return Location{"Orange", "Australia/Sydney"}
 	case "OAJ":
-		return "America/New_York"
+		return Location{"Jacksonville", "America/New_York"}
 	case "OAK":
-		return "America/Los_Angeles"
+		return Location{"Oakland", "America/Los_Angeles"}
 	case "OAL":
-		return "America/Porto_Velho"
+		return Location{"Cacoal", "America/Porto_Velho"}
 	case "OAX":
-		return "America/Mexico_City"
+		return Location{"Oaxaca", "America/Mexico_City"}
 	case "OBO":
-		return "Asia/Tokyo"
+		return Location{"Obihiro", "Asia/Tokyo"}
 	case "OBU":
-		return "America/Anchorage"
+		return Location{"Kobuk", "America/Anchorage"}
 	case "OCC":
-		return "America/Guayaquil"
+		return Location{"Coca", "America/Guayaquil"}
 	case "OCJ":
-		return "America/Jamaica"
+		return Location{"Ocho Rios", "America/Jamaica"}
 	case "ODN":
-		return "Asia/Kuching"
+		return Location{"Long Seridan", "Asia/Kuching"}
 	case "ODO":
-		return "Asia/Irkutsk"
+		return Location{"Bodaybo", "Asia/Irkutsk"}
 	case "ODY":
-		return "Asia/Vientiane"
+		return Location{"Oudomsay", "Asia/Vientiane"}
 	case "OER":
-		return "Europe/Stockholm"
+		return Location{"Ornskoldsvik", "Europe/Stockholm"}
 	case "OGG":
-		return "Pacific/Honolulu"
+		return Location{"Kahului", "Pacific/Honolulu"}
 	case "OGL":
-		return "America/Guyana"
+		return Location{"Ogle", "America/Guyana"}
 	case "OGS":
-		return "America/New_York"
+		return Location{"Ogdensburg", "America/New_York"}
 	case "OGU":
-		return "Europe/Istanbul"
+		return Location{"Ordu", "Europe/Istanbul"}
 	case "OGX":
-		return "Africa/Algiers"
+		return Location{"Ouargla", "Africa/Algiers"}
 	case "OGZ":
-		return "Europe/Moscow"
+		return Location{"Beslan", "Europe/Moscow"}
 	case "OHD":
-		return "Europe/Skopje"
+		return Location{"Ohrid", "Europe/Skopje"}
 	case "OHE":
-		return "Asia/Shanghai"
+		return Location{"Mohe", "Asia/Shanghai"}
 	case "OHH":
-		return "Asia/Sakhalin"
+		return Location{"Okha", "Asia/Sakhalin"}
 	case "OHO":
-		return "Asia/Vladivostok"
+		return Location{"Okhotsk", "Asia/Vladivostok"}
 	case "OHS":
-		return "Asia/Muscat"
+		return Location{"Sohar", "Asia/Muscat"}
 	case "OIR":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "OIT":
-		return "Asia/Tokyo"
+		return Location{"Oita", "Asia/Tokyo"}
 	case "OKA":
-		return "Asia/Tokyo"
+		return Location{"Naha", "Asia/Tokyo"}
 	case "OKC":
-		return "America/Chicago"
+		return Location{"Oklahoma City", "America/Chicago"}
 	case "OKD":
-		return "Asia/Tokyo"
+		return Location{"Sapporo", "Asia/Tokyo"}
 	case "OKE":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "OKI":
-		return "Asia/Tokyo"
+		return Location{"Okinoshima", "Asia/Tokyo"}
 	case "OKJ":
-		return "Asia/Tokyo"
+		return Location{"Okayama City", "Asia/Tokyo"}
 	case "OKR":
-		return "Australia/Brisbane"
+		return Location{"Yorke Island", "Australia/Brisbane"}
 	case "OLA":
-		return "Europe/Oslo"
+		return Location{"Orland", "Europe/Oslo"}
 	case "OLB":
-		return "Europe/Rome"
+		return Location{"Olbia", "Europe/Rome"}
 	case "OLC":
-		return "America/Manaus"
+		return Location{"Sao Paulo De Olivenca", "America/Manaus"}
 	case "OLF":
-		return "America/Denver"
+		return Location{"Wolf Point", "America/Denver"}
 	case "OLP":
-		return "Australia/Adelaide"
+		return Location{"Olympic Dam", "Australia/Adelaide"}
 	case "OLZ":
-		return "Asia/Yakutsk"
+		return Location{"Olyokminsk", "Asia/Yakutsk"}
 	case "OMA":
-		return "America/Chicago"
+		return Location{"Omaha", "America/Chicago"}
 	case "OMD":
-		return "Africa/Johannesburg"
+		return Location{"Oranjemund", "Africa/Johannesburg"}
 	case "OME":
-		return "America/Nome"
+		return Location{"Nome", "America/Nome"}
 	case "OMH":
-		return "Asia/Tehran"
+		return Location{"Urmia", "Asia/Tehran"}
 	case "OMO":
-		return "Europe/Sarajevo"
+		return Location{"Mostar", "Europe/Sarajevo"}
 	case "OMR":
-		return "Europe/Bucharest"
+		return Location{"Oradea", "Europe/Bucharest"}
 	case "OMS":
-		return "Asia/Omsk"
+		return Location{"Omsk", "Asia/Omsk"}
 	case "OND":
-		return "Africa/Windhoek"
+		return Location{"Ondangwa", "Africa/Windhoek"}
 	case "ONG":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "ONJ":
-		return "Asia/Tokyo"
+		return Location{"Odate", "Asia/Tokyo"}
 	case "ONK":
-		return "Asia/Yakutsk"
+		return Location{"Olenyok", "Asia/Yakutsk"}
 	case "ONQ":
-		return "Europe/Istanbul"
+		return Location{"Zonguldak", "Europe/Istanbul"}
 	case "ONS":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "ONT":
-		return "America/Los_Angeles"
+		return Location{"Ontario", "America/Los_Angeles"}
 	case "OOK":
-		return "America/Nome"
+		return Location{"Toksook Bay", "America/Nome"}
 	case "OOL":
-		return "Australia/Brisbane"
+		return Location{"Gold Coast", "Australia/Brisbane"}
 	case "OPO":
-		return "Europe/Lisbon"
+		return Location{"Porto", "Europe/Lisbon"}
 	case "OPS":
-		return "America/Cuiaba"
+		return Location{"Sinop", "America/Cuiaba"}
 	case "ORB":
-		return "Europe/Stockholm"
+		return Location{"Orebro", "Europe/Stockholm"}
 	case "ORD":
-		return "America/Chicago"
+		return Location{"Chicago", "America/Chicago"}
 	case "ORF":
-		return "America/New_York"
+		return Location{"Norfolk", "America/New_York"}
 	case "ORH":
-		return "America/New_York"
+		return Location{"Worcester", "America/New_York"}
 	case "ORK":
-		return "Europe/Dublin"
+		return Location{"Cork", "Europe/Dublin"}
 	case "ORN":
-		return "Africa/Algiers"
+		return Location{"Oran", "Africa/Algiers"}
 	case "ORT":
-		return "America/Anchorage"
+		return Location{"Northway", "America/Anchorage"}
 	case "ORU":
-		return "America/La_Paz"
+		return Location{"Oruro", "America/La_Paz"}
 	case "ORV":
-		return "America/Anchorage"
+		return Location{"Noorvik", "America/Anchorage"}
 	case "ORX":
-		return "America/Santarem"
+		return Location{"Oriximina", "America/Santarem"}
 	case "ORY":
-		return "Europe/Paris"
+		return Location{"Paris", "Europe/Paris"}
 	case "OSD":
-		return "Europe/Stockholm"
+		return Location{"Ostersund", "Europe/Stockholm"}
 	case "OSI":
-		return "Europe/Zagreb"
+		return Location{"Osijek", "Europe/Zagreb"}
 	case "OSL":
-		return "Europe/Oslo"
+		return Location{"Oslo", "Europe/Oslo"}
 	case "OSR":
-		return "Europe/Prague"
+		return Location{"Ostrava", "Europe/Prague"}
 	case "OSS":
-		return "Asia/Bishkek"
+		return Location{"Osh", "Asia/Bishkek"}
 	case "OST":
-		return "Europe/Brussels"
+		return Location{"Ostend", "Europe/Brussels"}
 	case "OSY":
-		return "Europe/Oslo"
+		return Location{"Namsos", "Europe/Oslo"}
 	case "OTH":
-		return "America/Los_Angeles"
+		return Location{"North Bend", "America/Los_Angeles"}
 	case "OTI":
-		return "Asia/Jayapura"
+		return Location{"Gotalalamo-Morotai Island", "Asia/Jayapura"}
 	case "OTP":
-		return "Europe/Bucharest"
+		return Location{"Bucharest", "Europe/Bucharest"}
 	case "OTZ":
-		return "America/Nome"
+		return Location{"Kotzebue", "America/Nome"}
 	case "OUA":
-		return "Africa/Ouagadougou"
+		return Location{"Ouagadougou", "Africa/Ouagadougou"}
 	case "OUD":
-		return "Africa/Casablanca"
+		return Location{"Oujda", "Africa/Casablanca"}
 	case "OUI":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "OUL":
-		return "Europe/Helsinki"
+		return Location{"Oulu / Oulunsalo", "Europe/Helsinki"}
 	case "OUZ":
-		return "Africa/Nouakchott"
+		return Location{"Zouerate", "Africa/Nouakchott"}
 	case "OVB":
-		return "Asia/Novosibirsk"
+		return Location{"Novosibirsk", "Asia/Novosibirsk"}
 	case "OVD":
-		return "Europe/Madrid"
+		return Location{"Ranon", "Europe/Madrid"}
 	case "OVS":
-		return "Asia/Yekaterinburg"
+		return Location{"Sovetskiy", "Asia/Yekaterinburg"}
 	case "OWB":
-		return "America/Chicago"
+		return Location{"Owensboro", "America/Chicago"}
 	case "OXB":
-		return "Africa/Bissau"
+		return Location{"Bissau", "Africa/Bissau"}
 	case "OZC":
-		return "Asia/Manila"
+		return Location{"Ozamiz City", "Asia/Manila"}
 	case "OZG":
-		return "Africa/Casablanca"
+		return Location{"Zagora", "Africa/Casablanca"}
 	case "OZZ":
-		return "Africa/Casablanca"
+		return Location{"Ouarzazate", "Africa/Casablanca"}
 	case "PAC":
-		return "America/Panama"
+		return Location{"Albrook", "America/Panama"}
 	case "PAD":
-		return "Europe/Berlin"
+		return Location{"Paderborn", "Europe/Berlin"}
 	case "PAE":
-		return "America/Los_Angeles"
+		return Location{"Everett", "America/Los_Angeles"}
 	case "PAF":
-		return "Africa/Kampala"
+		return Location{"", "Africa/Kampala"}
 	case "PAG":
-		return "Asia/Manila"
+		return Location{"Pagadian City", "Asia/Manila"}
 	case "PAH":
-		return "America/Chicago"
+		return Location{"Paducah", "America/Chicago"}
 	case "PAP":
-		return "America/Port-au-Prince"
+		return Location{"Port-au-Prince", "America/Port-au-Prince"}
 	case "PAS":
-		return "Europe/Athens"
+		return Location{"Paros Island", "Europe/Athens"}
 	case "PAT":
-		return "Asia/Kolkata"
+		return Location{"Patna", "Asia/Kolkata"}
 	case "PAV":
-		return "America/Bahia"
+		return Location{"Paulo Afonso", "America/Bahia"}
 	case "PBC":
-		return "America/Mexico_City"
+		return Location{"Puebla", "America/Mexico_City"}
 	case "PBG":
-		return "America/New_York"
+		return Location{"Plattsburgh", "America/New_York"}
 	case "PBH":
-		return "Asia/Thimphu"
+		return Location{"Paro", "Asia/Thimphu"}
 	case "PBI":
-		return "America/New_York"
+		return Location{"West Palm Beach", "America/New_York"}
 	case "PBJ":
-		return "Pacific/Efate"
+		return Location{"Paama Island", "Pacific/Efate"}
 	case "PBM":
-		return "America/Paramaribo"
+		return Location{"Zandery", "America/Paramaribo"}
 	case "PBO":
-		return "Australia/Perth"
+		return Location{"Paraburdoo", "Australia/Perth"}
 	case "PBR":
-		return "America/Guatemala"
+		return Location{"Puerto Barrios", "America/Guatemala"}
 	case "PBU":
-		return "Asia/Yangon"
+		return Location{"Putao", "Asia/Yangon"}
 	case "PBZ":
-		return "Africa/Johannesburg"
+		return Location{"Plettenberg Bay", "Africa/Johannesburg"}
 	case "PCL":
-		return "America/Lima"
+		return Location{"Pucallpa", "America/Lima"}
 	case "PCN":
-		return "Pacific/Auckland"
+		return Location{"Picton", "Pacific/Auckland"}
 	case "PCP":
-		return "Africa/Sao_Tome"
+		return Location{"", "Africa/Sao_Tome"}
 	case "PCR":
-		return "America/Bogota"
+		return Location{"Puerto Carreno", "America/Bogota"}
 	case "PDA":
-		return "America/Bogota"
+		return Location{"Puerto Inirida", "America/Bogota"}
 	case "PDG":
-		return "Asia/Jakarta"
+		return Location{"Ketaping/Padang-Sumatra Island", "Asia/Jakarta"}
 	case "PDL":
-		return "Atlantic/Azores"
+		return Location{"Ponta Delgada", "Atlantic/Azores"}
 	case "PDP":
-		return "America/Montevideo"
+		return Location{"Punta del Este", "America/Montevideo"}
 	case "PDS":
-		return "America/Matamoros"
+		return Location{"", "America/Matamoros"}
 	case "PDT":
-		return "America/Los_Angeles"
+		return Location{"Pendleton", "America/Los_Angeles"}
 	case "PDV":
-		return "Europe/Sofia"
+		return Location{"Plovdiv", "Europe/Sofia"}
 	case "PDX":
-		return "America/Los_Angeles"
+		return Location{"Portland", "America/Los_Angeles"}
 	case "PED":
-		return "Europe/Prague"
+		return Location{"Pardubice", "Europe/Prague"}
 	case "PEE":
-		return "Asia/Yekaterinburg"
+		return Location{"Perm", "Asia/Yekaterinburg"}
 	case "PEG":
-		return "Europe/Rome"
+		return Location{"Perugia", "Europe/Rome"}
 	case "PEI":
-		return "America/Bogota"
+		return Location{"Pereira", "America/Bogota"}
 	case "PEK":
-		return "Asia/Shanghai"
+		return Location{"Beijing", "Asia/Shanghai"}
 	case "PEM":
-		return "America/Lima"
+		return Location{"Puerto Maldonado", "America/Lima"}
 	case "PEN":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Penang", "Asia/Kuala_Lumpur"}
 	case "PER":
-		return "Australia/Perth"
+		return Location{"Perth", "Australia/Perth"}
 	case "PES":
-		return "Europe/Moscow"
+		return Location{"Petrozavodsk", "Europe/Moscow"}
 	case "PET":
-		return "America/Sao_Paulo"
+		return Location{"Pelotas", "America/Sao_Paulo"}
 	case "PEU":
-		return "America/Tegucigalpa"
+		return Location{"Puerto Lempira", "America/Tegucigalpa"}
 	case "PEW":
-		return "Asia/Karachi"
+		return Location{"Peshawar", "Asia/Karachi"}
 	case "PEX":
-		return "Europe/Moscow"
+		return Location{"Pechora", "Europe/Moscow"}
 	case "PEZ":
-		return "Europe/Moscow"
+		return Location{"Penza", "Europe/Moscow"}
 	case "PFB":
-		return "America/Sao_Paulo"
+		return Location{"Passo Fundo", "America/Sao_Paulo"}
 	case "PFO":
-		return "Asia/Nicosia"
+		return Location{"Paphos", "Asia/Nicosia"}
 	case "PGA":
-		return "America/Phoenix"
+		return Location{"Page", "America/Phoenix"}
 	case "PGD":
-		return "America/New_York"
+		return Location{"Punta Gorda", "America/New_York"}
 	case "PGF":
-		return "Europe/Paris"
+		return Location{"Perpignan/Rivesaltes", "Europe/Paris"}
 	case "PGH":
-		return "Asia/Kolkata"
+		return Location{"Pantnagar", "Asia/Kolkata"}
 	case "PGK":
-		return "Asia/Jakarta"
+		return Location{"Pangkal Pinang-Palaubangka Island", "Asia/Jakarta"}
 	case "PGV":
-		return "America/New_York"
+		return Location{"Greenville", "America/New_York"}
 	case "PGZ":
-		return "America/Sao_Paulo"
+		return Location{"Ponta Grossa", "America/Sao_Paulo"}
 	case "PHB":
-		return "America/Fortaleza"
+		return Location{"Parnaiba", "America/Fortaleza"}
 	case "PHC":
-		return "Africa/Lagos"
+		return Location{"Port Harcourt", "Africa/Lagos"}
 	case "PHE":
-		return "Australia/Perth"
+		return Location{"Port Hedland", "Australia/Perth"}
 	case "PHF":
-		return "America/New_York"
+		return Location{"Newport News", "America/New_York"}
 	case "PHL":
-		return "America/New_York"
+		return Location{"Philadelphia", "America/New_York"}
 	case "PHO":
-		return "America/Nome"
+		return Location{"Point Hope", "America/Nome"}
 	case "PHS":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "PHX":
-		return "America/Phoenix"
+		return Location{"Phoenix", "America/Phoenix"}
 	case "PIA":
-		return "America/Chicago"
+		return Location{"Peoria", "America/Chicago"}
 	case "PIB":
-		return "America/Chicago"
+		return Location{"Hattiesburg/Laurel", "America/Chicago"}
 	case "PIE":
-		return "America/New_York"
+		return Location{"St Petersburg-Clearwater", "America/New_York"}
 	case "PIH":
-		return "America/Boise"
+		return Location{"Pocatello", "America/Boise"}
 	case "PIK":
-		return "Europe/London"
+		return Location{"Glasgow", "Europe/London"}
 	case "PIN":
-		return "America/Manaus"
+		return Location{"Parintins", "America/Manaus"}
 	case "PIP":
-		return "America/Anchorage"
+		return Location{"Pilot Point", "America/Anchorage"}
 	case "PIR":
-		return "America/Chicago"
+		return Location{"Pierre", "America/Chicago"}
 	case "PIS":
-		return "Europe/Paris"
+		return Location{"Poitiers/Biard", "Europe/Paris"}
 	case "PIT":
-		return "America/New_York"
+		return Location{"Pittsburgh", "America/New_York"}
 	case "PIU":
-		return "America/Lima"
+		return Location{"Piura", "America/Lima"}
 	case "PIX":
-		return "Atlantic/Azores"
+		return Location{"Pico Island", "Atlantic/Azores"}
 	case "PIZ":
-		return "America/Nome"
+		return Location{"Point Lay", "America/Nome"}
 	case "PJA":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "PJM":
-		return "America/Costa_Rica"
+		return Location{"Puerto Jimenez", "America/Costa_Rica"}
 	case "PKA":
-		return "America/Anchorage"
+		return Location{"Napaskiak", "America/Anchorage"}
 	case "PKB":
-		return "America/New_York"
+		return Location{"Parkersburg", "America/New_York"}
 	case "PKC":
-		return "Asia/Kamchatka"
+		return Location{"Petropavlovsk-Kamchatsky", "Asia/Kamchatka"}
 	case "PKE":
-		return "Australia/Sydney"
+		return Location{"Parkes", "Australia/Sydney"}
 	case "PKN":
-		return "Asia/Pontianak"
+		return Location{"Pangkalanbun-Borneo Island", "Asia/Pontianak"}
 	case "PKR":
-		return "Asia/Kathmandu"
+		return Location{"Pokhara", "Asia/Kathmandu"}
 	case "PKU":
-		return "Asia/Jakarta"
+		return Location{"Pekanbaru-Sumatra Island", "Asia/Jakarta"}
 	case "PKV":
-		return "Europe/Moscow"
+		return Location{"Pskov", "Europe/Moscow"}
 	case "PKX":
-		return "Asia/Shanghai"
+		return Location{"Beijing", "Asia/Shanghai"}
 	case "PKY":
-		return "Asia/Pontianak"
+		return Location{"Palangkaraya-Kalimantan Tengah", "Asia/Pontianak"}
 	case "PKZ":
-		return "Asia/Vientiane"
+		return Location{"Pakse", "Asia/Vientiane"}
 	case "PLM":
-		return "Asia/Jakarta"
+		return Location{"Palembang-Sumatra Island", "Asia/Jakarta"}
 	case "PLN":
-		return "America/Detroit"
+		return Location{"Pellston", "America/Detroit"}
 	case "PLO":
-		return "Australia/Adelaide"
+		return Location{"Port Lincoln", "Australia/Adelaide"}
 	case "PLQ":
-		return "Europe/Vilnius"
+		return Location{"Palanga", "Europe/Vilnius"}
 	case "PLS":
-		return "America/Grand_Turk"
+		return Location{"Providenciales Island", "America/Grand_Turk"}
 	case "PLW":
-		return "Asia/Makassar"
+		return Location{"Palu-Celebes Island", "Asia/Makassar"}
 	case "PLX":
-		return "Asia/Almaty"
+		return Location{"Semey", "Asia/Almaty"}
 	case "PLZ":
-		return "Africa/Johannesburg"
+		return Location{"Port Elizabeth", "Africa/Johannesburg"}
 	case "PMA":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Chake", "Africa/Dar_es_Salaam"}
 	case "PMC":
-		return "America/Santiago"
+		return Location{"Puerto Montt", "America/Santiago"}
 	case "PMF":
-		return "Europe/Rome"
+		return Location{"Parma", "Europe/Rome"}
 	case "PMG":
-		return "America/Asuncion"
+		return Location{"Ponta Pora", "America/Asuncion"}
 	case "PMI":
-		return "Europe/Madrid"
+		return Location{"Palma De Mallorca", "Europe/Madrid"}
 	case "PMK":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "PML":
-		return "America/Anchorage"
+		return Location{"Cold Bay", "America/Anchorage"}
 	case "PMO":
-		return "Europe/Rome"
+		return Location{"Palermo", "Europe/Rome"}
 	case "PMR":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "PMV":
-		return "America/Caracas"
+		return Location{"Isla Margarita", "America/Caracas"}
 	case "PMW":
-		return "America/Araguaina"
+		return Location{"Palmas", "America/Araguaina"}
 	case "PMY":
-		return "America/Argentina/Catamarca"
+		return Location{"Puerto Madryn", "America/Argentina/Catamarca"}
 	case "PMZ":
-		return "America/Costa_Rica"
+		return Location{"Palmar Sur", "America/Costa_Rica"}
 	case "PNA":
-		return "Europe/Madrid"
+		return Location{"Pamplona", "Europe/Madrid"}
 	case "PNH":
-		return "Asia/Phnom_Penh"
+		return Location{"Phnom Penh", "Asia/Phnom_Penh"}
 	case "PNI":
-		return "Pacific/Pohnpei"
+		return Location{"Pohnpei Island", "Pacific/Pohnpei"}
 	case "PNK":
-		return "Asia/Pontianak"
+		return Location{"Pontianak-Borneo Island", "Asia/Pontianak"}
 	case "PNL":
-		return "Europe/Rome"
+		return Location{"Pantelleria", "Europe/Rome"}
 	case "PNP":
-		return "Pacific/Port_Moresby"
+		return Location{"Popondetta", "Pacific/Port_Moresby"}
 	case "PNQ":
-		return "Asia/Kolkata"
+		return Location{"Pune", "Asia/Kolkata"}
 	case "PNR":
-		return "Africa/Brazzaville"
+		return Location{"Pointe Noire", "Africa/Brazzaville"}
 	case "PNS":
-		return "America/Chicago"
+		return Location{"Pensacola", "America/Chicago"}
 	case "PNT":
-		return "America/Punta_Arenas"
+		return Location{"Puerto Natales", "America/Punta_Arenas"}
 	case "PNY":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "PNZ":
-		return "America/Recife"
+		return Location{"Petrolina", "America/Recife"}
 	case "POA":
-		return "America/Sao_Paulo"
+		return Location{"Porto Alegre", "America/Sao_Paulo"}
 	case "POG":
-		return "Africa/Libreville"
+		return Location{"Port Gentil", "Africa/Libreville"}
 	case "POJ":
-		return "America/Sao_Paulo"
+		return Location{"Patos De Minas", "America/Sao_Paulo"}
 	case "POL":
-		return "Africa/Maputo"
+		return Location{"Pemba / Porto Amelia", "Africa/Maputo"}
 	case "POM":
-		return "Pacific/Port_Moresby"
+		return Location{"Port Moresby", "Pacific/Port_Moresby"}
 	case "POP":
-		return "America/Santo_Domingo"
+		return Location{"Puerto Plata", "America/Santo_Domingo"}
 	case "POR":
-		return "Europe/Helsinki"
+		return Location{"Pori", "Europe/Helsinki"}
 	case "POS":
-		return "America/Port_of_Spain"
+		return Location{"Port of Spain", "America/Port_of_Spain"}
 	case "POZ":
-		return "Europe/Warsaw"
+		return Location{"Poznan", "Europe/Warsaw"}
 	case "PPB":
-		return "America/Sao_Paulo"
+		return Location{"Presidente Prudente", "America/Sao_Paulo"}
 	case "PPG":
-		return "Pacific/Pago_Pago"
+		return Location{"Pago Pago", "Pacific/Pago_Pago"}
 	case "PPK":
-		return "Asia/Almaty"
+		return Location{"Petropavlosk", "Asia/Almaty"}
 	case "PPN":
-		return "America/Bogota"
+		return Location{"Popayan", "America/Bogota"}
 	case "PPP":
-		return "Australia/Brisbane"
+		return Location{"Proserpine", "Australia/Brisbane"}
 	case "PPQ":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "PPS":
-		return "Asia/Manila"
+		return Location{"Puerto Princesa City", "Asia/Manila"}
 	case "PPT":
-		return "Pacific/Tahiti"
+		return Location{"Papeete", "Pacific/Tahiti"}
 	case "PQC":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Duong Dong", "Asia/Ho_Chi_Minh"}
 	case "PQI":
-		return "America/New_York"
+		return Location{"Presque Isle", "America/New_York"}
 	case "PQQ":
-		return "Australia/Sydney"
+		return Location{"Port Macquarie", "Australia/Sydney"}
 	case "PRA":
-		return "America/Argentina/Cordoba"
+		return Location{"Parana", "America/Argentina/Cordoba"}
 	case "PRC":
-		return "America/Phoenix"
+		return Location{"Prescott", "America/Phoenix"}
 	case "PRG":
-		return "Europe/Prague"
+		return Location{"Prague", "Europe/Prague"}
 	case "PRI":
-		return "Indian/Mahe"
+		return Location{"Praslin Island", "Indian/Mahe"}
 	case "PRN":
-		return "Europe/Belgrade"
+		return Location{"Prishtina", "Europe/Belgrade"}
 	case "PRS":
-		return "Pacific/Guadalcanal"
+		return Location{"Parasi", "Pacific/Guadalcanal"}
 	case "PSA":
-		return "Europe/Rome"
+		return Location{"Pisa", "Europe/Rome"}
 	case "PSC":
-		return "America/Los_Angeles"
+		return Location{"Pasco", "America/Los_Angeles"}
 	case "PSE":
-		return "America/Puerto_Rico"
+		return Location{"Ponce", "America/Puerto_Rico"}
 	case "PSG":
-		return "America/Sitka"
+		return Location{"Petersburg", "America/Sitka"}
 	case "PSM":
-		return "America/New_York"
+		return Location{"Portsmouth", "America/New_York"}
 	case "PSO":
-		return "America/Bogota"
+		return Location{"Pasto", "America/Bogota"}
 	case "PSP":
-		return "America/Los_Angeles"
+		return Location{"Palm Springs", "America/Los_Angeles"}
 	case "PSR":
-		return "Europe/Rome"
+		return Location{"Pescara", "Europe/Rome"}
 	case "PSS":
-		return "America/Argentina/Cordoba"
+		return Location{"Posadas", "America/Argentina/Cordoba"}
 	case "PSU":
-		return "Asia/Pontianak"
+		return Location{"Putussibau-Borneo Island", "Asia/Pontianak"}
 	case "PTA":
-		return "America/Anchorage"
+		return Location{"Port Alsworth", "America/Anchorage"}
 	case "PTG":
-		return "Africa/Johannesburg"
+		return Location{"Potgietersrus", "Africa/Johannesburg"}
 	case "PTH":
-		return "America/Anchorage"
+		return Location{"Port Heiden", "America/Anchorage"}
 	case "PTO":
-		return "America/Sao_Paulo"
+		return Location{"Pato Branco", "America/Sao_Paulo"}
 	case "PTP":
-		return "America/Guadeloupe"
+		return Location{"Pointe-a-Pitre Le Raizet", "America/Guadeloupe"}
 	case "PTQ":
-		return "America/Belem"
+		return Location{"Porto De Moz", "America/Belem"}
 	case "PTU":
-		return "America/Anchorage"
+		return Location{"Platinum", "America/Anchorage"}
 	case "PTX":
-		return "America/Bogota"
+		return Location{"Pitalito", "America/Bogota"}
 	case "PTY":
-		return "America/Panama"
+		return Location{"Tocumen", "America/Panama"}
 	case "PUB":
-		return "America/Denver"
+		return Location{"Pueblo", "America/Denver"}
 	case "PUF":
-		return "Europe/Paris"
+		return Location{"Pau/Pyrenees (Uzein)", "Europe/Paris"}
 	case "PUJ":
-		return "America/Santo_Domingo"
+		return Location{"Punta Cana", "America/Santo_Domingo"}
 	case "PUK":
-		return "Pacific/Tahiti"
+		return Location{"Pukarua", "Pacific/Tahiti"}
 	case "PUQ":
-		return "America/Punta_Arenas"
+		return Location{"Punta Arenas", "America/Punta_Arenas"}
 	case "PUS":
-		return "Asia/Seoul"
+		return Location{"Busan", "Asia/Seoul"}
 	case "PUU":
-		return "America/Bogota"
+		return Location{"Puerto Asis", "America/Bogota"}
 	case "PUW":
-		return "America/Los_Angeles"
+		return Location{"Pullman/Moscow", "America/Los_Angeles"}
 	case "PUY":
-		return "Europe/Zagreb"
+		return Location{"Pula", "Europe/Zagreb"}
 	case "PVA":
-		return "America/Bogota"
+		return Location{"Providencia", "America/Bogota"}
 	case "PVC":
-		return "America/New_York"
+		return Location{"Provincetown", "America/New_York"}
 	case "PVD":
-		return "America/New_York"
+		return Location{"Providence", "America/New_York"}
 	case "PVG":
-		return "Asia/Shanghai"
+		return Location{"Shanghai", "Asia/Shanghai"}
 	case "PVH":
-		return "America/Porto_Velho"
+		return Location{"Porto Velho", "America/Porto_Velho"}
 	case "PVK":
-		return "Europe/Athens"
+		return Location{"Preveza/Lefkada", "Europe/Athens"}
 	case "PVR":
-		return "America/Bahia_Banderas"
+		return Location{"Puerto Vallarta", "America/Bahia_Banderas"}
 	case "PVU":
-		return "America/Denver"
+		return Location{"Provo", "America/Denver"}
 	case "PWE":
-		return "Asia/Anadyr"
+		return Location{"Pevek", "Asia/Anadyr"}
 	case "PWM":
-		return "America/New_York"
+		return Location{"Portland", "America/New_York"}
 	case "PWQ":
-		return "Asia/Almaty"
+		return Location{"Pavlodar", "Asia/Almaty"}
 	case "PXM":
-		return "America/Mexico_City"
+		return Location{"Puerto Escondido", "America/Mexico_City"}
 	case "PXO":
-		return "Atlantic/Madeira"
+		return Location{"Vila Baleira", "Atlantic/Madeira"}
 	case "PXU":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Pleiku", "Asia/Ho_Chi_Minh"}
 	case "PYB":
-		return "Asia/Kolkata"
+		return Location{"Jeypore", "Asia/Kolkata"}
 	case "PYH":
-		return "America/Bogota"
+		return Location{"", "America/Bogota"}
 	case "PYJ":
-		return "Asia/Yakutsk"
+		return Location{"Yakutia", "Asia/Yakutsk"}
 	case "PYM":
-		return "America/New_York"
+		return Location{"Plymouth", "America/New_York"}
 	case "PZB":
-		return "Africa/Johannesburg"
+		return Location{"Pietermaritzburg", "Africa/Johannesburg"}
 	case "PZL":
-		return "Africa/Johannesburg"
+		return Location{"Phinda", "Africa/Johannesburg"}
 	case "PZO":
-		return "America/Caracas"
+		return Location{"Puerto Ordaz-Ciudad Guayana", "America/Caracas"}
 	case "PZU":
-		return "Africa/Khartoum"
+		return Location{"Port Sudan", "Africa/Khartoum"}
 	case "PZY":
-		return "Europe/Bratislava"
+		return Location{"Piestany", "Europe/Bratislava"}
 	case "QBC":
-		return "America/Vancouver"
+		return Location{"Bella Coola", "America/Vancouver"}
 	case "QGP":
-		return "America/Recife"
+		return Location{"Garanhuns", "America/Recife"}
 	case "QIG":
-		return "America/Fortaleza"
+		return Location{"Iguatu", "America/Fortaleza"}
 	case "QOW":
-		return "Africa/Lagos"
+		return Location{"Owerri", "Africa/Lagos"}
 	case "QPA":
-		return "Europe/Rome"
+		return Location{"Padova", "Europe/Rome"}
 	case "QRO":
-		return "America/Mexico_City"
+		return Location{"Queretaro", "America/Mexico_City"}
 	case "QSF":
-		return "Africa/Algiers"
+		return Location{"Setif", "Africa/Algiers"}
 	case "QXB":
-		return "Europe/Paris"
+		return Location{"Lyon", "Europe/Paris"}
 	case "RAB":
-		return "Pacific/Port_Moresby"
+		return Location{"Tokua", "Pacific/Port_Moresby"}
 	case "RAE":
-		return "Asia/Riyadh"
+		return Location{"Arar", "Asia/Riyadh"}
 	case "RAH":
-		return "Asia/Riyadh"
+		return Location{"Rafha", "Asia/Riyadh"}
 	case "RAI":
-		return "Atlantic/Cape_Verde"
+		return Location{"Praia", "Atlantic/Cape_Verde"}
 	case "RAJ":
-		return "Asia/Kolkata"
+		return Location{"Rajkot", "Asia/Kolkata"}
 	case "RAK":
-		return "Africa/Casablanca"
+		return Location{"Marrakech", "Africa/Casablanca"}
 	case "RAO":
-		return "America/Sao_Paulo"
+		return Location{"Ribeirao Preto", "America/Sao_Paulo"}
 	case "RAP":
-		return "America/Denver"
+		return Location{"Rapid City", "America/Denver"}
 	case "RAR":
-		return "Pacific/Rarotonga"
+		return Location{"Avarua", "Pacific/Rarotonga"}
 	case "RAS":
-		return "Asia/Tehran"
+		return Location{"Rasht", "Asia/Tehran"}
 	case "RBA":
-		return "Africa/Casablanca"
+		return Location{"Rabat", "Africa/Casablanca"}
 	case "RBB":
-		return "America/Manaus"
+		return Location{"Borba", "America/Manaus"}
 	case "RBQ":
-		return "America/La_Paz"
+		return Location{"Rurenabaque", "America/La_Paz"}
 	case "RBR":
-		return "America/Rio_Branco"
+		return Location{"Rio Branco", "America/Rio_Branco"}
 	case "RBV":
-		return "Pacific/Guadalcanal"
+		return Location{"Ramata", "Pacific/Guadalcanal"}
 	case "RBY":
-		return "America/Anchorage"
+		return Location{"Ruby", "America/Anchorage"}
 	case "RCB":
-		return "Africa/Johannesburg"
+		return Location{"Richards Bay", "Africa/Johannesburg"}
 	case "RCH":
-		return "America/Bogota"
+		return Location{"Riohacha", "America/Bogota"}
 	case "RCM":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "RCQ":
-		return "America/Argentina/Cordoba"
+		return Location{"Reconquista", "America/Argentina/Cordoba"}
 	case "RCU":
-		return "America/Argentina/Cordoba"
+		return Location{"Rio Cuarto", "America/Argentina/Cordoba"}
 	case "RDD":
-		return "America/Los_Angeles"
+		return Location{"Redding", "America/Los_Angeles"}
 	case "RDM":
-		return "America/Los_Angeles"
+		return Location{"Redmond", "America/Los_Angeles"}
 	case "RDN":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Redang", "Asia/Kuala_Lumpur"}
 	case "RDO":
-		return "Europe/Warsaw"
+		return Location{"Radom", "Europe/Warsaw"}
 	case "RDU":
-		return "America/New_York"
+		return Location{"Raleigh/Durham", "America/New_York"}
 	case "RDZ":
-		return "Europe/Paris"
+		return Location{"Rodez/Marcillac", "Europe/Paris"}
 	case "REA":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "REC":
-		return "America/Recife"
+		return Location{"Recife", "America/Recife"}
 	case "REG":
-		return "Europe/Rome"
+		return Location{"Reggio Calabria", "Europe/Rome"}
 	case "REL":
-		return "America/Argentina/Catamarca"
+		return Location{"Rawson", "America/Argentina/Catamarca"}
 	case "REN":
-		return "Asia/Yekaterinburg"
+		return Location{"Orenburg", "Asia/Yekaterinburg"}
 	case "REP":
-		return "Asia/Phnom_Penh"
+		return Location{"Siem Reap", "Asia/Phnom_Penh"}
 	case "RER":
-		return "America/Guatemala"
+		return Location{"Retalhuleu", "America/Guatemala"}
 	case "RES":
-		return "America/Argentina/Cordoba"
+		return Location{"Resistencia", "America/Argentina/Cordoba"}
 	case "RET":
-		return "Europe/Oslo"
+		return Location{"", "Europe/Oslo"}
 	case "REU":
-		return "Europe/Madrid"
+		return Location{"Reus", "Europe/Madrid"}
 	case "REX":
-		return "America/Matamoros"
+		return Location{"Reynosa", "America/Matamoros"}
 	case "RFD":
-		return "America/Chicago"
+		return Location{"Chicago/Rockford", "America/Chicago"}
 	case "RFP":
-		return "Pacific/Tahiti"
+		return Location{"Uturoa", "Pacific/Tahiti"}
 	case "RGA":
-		return "America/Argentina/Ushuaia"
+		return Location{"Rio Grande", "America/Argentina/Ushuaia"}
 	case "RGI":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "RGK":
-		return "Asia/Barnaul"
+		return Location{"Gorno-Altaysk", "Asia/Barnaul"}
 	case "RGL":
-		return "America/Argentina/Rio_Gallegos"
+		return Location{"Rio Gallegos", "America/Argentina/Rio_Gallegos"}
 	case "RGN":
-		return "Asia/Yangon"
+		return Location{"Yangon", "Asia/Yangon"}
 	case "RHD":
-		return "America/Argentina/Cordoba"
+		return Location{"Rio Hondo", "America/Argentina/Cordoba"}
 	case "RHI":
-		return "America/Chicago"
+		return Location{"Rhinelander", "America/Chicago"}
 	case "RHO":
-		return "Europe/Athens"
+		return Location{"Rodes Island", "Europe/Athens"}
 	case "RHP":
-		return "Asia/Kathmandu"
+		return Location{"Ramechhap", "Asia/Kathmandu"}
 	case "RIA":
-		return "America/Sao_Paulo"
+		return Location{"Santa Maria", "America/Sao_Paulo"}
 	case "RIB":
-		return "America/La_Paz"
+		return Location{"Riberalta", "America/La_Paz"}
 	case "RIC":
-		return "America/New_York"
+		return Location{"Richmond", "America/New_York"}
 	case "RIG":
-		return "America/Sao_Paulo"
+		return Location{"Rio Grande", "America/Sao_Paulo"}
 	case "RIH":
-		return "America/Panama"
+		return Location{"Rio Hato", "America/Panama"}
 	case "RIS":
-		return "Asia/Tokyo"
+		return Location{"Rishiri", "Asia/Tokyo"}
 	case "RIW":
-		return "America/Denver"
+		return Location{"Riverton", "America/Denver"}
 	case "RIX":
-		return "Europe/Riga"
+		return Location{"Riga", "Europe/Riga"}
 	case "RJA":
-		return "Asia/Kolkata"
+		return Location{"Rajahmundry", "Asia/Kolkata"}
 	case "RJB":
-		return "Asia/Kathmandu"
+		return Location{"Rajbiraj", "Asia/Kathmandu"}
 	case "RJH":
-		return "Asia/Dhaka"
+		return Location{"Rajshahi", "Asia/Dhaka"}
 	case "RJK":
-		return "Europe/Zagreb"
+		return Location{"Rijeka", "Europe/Zagreb"}
 	case "RJL":
-		return "Europe/Madrid"
+		return Location{"Logrono", "Europe/Madrid"}
 	case "RKA":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "RKD":
-		return "America/New_York"
+		return Location{"Rockland", "America/New_York"}
 	case "RKE":
-		return "Europe/Copenhagen"
+		return Location{"Copenhagen", "Europe/Copenhagen"}
 	case "RKS":
-		return "America/Denver"
+		return Location{"Rock Springs", "America/Denver"}
 	case "RKT":
-		return "Asia/Dubai"
+		return Location{"Ras Al Khaimah", "Asia/Dubai"}
 	case "RKV":
-		return "Atlantic/Reykjavik"
+		return Location{"Reykjavik", "Atlantic/Reykjavik"}
 	case "RLG":
-		return "Europe/Berlin"
+		return Location{"Rostock", "Europe/Berlin"}
 	case "RLO":
-		return "America/Argentina/San_Luis"
+		return Location{"Merlo", "America/Argentina/San_Luis"}
 	case "RMA":
-		return "Australia/Brisbane"
+		return Location{"Roma", "Australia/Brisbane"}
 	case "RMF":
-		return "Africa/Cairo"
+		return Location{"Marsa Alam", "Africa/Cairo"}
 	case "RMI":
-		return "Europe/Rome"
+		return Location{"Rimini", "Europe/Rome"}
 	case "RMQ":
-		return "Asia/Taipei"
+		return Location{"Taichung City", "Asia/Taipei"}
 	case "RMU":
-		return "Europe/Madrid"
+		return Location{"Corvera", "Europe/Madrid"}
 	case "RNA":
-		return "Pacific/Guadalcanal"
+		return Location{"Arona", "Pacific/Guadalcanal"}
 	case "RNB":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "RNJ":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "RNL":
-		return "Pacific/Guadalcanal"
+		return Location{"Rennell Island", "Pacific/Guadalcanal"}
 	case "RNN":
-		return "Europe/Copenhagen"
+		return Location{"Ronne", "Europe/Copenhagen"}
 	case "RNO":
-		return "America/Los_Angeles"
+		return Location{"Reno", "America/Los_Angeles"}
 	case "RNS":
-		return "Europe/Paris"
+		return Location{"Rennes/Saint-Jacques", "Europe/Paris"}
 	case "ROA":
-		return "America/New_York"
+		return Location{"Roanoke", "America/New_York"}
 	case "ROB":
-		return "Africa/Monrovia"
+		return Location{"Monrovia", "Africa/Monrovia"}
 	case "ROC":
-		return "America/New_York"
+		return Location{"Rochester", "America/New_York"}
 	case "ROI":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "ROK":
-		return "Australia/Brisbane"
+		return Location{"Rockhampton", "Australia/Brisbane"}
 	case "RON":
-		return "America/Bogota"
+		return Location{"Paipa", "America/Bogota"}
 	case "ROO":
-		return "America/Cuiaba"
+		return Location{"Rondonopolis", "America/Cuiaba"}
 	case "ROR":
-		return "Pacific/Palau"
+		return Location{"Babelthuap Island", "Pacific/Palau"}
 	case "ROS":
-		return "America/Argentina/Cordoba"
+		return Location{"Rosario", "America/Argentina/Cordoba"}
 	case "ROT":
-		return "Pacific/Auckland"
+		return Location{"Rotorua", "Pacific/Auckland"}
 	case "ROW":
-		return "America/Denver"
+		return Location{"Roswell", "America/Denver"}
 	case "RPR":
-		return "Asia/Kolkata"
+		return Location{"Raipur", "Asia/Kolkata"}
 	case "RRG":
-		return "Indian/Mauritius"
+		return Location{"Port Mathurin", "Indian/Mauritius"}
 	case "RRR":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "RRS":
-		return "Europe/Oslo"
+		return Location{"Roros", "Europe/Oslo"}
 	case "RSA":
-		return "America/Argentina/Salta"
+		return Location{"Santa Rosa", "America/Argentina/Salta"}
 	case "RSD":
-		return "America/Nassau"
+		return Location{"Rock Sound", "America/Nassau"}
 	case "RSH":
-		return "America/Anchorage"
+		return Location{"Russian Mission", "America/Anchorage"}
 	case "RST":
-		return "America/Chicago"
+		return Location{"Rochester", "America/Chicago"}
 	case "RSU":
-		return "Asia/Seoul"
+		return Location{"Yeosu", "Asia/Seoul"}
 	case "RSW":
-		return "America/New_York"
+		return Location{"Fort Myers", "America/New_York"}
 	case "RTA":
-		return "Pacific/Fiji"
+		return Location{"Rotuma", "Pacific/Fiji"}
 	case "RTB":
-		return "America/Tegucigalpa"
+		return Location{"Roatan Island", "America/Tegucigalpa"}
 	case "RTG":
-		return "Asia/Makassar"
+		return Location{"Satar Tacik-Flores Island", "Asia/Makassar"}
 	case "RTM":
-		return "Europe/Amsterdam"
+		return Location{"Rotterdam", "Europe/Amsterdam"}
 	case "RUA":
-		return "Africa/Kampala"
+		return Location{"Arua", "Africa/Kampala"}
 	case "RUH":
-		return "Asia/Riyadh"
+		return Location{"Riyadh", "Asia/Riyadh"}
 	case "RUN":
-		return "Indian/Reunion"
+		return Location{"St Denis", "Indian/Reunion"}
 	case "RUR":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "RUT":
-		return "America/New_York"
+		return Location{"Rutland", "America/New_York"}
 	case "RVD":
-		return "America/Sao_Paulo"
+		return Location{"Rio Verde", "America/Sao_Paulo"}
 	case "RVE":
-		return "America/Bogota"
+		return Location{"Saravena", "America/Bogota"}
 	case "RVK":
-		return "Europe/Oslo"
+		return Location{"Rorvik", "Europe/Oslo"}
 	case "RVN":
-		return "Europe/Helsinki"
+		return Location{"Rovaniemi", "Europe/Helsinki"}
 	case "RVV":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "RXS":
-		return "Asia/Manila"
+		return Location{"Roxas City", "Asia/Manila"}
 	case "RYK":
-		return "Asia/Karachi"
+		return Location{"Rahim Yar Khan", "Asia/Karachi"}
 	case "RZE":
-		return "Europe/Warsaw"
+		return Location{"Rzeszow", "Europe/Warsaw"}
 	case "RZR":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "SAB":
-		return "America/Kralendijk"
+		return Location{"Saba", "America/Kralendijk"}
 	case "SAF":
-		return "America/Denver"
+		return Location{"Santa Fe", "America/Denver"}
 	case "SAG":
-		return "Asia/Kolkata"
+		return Location{"Kakadi", "Asia/Kolkata"}
 	case "SAL":
-		return "America/El_Salvador"
+		return Location{"Santa Clara", "America/El_Salvador"}
 	case "SAN":
-		return "America/Los_Angeles"
+		return Location{"San Diego", "America/Los_Angeles"}
 	case "SAP":
-		return "America/Tegucigalpa"
+		return Location{"La Mesa", "America/Tegucigalpa"}
 	case "SAQ":
-		return "America/Nassau"
+		return Location{"Andros Island", "America/Nassau"}
 	case "SAT":
-		return "America/Chicago"
+		return Location{"San Antonio", "America/Chicago"}
 	case "SAV":
-		return "America/New_York"
+		return Location{"Savannah", "America/New_York"}
 	case "SAW":
-		return "Europe/Istanbul"
+		return Location{"Istanbul", "Europe/Istanbul"}
 	case "SBA":
-		return "America/Los_Angeles"
+		return Location{"Santa Barbara", "America/Los_Angeles"}
 	case "SBD":
-		return "America/Los_Angeles"
+		return Location{"San Bernardino", "America/Los_Angeles"}
 	case "SBH":
-		return "America/St_Barthelemy"
+		return Location{"Gustavia", "America/St_Barthelemy"}
 	case "SBN":
-		return "America/Indiana/Indianapolis"
+		return Location{"South Bend", "America/Indiana/Indianapolis"}
 	case "SBP":
-		return "America/Los_Angeles"
+		return Location{"San Luis Obispo", "America/Los_Angeles"}
 	case "SBR":
-		return "Australia/Brisbane"
+		return Location{"Saibai Island", "Australia/Brisbane"}
+	case "SBT":
+		return Location{"Sabetta", "Asia/Yekaterinburg"}
 	case "SBW":
-		return "Asia/Kuching"
+		return Location{"Sibu", "Asia/Kuching"}
 	case "SBY":
-		return "America/New_York"
+		return Location{"Salisbury", "America/New_York"}
 	case "SBZ":
-		return "Europe/Bucharest"
+		return Location{"Sibiu", "Europe/Bucharest"}
 	case "SCC":
-		return "America/Anchorage"
+		return Location{"Deadhorse", "America/Anchorage"}
 	case "SCE":
-		return "America/New_York"
+		return Location{"State College", "America/New_York"}
 	case "SCK":
-		return "America/Los_Angeles"
+		return Location{"Stockton", "America/Los_Angeles"}
 	case "SCL":
-		return "America/Santiago"
+		return Location{"Santiago", "America/Santiago"}
 	case "SCM":
-		return "America/Nome"
+		return Location{"Scammon Bay", "America/Nome"}
 	case "SCN":
-		return "Europe/Berlin"
+		return Location{"Saarbrucken", "Europe/Berlin"}
 	case "SCO":
-		return "Asia/Aqtau"
+		return Location{"Aktau", "Asia/Aqtau"}
 	case "SCQ":
-		return "Europe/Madrid"
+		return Location{"Santiago de Compostela", "Europe/Madrid"}
 	case "SCU":
-		return "America/Havana"
+		return Location{"Santiago", "America/Havana"}
 	case "SCV":
-		return "Europe/Bucharest"
+		return Location{"Suceava", "Europe/Bucharest"}
 	case "SCW":
-		return "Europe/Moscow"
+		return Location{"Syktyvkar", "Europe/Moscow"}
 	case "SCY":
-		return "Pacific/Galapagos"
+		return Location{"San Cristobal", "Pacific/Galapagos"}
 	case "SCZ":
-		return "Pacific/Guadalcanal"
+		return Location{"Santa Cruz/Graciosa Bay/Luova", "Pacific/Guadalcanal"}
 	case "SDD":
-		return "Africa/Luanda"
+		return Location{"Lubango", "Africa/Luanda"}
 	case "SDE":
-		return "America/Argentina/Cordoba"
+		return Location{"Santiago del Estero", "America/Argentina/Cordoba"}
 	case "SDF":
-		return "America/Kentucky/Louisville"
+		return Location{"Louisville", "America/Kentucky/Louisville"}
 	case "SDG":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "SDJ":
-		return "Asia/Tokyo"
+		return Location{"Sendai", "Asia/Tokyo"}
 	case "SDK":
-		return "Asia/Kuching"
+		return Location{"Sandakan", "Asia/Kuching"}
 	case "SDL":
-		return "Europe/Stockholm"
+		return Location{"Sundsvall/ Harnosand", "Europe/Stockholm"}
 	case "SDN":
-		return "Europe/Oslo"
+		return Location{"Sandane", "Europe/Oslo"}
 	case "SDP":
-		return "America/Anchorage"
+		return Location{"Sand Point", "America/Anchorage"}
 	case "SDQ":
-		return "America/Santo_Domingo"
+		return Location{"Santo Domingo", "America/Santo_Domingo"}
 	case "SDR":
-		return "Europe/Madrid"
+		return Location{"Santander", "Europe/Madrid"}
 	case "SDU":
-		return "America/Sao_Paulo"
+		return Location{"Rio De Janeiro", "America/Sao_Paulo"}
 	case "SDY":
-		return "America/Denver"
+		return Location{"Sidney", "America/Denver"}
 	case "SEA":
-		return "America/Los_Angeles"
+		return Location{"Seattle", "America/Los_Angeles"}
 	case "SEN":
-		return "Europe/London"
+		return Location{"Southend", "Europe/London"}
 	case "SEU":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Seronera", "Africa/Dar_es_Salaam"}
 	case "SEZ":
-		return "Indian/Mahe"
+		return Location{"Mahe Island", "Indian/Mahe"}
 	case "SFA":
-		return "Africa/Tunis"
+		return Location{"Sfax", "Africa/Tunis"}
 	case "SFB":
-		return "America/New_York"
+		return Location{"Orlando", "America/New_York"}
 	case "SFD":
-		return "America/Caracas"
+		return Location{"Inglaterra", "America/Caracas"}
 	case "SFG":
-		return "America/Lower_Princes"
+		return Location{"Grand Case", "America/Lower_Princes"}
 	case "SFJ":
-		return "America/Nuuk"
+		return Location{"Kangerlussuaq", "America/Nuuk"}
 	case "SFL":
-		return "Atlantic/Cape_Verde"
+		return Location{"Sao Filipe", "Atlantic/Cape_Verde"}
 	case "SFN":
-		return "America/Argentina/Cordoba"
+		return Location{"Santa Fe", "America/Argentina/Cordoba"}
 	case "SFO":
-		return "America/Los_Angeles"
+		return Location{"San Francisco", "America/Los_Angeles"}
 	case "SFT":
-		return "Europe/Stockholm"
+		return Location{"Skelleftea", "Europe/Stockholm"}
 	case "SGC":
-		return "Asia/Yekaterinburg"
+		return Location{"Surgut", "Asia/Yekaterinburg"}
 	case "SGD":
-		return "Europe/Copenhagen"
+		return Location{"Sonderborg", "Europe/Copenhagen"}
 	case "SGF":
-		return "America/Chicago"
+		return Location{"Springfield", "America/Chicago"}
 	case "SGN":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Ho Chi Minh City", "Asia/Ho_Chi_Minh"}
 	case "SGO":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "SGU":
-		return "America/Denver"
+		return Location{"St George", "America/Denver"}
 	case "SGX":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Songea", "Africa/Dar_es_Salaam"}
 	case "SGY":
-		return "America/Juneau"
+		return Location{"Skagway", "America/Juneau"}
 	case "SHA":
-		return "Asia/Shanghai"
+		return Location{"Shanghai", "Asia/Shanghai"}
 	case "SHB":
-		return "Asia/Tokyo"
+		return Location{"Nakashibetsu", "Asia/Tokyo"}
 	case "SHC":
-		return "Africa/Addis_Ababa"
+		return Location{"Shire", "Africa/Addis_Ababa"}
 	case "SHD":
-		return "America/New_York"
+		return Location{"Staunton/Waynesboro/Harrisonburg", "America/New_York"}
 	case "SHE":
-		return "Asia/Shanghai"
+		return Location{"Shenyang", "Asia/Shanghai"}
 	case "SHH":
-		return "America/Nome"
+		return Location{"Shishmaref", "America/Nome"}
 	case "SHI":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "SHJ":
-		return "Asia/Dubai"
+		return Location{"Sharjah", "Asia/Dubai"}
 	case "SHL":
-		return "Asia/Kolkata"
+		return Location{"Shillong", "Asia/Kolkata"}
 	case "SHM":
-		return "Asia/Tokyo"
+		return Location{"Shirahama", "Asia/Tokyo"}
 	case "SHO":
-		return "Asia/Seoul"
+		return Location{"", "Asia/Seoul"}
 	case "SHR":
-		return "America/Denver"
+		return Location{"Sheridan", "America/Denver"}
 	case "SHS":
-		return "Asia/Shanghai"
+		return Location{"Shashi", "Asia/Shanghai"}
 	case "SHV":
-		return "America/Chicago"
+		return Location{"Shreveport", "America/Chicago"}
 	case "SHW":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "SHX":
-		return "America/Anchorage"
+		return Location{"Shageluk", "America/Anchorage"}
 	case "SID":
-		return "Atlantic/Cape_Verde"
+		return Location{"Espargos", "Atlantic/Cape_Verde"}
 	case "SIF":
-		return "Asia/Kathmandu"
+		return Location{"Simara", "Asia/Kathmandu"}
 	case "SIG":
-		return "America/Puerto_Rico"
+		return Location{"San Juan", "America/Puerto_Rico"}
 	case "SIN":
-		return "Asia/Singapore"
+		return Location{"Singapore", "Asia/Singapore"}
 	case "SIR":
-		return "Europe/Zurich"
+		return Location{"Sion", "Europe/Zurich"}
 	case "SIS":
-		return "Africa/Johannesburg"
+		return Location{"Sishen", "Africa/Johannesburg"}
 	case "SIT":
-		return "America/Sitka"
+		return Location{"Sitka", "America/Sitka"}
 	case "SJC":
-		return "America/Los_Angeles"
+		return Location{"San Jose", "America/Los_Angeles"}
 	case "SJD":
-		return "America/Mazatlan"
+		return Location{"San Jose del Cabo", "America/Mazatlan"}
 	case "SJE":
-		return "America/Bogota"
+		return Location{"San Jose Del Guaviare", "America/Bogota"}
 	case "SJI":
-		return "Asia/Manila"
+		return Location{"San Jose", "Asia/Manila"}
 	case "SJJ":
-		return "Europe/Sarajevo"
+		return Location{"Sarajevo", "Europe/Sarajevo"}
 	case "SJL":
-		return "America/Manaus"
+		return Location{"Sao Gabriel Da Cachoeira", "America/Manaus"}
 	case "SJO":
-		return "America/Costa_Rica"
+		return Location{"San Jose", "America/Costa_Rica"}
 	case "SJP":
-		return "America/Sao_Paulo"
+		return Location{"Sao Jose Do Rio Preto", "America/Sao_Paulo"}
 	case "SJT":
-		return "America/Chicago"
+		return Location{"San Angelo", "America/Chicago"}
 	case "SJU":
-		return "America/Puerto_Rico"
+		return Location{"San Juan", "America/Puerto_Rico"}
 	case "SJW":
-		return "Asia/Shanghai"
+		return Location{"Shijiazhuang", "Asia/Shanghai"}
 	case "SJZ":
-		return "Atlantic/Azores"
+		return Location{"Velas", "Atlantic/Azores"}
 	case "SKB":
-		return "America/St_Kitts"
+		return Location{"Basseterre", "America/St_Kitts"}
 	case "SKD":
-		return "Asia/Samarkand"
+		return Location{"Samarkand", "Asia/Samarkand"}
 	case "SKG":
-		return "Europe/Athens"
+		return Location{"Thessaloniki", "Europe/Athens"}
 	case "SKH":
-		return "Asia/Kathmandu"
+		return Location{"Surkhet", "Asia/Kathmandu"}
 	case "SKK":
-		return "America/Anchorage"
+		return Location{"Shaktoolik", "America/Anchorage"}
 	case "SKN":
-		return "Europe/Oslo"
+		return Location{"Hadsel", "Europe/Oslo"}
 	case "SKO":
-		return "Africa/Lagos"
+		return Location{"Sokoto", "Africa/Lagos"}
 	case "SKP":
-		return "Europe/Skopje"
+		return Location{"Skopje", "Europe/Skopje"}
 	case "SKT":
-		return "Asia/Karachi"
+		return Location{"Sialkot", "Asia/Karachi"}
 	case "SKU":
-		return "Europe/Athens"
+		return Location{"Skiros Island", "Europe/Athens"}
 	case "SKX":
-		return "Europe/Moscow"
+		return Location{"Saransk", "Europe/Moscow"}
 	case "SKZ":
-		return "Asia/Karachi"
+		return Location{"Mirpur Khas", "Asia/Karachi"}
 	case "SLA":
-		return "America/Argentina/Salta"
+		return Location{"Salta", "America/Argentina/Salta"}
 	case "SLC":
-		return "America/Denver"
+		return Location{"Salt Lake City", "America/Denver"}
 	case "SLE":
-		return "America/Los_Angeles"
+		return Location{"Salem", "America/Los_Angeles"}
 	case "SLH":
-		return "Pacific/Efate"
+		return Location{"Sola", "Pacific/Efate"}
 	case "SLI":
-		return "Africa/Lusaka"
+		return Location{"Solwesi", "Africa/Lusaka"}
 	case "SLK":
-		return "America/New_York"
+		return Location{"Saranac Lake", "America/New_York"}
 	case "SLL":
-		return "Asia/Muscat"
+		return Location{"Salalah", "Asia/Muscat"}
 	case "SLM":
-		return "Europe/Madrid"
+		return Location{"Salamanca", "Europe/Madrid"}
 	case "SLN":
-		return "America/Chicago"
+		return Location{"Salina", "America/Chicago"}
 	case "SLP":
-		return "America/Mexico_City"
+		return Location{"San Luis Potosi", "America/Mexico_City"}
 	case "SLU":
-		return "America/St_Lucia"
+		return Location{"Castries", "America/St_Lucia"}
 	case "SLX":
-		return "America/Grand_Turk"
+		return Location{"Salt Cay", "America/Grand_Turk"}
 	case "SLY":
-		return "Asia/Yekaterinburg"
+		return Location{"Salekhard", "Asia/Yekaterinburg"}
 	case "SLZ":
-		return "America/Fortaleza"
+		return Location{"Sao Luis", "America/Fortaleza"}
 	case "SMA":
-		return "Atlantic/Azores"
+		return Location{"Vila do Porto", "Atlantic/Azores"}
 	case "SMF":
-		return "America/Los_Angeles"
+		return Location{"Sacramento", "America/Los_Angeles"}
 	case "SMI":
-		return "Europe/Athens"
+		return Location{"Samos Island", "Europe/Athens"}
 	case "SMK":
-		return "America/Nome"
+		return Location{"St Michael", "America/Nome"}
 	case "SML":
-		return "America/Nassau"
+		return Location{"Stella Maris", "America/Nassau"}
 	case "SMQ":
-		return "Asia/Pontianak"
+		return Location{"Sampit-Borneo Island", "Asia/Pontianak"}
 	case "SMR":
-		return "America/Bogota"
+		return Location{"Santa Marta", "America/Bogota"}
 	case "SMS":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "SMX":
-		return "America/Los_Angeles"
+		return Location{"Santa Maria", "America/Los_Angeles"}
 	case "SNA":
-		return "America/Los_Angeles"
+		return Location{"Santa Ana", "America/Los_Angeles"}
 	case "SNE":
-		return "Atlantic/Cape_Verde"
+		return Location{"Preguica", "Atlantic/Cape_Verde"}
 	case "SNN":
-		return "Europe/Dublin"
+		return Location{"Shannon", "Europe/Dublin"}
 	case "SNO":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "SNP":
-		return "America/Nome"
+		return Location{"St Paul Island", "America/Nome"}
 	case "SNR":
-		return "Europe/Paris"
+		return Location{"Saint-Nazaire/Montoir", "Europe/Paris"}
 	case "SNU":
-		return "America/Havana"
+		return Location{"Santa Clara", "America/Havana"}
 	case "SNW":
-		return "Asia/Yangon"
+		return Location{"Thandwe", "Asia/Yangon"}
 	case "SOC":
-		return "Asia/Jakarta"
+		return Location{"Sukarata(Solo)-Java Island", "Asia/Jakarta"}
 	case "SOF":
-		return "Europe/Sofia"
+		return Location{"Sofia", "Europe/Sofia"}
 	case "SOG":
-		return "Europe/Oslo"
+		return Location{"Sogndal", "Europe/Oslo"}
 	case "SOJ":
-		return "Europe/Oslo"
+		return Location{"Sorkjosen", "Europe/Oslo"}
 	case "SON":
-		return "Pacific/Efate"
+		return Location{"Luganville", "Pacific/Efate"}
 	case "SOQ":
-		return "Asia/Jayapura"
+		return Location{"Sorong-Papua Island", "Asia/Jayapura"}
 	case "SOU":
-		return "Europe/London"
+		return Location{"Southampton", "Europe/London"}
 	case "SOV":
-		return "America/Anchorage"
+		return Location{"Seldovia", "America/Anchorage"}
 	case "SOW":
-		return "America/Phoenix"
+		return Location{"Show Low", "America/Phoenix"}
 	case "SPC":
-		return "Atlantic/Canary"
+		return Location{"Sta Cruz de la Palma", "Atlantic/Canary"}
 	case "SPD":
-		return "Asia/Dhaka"
+		return Location{"Saidpur", "Asia/Dhaka"}
 	case "SPI":
-		return "America/Chicago"
+		return Location{"Springfield", "America/Chicago"}
 	case "SPN":
-		return "Pacific/Saipan"
+		return Location{"Saipan Island", "Pacific/Saipan"}
 	case "SPP":
-		return "Africa/Luanda"
+		return Location{"Menongue", "Africa/Luanda"}
 	case "SPS":
-		return "America/Chicago"
+		return Location{"Wichita Falls", "America/Chicago"}
 	case "SPU":
-		return "Europe/Zagreb"
+		return Location{"Split", "Europe/Zagreb"}
 	case "SPX":
-		return "Africa/Cairo"
+		return Location{"Giza", "Africa/Cairo"}
 	case "SPY":
-		return "Africa/Abidjan"
+		return Location{"", "Africa/Abidjan"}
 	case "SQD":
-		return "America/Lima"
+		return Location{"San Francisco de Yeso", "America/Lima"}
 	case "SQG":
-		return "Asia/Pontianak"
+		return Location{"Sintang-Borneo Island", "Asia/Pontianak"}
 	case "SQJ":
-		return "Asia/Shanghai"
+		return Location{"Sanming", "Asia/Shanghai"}
 	case "SRA":
-		return "America/Sao_Paulo"
+		return Location{"Santa Rosa", "America/Sao_Paulo"}
 	case "SRE":
-		return "America/La_Paz"
+		return Location{"Sucre", "America/La_Paz"}
 	case "SRG":
-		return "Asia/Jakarta"
+		return Location{"Semarang-Java Island", "Asia/Jakarta"}
 	case "SRQ":
-		return "America/New_York"
+		return Location{"Sarasota/Bradenton", "America/New_York"}
 	case "SRT":
-		return "Africa/Kampala"
+		return Location{"Soroti", "Africa/Kampala"}
 	case "SRY":
-		return "Asia/Tehran"
+		return Location{"Sari", "Asia/Tehran"}
 	case "SSA":
-		return "America/Bahia"
+		return Location{"Salvador", "America/Bahia"}
 	case "SSG":
-		return "Africa/Malabo"
+		return Location{"Malabo", "Africa/Malabo"}
 	case "SSH":
-		return "Africa/Cairo"
+		return Location{"Sharm el-Sheikh", "Africa/Cairo"}
 	case "SSJ":
-		return "Europe/Oslo"
+		return Location{"Alstahaug", "Europe/Oslo"}
 	case "SSR":
-		return "Pacific/Efate"
+		return Location{"Pentecost Island", "Pacific/Efate"}
 	case "STC":
-		return "America/Chicago"
+		return Location{"St Cloud", "America/Chicago"}
 	case "STD":
-		return "America/Caracas"
+		return Location{"Santo Domingo", "America/Caracas"}
 	case "STI":
-		return "America/Santo_Domingo"
+		return Location{"Santiago", "America/Santo_Domingo"}
 	case "STL":
-		return "America/Chicago"
+		return Location{"St Louis", "America/Chicago"}
 	case "STM":
-		return "America/Santarem"
+		return Location{"Santarem", "America/Santarem"}
 	case "STN":
-		return "Europe/London"
+		return Location{"London", "Europe/London"}
 	case "STR":
-		return "Europe/Berlin"
+		return Location{"Stuttgart", "Europe/Berlin"}
 	case "STS":
-		return "America/Los_Angeles"
+		return Location{"Santa Rosa", "America/Los_Angeles"}
 	case "STT":
-		return "America/St_Thomas"
+		return Location{"Charlotte Amalie", "America/St_Thomas"}
 	case "STV":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "STW":
-		return "Europe/Moscow"
+		return Location{"Stavropol", "Europe/Moscow"}
 	case "STX":
-		return "America/St_Thomas"
+		return Location{"Christiansted", "America/St_Thomas"}
 	case "SUB":
-		return "Asia/Jakarta"
+		return Location{"Surabaya", "Asia/Jakarta"}
 	case "SUF":
-		return "Europe/Rome"
+		return Location{"Lamezia Terme", "Europe/Rome"}
 	case "SUG":
-		return "Asia/Manila"
+		return Location{"Surigao City", "Asia/Manila"}
 	case "SUJ":
-		return "Europe/Bucharest"
+		return Location{"Satu Mare", "Europe/Bucharest"}
 	case "SUN":
-		return "America/Boise"
+		return Location{"Hailey", "America/Boise"}
 	case "SUV":
-		return "Pacific/Fiji"
+		return Location{"Nausori", "Pacific/Fiji"}
 	case "SUX":
-		return "America/Chicago"
+		return Location{"Sioux City", "America/Chicago"}
 	case "SUY":
-		return "Asia/Yakutsk"
+		return Location{"Suntar", "Asia/Yakutsk"}
 	case "SVA":
-		return "America/Nome"
+		return Location{"Savoonga", "America/Nome"}
 	case "SVB":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "SVC":
-		return "America/Denver"
+		return Location{"Silver City", "America/Denver"}
 	case "SVD":
-		return "America/St_Vincent"
+		return Location{"Kingstown", "America/St_Vincent"}
 	case "SVG":
-		return "Europe/Oslo"
+		return Location{"Stavanger", "Europe/Oslo"}
 	case "SVI":
-		return "America/Bogota"
+		return Location{"San Vicente Del Caguan", "America/Bogota"}
 	case "SVJ":
-		return "Europe/Oslo"
+		return Location{"Svolvaer", "Europe/Oslo"}
 	case "SVL":
-		return "Europe/Helsinki"
+		return Location{"Savonlinna", "Europe/Helsinki"}
 	case "SVO":
-		return "Europe/Moscow"
+		return Location{"Moscow", "Europe/Moscow"}
 	case "SVQ":
-		return "Europe/Madrid"
+		return Location{"Sevilla", "Europe/Madrid"}
 	case "SVU":
-		return "Pacific/Fiji"
+		return Location{"Savusavu", "Pacific/Fiji"}
 	case "SVX":
-		return "Asia/Yekaterinburg"
+		return Location{"Yekaterinburg", "Asia/Yekaterinburg"}
 	case "SWA":
-		return "Asia/Shanghai"
+		return Location{"Shantou", "Asia/Shanghai"}
 	case "SWF":
-		return "America/New_York"
+		return Location{"Newburgh", "America/New_York"}
 	case "SWJ":
-		return "Pacific/Efate"
+		return Location{"Malekula Island", "Pacific/Efate"}
 	case "SWO":
-		return "America/Chicago"
+		return Location{"Stillwater", "America/Chicago"}
 	case "SWQ":
-		return "Asia/Makassar"
+		return Location{"Sumbawa Island", "Asia/Makassar"}
 	case "SWT":
-		return "Asia/Tomsk"
+		return Location{"Strezhevoy", "Asia/Tomsk"}
 	case "SXB":
-		return "Europe/Paris"
+		return Location{"Strasbourg", "Europe/Paris"}
 	case "SXK":
-		return "Asia/Jayapura"
+		return Location{"Saumlaki-Yamdena Island", "Asia/Jayapura"}
 	case "SXM":
-		return "America/Lower_Princes"
+		return Location{"Saint Martin", "America/Lower_Princes"}
 	case "SXR":
-		return "Asia/Kolkata"
+		return Location{"Srinagar", "Asia/Kolkata"}
 	case "SXZ":
-		return "Europe/Istanbul"
+		return Location{"Siirt", "Europe/Istanbul"}
 	case "SYD":
-		return "Australia/Sydney"
+		return Location{"Sydney", "Australia/Sydney"}
 	case "SYJ":
-		return "Asia/Tehran"
+		return Location{"", "Asia/Tehran"}
 	case "SYM":
-		return "Asia/Shanghai"
+		return Location{"Simao", "Asia/Shanghai"}
 	case "SYO":
-		return "Asia/Tokyo"
+		return Location{"Shonai", "Asia/Tokyo"}
 	case "SYR":
-		return "America/New_York"
+		return Location{"Syracuse", "America/New_York"}
 	case "SYS":
-		return "Asia/Yakutsk"
+		return Location{"Saskylakh", "Asia/Yakutsk"}
 	case "SYU":
-		return "Australia/Brisbane"
+		return Location{"Sue Islet", "Australia/Brisbane"}
 	case "SYX":
-		return "Asia/Shanghai"
+		return Location{"Sanya", "Asia/Shanghai"}
 	case "SYY":
-		return "Europe/London"
+		return Location{"Stornoway", "Europe/London"}
 	case "SYZ":
-		return "Asia/Tehran"
+		return Location{"Shiraz", "Asia/Tehran"}
 	case "SZA":
-		return "Africa/Luanda"
+		return Location{"Soyo", "Africa/Luanda"}
 	case "SZB":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Subang", "Asia/Kuala_Lumpur"}
 	case "SZE":
-		return "Africa/Addis_Ababa"
+		return Location{"Semera", "Africa/Addis_Ababa"}
 	case "SZF":
-		return "Europe/Istanbul"
+		return Location{"Samsun", "Europe/Istanbul"}
 	case "SZG":
-		return "Europe/Berlin"
+		return Location{"Salzburg", "Europe/Berlin"}
 	case "SZK":
-		return "Africa/Johannesburg"
+		return Location{"Skukuza", "Africa/Johannesburg"}
 	case "SZX":
-		return "Asia/Shanghai"
+		return Location{"Shenzhen", "Asia/Shanghai"}
 	case "SZY":
-		return "Europe/Warsaw"
+		return Location{"Szymany", "Europe/Warsaw"}
 	case "SZZ":
-		return "Europe/Warsaw"
+		return Location{"Goleniow", "Europe/Warsaw"}
 	case "TAB":
-		return "America/Port_of_Spain"
+		return Location{"Scarborough", "America/Port_of_Spain"}
 	case "TAC":
-		return "Asia/Manila"
+		return Location{"Tacloban City", "Asia/Manila"}
 	case "TAE":
-		return "Asia/Seoul"
+		return Location{"Daegu", "Asia/Seoul"}
 	case "TAG":
-		return "Asia/Manila"
+		return Location{"Tagbilaran City", "Asia/Manila"}
 	case "TAH":
-		return "Pacific/Efate"
+		return Location{"", "Pacific/Efate"}
 	case "TAK":
-		return "Asia/Tokyo"
+		return Location{"Takamatsu", "Asia/Tokyo"}
 	case "TAL":
-		return "America/Anchorage"
+		return Location{"Tanana", "America/Anchorage"}
 	case "TAM":
-		return "America/Monterrey"
+		return Location{"Tampico", "America/Monterrey"}
 	case "TAO":
-		return "Asia/Shanghai"
+		return Location{"Qingdao", "Asia/Shanghai"}
 	case "TAP":
-		return "America/Mexico_City"
+		return Location{"Tapachula", "America/Mexico_City"}
 	case "TAS":
-		return "Asia/Tashkent"
+		return Location{"Tashkent", "Asia/Tashkent"}
 	case "TAT":
-		return "Europe/Bratislava"
+		return Location{"Poprad", "Europe/Bratislava"}
 	case "TAZ":
-		return "Asia/Ashgabat"
+		return Location{"Dashoguz", "Asia/Ashgabat"}
 	case "TBB":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Tuy Hoa", "Asia/Ho_Chi_Minh"}
 	case "TBG":
-		return "Pacific/Port_Moresby"
+		return Location{"Tabubil", "Pacific/Port_Moresby"}
 	case "TBH":
-		return "Asia/Manila"
+		return Location{"Romblon", "Asia/Manila"}
 	case "TBN":
-		return "America/Chicago"
+		return Location{"Fort Leonard Wood", "America/Chicago"}
 	case "TBO":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Tabora", "Africa/Dar_es_Salaam"}
 	case "TBP":
-		return "America/Lima"
+		return Location{"Tumbes", "America/Lima"}
 	case "TBS":
-		return "Asia/Tbilisi"
+		return Location{"Tbilisi", "Asia/Tbilisi"}
 	case "TBT":
-		return "America/Bogota"
+		return Location{"Tabatinga", "America/Bogota"}
 	case "TBU":
-		return "Pacific/Tongatapu"
+		return Location{"Nuku'alofa", "Pacific/Tongatapu"}
 	case "TBW":
-		return "Europe/Moscow"
+		return Location{"Tambov", "Europe/Moscow"}
 	case "TBZ":
-		return "Asia/Tehran"
+		return Location{"Tabriz", "Asia/Tehran"}
 	case "TCA":
-		return "Australia/Darwin"
+		return Location{"Tennant Creek", "Australia/Darwin"}
 	case "TCG":
-		return "Asia/Shanghai"
+		return Location{"Tacheng", "Asia/Shanghai"}
 	case "TCO":
-		return "America/Bogota"
+		return Location{"Tumaco", "America/Bogota"}
 	case "TCQ":
-		return "America/Lima"
+		return Location{"Tacna", "America/Lima"}
 	case "TCR":
-		return "Asia/Kolkata"
+		return Location{"Thoothukkudi", "Asia/Kolkata"}
 	case "TCZ":
-		return "Asia/Shanghai"
+		return Location{"Tengchong", "Asia/Shanghai"}
 	case "TDD":
-		return "America/La_Paz"
+		return Location{"Trinidad", "America/La_Paz"}
 	case "TDK":
-		return "Asia/Almaty"
+		return Location{"Taldy Kurgan", "Asia/Almaty"}
 	case "TDX":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "TEB":
-		return "America/New_York"
+		return Location{"Teterboro", "America/New_York"}
 	case "TEC":
-		return "America/Sao_Paulo"
+		return Location{"Telemaco Borba", "America/Sao_Paulo"}
 	case "TEE":
-		return "Africa/Algiers"
+		return Location{"Tebessi", "Africa/Algiers"}
 	case "TEF":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "TEN":
-		return "Asia/Shanghai"
+		return Location{"", "Asia/Shanghai"}
 	case "TEQ":
-		return "Europe/Istanbul"
+		return Location{"Corlu", "Europe/Istanbul"}
 	case "TER":
-		return "Atlantic/Azores"
+		return Location{"Lajes", "Atlantic/Azores"}
 	case "TET":
-		return "Africa/Maputo"
+		return Location{"Tete", "Africa/Maputo"}
 	case "TEX":
-		return "America/Denver"
+		return Location{"Telluride", "America/Denver"}
 	case "TEZ":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "TFF":
-		return "America/Manaus"
+		return Location{"Tefe", "America/Manaus"}
 	case "TFL":
-		return "America/Sao_Paulo"
+		return Location{"Teofilo Otoni", "America/Sao_Paulo"}
 	case "TFN":
-		return "Atlantic/Canary"
+		return Location{"Tenerife Island", "Atlantic/Canary"}
 	case "TFS":
-		return "Atlantic/Canary"
+		return Location{"Tenerife Island", "Atlantic/Canary"}
 	case "TFU":
-		return "Asia/Shanghai"
+		return Location{"Chengdu", "Asia/Shanghai"}
 	case "TGC":
-		return "Asia/Kuching"
+		return Location{"Tanjung Manis", "Asia/Kuching"}
 	case "TGD":
-		return "Europe/Podgorica"
+		return Location{"Podgorica", "Europe/Podgorica"}
 	case "TGG":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Kuala Terengganu", "Asia/Kuala_Lumpur"}
 	case "TGM":
-		return "Europe/Bucharest"
+		return Location{"Targu Mures", "Europe/Bucharest"}
 	case "TGO":
-		return "Asia/Shanghai"
+		return Location{"Tongliao", "Asia/Shanghai"}
 	case "TGP":
-		return "Asia/Krasnoyarsk"
+		return Location{"Bor", "Asia/Krasnoyarsk"}
 	case "TGR":
-		return "Africa/Algiers"
+		return Location{"Touggourt", "Africa/Algiers"}
 	case "TGT":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Tanga", "Africa/Dar_es_Salaam"}
 	case "TGU":
-		return "America/Tegucigalpa"
+		return Location{"Tegucigalpa", "America/Tegucigalpa"}
 	case "TGZ":
-		return "America/Mexico_City"
+		return Location{"Tuxtla Gutierrez", "America/Mexico_City"}
 	case "THD":
-		return "Asia/Bangkok"
+		return Location{"Thanh Hóa", "Asia/Bangkok"}
 	case "THE":
-		return "America/Fortaleza"
+		return Location{"Teresina", "America/Fortaleza"}
 	case "THL":
-		return "Asia/Yangon"
+		return Location{"Tachileik", "Asia/Yangon"}
 	case "THN":
-		return "Europe/Stockholm"
+		return Location{"Trollhattan", "Europe/Stockholm"}
 	case "THR":
-		return "Asia/Tehran"
+		return Location{"Tehran", "Asia/Tehran"}
 	case "THS":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "THU":
-		return "America/Thule"
+		return Location{"Thule", "America/Thule"}
 	case "THX":
-		return "Asia/Krasnoyarsk"
+		return Location{"Turukhansk", "Asia/Krasnoyarsk"}
 	case "TIA":
-		return "Europe/Tirane"
+		return Location{"Tirana", "Europe/Tirane"}
 	case "TID":
-		return "Africa/Algiers"
+		return Location{"Tiaret", "Africa/Algiers"}
 	case "TIF":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "TIH":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "TIJ":
-		return "America/Los_Angeles"
+		return Location{"Tijuana", "America/Los_Angeles"}
 	case "TIM":
-		return "Asia/Jayapura"
+		return Location{"Timika-Papua Island", "Asia/Jayapura"}
 	case "TIN":
-		return "Africa/Algiers"
+		return Location{"Tindouf", "Africa/Algiers"}
 	case "TIR":
-		return "Asia/Kolkata"
+		return Location{"Tirupati", "Asia/Kolkata"}
 	case "TIU":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "TIV":
-		return "Europe/Podgorica"
+		return Location{"Tivat", "Europe/Podgorica"}
 	case "TIZ":
-		return "Pacific/Port_Moresby"
+		return Location{"Tari", "Pacific/Port_Moresby"}
 	case "TJA":
-		return "America/La_Paz"
+		return Location{"Tarija", "America/La_Paz"}
 	case "TJH":
-		return "Asia/Tokyo"
+		return Location{"Tajima", "Asia/Tokyo"}
 	case "TJK":
-		return "Europe/Istanbul"
+		return Location{"Tokat", "Europe/Istanbul"}
 	case "TJL":
-		return "America/Campo_Grande"
+		return Location{"Tres Lagoas", "America/Campo_Grande"}
 	case "TJM":
-		return "Asia/Yekaterinburg"
+		return Location{"Tyumen", "Asia/Yekaterinburg"}
 	case "TJN":
-		return "Pacific/Tahiti"
+		return Location{"Takume", "Pacific/Tahiti"}
 	case "TJQ":
-		return "Asia/Jakarta"
+		return Location{"Tanjung Pandan-Belitung Island", "Asia/Jakarta"}
 	case "TJS":
-		return "Asia/Makassar"
+		return Location{"Tanjung Selor-Borneo Island", "Asia/Makassar"}
 	case "TJU":
-		return "Asia/Dushanbe"
+		return Location{"Kulyab", "Asia/Dushanbe"}
 	case "TKD":
-		return "Africa/Accra"
+		return Location{"Sekondi-Takoradi", "Africa/Accra"}
 	case "TKG":
-		return "Asia/Jakarta"
+		return Location{"Bandar Lampung-Sumatra Island", "Asia/Jakarta"}
 	case "TKJ":
-		return "America/Anchorage"
+		return Location{"Tok", "America/Anchorage"}
 	case "TKK":
-		return "Pacific/Chuuk"
+		return Location{"Weno Island", "Pacific/Chuuk"}
 	case "TKN":
-		return "Asia/Tokyo"
+		return Location{"Tokunoshima", "Asia/Tokyo"}
 	case "TKP":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "TKQ":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Kigoma", "Africa/Dar_es_Salaam"}
 	case "TKS":
-		return "Asia/Tokyo"
+		return Location{"Tokushima", "Asia/Tokyo"}
 	case "TKU":
-		return "Europe/Helsinki"
+		return Location{"Turku", "Europe/Helsinki"}
 	case "TKV":
-		return "Pacific/Tahiti"
+		return Location{"Tatakoto", "Pacific/Tahiti"}
 	case "TKX":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "TLA":
-		return "America/Nome"
+		return Location{"Teller", "America/Nome"}
 	case "TLC":
-		return "America/Mexico_City"
+		return Location{"Toluca", "America/Mexico_City"}
 	case "TLE":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "TLH":
-		return "America/New_York"
+		return Location{"Tallahassee", "America/New_York"}
 	case "TLI":
-		return "Asia/Makassar"
+		return Location{"Toli Toli-Celebes Island", "Asia/Makassar"}
 	case "TLK":
-		return "Asia/Yakutsk"
+		return Location{"", "Asia/Yakutsk"}
 	case "TLL":
-		return "Europe/Tallinn"
+		return Location{"Tallinn", "Europe/Tallinn"}
 	case "TLM":
-		return "Africa/Algiers"
+		return Location{"Tlemcen", "Africa/Algiers"}
 	case "TLN":
-		return "Europe/Paris"
+		return Location{"Toulon/Hyeres/Le Palyvestre", "Europe/Paris"}
 	case "TLS":
-		return "Europe/Paris"
+		return Location{"Toulouse/Blagnac", "Europe/Paris"}
 	case "TLU":
-		return "America/Bogota"
+		return Location{"Tolu", "America/Bogota"}
 	case "TLV":
-		return "Asia/Jerusalem"
+		return Location{"Tel Aviv", "Asia/Jerusalem"}
 	case "TLY":
-		return "Asia/Vladivostok"
+		return Location{"Plastun", "Asia/Vladivostok"}
 	case "TMC":
-		return "Asia/Makassar"
+		return Location{"Waikabubak-Sumba Island", "Asia/Makassar"}
 	case "TME":
-		return "America/Bogota"
+		return Location{"Tame", "America/Bogota"}
 	case "TMI":
-		return "Asia/Kathmandu"
+		return Location{"Tumling Tar", "Asia/Kathmandu"}
 	case "TMJ":
-		return "Asia/Samarkand"
+		return Location{"Termez", "Asia/Samarkand"}
 	case "TML":
-		return "Africa/Accra"
+		return Location{"Tamale", "Africa/Accra"}
 	case "TMM":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "TMP":
-		return "Europe/Helsinki"
+		return Location{"Tampere / Pirkkala", "Europe/Helsinki"}
 	case "TMR":
-		return "Africa/Algiers"
+		return Location{"Tamanrasset", "Africa/Algiers"}
 	case "TMS":
-		return "Africa/Sao_Tome"
+		return Location{"Sao Tome", "Africa/Sao_Tome"}
 	case "TMT":
-		return "America/Santarem"
+		return Location{"Oriximina", "America/Santarem"}
 	case "TMU":
-		return "America/Costa_Rica"
+		return Location{"Nicoya", "America/Costa_Rica"}
 	case "TMW":
-		return "Australia/Sydney"
+		return Location{"Tamworth", "Australia/Sydney"}
 	case "TMX":
-		return "Africa/Algiers"
+		return Location{"Timimoun", "Africa/Algiers"}
 	case "TNA":
-		return "Asia/Shanghai"
+		return Location{"Jinan", "Asia/Shanghai"}
 	case "TNC":
-		return "America/Nome"
+		return Location{"Tin City", "America/Nome"}
 	case "TNE":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "TNG":
-		return "Africa/Casablanca"
+		return Location{"Tangier", "Africa/Casablanca"}
 	case "TNH":
-		return "Asia/Shanghai"
+		return Location{"Tonghua", "Asia/Shanghai"}
 	case "TNJ":
-		return "Asia/Jakarta"
+		return Location{"Tanjung Pinang-Bintan Island", "Asia/Jakarta"}
 	case "TNN":
-		return "Asia/Taipei"
+		return Location{"Tainan City", "Asia/Taipei"}
 	case "TNO":
-		return "America/Costa_Rica"
+		return Location{"Santa Cruz", "America/Costa_Rica"}
 	case "TNR":
-		return "Indian/Antananarivo"
+		return Location{"Antananarivo", "Indian/Antananarivo"}
 	case "TOD":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Pulau Tioman", "Asia/Kuala_Lumpur"}
 	case "TOE":
-		return "Africa/Tunis"
+		return Location{"Tozeur", "Africa/Tunis"}
 	case "TOF":
-		return "Asia/Tomsk"
+		return Location{"Tomsk", "Asia/Tomsk"}
 	case "TOG":
-		return "America/Anchorage"
+		return Location{"Togiak Village", "America/Anchorage"}
 	case "TOH":
-		return "Pacific/Efate"
+		return Location{"Loh/Linua", "Pacific/Efate"}
 	case "TOL":
-		return "America/New_York"
+		return Location{"Toledo", "America/New_York"}
 	case "TOS":
-		return "Europe/Oslo"
+		return Location{"Tromso", "Europe/Oslo"}
 	case "TOW":
-		return "America/Sao_Paulo"
+		return Location{"Toledo", "America/Sao_Paulo"}
 	case "TOY":
-		return "Asia/Tokyo"
+		return Location{"Toyama", "Asia/Tokyo"}
 	case "TPA":
-		return "America/New_York"
+		return Location{"Tampa", "America/New_York"}
 	case "TPE":
-		return "Asia/Taipei"
+		return Location{"Taipei", "Asia/Taipei"}
 	case "TPP":
-		return "America/Lima"
+		return Location{"Tarapoto", "America/Lima"}
 	case "TPQ":
-		return "America/Mazatlan"
+		return Location{"Tepic", "America/Mazatlan"}
 	case "TPS":
-		return "Europe/Rome"
+		return Location{"Trapani", "Europe/Rome"}
 	case "TRC":
-		return "America/Monterrey"
+		return Location{"Torreon", "America/Monterrey"}
 	case "TRD":
-		return "Europe/Oslo"
+		return Location{"Trondheim", "Europe/Oslo"}
 	case "TRE":
-		return "Europe/London"
+		return Location{"Balemartine", "Europe/London"}
 	case "TRF":
-		return "Europe/Oslo"
+		return Location{"Torp", "Europe/Oslo"}
 	case "TRG":
-		return "Pacific/Auckland"
+		return Location{"Tauranga", "Pacific/Auckland"}
 	case "TRI":
-		return "America/New_York"
+		return Location{"Bristol/Johnson/Kingsport", "America/New_York"}
 	case "TRK":
-		return "Asia/Makassar"
+		return Location{"Tarakan Island", "Asia/Makassar"}
 	case "TRN":
-		return "Europe/Rome"
+		return Location{"Torino", "Europe/Rome"}
 	case "TRR":
-		return "Asia/Colombo"
+		return Location{"Trincomalee", "Asia/Colombo"}
 	case "TRS":
-		return "Europe/Rome"
+		return Location{"Trieste", "Europe/Rome"}
 	case "TRU":
-		return "America/Lima"
+		return Location{"Trujillo", "America/Lima"}
 	case "TRV":
-		return "Asia/Kolkata"
+		return Location{"Trivandrum", "Asia/Kolkata"}
 	case "TRW":
-		return "Pacific/Tarawa"
+		return Location{"Tarawa", "Pacific/Tarawa"}
 	case "TRZ":
-		return "Asia/Kolkata"
+		return Location{"Tiruchirappally", "Asia/Kolkata"}
 	case "TSA":
-		return "Asia/Taipei"
+		return Location{"Taipei City", "Asia/Taipei"}
 	case "TSF":
-		return "Europe/Rome"
+		return Location{"Treviso", "Europe/Rome"}
 	case "TSJ":
-		return "Asia/Tokyo"
+		return Location{"Tsushima", "Asia/Tokyo"}
 	case "TSM":
-		return "America/Denver"
+		return Location{"Taos", "America/Denver"}
 	case "TSN":
-		return "Asia/Shanghai"
+		return Location{"Tianjin", "Asia/Shanghai"}
 	case "TSR":
-		return "Europe/Bucharest"
+		return Location{"Timisoara", "Europe/Bucharest"}
 	case "TST":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "TSV":
-		return "Australia/Brisbane"
+		return Location{"Townsville", "Australia/Brisbane"}
 	case "TTA":
-		return "Africa/Casablanca"
+		return Location{"Tan Tan", "Africa/Casablanca"}
 	case "TTE":
-		return "Asia/Jayapura"
+		return Location{"Sango-Ternate Island", "Asia/Jayapura"}
 	case "TTJ":
-		return "Asia/Tokyo"
+		return Location{"Tottori", "Asia/Tokyo"}
 	case "TTN":
-		return "America/New_York"
+		return Location{"Trenton", "America/New_York"}
 	case "TTQ":
-		return "America/Costa_Rica"
+		return Location{"Roxana", "America/Costa_Rica"}
 	case "TTT":
-		return "Asia/Taipei"
+		return Location{"Taitung City", "Asia/Taipei"}
 	case "TTU":
-		return "Africa/Casablanca"
+		return Location{"", "Africa/Casablanca"}
 	case "TUB":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "TUC":
-		return "America/Argentina/Tucuman"
+		return Location{"San Miguel de Tucuman", "America/Argentina/Tucuman"}
 	case "TUF":
-		return "Europe/Paris"
+		return Location{"Tours/Val de Loire (Loire Valley)", "Europe/Paris"}
 	case "TUG":
-		return "Asia/Manila"
+		return Location{"Tuguegarao City", "Asia/Manila"}
 	case "TUI":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "TUK":
-		return "Asia/Karachi"
+		return Location{"Turbat", "Asia/Karachi"}
 	case "TUL":
-		return "America/Chicago"
+		return Location{"Tulsa", "America/Chicago"}
 	case "TUN":
-		return "Africa/Tunis"
+		return Location{"Tunis", "Africa/Tunis"}
 	case "TUO":
-		return "Pacific/Auckland"
+		return Location{"Taupo", "Pacific/Auckland"}
 	case "TUP":
-		return "America/Chicago"
+		return Location{"Tupelo", "America/Chicago"}
 	case "TUR":
-		return "America/Belem"
+		return Location{"Tucurui", "America/Belem"}
 	case "TUS":
-		return "America/Phoenix"
+		return Location{"Tucson", "America/Phoenix"}
 	case "TUU":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "TVC":
-		return "America/Detroit"
+		return Location{"Traverse City", "America/Detroit"}
 	case "TVF":
-		return "America/Chicago"
+		return Location{"Thief River Falls", "America/Chicago"}
 	case "TVU":
-		return "Pacific/Fiji"
+		return Location{"Matei", "Pacific/Fiji"}
 	case "TVY":
-		return "Asia/Yangon"
+		return Location{"Dawei", "Asia/Yangon"}
 	case "TWF":
-		return "America/Boise"
+		return Location{"Twin Falls", "America/Boise"}
 	case "TWU":
-		return "Asia/Kuching"
+		return Location{"Tawau", "Asia/Kuching"}
 	case "TXF":
-		return "America/Bahia"
+		return Location{"Teixeira De Freitas", "America/Bahia"}
 	case "TXK":
-		return "America/Chicago"
+		return Location{"Texarkana", "America/Chicago"}
 	case "TXN":
-		return "Asia/Shanghai"
+		return Location{"Huangshan", "Asia/Shanghai"}
 	case "TYD":
-		return "Asia/Yakutsk"
+		return Location{"Tynda", "Asia/Yakutsk"}
 	case "TYF":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "TYL":
-		return "America/Lima"
+		return Location{"", "America/Lima"}
 	case "TYN":
-		return "Asia/Shanghai"
+		return Location{"Taiyuan", "Asia/Shanghai"}
 	case "TYR":
-		return "America/Chicago"
+		return Location{"Tyler", "America/Chicago"}
 	case "TYS":
-		return "America/New_York"
+		return Location{"Knoxville", "America/New_York"}
 	case "TZL":
-		return "Europe/Sarajevo"
+		return Location{"Tuzla", "Europe/Sarajevo"}
 	case "TZX":
-		return "Europe/Istanbul"
+		return Location{"Trabzon", "Europe/Istanbul"}
 	case "UAH":
-		return "Pacific/Marquesas"
+		return Location{"Ua Huka", "Pacific/Marquesas"}
 	case "UAK":
-		return "America/Nuuk"
+		return Location{"Narsarsuaq", "America/Nuuk"}
 	case "UAP":
-		return "Pacific/Marquesas"
+		return Location{"Ua Pou", "Pacific/Marquesas"}
 	case "UAQ":
-		return "America/Argentina/San_Juan"
+		return Location{"San Juan", "America/Argentina/San_Juan"}
 	case "UAS":
-		return "Africa/Nairobi"
+		return Location{"Samburu South", "Africa/Nairobi"}
 	case "UBA":
-		return "America/Sao_Paulo"
+		return Location{"Uberaba", "America/Sao_Paulo"}
 	case "UBB":
-		return "Australia/Brisbane"
+		return Location{"Mabuiag Island", "Australia/Brisbane"}
 	case "UBJ":
-		return "Asia/Tokyo"
+		return Location{"Ube", "Asia/Tokyo"}
 	case "UBN":
-		return "Asia/Ulaanbaatar"
+		return Location{"Ulaanbaatar", "Asia/Ulaanbaatar"}
 	case "UBP":
-		return "Asia/Bangkok"
+		return Location{"Ubon Ratchathani", "Asia/Bangkok"}
 	case "UCT":
-		return "Europe/Moscow"
+		return Location{"Ukhta", "Europe/Moscow"}
 	case "UDI":
-		return "America/Sao_Paulo"
+		return Location{"Uberlandia", "America/Sao_Paulo"}
 	case "UDR":
-		return "Asia/Kolkata"
+		return Location{"Udaipur", "Asia/Kolkata"}
 	case "UEL":
-		return "Africa/Maputo"
+		return Location{"Quelimane", "Africa/Maputo"}
 	case "UEO":
-		return "Asia/Tokyo"
+		return Location{"", "Asia/Tokyo"}
 	case "UET":
-		return "Asia/Karachi"
+		return Location{"Quetta", "Asia/Karachi"}
 	case "UFA":
-		return "Asia/Yekaterinburg"
+		return Location{"Ufa", "Asia/Yekaterinburg"}
 	case "UGC":
-		return "Asia/Samarkand"
+		return Location{"Urgench", "Asia/Samarkand"}
 	case "UGO":
-		return "Africa/Luanda"
+		return Location{"Uige", "Africa/Luanda"}
 	case "UIB":
-		return "America/Bogota"
+		return Location{"Quibdo", "America/Bogota"}
 	case "UIH":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Quy Nohn", "Asia/Ho_Chi_Minh"}
 	case "UII":
-		return "America/Tegucigalpa"
+		return Location{"Utila Island", "America/Tegucigalpa"}
 	case "UIN":
-		return "America/Chicago"
+		return Location{"Quincy", "America/Chicago"}
 	case "UIO":
-		return "America/Guayaquil"
+		return Location{"Quito", "America/Guayaquil"}
 	case "UIP":
-		return "Europe/Paris"
+		return Location{"Quimper/Pluguffan", "Europe/Paris"}
 	case "UKA":
-		return "Africa/Nairobi"
+		return Location{"Ukunda", "Africa/Nairobi"}
 	case "UKB":
-		return "Asia/Tokyo"
+		return Location{"Kobe", "Asia/Tokyo"}
 	case "UKG":
-		return "Asia/Vladivostok"
+		return Location{"Ust-Kuyga", "Asia/Vladivostok"}
 	case "UKK":
-		return "Asia/Almaty"
+		return Location{"Ust Kamenogorsk", "Asia/Almaty"}
 	case "UKX":
-		return "Asia/Irkutsk"
+		return Location{"Ust-Kut", "Asia/Irkutsk"}
 	case "ULB":
-		return "Pacific/Efate"
+		return Location{"Ambryn Island", "Pacific/Efate"}
 	case "ULG":
-		return "Asia/Hovd"
+		return Location{"", "Asia/Hovd"}
 	case "ULH":
-		return "Asia/Riyadh"
+		return Location{"Al-'Ula", "Asia/Riyadh"}
 	case "ULK":
-		return "Asia/Yakutsk"
+		return Location{"Lensk", "Asia/Yakutsk"}
 	case "ULO":
-		return "Asia/Hovd"
+		return Location{"", "Asia/Hovd"}
 	case "ULP":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "ULV":
-		return "Europe/Ulyanovsk"
+		return Location{"Ulyanovsk", "Europe/Ulyanovsk"}
 	case "UME":
-		return "Europe/Stockholm"
+		return Location{"Umea", "Europe/Stockholm"}
 	case "UMU":
-		return "America/Sao_Paulo"
+		return Location{"Umuarama", "America/Sao_Paulo"}
 	case "UNA":
-		return "America/Bahia"
+		return Location{"Una", "America/Bahia"}
 	case "UNG":
-		return "Pacific/Port_Moresby"
+		return Location{"Kiunga", "Pacific/Port_Moresby"}
 	case "UNK":
-		return "America/Anchorage"
+		return Location{"Unalakleet", "America/Anchorage"}
 	case "UNN":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "UPG":
-		return "Asia/Makassar"
+		return Location{"Ujung Pandang-Celebes Island", "Asia/Makassar"}
 	case "UPN":
-		return "America/Mexico_City"
+		return Location{"", "America/Mexico_City"}
 	case "URA":
-		return "Asia/Oral"
+		return Location{"Uralsk", "Asia/Oral"}
 	case "URC":
-		return "Asia/Shanghai"
+		return Location{"Urumqi", "Asia/Shanghai"}
 	case "URE":
-		return "Europe/Tallinn"
+		return Location{"Kuressaare", "Europe/Tallinn"}
 	case "URG":
-		return "America/Sao_Paulo"
+		return Location{"Uruguaiana", "America/Sao_Paulo"}
 	case "URJ":
-		return "Asia/Yekaterinburg"
+		return Location{"Uray", "Asia/Yekaterinburg"}
 	case "URT":
-		return "Asia/Bangkok"
+		return Location{"Surat Thani", "Asia/Bangkok"}
 	case "URY":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "USH":
-		return "America/Argentina/Ushuaia"
+		return Location{"Ushuahia", "America/Argentina/Ushuaia"}
 	case "USJ":
-		return "Asia/Almaty"
+		return Location{"Usharal", "Asia/Almaty"}
 	case "USK":
-		return "Europe/Moscow"
+		return Location{"Usinsk", "Europe/Moscow"}
 	case "USM":
-		return "Asia/Bangkok"
+		return Location{"Na Thon (Ko Samui Island)", "Asia/Bangkok"}
 	case "USN":
-		return "Asia/Seoul"
+		return Location{"Ulsan", "Asia/Seoul"}
 	case "USR":
-		return "Asia/Ust-Nera"
+		return Location{"Ust-Nera", "Asia/Ust-Nera"}
 	case "USU":
-		return "Asia/Manila"
+		return Location{"Coron", "Asia/Manila"}
 	case "UTH":
-		return "Asia/Bangkok"
+		return Location{"Udon Thani", "Asia/Bangkok"}
 	case "UTN":
-		return "Africa/Johannesburg"
+		return Location{"Upington", "Africa/Johannesburg"}
 	case "UTP":
-		return "Asia/Bangkok"
+		return Location{"Rayong", "Asia/Bangkok"}
 	case "UTS":
-		return "Europe/Moscow"
+		return Location{"Ust-Tsylma", "Europe/Moscow"}
 	case "UTT":
-		return "Africa/Johannesburg"
+		return Location{"Mthatha", "Africa/Johannesburg"}
 	case "UUA":
-		return "Europe/Moscow"
+		return Location{"Bugulma", "Europe/Moscow"}
 	case "UUD":
-		return "Asia/Irkutsk"
+		return Location{"Ulan Ude", "Asia/Irkutsk"}
 	case "UUS":
-		return "Asia/Sakhalin"
+		return Location{"Yuzhno-Sakhalinsk", "Asia/Sakhalin"}
 	case "UVE":
-		return "Pacific/Noumea"
+		return Location{"Ouvea", "Pacific/Noumea"}
 	case "UVF":
-		return "America/St_Lucia"
+		return Location{"Vieux Fort", "America/St_Lucia"}
 	case "UYL":
-		return "Africa/Khartoum"
+		return Location{"Nyala", "Africa/Khartoum"}
 	case "UYN":
-		return "Asia/Shanghai"
+		return Location{"Yulin", "Asia/Shanghai"}
 	case "UYU":
-		return "America/La_Paz"
+		return Location{"Quijarro", "America/La_Paz"}
 	case "VAA":
-		return "Europe/Helsinki"
+		return Location{"Vaasa", "Europe/Helsinki"}
 	case "VAG":
-		return "America/Sao_Paulo"
+		return Location{"Varginha", "America/Sao_Paulo"}
 	case "VAI":
-		return "Pacific/Port_Moresby"
+		return Location{"", "Pacific/Port_Moresby"}
 	case "VAK":
-		return "America/Nome"
+		return Location{"Chevak", "America/Nome"}
 	case "VAL":
-		return "America/Bahia"
+		return Location{"Valenca", "America/Bahia"}
 	case "VAM":
-		return "Indian/Maldives"
+		return Location{"Maamigili", "Indian/Maldives"}
 	case "VAN":
-		return "Europe/Istanbul"
+		return Location{"Van", "Europe/Istanbul"}
 	case "VAO":
-		return "Pacific/Guadalcanal"
+		return Location{"Suavanao", "Pacific/Guadalcanal"}
 	case "VAR":
-		return "Europe/Sofia"
+		return Location{"Varna", "Europe/Sofia"}
 	case "VAS":
-		return "Europe/Istanbul"
+		return Location{"Sivas", "Europe/Istanbul"}
 	case "VAV":
-		return "Pacific/Tongatapu"
+		return Location{"Vava'u Island", "Pacific/Tongatapu"}
 	case "VAW":
-		return "Europe/Oslo"
+		return Location{"Vardo", "Europe/Oslo"}
 	case "VBA":
-		return "Asia/Yangon"
+		return Location{"Aeng", "Asia/Yangon"}
 	case "VBP":
-		return "Asia/Yangon"
+		return Location{"Bokpyinn", "Asia/Yangon"}
 	case "VBV":
-		return "Pacific/Fiji"
+		return Location{"Vanua Balavu", "Pacific/Fiji"}
 	case "VBY":
-		return "Europe/Stockholm"
+		return Location{"Visby", "Europe/Stockholm"}
 	case "VCA":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Can Tho", "Asia/Ho_Chi_Minh"}
 	case "VCE":
-		return "Europe/Rome"
+		return Location{"Venezia", "Europe/Rome"}
 	case "VCL":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Dung Quat Bay", "Asia/Ho_Chi_Minh"}
 	case "VCP":
-		return "America/Sao_Paulo"
+		return Location{"Campinas", "America/Sao_Paulo"}
 	case "VCS":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Con Ong", "Asia/Ho_Chi_Minh"}
 	case "VCT":
-		return "America/Chicago"
+		return Location{"Victoria", "America/Chicago"}
 	case "VDC":
-		return "America/Bahia"
+		return Location{"Vitoria Da Conquista", "America/Bahia"}
 	case "VDE":
-		return "Atlantic/Canary"
+		return Location{"El Hierro Island", "Atlantic/Canary"}
 	case "VDH":
-		return "Asia/Bangkok"
+		return Location{"Dong Hoi", "Asia/Bangkok"}
 	case "VDM":
-		return "America/Argentina/Salta"
+		return Location{"Viedma / Carmen de Patagones", "America/Argentina/Salta"}
 	case "VDS":
-		return "Europe/Oslo"
+		return Location{"Vadso", "Europe/Oslo"}
 	case "VDZ":
-		return "America/Anchorage"
+		return Location{"Valdez", "America/Anchorage"}
 	case "VEE":
-		return "America/Anchorage"
+		return Location{"Venetie", "America/Anchorage"}
 	case "VEL":
-		return "America/Denver"
+		return Location{"Vernal", "America/Denver"}
 	case "VER":
-		return "America/Mexico_City"
+		return Location{"Veracruz", "America/Mexico_City"}
 	case "VEY":
-		return "Atlantic/Reykjavik"
+		return Location{"Vestmannaeyjar", "Atlantic/Reykjavik"}
 	case "VFA":
-		return "Africa/Harare"
+		return Location{"Victoria Falls", "Africa/Harare"}
 	case "VGA":
-		return "Asia/Kolkata"
+		return Location{"", "Asia/Kolkata"}
 	case "VGO":
-		return "Europe/Madrid"
+		return Location{"Vigo", "Europe/Madrid"}
 	case "VGZ":
-		return "America/Bogota"
+		return Location{"Villa Garzon", "America/Bogota"}
 	case "VHC":
-		return "Africa/Luanda"
+		return Location{"Saurimo", "Africa/Luanda"}
 	case "VHM":
-		return "Europe/Stockholm"
+		return Location{"", "Europe/Stockholm"}
 	case "VHV":
-		return "Asia/Yakutsk"
+		return Location{"Verkhnevilyuisk", "Asia/Yakutsk"}
 	case "VHZ":
-		return "Pacific/Tahiti"
+		return Location{"Vahitahi", "Pacific/Tahiti"}
 	case "VIE":
-		return "Europe/Vienna"
+		return Location{"Vienna", "Europe/Vienna"}
 	case "VIG":
-		return "America/Caracas"
+		return Location{"El Vigia", "America/Caracas"}
 	case "VII":
-		return "Asia/Bangkok"
+		return Location{"Vinh", "Asia/Bangkok"}
 	case "VIJ":
-		return "America/Tortola"
+		return Location{"Spanish Town", "America/Tortola"}
 	case "VIL":
-		return "Africa/El_Aaiun"
+		return Location{"Dakhla", "Africa/El_Aaiun"}
 	case "VIT":
-		return "Europe/Madrid"
+		return Location{"Alava", "Europe/Madrid"}
 	case "VIX":
-		return "America/Sao_Paulo"
+		return Location{"Vitoria", "America/Sao_Paulo"}
 	case "VJB":
-		return "Africa/Maputo"
+		return Location{"Xai-Xai", "Africa/Maputo"}
 	case "VKG":
-		return "Asia/Ho_Chi_Minh"
+		return Location{"Rach Gia", "Asia/Ho_Chi_Minh"}
 	case "VKO":
-		return "Europe/Moscow"
+		return Location{"Moscow", "Europe/Moscow"}
 	case "VKT":
-		return "Europe/Moscow"
+		return Location{"Vorkuta", "Europe/Moscow"}
 	case "VKV":
-		return "Europe/Moscow"
+		return Location{"Arkhangelsk", "Europe/Moscow"}
 	case "VLC":
-		return "Europe/Madrid"
+		return Location{"Valencia", "Europe/Madrid"}
 	case "VLD":
-		return "America/New_York"
+		return Location{"Valdosta", "America/New_York"}
 	case "VLI":
-		return "Pacific/Efate"
+		return Location{"Port Vila", "Pacific/Efate"}
 	case "VLL":
-		return "Europe/Madrid"
+		return Location{"Valladolid", "Europe/Madrid"}
 	case "VLN":
-		return "America/Caracas"
+		return Location{"Valencia", "America/Caracas"}
 	case "VLS":
-		return "Pacific/Efate"
+		return Location{"Valesdir", "Pacific/Efate"}
 	case "VNO":
-		return "Europe/Vilnius"
+		return Location{"Vilnius", "Europe/Vilnius"}
 	case "VNS":
-		return "Asia/Kolkata"
+		return Location{"Varanasi", "Asia/Kolkata"}
 	case "VNX":
-		return "Africa/Maputo"
+		return Location{"Vilanculo", "Africa/Maputo"}
 	case "VOG":
-		return "Europe/Volgograd"
+		return Location{"Volgograd", "Europe/Volgograd"}
 	case "VOL":
-		return "Europe/Athens"
+		return Location{"Nea Anchialos", "Europe/Athens"}
 	case "VPE":
-		return "Africa/Luanda"
+		return Location{"Ngiva", "Africa/Luanda"}
 	case "VPS":
-		return "America/Chicago"
+		return Location{"Valparaiso", "America/Chicago"}
 	case "VPY":
-		return "Africa/Maputo"
+		return Location{"Chimoio", "Africa/Maputo"}
 	case "VQS":
-		return "America/Puerto_Rico"
+		return Location{"Vieques Island", "America/Puerto_Rico"}
 	case "VRA":
-		return "America/Havana"
+		return Location{"Varadero", "America/Havana"}
 	case "VRB":
-		return "America/New_York"
+		return Location{"Vero Beach", "America/New_York"}
 	case "VRC":
-		return "Asia/Manila"
+		return Location{"Virac", "Asia/Manila"}
 	case "VRN":
-		return "Europe/Rome"
+		return Location{"Verona", "Europe/Rome"}
 	case "VSA":
-		return "America/Mexico_City"
+		return Location{"Villahermosa", "America/Mexico_City"}
 	case "VST":
-		return "Europe/Stockholm"
+		return Location{"Stockholm / Vasteras", "Europe/Stockholm"}
 	case "VTE":
-		return "Asia/Vientiane"
+		return Location{"Vientiane", "Asia/Vientiane"}
 	case "VTZ":
-		return "Asia/Kolkata"
+		return Location{"Visakhapatnam", "Asia/Kolkata"}
 	case "VUP":
-		return "America/Bogota"
+		return Location{"Valledupar", "America/Bogota"}
 	case "VUS":
-		return "Europe/Moscow"
+		return Location{"Velikiy Ustyug", "Europe/Moscow"}
 	case "VVC":
-		return "America/Bogota"
+		return Location{"Villavicencio", "America/Bogota"}
 	case "VVI":
-		return "America/La_Paz"
+		return Location{"Santa Cruz", "America/La_Paz"}
 	case "VVO":
-		return "Asia/Vladivostok"
+		return Location{"Vladivostok", "Asia/Vladivostok"}
 	case "VVZ":
-		return "Africa/Algiers"
+		return Location{"Illizi", "Africa/Algiers"}
 	case "VXC":
-		return "Africa/Maputo"
+		return Location{"Lichinga", "Africa/Maputo"}
 	case "VXE":
-		return "Atlantic/Cape_Verde"
+		return Location{"Sao Pedro", "Atlantic/Cape_Verde"}
 	case "VXO":
-		return "Europe/Stockholm"
+		return Location{"Vaxjo", "Europe/Stockholm"}
 	case "WAA":
-		return "America/Nome"
+		return Location{"Wales", "America/Nome"}
 	case "WAE":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "WAG":
-		return "Pacific/Auckland"
+		return Location{"Wanganui", "Pacific/Auckland"}
 	case "WAW":
-		return "Europe/Warsaw"
+		return Location{"Warsaw", "Europe/Warsaw"}
 	case "WBM":
-		return "Pacific/Port_Moresby"
+		return Location{"", "Pacific/Port_Moresby"}
 	case "WBQ":
-		return "America/Anchorage"
+		return Location{"Beaver", "America/Anchorage"}
 	case "WDH":
-		return "Africa/Windhoek"
+		return Location{"Windhoek", "Africa/Windhoek"}
 	case "WEF":
-		return "Asia/Shanghai"
+		return Location{"Weifang", "Asia/Shanghai"}
 	case "WEH":
-		return "Asia/Shanghai"
+		return Location{"Weihai", "Asia/Shanghai"}
 	case "WEI":
-		return "Australia/Brisbane"
+		return Location{"Weipa", "Australia/Brisbane"}
 	case "WGA":
-		return "Australia/Sydney"
+		return Location{"Wagga Wagga", "Australia/Sydney"}
 	case "WGE":
-		return "Australia/Sydney"
+		return Location{"", "Australia/Sydney"}
 	case "WGP":
-		return "Asia/Makassar"
+		return Location{"Waingapu-Sumba Island", "Asia/Makassar"}
 	case "WHK":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "WIC":
-		return "Europe/London"
+		return Location{"Wick", "Europe/London"}
 	case "WIL":
-		return "Africa/Nairobi"
+		return Location{"Nairobi", "Africa/Nairobi"}
 	case "WIN":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "WJU":
-		return "Asia/Seoul"
+		return Location{"Wonju", "Asia/Seoul"}
 	case "WKA":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "WKJ":
-		return "Asia/Tokyo"
+		return Location{"Wakkanai", "Asia/Tokyo"}
 	case "WLE":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "WLG":
-		return "Pacific/Auckland"
+		return Location{"Wellington", "Pacific/Auckland"}
 	case "WLH":
-		return "Pacific/Efate"
+		return Location{"Walaha", "Pacific/Efate"}
 	case "WLK":
-		return "America/Anchorage"
+		return Location{"Selawik", "America/Anchorage"}
 	case "WLS":
-		return "Pacific/Wallis"
+		return Location{"Wallis Island", "Pacific/Wallis"}
 	case "WMI":
-		return "Europe/Warsaw"
+		return Location{"Warsaw", "Europe/Warsaw"}
 	case "WMN":
-		return "Indian/Antananarivo"
+		return Location{"", "Indian/Antananarivo"}
 	case "WMO":
-		return "America/Nome"
+		return Location{"White Mountain", "America/Nome"}
 	case "WMX":
-		return "Asia/Jayapura"
+		return Location{"Wamena-Papua Island", "Asia/Jayapura"}
 	case "WNA":
-		return "America/Anchorage"
+		return Location{"Napakiak", "America/Anchorage"}
 	case "WNP":
-		return "Asia/Manila"
+		return Location{"Naga", "Asia/Manila"}
 	case "WNR":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "WNZ":
-		return "Asia/Shanghai"
+		return Location{"Wenzhou", "Asia/Shanghai"}
 	case "WOL":
-		return "Australia/Sydney"
+		return Location{"", "Australia/Sydney"}
 	case "WPR":
-		return "America/Punta_Arenas"
+		return Location{"Porvenir", "America/Punta_Arenas"}
 	case "WPU":
-		return "America/Argentina/Ushuaia"
+		return Location{"Puerto Williams", "America/Argentina/Ushuaia"}
 	case "WRE":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "WRG":
-		return "America/Sitka"
+		return Location{"Wrangell", "America/Sitka"}
 	case "WRO":
-		return "Europe/Warsaw"
+		return Location{"Wroclaw", "Europe/Warsaw"}
 	case "WRZ":
-		return "Asia/Colombo"
+		return Location{"Weerawila", "Asia/Colombo"}
 	case "WSN":
-		return "America/Anchorage"
+		return Location{"South Naknek", "America/Anchorage"}
 	case "WSZ":
-		return "Pacific/Auckland"
+		return Location{"", "Pacific/Auckland"}
 	case "WTB":
-		return "Australia/Brisbane"
+		return Location{"Wellcamp", "Australia/Brisbane"}
 	case "WTK":
-		return "America/Nome"
+		return Location{"Noatak", "America/Nome"}
 	case "WUH":
-		return "Asia/Shanghai"
+		return Location{"Wuhan", "Asia/Shanghai"}
 	case "WUN":
-		return "Australia/Perth"
+		return Location{"", "Australia/Perth"}
 	case "WUS":
-		return "Asia/Shanghai"
+		return Location{"Wuyishan", "Asia/Shanghai"}
 	case "WUU":
-		return "Africa/Juba"
+		return Location{"Wau", "Africa/Juba"}
 	case "WUX":
-		return "Asia/Shanghai"
+		return Location{"Wuxi", "Asia/Shanghai"}
 	case "WUZ":
-		return "Asia/Shanghai"
+		return Location{"Wuzhou", "Asia/Shanghai"}
 	case "WVB":
-		return "Africa/Windhoek"
+		return Location{"Walvis Bay", "Africa/Windhoek"}
 	case "WWK":
-		return "Pacific/Port_Moresby"
+		return Location{"Wewak", "Pacific/Port_Moresby"}
 	case "WWT":
-		return "America/Nome"
+		return Location{"Newtok", "America/Nome"}
 	case "WXN":
-		return "Asia/Shanghai"
+		return Location{"Wanxian", "Asia/Shanghai"}
 	case "WYA":
-		return "Australia/Adelaide"
+		return Location{"Whyalla", "Australia/Adelaide"}
 	case "WYS":
-		return "America/Denver"
+		return Location{"West Yellowstone", "America/Denver"}
 	case "XAP":
-		return "America/Sao_Paulo"
+		return Location{"Chapeco", "America/Sao_Paulo"}
 	case "XCH":
-		return "Indian/Christmas"
+		return Location{"Christmas Island", "Indian/Christmas"}
 	case "XCR":
-		return "Europe/Paris"
+		return Location{"Chalons/Vatry", "Europe/Paris"}
 	case "XFN":
-		return "Asia/Shanghai"
+		return Location{"Xiangfan", "Asia/Shanghai"}
 	case "XGR":
-		return "America/Toronto"
+		return Location{"Kangiqsualujjuaq", "America/Toronto"}
 	case "XIC":
-		return "Asia/Shanghai"
+		return Location{"Xichang", "Asia/Shanghai"}
 	case "XIL":
-		return "Asia/Shanghai"
+		return Location{"Xilinhot", "Asia/Shanghai"}
 	case "XIY":
-		return "Asia/Shanghai"
+		return Location{"Xianyang", "Asia/Shanghai"}
 	case "XKH":
-		return "Asia/Vientiane"
+		return Location{"Xieng Khouang", "Asia/Vientiane"}
 	case "XMH":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "XMN":
-		return "Asia/Shanghai"
+		return Location{"Xiamen", "Asia/Shanghai"}
 	case "XMY":
-		return "Australia/Brisbane"
+		return Location{"Yam Island", "Australia/Brisbane"}
 	case "XNA":
-		return "America/Chicago"
+		return Location{"Fayetteville/Springdale/", "America/Chicago"}
 	case "XNN":
-		return "Asia/Shanghai"
+		return Location{"Xining", "Asia/Shanghai"}
 	case "XPL":
-		return "America/Tegucigalpa"
+		return Location{"Comayagua", "America/Tegucigalpa"}
 	case "XQP":
-		return "America/Costa_Rica"
+		return Location{"Quepos", "America/Costa_Rica"}
 	case "XRY":
-		return "Europe/Madrid"
+		return Location{"Jerez de la Forntera", "Europe/Madrid"}
 	case "XSC":
-		return "America/Grand_Turk"
+		return Location{"", "America/Grand_Turk"}
 	case "XSP":
-		return "Asia/Kuala_Lumpur"
+		return Location{"Seletar", "Asia/Kuala_Lumpur"}
 	case "XTG":
-		return "Australia/Brisbane"
+		return Location{"", "Australia/Brisbane"}
 	case "XUZ":
-		return "Asia/Shanghai"
+		return Location{"Xuzhou", "Asia/Shanghai"}
 	case "YAA":
-		return "America/Vancouver"
+		return Location{"Anahim Lake", "America/Vancouver"}
 	case "YAB":
-		return "America/Rankin_Inlet"
+		return Location{"", "America/Rankin_Inlet"}
 	case "YAG":
-		return "America/Rainy_River"
+		return Location{"Fort Frances", "America/Rainy_River"}
 	case "YAK":
-		return "America/Yakutat"
+		return Location{"Yakutat", "America/Yakutat"}
 	case "YAM":
-		return "America/Detroit"
+		return Location{"Sault Ste Marie", "America/Detroit"}
 	case "YAP":
-		return "Pacific/Chuuk"
+		return Location{"Yap Island", "Pacific/Chuuk"}
 	case "YAT":
-		return "America/Nipigon"
+		return Location{"Attawapiskat", "America/Nipigon"}
 	case "YAY":
-		return "America/St_Johns"
+		return Location{"St. Anthony", "America/St_Johns"}
 	case "YAZ":
-		return "America/Vancouver"
+		return Location{"Tofino", "America/Vancouver"}
 	case "YBB":
-		return "America/Cambridge_Bay"
+		return Location{"Kugaaruk", "America/Cambridge_Bay"}
 	case "YBC":
-		return "America/Toronto"
+		return Location{"Baie-Comeau", "America/Toronto"}
 	case "YBE":
-		return "America/Regina"
+		return Location{"Uranium City", "America/Regina"}
 	case "YBG":
-		return "America/Toronto"
+		return Location{"Bagotville", "America/Toronto"}
 	case "YBK":
-		return "America/Rankin_Inlet"
+		return Location{"Baker Lake", "America/Rankin_Inlet"}
 	case "YBL":
-		return "America/Vancouver"
+		return Location{"Campbell River", "America/Vancouver"}
 	case "YBP":
-		return "Asia/Shanghai"
+		return Location{"Yibin", "Asia/Shanghai"}
 	case "YBR":
-		return "America/Winnipeg"
+		return Location{"Brandon", "America/Winnipeg"}
 	case "YBX":
-		return "America/Blanc-Sablon"
+		return Location{"Lourdes-De-Blanc-Sablon", "America/Blanc-Sablon"}
 	case "YCB":
-		return "America/Cambridge_Bay"
+		return Location{"Cambridge Bay", "America/Cambridge_Bay"}
 	case "YCD":
-		return "America/Vancouver"
+		return Location{"Nanaimo", "America/Vancouver"}
 	case "YCG":
-		return "America/Vancouver"
+		return Location{"Castlegar", "America/Vancouver"}
 	case "YCK":
-		return "America/Inuvik"
+		return Location{"Colville Lake", "America/Inuvik"}
 	case "YCO":
-		return "America/Cambridge_Bay"
+		return Location{"Kugluktuk", "America/Cambridge_Bay"}
 	case "YCS":
-		return "America/Rankin_Inlet"
+		return Location{"Chesterfield Inlet", "America/Rankin_Inlet"}
 	case "YCU":
-		return "Asia/Shanghai"
+		return Location{"Yuncheng", "Asia/Shanghai"}
 	case "YCY":
-		return "America/Iqaluit"
+		return Location{"Clyde River", "America/Iqaluit"}
 	case "YDA":
-		return "America/Dawson"
+		return Location{"Dawson City", "America/Dawson"}
 	case "YDF":
-		return "America/St_Johns"
+		return Location{"Deer Lake", "America/St_Johns"}
 	case "YDP":
-		return "America/Goose_Bay"
+		return Location{"Nain", "America/Goose_Bay"}
 	case "YEG":
-		return "America/Edmonton"
+		return Location{"Edmonton", "America/Edmonton"}
 	case "YEI":
-		return "Europe/Istanbul"
+		return Location{"Bursa", "Europe/Istanbul"}
 	case "YEK":
-		return "America/Rankin_Inlet"
+		return Location{"Arviat", "America/Rankin_Inlet"}
 	case "YEV":
-		return "America/Inuvik"
+		return Location{"Inuvik", "America/Inuvik"}
 	case "YFA":
-		return "America/Nipigon"
+		return Location{"Fort Albany", "America/Nipigon"}
 	case "YFB":
-		return "America/Iqaluit"
+		return Location{"Iqaluit", "America/Iqaluit"}
 	case "YFC":
-		return "America/Moncton"
+		return Location{"Fredericton", "America/Moncton"}
 	case "YFJ":
-		return "America/Yellowknife"
+		return Location{"Wekweeti", "America/Yellowknife"}
 	case "YFO":
-		return "America/Winnipeg"
+		return Location{"Flin Flon", "America/Winnipeg"}
 	case "YFS":
-		return "America/Inuvik"
+		return Location{"Fort Simpson", "America/Inuvik"}
 	case "YFX":
-		return "America/St_Johns"
+		return Location{"St. Lewis", "America/St_Johns"}
 	case "YGH":
-		return "America/Inuvik"
+		return Location{"Fort Good Hope", "America/Inuvik"}
 	case "YGJ":
-		return "Asia/Tokyo"
+		return Location{"Yonago", "Asia/Tokyo"}
 	case "YGL":
-		return "America/Toronto"
+		return Location{"La Grande Riviere", "America/Toronto"}
 	case "YGP":
-		return "America/Toronto"
+		return Location{"Gaspe", "America/Toronto"}
 	case "YGR":
-		return "America/Halifax"
+		return Location{"Iles-de-la-Madeleine", "America/Halifax"}
 	case "YGT":
-		return "America/Iqaluit"
+		return Location{"Igloolik", "America/Iqaluit"}
 	case "YGV":
-		return "America/Toronto"
+		return Location{"Havre St-Pierre", "America/Toronto"}
 	case "YGW":
-		return "America/Iqaluit"
+		return Location{"Kuujjuarapik", "America/Iqaluit"}
 	case "YGX":
-		return "America/Winnipeg"
+		return Location{"Gillam", "America/Winnipeg"}
 	case "YGZ":
-		return "America/Iqaluit"
+		return Location{"Grise Fiord", "America/Iqaluit"}
 	case "YHA":
-		return "America/St_Johns"
+		return Location{"Port Hope Simpson", "America/St_Johns"}
 	case "YHD":
-		return "America/Rainy_River"
+		return Location{"Dryden", "America/Rainy_River"}
 	case "YHI":
-		return "America/Yellowknife"
+		return Location{"Ulukhaktok", "America/Yellowknife"}
 	case "YHK":
-		return "America/Cambridge_Bay"
+		return Location{"Gjoa Haven", "America/Cambridge_Bay"}
 	case "YHM":
-		return "America/Toronto"
+		return Location{"Hamilton", "America/Toronto"}
 	case "YHO":
-		return "America/Goose_Bay"
+		return Location{"Hopedale", "America/Goose_Bay"}
 	case "YHR":
-		return "America/Blanc-Sablon"
+		return Location{"Chevery", "America/Blanc-Sablon"}
 	case "YHU":
-		return "America/Toronto"
+		return Location{"Montreal", "America/Toronto"}
 	case "YHY":
-		return "America/Yellowknife"
+		return Location{"Hay River", "America/Yellowknife"}
 	case "YHZ":
-		return "America/Halifax"
+		return Location{"Halifax", "America/Halifax"}
 	case "YIA":
-		return "Asia/Jakarta"
+		return Location{"Yogyakarta", "Asia/Jakarta"}
 	case "YIF":
-		return "America/Blanc-Sablon"
+		return Location{"St-Augustin", "America/Blanc-Sablon"}
 	case "YIH":
-		return "Asia/Shanghai"
+		return Location{"Yichang", "Asia/Shanghai"}
 	case "YIK":
-		return "America/Iqaluit"
+		return Location{"Ivujivik", "America/Iqaluit"}
 	case "YIN":
-		return "Asia/Shanghai"
+		return Location{"Yining", "Asia/Shanghai"}
 	case "YIO":
-		return "America/Iqaluit"
+		return Location{"Pond Inlet", "America/Iqaluit"}
 	case "YIW":
-		return "Asia/Shanghai"
+		return Location{"Yiwu", "Asia/Shanghai"}
 	case "YKA":
-		return "America/Vancouver"
+		return Location{"Kamloops", "America/Vancouver"}
 	case "YKF":
-		return "America/Toronto"
+		return Location{"Kitchener", "America/Toronto"}
 	case "YKG":
-		return "America/Toronto"
+		return Location{"Kangirsuk", "America/Toronto"}
 	case "YKL":
-		return "America/Toronto"
+		return Location{"Schefferville", "America/Toronto"}
 	case "YKM":
-		return "America/Los_Angeles"
+		return Location{"Yakima", "America/Los_Angeles"}
 	case "YKO":
-		return "Europe/Istanbul"
+		return Location{"Yuksekova", "Europe/Istanbul"}
 	case "YKQ":
-		return "America/Toronto"
+		return Location{"Waskaganish", "America/Toronto"}
 	case "YKS":
-		return "Asia/Yakutsk"
+		return Location{"Yakutsk", "Asia/Yakutsk"}
 	case "YKU":
-		return "America/Toronto"
+		return Location{"Chisasibi", "America/Toronto"}
 	case "YLC":
-		return "America/Iqaluit"
+		return Location{"Kimmirut", "America/Iqaluit"}
 	case "YLE":
-		return "America/Yellowknife"
+		return Location{"Whati", "America/Yellowknife"}
 	case "YLL":
-		return "America/Edmonton"
+		return Location{"Lloydminster", "America/Edmonton"}
 	case "YLW":
-		return "America/Vancouver"
+		return Location{"Kelowna", "America/Vancouver"}
 	case "YMH":
-		return "America/St_Johns"
+		return Location{"Mary's Harbour", "America/St_Johns"}
 	case "YMM":
-		return "America/Edmonton"
+		return Location{"Fort McMurray", "America/Edmonton"}
 	case "YMN":
-		return "America/Goose_Bay"
+		return Location{"Makkovik", "America/Goose_Bay"}
 	case "YMO":
-		return "America/Nipigon"
+		return Location{"Moosonee", "America/Nipigon"}
 	case "YMT":
-		return "America/Toronto"
+		return Location{"Chibougamau", "America/Toronto"}
 	case "YNA":
-		return "America/Toronto"
+		return Location{"Natashquan", "America/Toronto"}
 	case "YNB":
-		return "Asia/Riyadh"
+		return Location{"", "Asia/Riyadh"}
 	case "YNC":
-		return "America/Toronto"
+		return Location{"Wemindji", "America/Toronto"}
 	case "YNJ":
-		return "Asia/Shanghai"
+		return Location{"Yanji", "Asia/Shanghai"}
 	case "YNL":
-		return "America/Regina"
+		return Location{"Points North Landing", "America/Regina"}
 	case "YNO":
-		return "America/Rainy_River"
+		return Location{"North Spirit Lake", "America/Rainy_River"}
 	case "YNS":
-		return "America/Toronto"
+		return Location{"Nemiscau", "America/Toronto"}
 	case "YNT":
-		return "Asia/Shanghai"
+		return Location{"Yantai", "Asia/Shanghai"}
 	case "YNY":
-		return "Asia/Seoul"
+		return Location{"Sokcho / Gangneung", "Asia/Seoul"}
 	case "YNZ":
-		return "Asia/Shanghai"
+		return Location{"Yancheng", "Asia/Shanghai"}
 	case "YOC":
-		return "America/Dawson"
+		return Location{"Old Crow", "America/Dawson"}
 	case "YOJ":
-		return "America/Edmonton"
+		return Location{"High Level", "America/Edmonton"}
 	case "YOL":
-		return "Africa/Lagos"
+		return Location{"Yola", "Africa/Lagos"}
 	case "YOW":
-		return "America/Toronto"
+		return Location{"Ottawa", "America/Toronto"}
 	case "YPA":
-		return "America/Regina"
+		return Location{"Prince Albert", "America/Regina"}
 	case "YPH":
-		return "America/Toronto"
+		return Location{"Inukjuak", "America/Toronto"}
 	case "YPJ":
-		return "America/Toronto"
+		return Location{"Aupaluk", "America/Toronto"}
 	case "YPM":
-		return "America/Rainy_River"
+		return Location{"Pikangikum", "America/Rainy_River"}
 	case "YPN":
-		return "America/Toronto"
+		return Location{"Port-Menier", "America/Toronto"}
 	case "YPO":
-		return "America/Nipigon"
+		return Location{"Peawanuck", "America/Nipigon"}
 	case "YPR":
-		return "America/Vancouver"
+		return Location{"Prince Rupert", "America/Vancouver"}
 	case "YPW":
-		return "America/Vancouver"
+		return Location{"Powell River", "America/Vancouver"}
 	case "YPX":
-		return "America/Toronto"
+		return Location{"Puvirnituq", "America/Toronto"}
 	case "YPY":
-		return "America/Edmonton"
+		return Location{"Fort Chipewyan", "America/Edmonton"}
 	case "YQB":
-		return "America/Toronto"
+		return Location{"Quebec", "America/Toronto"}
 	case "YQC":
-		return "America/Iqaluit"
+		return Location{"Quaqtaq", "America/Iqaluit"}
 	case "YQD":
-		return "America/Winnipeg"
+		return Location{"The Pas", "America/Winnipeg"}
 	case "YQG":
-		return "America/Toronto"
+		return Location{"Windsor", "America/Toronto"}
 	case "YQK":
-		return "America/Rainy_River"
+		return Location{"Kenora", "America/Rainy_River"}
 	case "YQL":
-		return "America/Edmonton"
+		return Location{"Lethbridge", "America/Edmonton"}
 	case "YQM":
-		return "America/Moncton"
+		return Location{"Moncton", "America/Moncton"}
 	case "YQQ":
-		return "America/Vancouver"
+		return Location{"Comox", "America/Vancouver"}
 	case "YQR":
-		return "America/Regina"
+		return Location{"Regina", "America/Regina"}
 	case "YQT":
-		return "America/Thunder_Bay"
+		return Location{"Thunder Bay", "America/Thunder_Bay"}
 	case "YQU":
-		return "America/Edmonton"
+		return Location{"Grande Prairie", "America/Edmonton"}
 	case "YQX":
-		return "America/St_Johns"
+		return Location{"Gander", "America/St_Johns"}
 	case "YQY":
-		return "America/Glace_Bay"
+		return Location{"Sydney", "America/Glace_Bay"}
 	case "YQZ":
-		return "America/Vancouver"
+		return Location{"Quesnel", "America/Vancouver"}
 	case "YRA":
-		return "America/Yellowknife"
+		return Location{"Gameti", "America/Yellowknife"}
 	case "YRB":
-		return "America/Resolute"
+		return Location{"Resolute Bay", "America/Resolute"}
 	case "YRF":
-		return "America/Goose_Bay"
+		return Location{"Cartwright", "America/Goose_Bay"}
 	case "YRG":
-		return "America/Goose_Bay"
+		return Location{"Rigolet", "America/Goose_Bay"}
 	case "YRL":
-		return "America/Rainy_River"
+		return Location{"Red Lake", "America/Rainy_River"}
 	case "YRT":
-		return "America/Rankin_Inlet"
+		return Location{"Rankin Inlet", "America/Rankin_Inlet"}
 	case "YSB":
-		return "America/Toronto"
+		return Location{"Sudbury", "America/Toronto"}
 	case "YSF":
-		return "America/Regina"
+		return Location{"Stony Rapids", "America/Regina"}
 	case "YSG":
-		return "America/Yellowknife"
+		return Location{"Lutselk'e", "America/Yellowknife"}
 	case "YSJ":
-		return "America/Moncton"
+		return Location{"Saint John", "America/Moncton"}
 	case "YSK":
-		return "America/Iqaluit"
+		return Location{"Sanikiluaq", "America/Iqaluit"}
 	case "YSM":
-		return "America/Edmonton"
+		return Location{"Fort Smith", "America/Edmonton"}
 	case "YTE":
-		return "America/Iqaluit"
+		return Location{"Cape Dorset", "America/Iqaluit"}
 	case "YTH":
-		return "America/Winnipeg"
+		return Location{"Thompson", "America/Winnipeg"}
 	case "YTQ":
-		return "America/Toronto"
+		return Location{"Tasiujaq", "America/Toronto"}
 	case "YTS":
-		return "America/Toronto"
+		return Location{"Timmins", "America/Toronto"}
 	case "YTZ":
-		return "America/Toronto"
+		return Location{"Toronto", "America/Toronto"}
 	case "YUD":
-		return "America/Iqaluit"
+		return Location{"Umiujaq", "America/Iqaluit"}
 	case "YUL":
-		return "America/Toronto"
+		return Location{"Montreal", "America/Toronto"}
 	case "YUM":
-		return "America/Phoenix"
+		return Location{"Yuma", "America/Phoenix"}
 	case "YUS":
-		return "Asia/Shanghai"
+		return Location{"Yushu", "Asia/Shanghai"}
 	case "YUT":
-		return "America/Rankin_Inlet"
+		return Location{"Repulse Bay", "America/Rankin_Inlet"}
 	case "YUX":
-		return "America/Iqaluit"
+		return Location{"Hall Beach", "America/Iqaluit"}
 	case "YUY":
-		return "America/Toronto"
+		return Location{"Rouyn-Noranda", "America/Toronto"}
 	case "YVB":
-		return "America/Toronto"
+		return Location{"Bonaventure", "America/Toronto"}
 	case "YVC":
-		return "America/Regina"
+		return Location{"La Ronge", "America/Regina"}
 	case "YVM":
-		return "America/Pangnirtung"
+		return Location{"Qikiqtarjuaq", "America/Pangnirtung"}
 	case "YVO":
-		return "America/Toronto"
+		return Location{"Val-d'Or", "America/Toronto"}
 	case "YVP":
-		return "America/Toronto"
+		return Location{"Kuujjuaq", "America/Toronto"}
 	case "YVQ":
-		return "America/Inuvik"
+		return Location{"Norman Wells", "America/Inuvik"}
 	case "YVR":
-		return "America/Vancouver"
+		return Location{"Vancouver", "America/Vancouver"}
 	case "YVZ":
-		return "America/Rainy_River"
+		return Location{"Deer Lake", "America/Rainy_River"}
 	case "YWB":
-		return "America/Toronto"
+		return Location{"Kangiqsujuaq", "America/Toronto"}
 	case "YWG":
-		return "America/Winnipeg"
+		return Location{"Winnipeg", "America/Winnipeg"}
 	case "YWJ":
-		return "America/Inuvik"
+		return Location{"Deline", "America/Inuvik"}
 	case "YWK":
-		return "America/Goose_Bay"
+		return Location{"Wabush", "America/Goose_Bay"}
 	case "YWL":
-		return "America/Vancouver"
+		return Location{"Williams Lake", "America/Vancouver"}
 	case "YXC":
-		return "America/Edmonton"
+		return Location{"Cranbrook", "America/Edmonton"}
 	case "YXE":
-		return "America/Regina"
+		return Location{"Saskatoon", "America/Regina"}
 	case "YXH":
-		return "America/Edmonton"
+		return Location{"Medicine Hat", "America/Edmonton"}
 	case "YXJ":
-		return "America/Dawson_Creek"
+		return Location{"Fort St.John", "America/Dawson_Creek"}
 	case "YXL":
-		return "America/Rainy_River"
+		return Location{"Sioux Lookout", "America/Rainy_River"}
 	case "YXN":
-		return "America/Rankin_Inlet"
+		return Location{"Whale Cove", "America/Rankin_Inlet"}
 	case "YXP":
-		return "America/Pangnirtung"
+		return Location{"Pangnirtung", "America/Pangnirtung"}
 	case "YXS":
-		return "America/Vancouver"
+		return Location{"Prince George", "America/Vancouver"}
 	case "YXT":
-		return "America/Vancouver"
+		return Location{"Terrace", "America/Vancouver"}
 	case "YXU":
-		return "America/Toronto"
+		return Location{"London", "America/Toronto"}
 	case "YXX":
-		return "America/Los_Angeles"
+		return Location{"Abbotsford", "America/Los_Angeles"}
 	case "YXY":
-		return "America/Whitehorse"
+		return Location{"Whitehorse", "America/Whitehorse"}
 	case "YYB":
-		return "America/Toronto"
+		return Location{"North Bay", "America/Toronto"}
 	case "YYC":
-		return "America/Edmonton"
+		return Location{"Calgary", "America/Edmonton"}
 	case "YYD":
-		return "America/Vancouver"
+		return Location{"Smithers", "America/Vancouver"}
 	case "YYE":
-		return "America/Fort_Nelson"
+		return Location{"Fort Nelson", "America/Fort_Nelson"}
 	case "YYF":
-		return "America/Vancouver"
+		return Location{"Penticton", "America/Vancouver"}
 	case "YYG":
-		return "America/Halifax"
+		return Location{"Charlottetown", "America/Halifax"}
 	case "YYH":
-		return "America/Cambridge_Bay"
+		return Location{"Taloyoak", "America/Cambridge_Bay"}
 	case "YYJ":
-		return "America/Vancouver"
+		return Location{"Victoria", "America/Vancouver"}
 	case "YYQ":
-		return "America/Winnipeg"
+		return Location{"Churchill", "America/Winnipeg"}
 	case "YYR":
-		return "America/Goose_Bay"
+		return Location{"Goose Bay", "America/Goose_Bay"}
 	case "YYT":
-		return "America/St_Johns"
+		return Location{"St. John's", "America/St_Johns"}
 	case "YYY":
-		return "America/Toronto"
+		return Location{"Mont-Joli", "America/Toronto"}
 	case "YYZ":
-		return "America/Toronto"
+		return Location{"Toronto", "America/Toronto"}
 	case "YZF":
-		return "America/Yellowknife"
+		return Location{"Yellowknife", "America/Yellowknife"}
 	case "YZG":
-		return "America/Toronto"
+		return Location{"Salluit", "America/Toronto"}
 	case "YZP":
-		return "America/Vancouver"
+		return Location{"Sandspit", "America/Vancouver"}
 	case "YZS":
-		return "America/Atikokan"
+		return Location{"Coral Harbour", "America/Atikokan"}
 	case "YZT":
-		return "America/Vancouver"
+		return Location{"Port Hardy", "America/Vancouver"}
 	case "YZV":
-		return "America/Toronto"
+		return Location{"Sept-Iles", "America/Toronto"}
 	case "YZY":
-		return "America/Vancouver"
+		return Location{"Mackenzie", "America/Vancouver"}
 	case "YZZ":
-		return "America/Vancouver"
+		return Location{"Trail", "America/Vancouver"}
 	case "ZAD":
-		return "Europe/Zagreb"
+		return Location{"Zadar", "Europe/Zagreb"}
 	case "ZAG":
-		return "Europe/Zagreb"
+		return Location{"Zagreb", "Europe/Zagreb"}
 	case "ZAH":
-		return "Asia/Tehran"
+		return Location{"Zahedan", "Asia/Tehran"}
 	case "ZAL":
-		return "America/Santiago"
+		return Location{"Valdivia", "America/Santiago"}
 	case "ZAM":
-		return "Asia/Manila"
+		return Location{"Zamboanga City", "Asia/Manila"}
 	case "ZAT":
-		return "Asia/Shanghai"
+		return Location{"Zhaotong", "Asia/Shanghai"}
 	case "ZAZ":
-		return "Europe/Madrid"
+		return Location{"Zaragoza", "Europe/Madrid"}
 	case "ZBF":
-		return "America/Moncton"
+		return Location{"Bathurst", "America/Moncton"}
 	case "ZBR":
-		return "Asia/Tehran"
+		return Location{"Chabahar", "Asia/Tehran"}
 	case "ZBY":
-		return "Asia/Vientiane"
+		return Location{"Sayaboury", "Asia/Vientiane"}
 	case "ZCL":
-		return "America/Mexico_City"
+		return Location{"Zacatecas", "America/Mexico_City"}
 	case "ZCO":
-		return "America/Santiago"
+		return Location{"Temuco", "America/Santiago"}
 	case "ZEL":
-		return "America/Vancouver"
+		return Location{"Bella Bella", "America/Vancouver"}
 	case "ZEM":
-		return "America/Toronto"
+		return Location{"Eastmain River", "America/Toronto"}
 	case "ZFD":
-		return "America/Regina"
+		return Location{"Fond-Du-Lac", "America/Regina"}
 	case "ZFN":
-		return "America/Inuvik"
+		return Location{"Tulita", "America/Inuvik"}
 	case "ZGU":
-		return "Pacific/Efate"
+		return Location{"Gaua Island", "Pacific/Efate"}
 	case "ZHA":
-		return "Asia/Shanghai"
+		return Location{"Zhanjiang", "Asia/Shanghai"}
 	case "ZHY":
-		return "Asia/Shanghai"
+		return Location{"Zhongwei", "Asia/Shanghai"}
 	case "ZIA":
-		return "Europe/Rome"
+		return Location{"Trento", "Europe/Rome"}
 	case "ZIG":
-		return "Africa/Dakar"
+		return Location{"Ziguinchor", "Africa/Dakar"}
 	case "ZIH":
-		return "America/Mexico_City"
+		return Location{"Ixtapa", "America/Mexico_City"}
 	case "ZIX":
-		return "Asia/Yakutsk"
+		return Location{"Zhigansk", "Asia/Yakutsk"}
 	case "ZKE":
-		return "America/Nipigon"
+		return Location{"Kashechewan", "America/Nipigon"}
 	case "ZKP":
-		return "Africa/Lusaka"
+		return Location{"Kasompe", "Africa/Lusaka"}
 	case "ZLO":
-		return "America/Mexico_City"
+		return Location{"Manzanillo", "America/Mexico_City"}
 	case "ZLT":
-		return "America/Blanc-Sablon"
+		return Location{"La Tabatiere", "America/Blanc-Sablon"}
 	case "ZMT":
-		return "America/Vancouver"
+		return Location{"Masset", "America/Vancouver"}
 	case "ZNE":
-		return "Australia/Perth"
+		return Location{"Newman", "Australia/Perth"}
 	case "ZNZ":
-		return "Africa/Dar_es_Salaam"
+		return Location{"Kiembi Samaki", "Africa/Dar_es_Salaam"}
 	case "ZOS":
-		return "America/Santiago"
+		return Location{"Osorno", "America/Santiago"}
 	case "ZPB":
-		return "America/Rainy_River"
+		return Location{"Sachigo Lake", "America/Rainy_River"}
 	case "ZQN":
-		return "Pacific/Auckland"
+		return Location{"Queenstown", "Pacific/Auckland"}
 	case "ZRH":
-		return "Europe/Zurich"
+		return Location{"Zurich", "Europe/Zurich"}
 	case "ZSA":
-		return "America/Nassau"
+		return Location{"San Salvador", "America/Nassau"}
 	case "ZSE":
-		return "Indian/Reunion"
+		return Location{"St Pierre", "Indian/Reunion"}
 	case "ZSJ":
-		return "America/Rainy_River"
+		return Location{"Sandy Lake", "America/Rainy_River"}
 	case "ZTA":
-		return "Pacific/Tahiti"
+		return Location{"", "Pacific/Tahiti"}
 	case "ZTB":
-		return "America/Blanc-Sablon"
+		return Location{"Tete-a-la-Baleine", "America/Blanc-Sablon"}
 	case "ZTH":
-		return "Europe/Athens"
+		return Location{"Zakynthos Island", "Europe/Athens"}
 	case "ZUH":
-		return "Asia/Shanghai"
+		return Location{"Zhuhai", "Asia/Shanghai"}
 	case "ZUM":
-		return "America/Goose_Bay"
+		return Location{"Churchill Falls", "America/Goose_Bay"}
 	case "ZVK":
-		return "Asia/Bangkok"
+		return Location{"", "Asia/Bangkok"}
 	case "ZWL":
-		return "America/Regina"
+		return Location{"Wollaston Lake", "America/Regina"}
 	case "ZYI":
-		return "Asia/Shanghai"
+		return Location{"Zunyi", "Asia/Shanghai"}
 	case "ZYL":
-		return "Asia/Dhaka"
+		return Location{"Sylhet", "Asia/Dhaka"}
 	}
-	return "Not supported IATA Code"
+	return Location{"Not supported IATA Code", "Not supported IATA Code"}
 }

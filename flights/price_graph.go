@@ -73,7 +73,7 @@ func (s *Session) doRequestPriceGraph(ctx context.Context, args PriceGraphArgs) 
 	req.Header.Set("pragma", `no-cache`)
 	req.Header.Set("user-agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36`)
 	req.Header.Set("x-goog-ext-259736195-jspb",
-		fmt.Sprintf(`["en-US","PL","%s",1,null,[-120],null,[[48764689,47907128,48676280,48710756,48627726,48480739,48593234,48707380]],1,[]]`, args.Currency))
+		fmt.Sprintf(`["en-US","US","%s",1,null,[-120],null,[[48764689,47907128,48676280,48710756,48627726,48480739,48593234,48707380]],1,[]]`, args.Currency))
 
 	return s.client.Do(req)
 }
