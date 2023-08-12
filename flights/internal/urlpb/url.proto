@@ -1,0 +1,58 @@
+syntax = "proto3";
+package urlpb;
+
+option go_package = "github.com/krisukox/google-flights-api/flights/internal/urlpb";
+
+message Url {
+    enum Stops {
+        NONSTOP = 0;
+        STOP1 = 1;
+        STOP2 = 2;
+    }
+
+    enum LocationType {
+        UNSPECIFIED_L = 0;
+        AIRPORT = 1;
+        CITY = 2;
+    }
+
+    message Location {
+        LocationType type = 1;
+        string name = 2;
+    }
+
+    message Flight {
+        string date = 2;
+        optional Stops stops = 5;
+        repeated Location srcLocations = 13;
+        repeated Location dstLocations = 14;
+    }
+
+    enum Traveler {
+        UNSPECIFIED_T = 0;
+        ADULT = 1;
+        CHILD = 2;
+        INFANT_ON_LAP = 3;
+        INFANT_IN_SEAT = 4;
+    }
+
+    enum Class {
+        UNSPECIFIED_CLASS = 0;
+        ECONOMY = 1;
+        PREMIUM_ECONOMY = 2;
+        BUSINESS = 3;
+        FIRST = 4;
+    }
+
+
+    enum TripType {
+        UNSPECIFIED_TRIP = 0;
+        ROUND_TRIP = 1;
+        ONE_WAY = 2;
+    }
+
+    repeated Flight flight = 3;
+    repeated Traveler travelers = 8;
+    Class class = 9;
+    TripType tripType = 19;
+}

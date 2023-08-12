@@ -46,10 +46,10 @@ func abbrCitySchema(city, abbrCity *string) *[][][][]interface{} {
 	return &[][][][]interface{}{{{{nil, nil, city, nil, abbrCity}}}}
 }
 
-// AbbrCity serializes the city name by requesting it from the Google Flight API. The city name should
+// AbbrCity serializes the city name by requesting it from the Google Flights API. The city name should
 // be provided in the language described by [language.Tag].
 //
-// AbbrCity returns an error if the city name is misspelled.
+// AbbrCity returns an error if the city name is misspelled or the Google Flights API returns an unexpected response.
 func (s *Session) AbbrCity(city string, lang language.Tag) (string, error) {
 	if abbrCity, ok := s.Cities.Load(city); ok {
 		return abbrCity, nil
@@ -104,7 +104,10 @@ func iataCodeSchema(iataCode *string) *[][][][]interface{} {
 	return &[][][][]interface{}{{{{nil, nil, nil, nil, nil, iataCode}}}}
 }
 
-func (s *Session) IsSupportedIATA(iataCode string) (bool, error) {
+// IsIATASupported checks whether the provided IATA code is supported by the Google Flights API.
+//
+// IsIATASupported returns an error if the Google Flights API returns an unexpected response.
+func (s *Session) IsIATASupported(iataCode string) (bool, error) {
 	resp, err := s.doRequestLocation(iataCode, language.English)
 	if err != nil {
 		return false, err
@@ -124,7 +127,7 @@ func (s *Session) IsSupportedIATA(iataCode string) (bool, error) {
 
 	err = json.Unmarshal(bytesToDecode, iataCodeSchema(&receivedIataCode))
 	if err != nil {
-		return false, fmt.Errorf("isSupportedIATA error during decoding: %v", err)
+		return false, fmt.Errorf("IsIATASupported error during decoding: %v", err)
 	}
 
 	return iataCode == receivedIataCode, nil

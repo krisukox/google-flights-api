@@ -64,4 +64,33 @@ jobs:
         run: time go run ./iata/generate/generate.go
 
       - name: Check for changes
-        run: test -z "$(git status --porcelain)"
+        run: git diff
+
+  proto:
+    name: Test proto generation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Set up toolchain
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.20.1
+        id: go
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Setup protocol buffer compiler
+        run: |
+          sudo apt-get install protobuf-compiler
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+      - name: Generate proto
+        run: go generate ./...
+
+      - name: Check for changes
+        run: |
+          if [ ! -z "$(git status --porcelain)" ]
+          then
+            git diff
+            exit 1
+          fi

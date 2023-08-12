@@ -83,7 +83,7 @@ func main() {
 
 		go func(iata, tz string) {
 			defer wg.Done()
-			ok, err := session.IsSupportedIATA(iata)
+			ok, err := session.IsIATASupported(iata)
 			if err != nil {
 				out <- result{err: err}
 			}
@@ -101,9 +101,9 @@ func main() {
 	}()
 
 	iataFileContent := fmt.Sprintf(
-		`// Package iata contains IATA airport codes, which are supported by the Google Flight API, along with time zones.
+		`// Package iata contains IATA airport codes, which are supported by the Google Flights API, along with time zones.
 // This package was generated using an airport list (which can be found at this address: [airports.json])
-// and the Google Flight API.
+// and the Google Flights API.
 //
 // Command: go run ./iata/generate/generate.go
 //

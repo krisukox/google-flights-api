@@ -6,7 +6,7 @@ This project is a Go client library for the Google Flights API. The client produ
 
 The Google Flights API doesn't have official documentation, so the project relies on analyzing how the [Google Flights website](https://www.google.com/travel/flights/) communicates with the backend.
 
-The project uses [go-retryablehttp](https://github.com/hashicorp/go-retryablehttp) under the hood. Every request to the Google Flight API is retried five times in case of an error.
+The project uses [go-retryablehttp](https://github.com/hashicorp/go-retryablehttp) under the hood. Every request to the Google Flights API is retried five times in case of an error.
 
 ## Installation
 

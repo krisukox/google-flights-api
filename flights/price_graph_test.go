@@ -27,7 +27,7 @@ func TestGetPriceGraphReal(t *testing.T) {
 			time.Now().AddDate(0, 0, daysDiff2),
 			7,
 			[]string{"London"}, []string{}, []string{"Paris"}, []string{},
-			Args{1, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+			Args{Travelers{Adults: 1}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
 		})
 
 	if err != nil {
@@ -75,7 +75,7 @@ func TestGetPriceGraph(t *testing.T) {
 			time.Now().AddDate(0, 0, 5),
 			0,
 			[]string{"Athens"}, []string{}, []string{"Warsaw"}, []string{},
-			Args{0, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+			Args{Travelers{}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
 		},
 	)
 	if err != nil {
@@ -121,7 +121,7 @@ func TestPriceGraphReqData(t *testing.T) {
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{1, currency.USD, AnyStops, Economy, RoundTrip, language.English},
+			Args{Travelers{Adults: 1}, currency.USD, AnyStops, Economy, RoundTrip, language.English},
 		})
 	if err != nil {
 		t.Fatal(err)
@@ -145,7 +145,7 @@ func TestPriceGraphReqData(t *testing.T) {
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{2, currency.USD, Stop2, Business, OneWay, language.English},
+			Args{Travelers{Adults: 2}, currency.USD, Stop2, Business, OneWay, language.English},
 		})
 	if err != nil {
 		t.Fatal(err)

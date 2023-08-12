@@ -67,12 +67,12 @@ func ExampleSession_GetOffers() {
 			SrcCities:  []string{"Madrid"},
 			DstCities:  []string{"Estocolmo"},
 			Args: flights.Args{
-				Adults:   2,
-				Currency: currency.EUR,
-				Stops:    flights.Stop1,
-				Class:    flights.Economy,
-				TripType: flights.RoundTrip,
-				Lang:     language.Spanish,
+				Travelers: flights.Travelers{Adults: 2},
+				Currency:  currency.EUR,
+				Stops:     flights.Stop1,
+				Class:     flights.Economy,
+				TripType:  flights.RoundTrip,
+				Lang:      language.Spanish,
 			},
 		},
 	)
