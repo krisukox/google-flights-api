@@ -1,6 +1,7 @@
 package flights
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -20,6 +21,7 @@ func TestSerializeURL1(t *testing.T) {
 	returnDate, _ := time.Parse("2006-01-02", "2023-11-13")
 
 	url, err := session.SerializeURL(
+		context.Background(),
 		URLArgs{
 			date,
 			returnDate,
@@ -52,6 +54,7 @@ func TestSerializeURL2(t *testing.T) {
 	returnDate, _ := time.Parse("2006-01-02", "2023-12-20")
 
 	url, err := session.SerializeURL(
+		context.Background(),
 		URLArgs{
 			date,
 			returnDate,

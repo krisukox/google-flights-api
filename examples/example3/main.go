@@ -4,6 +4,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -34,6 +35,7 @@ func getCheapOffersConcurrent(
 	}
 
 	priceGraphOffers, err := session.GetPriceGraph(
+		context.Background(),
 		flights.PriceGraphArgs{
 			RangeStartDate: rangeStartDate,
 			RangeEndDate:   rangeEndDate,
@@ -54,6 +56,7 @@ func getCheapOffersConcurrent(
 		go func(offer flights.Offer) {
 			defer wg.Done()
 			offers, _, err := session.GetOffers(
+				context.Background(),
 				flights.OffersArgs{
 					Date:       offer.StartDate,
 					ReturnDate: offer.ReturnDate,
@@ -74,6 +77,7 @@ func getCheapOffersConcurrent(
 			}
 
 			_, priceRange, err := session.GetOffers(
+				context.Background(),
 				flights.OffersArgs{
 					Date:        bestOffer.StartDate,
 					ReturnDate:  bestOffer.ReturnDate,
@@ -91,6 +95,7 @@ func getCheapOffersConcurrent(
 
 			if bestOffer.Price < priceRange.Low {
 				url, err := session.SerializeURL(
+					context.Background(),
 					flights.URLArgs{
 						Date:        bestOffer.StartDate,
 						ReturnDate:  bestOffer.ReturnDate,
@@ -112,12 +117,12 @@ func getCheapOffersConcurrent(
 }
 
 func main() {
+	t := time.Now()
+
 	session, err := flights.New()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	t := time.Now()
 
 	getCheapOffersConcurrent(
 		session,

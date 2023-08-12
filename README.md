@@ -26,6 +26,7 @@ Find the cheapest flights from San Francisco to New York. The call uses the "Pri
 #### Google Flights API:
 ```
 offers, err := session.GetPriceGraph(
+    context.Background(),
     flights.PriceGraphArgs{
         RangeStartDate: time.Now().AddDate(0, 0, 30),
         RangeEndDate:   time.Now().AddDate(0, 0, 60),
@@ -52,6 +53,7 @@ Example output:
 ### 2. Serialize URL
 ```
 url, err := session.SerializeURL(
+    context.Background(),
     flights.URLArgs{
         Date:        time.Now().AddDate(0, 0, 30),
         ReturnDate:  time.Now().AddDate(0, 0, 37),
@@ -75,6 +77,7 @@ https://www.google.com/travel/flights/search?tfs=CBwQAhpAEgoyMDIzLTA4LTMxagwIAxI
 The call below uses Spanish city names:
 ```
 offers, priceRange, err := session.GetOffers(
+    context.Background(),
     flights.OffersArgs{
         Date:       time.Now().AddDate(0, 0, 30),
         ReturnDate: time.Now().AddDate(0, 0, 37),

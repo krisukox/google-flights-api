@@ -3,6 +3,7 @@ package flights
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -29,12 +30,12 @@ func serializeTripType(tripType TripType) byte {
 	return 2
 }
 
-func (s *Session) getRawData(args OffersArgs) (string, error) {
-	serSrcs, err := s.serializeFlightLocations(args.SrcCities, args.SrcAirports, args.Lang)
+func (s *Session) getRawData(ctx context.Context, args OffersArgs) (string, error) {
+	serSrcs, err := s.serializeFlightLocations(ctx, args.SrcCities, args.SrcAirports, args.Lang)
 	if err != nil {
 		return "", err
 	}
-	serDsts, err := s.serializeFlightLocations(args.DstCities, args.DstAirports, args.Lang)
+	serDsts, err := s.serializeFlightLocations(ctx, args.DstCities, args.DstAirports, args.Lang)
 	if err != nil {
 		return "", err
 	}
@@ -64,8 +65,8 @@ func (s *Session) getRawData(args OffersArgs) (string, error) {
 	return rawData, nil
 }
 
-func (s *Session) serializeFlightLocations(cities []string, airports []string, Lang language.Tag) (string, error) {
-	abbrCities, err := s.abbrCities(cities, Lang)
+func (s *Session) serializeFlightLocations(ctx context.Context, cities []string, airports []string, Lang language.Tag) (string, error) {
+	abbrCities, err := s.abbrCities(ctx, cities, Lang)
 	if err != nil {
 		return "", err
 	}
@@ -110,8 +111,8 @@ func serializeFlightClass(Class Class) string {
 	return "4"
 }
 
-func (s *Session) getFlightReqData(args OffersArgs) (string, error) {
-	rawData, err := s.getRawData(args)
+func (s *Session) getFlightReqData(ctx context.Context, args OffersArgs) (string, error) {
+	rawData, err := s.getRawData(ctx, args)
 	if err != nil {
 		return "", err
 	}
@@ -126,10 +127,10 @@ func (s *Session) getFlightReqData(args OffersArgs) (string, error) {
 	return url.QueryEscape(reqData), nil
 }
 
-func (s *Session) doRequestFlights(args OffersArgs) (*http.Response, error) {
+func (s *Session) doRequestFlights(ctx context.Context, args OffersArgs) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	reqDate, err := s.getFlightReqData(args)
+	reqDate, err := s.getFlightReqData(ctx, args)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +139,7 @@ func (s *Session) doRequestFlights(args OffersArgs) (*http.Response, error) {
 		`f.req=` + reqDate +
 			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
-	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
+	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}
@@ -316,7 +317,7 @@ func getSectionOffers(bytesToDecode []byte, returnDate time.Time) ([]FullOffer, 
 // GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
 // Requirements are described by the [OffersArgs.Validate] function.
-func (s *Session) GetOffers(args OffersArgs) ([]FullOffer, *PriceRange, error) {
+func (s *Session) GetOffers(ctx context.Context, args OffersArgs) ([]FullOffer, *PriceRange, error) {
 	if err := args.Validate(); err != nil {
 		return nil, nil, err
 	}
@@ -324,7 +325,7 @@ func (s *Session) GetOffers(args OffersArgs) ([]FullOffer, *PriceRange, error) {
 	finalOffers := []FullOffer{}
 	var finalPriceRange *PriceRange
 
-	resp, err := s.doRequestFlights(args)
+	resp, err := s.doRequestFlights(ctx, args)
 	if err != nil {
 		return nil, nil, err
 	}

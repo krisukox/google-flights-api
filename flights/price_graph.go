@@ -3,6 +3,7 @@ package flights
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,8 +14,9 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 )
 
-func (s *Session) getPriceGraphRawData(args PriceGraphArgs) (string, error) {
+func (s *Session) getPriceGraphRawData(ctx context.Context, args PriceGraphArgs) (string, error) {
 	return s.getRawData(
+		ctx,
 		OffersArgs{
 			Date:        args.RangeStartDate,
 			ReturnDate:  args.RangeStartDate.AddDate(0, 0, args.TripLength),
@@ -27,11 +29,11 @@ func (s *Session) getPriceGraphRawData(args PriceGraphArgs) (string, error) {
 	)
 }
 
-func (s *Session) getPriceGraphReqData(args PriceGraphArgs) (string, error) {
+func (s *Session) getPriceGraphReqData(ctx context.Context, args PriceGraphArgs) (string, error) {
 	serializedRangeStartDate := args.RangeStartDate.Format("2006-01-02")
 	serializedRangeEndDate := args.RangeEndDate.Format("2006-01-02")
 
-	rawData, err := s.getPriceGraphRawData(args)
+	rawData, err := s.getPriceGraphRawData(ctx, args)
 	if err != nil {
 		return "", err
 	}
@@ -47,10 +49,10 @@ func (s *Session) getPriceGraphReqData(args PriceGraphArgs) (string, error) {
 	return url.QueryEscape(reqData), nil
 }
 
-func (s *Session) doRequestPriceGraph(args PriceGraphArgs) (*http.Response, error) {
+func (s *Session) doRequestPriceGraph(ctx context.Context, args PriceGraphArgs) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetCalendarGraph?f.sid=-8920707734915550076&bl=boq_travel-frontend-ui_20230627.07_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=261464&rt=c"
 
-	reqDate, err := s.getPriceGraphReqData(args)
+	reqDate, err := s.getPriceGraphReqData(ctx, args)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +61,7 @@ func (s *Session) doRequestPriceGraph(args PriceGraphArgs) (*http.Response, erro
 		`f.req=` + reqDate +
 			`&at=AAuQa1oq5qIkgkQ2nG9vQZFTgSME%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
-	req, err := retryablehttp.NewRequest(http.MethodPost, url, bytes.NewReader(jsonBody))
+	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}
@@ -122,14 +124,14 @@ func getPriceGraphSection(bytesToDecode []byte) ([]Offer, error) {
 // GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
 // Requirements are described by the [PriceGraphArgs.Validate] function.
-func (s *Session) GetPriceGraph(args PriceGraphArgs) ([]Offer, error) {
+func (s *Session) GetPriceGraph(ctx context.Context, args PriceGraphArgs) ([]Offer, error) {
 	if err := args.Validate(); err != nil {
 		return nil, err
 	}
 
 	offers := []Offer{}
 
-	resp, err := s.doRequestPriceGraph(args)
+	resp, err := s.doRequestPriceGraph(ctx, args)
 	if err != nil {
 		return nil, err
 	}

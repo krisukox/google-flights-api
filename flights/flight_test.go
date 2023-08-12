@@ -1,6 +1,7 @@
 package flights
 
 import (
+	"context"
 	"math"
 	"net/url"
 	"testing"
@@ -27,6 +28,7 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	returnDate := time.Now().AddDate(0, 7, 0)
 
 	offersPLN, _, err := session.GetOffers(
+		context.Background(),
 		OffersArgs{
 			date,
 			returnDate,
@@ -43,6 +45,7 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	}
 
 	offersUSD, _, err := session.GetOffers(
+		context.Background(),
 		OffersArgs{
 			date,
 			returnDate,
@@ -58,6 +61,10 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	}
 
 	elemsNumber := min(len(offersPLN), len(offersUSD))
+
+	if elemsNumber < 2 {
+		t.Fatalf("not enough elements: %d", elemsNumber)
+	}
 
 	less := func(lv, rv FullOffer) bool {
 		return lv.Price < rv.Price
@@ -154,6 +161,7 @@ func TestGetOffers(t *testing.T) {
 	}
 
 	offers, priceRange, err := session.GetOffers(
+		context.Background(),
 		OffersArgs{
 			dummyTime,
 			returnDate,
@@ -214,6 +222,7 @@ func TestFlightReqData(t *testing.T) {
 	}
 
 	_reqData1, err := session.getFlightReqData(
+		context.Background(),
 		OffersArgs{
 			date,
 			returnDate,
@@ -238,6 +247,7 @@ func TestFlightReqData(t *testing.T) {
 	}
 
 	_reqData2, err := session.getFlightReqData(
+		context.Background(),
 		OffersArgs{
 			date,
 			returnDate,
