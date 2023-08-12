@@ -13,8 +13,10 @@ import (
 type Flight struct {
 	DepAirportCode string        // departure airport code
 	DepAirportName string        // departure airport name
+	DepCity        string        // departure city
 	ArrAirportName string        // arrival airport name
 	ArrAirportCode string        // arrival airport code
+	ArrCity        string        // arrival city
 	DepTime        time.Time     // departure time
 	ArrTime        time.Time     // arrival time
 	Duration       time.Duration // duration of the flight

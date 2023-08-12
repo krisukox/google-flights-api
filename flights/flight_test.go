@@ -115,8 +115,10 @@ func TestGetOffers(t *testing.T) {
 		Flight: []Flight{{
 			DepAirportCode: "WAW",
 			DepAirportName: "Warsaw Chopin Airport",
+			DepCity:        "Warsaw",
 			ArrAirportName: "Munich International Airport",
 			ArrAirportCode: "MUC",
+			ArrCity:        "Munich",
 			DepTime:        t1,
 			ArrTime:        t2,
 			Duration:       d1,
@@ -127,8 +129,10 @@ func TestGetOffers(t *testing.T) {
 		}, {
 			DepAirportCode: "MUC",
 			DepAirportName: "Munich International Airport",
+			DepCity:        "Munich",
 			ArrAirportName: `Athens International Airport "Eleftherios Venizelos"`,
 			ArrAirportCode: "ATH",
+			ArrCity:        "Athens",
 			DepTime:        t3,
 			ArrTime:        t4,
 			Duration:       d2,
@@ -140,8 +144,8 @@ func TestGetOffers(t *testing.T) {
 		ReturnFlight:   []Flight{},
 		SrcAirportCode: "WAW",
 		DstAirportCode: "ATH",
-		SrcCity:        "",
-		DstCity:        "",
+		SrcCity:        "Warsaw",
+		DstCity:        "Athens",
 		FlightDuration: d3,
 	}
 	expectedPriceRange := PriceRange{1300, 2300}
