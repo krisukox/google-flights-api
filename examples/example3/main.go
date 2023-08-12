@@ -49,6 +49,8 @@ func getCheapOffersConcurrent(
 		logger.Fatal(err)
 	}
 
+	errCh := make(chan error)
+
 	var wg sync.WaitGroup
 	wg.Add(len(priceGraphOffers))
 
@@ -113,7 +115,15 @@ func getCheapOffersConcurrent(
 			}
 		}(priceGraphOffer)
 	}
-	wg.Wait()
+
+	go func() {
+		wg.Wait()
+		close(errCh)
+	}()
+
+	if err, ok := <-errCh; ok {
+		log.Fatal(err)
+	}
 }
 
 func main() {
