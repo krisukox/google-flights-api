@@ -1,6 +1,7 @@
 package flights
 
 import (
+	"context"
 	"fmt"
 	"net/url"
 	"testing"
@@ -22,6 +23,7 @@ func TestGetPriceGraphReal(t *testing.T) {
 	expectedOffers := daysDiff2 - daysDiff1 + 1
 
 	offers, err := session.GetPriceGraph(
+		context.Background(),
 		PriceGraphArgs{
 			time.Now().AddDate(0, 0, daysDiff1),
 			time.Now().AddDate(0, 0, daysDiff2),
@@ -70,6 +72,7 @@ func TestGetPriceGraph(t *testing.T) {
 	}
 
 	offers, err := session.GetPriceGraph(
+		context.Background(),
 		PriceGraphArgs{
 			time.Now().AddDate(0, 0, 2),
 			time.Now().AddDate(0, 0, 5),
@@ -113,6 +116,7 @@ func TestPriceGraphReqData(t *testing.T) {
 	}
 
 	_reqData1, err := session.getPriceGraphReqData(
+		context.Background(),
 		PriceGraphArgs{
 			date,
 			returnDate,
@@ -137,6 +141,7 @@ func TestPriceGraphReqData(t *testing.T) {
 	}
 
 	_reqData2, err := session.getPriceGraphReqData(
+		context.Background(),
 		PriceGraphArgs{
 			date,
 			returnDate,

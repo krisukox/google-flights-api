@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -60,9 +61,7 @@ func main() {
 
 	out := make(chan result)
 	checked := map[string]struct{}{}
-
 	var wg sync.WaitGroup
-	wg.Add(len(airports))
 
 	caseTmpl := `	case "%s":
 		return "%s"
@@ -72,18 +71,21 @@ func main() {
 	for _, k := range keys {
 		a = airports[k]
 		if a.Iata == "" || a.Iata == "0" {
-			wg.Add(-1)
 			continue
 		}
 		if _, ok := checked[a.Iata]; ok {
-			wg.Add(-1)
 			continue
 		}
 		checked[a.Iata] = struct{}{}
 
+		wg.Add(1)
 		go func(iata, tz string) {
 			defer wg.Done()
-			ok, err := session.IsIATASupported(iata)
+
+			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+			defer cancel()
+
+			ok, err := session.IsIATASupported(ctx, iata)
 			if err != nil {
 				out <- result{err: err}
 			}

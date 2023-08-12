@@ -1,9 +1,9 @@
 package flights
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/krisukox/google-flights-api/flights/internal/urlpb"
@@ -74,19 +74,19 @@ func serializeTravelers(travelers Travelers) []urlpb.Url_Traveler {
 // GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
 // Requirements are described by the [URLArgs.Validate] function.
-func (s *Session) SerializeURL(args URLArgs) (string, error) {
+func (s *Session) SerializeURL(ctx context.Context, args URLArgs) (string, error) {
 	var err error
 
 	if err = args.Validate(); err != nil {
 		return "", err
 	}
 
-	args.SrcCities, err = s.abbrCities(args.SrcCities, args.Lang)
+	args.SrcCities, err = s.abbrCities(ctx, args.SrcCities, args.Lang)
 	if err != nil {
 		return "", err
 	}
 
-	args.DstCities, err = s.abbrCities(args.DstCities, args.Lang)
+	args.DstCities, err = s.abbrCities(ctx, args.DstCities, args.Lang)
 	if err != nil {
 		return "", err
 	}
@@ -101,15 +101,6 @@ func (s *Session) SerializeURL(args URLArgs) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("error during url serialization: %s", err)
 	}
-
-	fi, err := os.Create("res.bin")
-	if err != nil {
-		panic(err)
-	}
-
-	defer fi.Close()
-
-	fi.Write(tfs)
 
 	return "https://www.google.com/travel/flights/search" +
 		"?tfs=" + base64.RawURLEncoding.EncodeToString(tfs) +

@@ -1,6 +1,7 @@
 package flights_test
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -17,6 +18,7 @@ func ExampleSession_GetPriceGraph() {
 	}
 
 	offers, err := session.GetPriceGraph(
+		context.Background(),
 		flights.PriceGraphArgs{
 			RangeStartDate: time.Now().AddDate(0, 0, 30),
 			RangeEndDate:   time.Now().AddDate(0, 0, 60),
@@ -39,6 +41,7 @@ func ExampleSession_SerializeURL() {
 	}
 
 	url, err := session.SerializeURL(
+		context.Background(),
 		flights.URLArgs{
 			Date:        time.Now().AddDate(0, 0, 30),
 			ReturnDate:  time.Now().AddDate(0, 0, 37),
@@ -61,6 +64,7 @@ func ExampleSession_GetOffers() {
 	}
 
 	offers, priceRange, err := session.GetOffers(
+		context.Background(),
 		flights.OffersArgs{
 			Date:       time.Now().AddDate(0, 0, 30),
 			ReturnDate: time.Now().AddDate(0, 0, 37),
@@ -93,7 +97,7 @@ func ExampleSession_AbbrCity() {
 		log.Fatal(err)
 	}
 
-	city, err := session.AbbrCity("New York", language.English)
+	city, err := session.AbbrCity(context.Background(), "New York", language.English)
 	if err != nil {
 		log.Fatal(err)
 	}

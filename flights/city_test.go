@@ -1,6 +1,7 @@
 package flights
 
 import (
+	"context"
 	"testing"
 
 	"golang.org/x/text/language"
@@ -20,7 +21,7 @@ func TestAbbrCityEN(t *testing.T) {
 	cityA := "Athens"
 	cityB := "Warsaw"
 
-	a, err := session.AbbrCity(cityA, language.English)
+	a, err := session.AbbrCity(context.Background(), cityA, language.English)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -28,7 +29,7 @@ func TestAbbrCityEN(t *testing.T) {
 		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
 	}
 
-	w, err := session.AbbrCity(cityB, language.English)
+	w, err := session.AbbrCity(context.Background(), cityB, language.English)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -46,7 +47,7 @@ func TestAbbrCityDE(t *testing.T) {
 	cityA := "Athen"
 	cityB := "Warschau"
 
-	a, err := session.AbbrCity(cityA, language.German)
+	a, err := session.AbbrCity(context.Background(), cityA, language.German)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -54,7 +55,7 @@ func TestAbbrCityDE(t *testing.T) {
 		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
 	}
 
-	w, err := session.AbbrCity(cityB, language.German)
+	w, err := session.AbbrCity(context.Background(), cityB, language.German)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -72,7 +73,7 @@ func TestAbbrCityPL(t *testing.T) {
 	cityA := "Ateny"
 	cityB := "Warszawa"
 
-	a, err := session.AbbrCity(cityA, language.Polish)
+	a, err := session.AbbrCity(context.Background(), cityA, language.Polish)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -80,7 +81,7 @@ func TestAbbrCityPL(t *testing.T) {
 		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
 	}
 
-	b, err := session.AbbrCity(cityB, language.Polish)
+	b, err := session.AbbrCity(context.Background(), cityB, language.Polish)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -109,7 +110,7 @@ func TestAbbrCity(t *testing.T) {
 	// Since httpClientMock has only two responses, run it twice to check whether
 	// the cache for abbreviated city names works properly
 	for i := 0; i < 2; i++ {
-		a, err := session.AbbrCity(cityA, language.English)
+		a, err := session.AbbrCity(context.Background(), cityA, language.English)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -117,7 +118,7 @@ func TestAbbrCity(t *testing.T) {
 			t.Fatalf("wrong abbreviated city name, expected: %s received: %s", abbrA, a)
 		}
 
-		b, err := session.AbbrCity(cityB, language.English)
+		b, err := session.AbbrCity(context.Background(), cityB, language.English)
 		if err != nil {
 			t.Fatal(err)
 		}

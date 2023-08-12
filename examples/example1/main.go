@@ -2,6 +2,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -32,6 +33,7 @@ func getCheapesOffer(
 	}
 
 	offers, err := session.GetPriceGraph(
+		context.Background(),
 		flights.PriceGraphArgs{
 			RangeStartDate: rangeStartDate,
 			RangeEndDate:   rangeEndDate,
@@ -55,6 +57,7 @@ func getCheapesOffer(
 	fmt.Printf("%s %s\n", bestOffer.StartDate, bestOffer.ReturnDate)
 	fmt.Printf("price %d\n", int(bestOffer.Price))
 	url, err := session.SerializeURL(
+		context.Background(),
 		flights.URLArgs{
 			Date:       bestOffer.StartDate,
 			ReturnDate: bestOffer.ReturnDate,

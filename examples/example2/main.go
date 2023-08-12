@@ -3,6 +3,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -32,6 +33,7 @@ func getCheapOffers(
 	}
 
 	priceGraphOffers, err := session.GetPriceGraph(
+		context.Background(),
 		flights.PriceGraphArgs{
 			RangeStartDate: rangeStartDate,
 			RangeEndDate:   rangeEndDate,
@@ -47,6 +49,7 @@ func getCheapOffers(
 
 	for _, priceGraphOffer := range priceGraphOffers {
 		offers, _, err := session.GetOffers(
+			context.Background(),
 			flights.OffersArgs{
 				Date:       priceGraphOffer.StartDate,
 				ReturnDate: priceGraphOffer.ReturnDate,
@@ -67,6 +70,7 @@ func getCheapOffers(
 		}
 
 		_, priceRange, err := session.GetOffers(
+			context.Background(),
 			flights.OffersArgs{
 				Date:        bestOffer.StartDate,
 				ReturnDate:  bestOffer.ReturnDate,
@@ -84,6 +88,7 @@ func getCheapOffers(
 
 		if bestOffer.Price < priceRange.Low {
 			url, err := session.SerializeURL(
+				context.Background(),
 				flights.URLArgs{
 					Date:        bestOffer.StartDate,
 					ReturnDate:  bestOffer.ReturnDate,

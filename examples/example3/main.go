@@ -4,6 +4,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -34,6 +35,7 @@ func getCheapOffersConcurrent(
 	}
 
 	priceGraphOffers, err := session.GetPriceGraph(
+		context.Background(),
 		flights.PriceGraphArgs{
 			RangeStartDate: rangeStartDate,
 			RangeEndDate:   rangeEndDate,
@@ -47,6 +49,8 @@ func getCheapOffersConcurrent(
 		logger.Fatal(err)
 	}
 
+	errCh := make(chan error)
+
 	var wg sync.WaitGroup
 	wg.Add(len(priceGraphOffers))
 
@@ -54,6 +58,7 @@ func getCheapOffersConcurrent(
 		go func(offer flights.Offer) {
 			defer wg.Done()
 			offers, _, err := session.GetOffers(
+				context.Background(),
 				flights.OffersArgs{
 					Date:       offer.StartDate,
 					ReturnDate: offer.ReturnDate,
@@ -74,6 +79,7 @@ func getCheapOffersConcurrent(
 			}
 
 			_, priceRange, err := session.GetOffers(
+				context.Background(),
 				flights.OffersArgs{
 					Date:        bestOffer.StartDate,
 					ReturnDate:  bestOffer.ReturnDate,
@@ -91,6 +97,7 @@ func getCheapOffersConcurrent(
 
 			if bestOffer.Price < priceRange.Low {
 				url, err := session.SerializeURL(
+					context.Background(),
 					flights.URLArgs{
 						Date:        bestOffer.StartDate,
 						ReturnDate:  bestOffer.ReturnDate,
@@ -108,16 +115,24 @@ func getCheapOffersConcurrent(
 			}
 		}(priceGraphOffer)
 	}
-	wg.Wait()
+
+	go func() {
+		wg.Wait()
+		close(errCh)
+	}()
+
+	if err, ok := <-errCh; ok {
+		log.Fatal(err)
+	}
 }
 
 func main() {
+	t := time.Now()
+
 	session, err := flights.New()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	t := time.Now()
 
 	getCheapOffersConcurrent(
 		session,
