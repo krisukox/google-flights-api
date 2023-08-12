@@ -18,15 +18,6 @@ import (
 )
 
 func getCityReqData(city string) string {
-	// innner, err := json.Marshal([]interface{}{city, []interface{}{1, 2, 3, 5, 4}, nil, []interface{}{1, 1, 1}, 1})
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// outer, err := json.Marshal([]interface{}{[]interface{}{[]interface{}{"H028ib", string(innner), nil, "generic"}}})
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println(string(outer))
 	return url.QueryEscape(fmt.Sprintf(`[[["H028ib","[\"%s\",[1,2,3,5,4],null,[1,1,1],1]",null,"generic"]]]`, city))
 }
 
