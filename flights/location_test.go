@@ -152,7 +152,7 @@ func TestAbbrCityLatin(t *testing.T) {
 		t.Fatalf("wrong abbreviated city name, expected: %s received: %s", expectedAbbrCity, abbrCity)
 	}
 
-	abbrCity, err = session.AbbrCity(context.Background(), "Łódź", language.English)
+	abbrCity, err = session.AbbrCity(context.Background(), "łódź", language.English)
 	if err != nil {
 		t.Fatal(err)
 	}
