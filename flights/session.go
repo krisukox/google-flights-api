@@ -3,7 +3,6 @@ package flights
 
 import (
 	"context"
-	"encoding/base64"
 	"fmt"
 	"net/http"
 	"strings"
@@ -42,9 +41,8 @@ type httpClient interface {
 type Session struct {
 	Cities Map[string, string] // Map which acts like a cache: city name -> abbravated city names
 
-	client      httpClient
-	cookies     []string
-	urlEncoding *base64.Encoding
+	client  httpClient
+	cookies []string
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
@@ -89,9 +87,8 @@ func New() (*Session, error) {
 	}
 
 	return &Session{
-		Cities:      Map[string, string]{},
-		client:      client,
-		cookies:     cookies,
-		urlEncoding: base64.URLEncoding.WithPadding(base64.NoPadding),
+		Cities:  Map[string, string]{},
+		client:  client,
+		cookies: cookies,
 	}, nil
 }

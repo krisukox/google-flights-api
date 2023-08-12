@@ -1,7 +1,9 @@
 package flights
 
 import (
+	"encoding/base64"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/krisukox/google-flights-api/flights/internal/urlpb"
@@ -88,7 +90,6 @@ func (s *Session) SerializeURL(args URLArgs) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	urlProto := &urlpb.Url{
 		Flight:    serializeFlights(args),
 		Travelers: serializeTravelers(args.Travelers),
@@ -101,8 +102,17 @@ func (s *Session) SerializeURL(args URLArgs) (string, error) {
 		return "", fmt.Errorf("error during url serialization: %s", err)
 	}
 
+	fi, err := os.Create("res.bin")
+	if err != nil {
+		panic(err)
+	}
+
+	defer fi.Close()
+
+	fi.Write(tfs)
+
 	return "https://www.google.com/travel/flights/search" +
-		"?tfs=" + s.urlEncoding.EncodeToString(tfs) +
+		"?tfs=" + base64.RawURLEncoding.EncodeToString(tfs) +
 		"&curr=" + args.Currency.String() +
 		"&hl=" + args.Lang.String(), nil
 }
