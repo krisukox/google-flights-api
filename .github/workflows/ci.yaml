@@ -13,6 +13,7 @@ jobs:
   unit_test:
     name: Run tests
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
       - name: Set up toolchain
         uses: actions/setup-go@v3
