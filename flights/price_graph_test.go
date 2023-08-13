@@ -62,7 +62,7 @@ func TestGetPriceGraphTravelers(t *testing.T) {
 
 	args := PriceGraphArgs{
 		time.Now().AddDate(0, 0, 60),
-		time.Now().AddDate(0, 0, 90),
+		time.Now().AddDate(0, 0, 70),
 		7,
 		[]string{"London"}, []string{}, []string{"Paris"}, []string{},
 		Options{Travelers{Adults: 1}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},

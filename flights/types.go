@@ -64,7 +64,7 @@ func (o Offer) String() string {
 
 // FullOffer describes the full offer of a trip. [Session.GetOffers] returns a slice of FullOffers.
 //
-// NOTE: ReturnFlight, SrcCity
+// NOTE: ReturnFlight is not implemented yet
 type FullOffer struct {
 	Offer
 	Flight               []Flight      // contains all flights in the trip
