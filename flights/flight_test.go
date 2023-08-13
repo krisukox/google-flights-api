@@ -66,17 +66,21 @@ func TestGetOffersUSDPLN(t *testing.T) {
 		t.Fatalf("not enough elements: %d", elemsNumber)
 	}
 
-	less := func(lv, rv FullOffer) bool {
-		return lv.Price < rv.Price
+	comparedOffers := 0
+
+	for _, usd := range offersUSD {
+		for _, pln := range offersPLN {
+			if diff := deep.Equal(usd.Flight, pln.Flight); diff == nil {
+				comparedOffers += 1
+				if pln.Price < usd.Price || pln.Price < usd.Price*3 {
+					t.Fatalf("wrong flight price: PLN %f USD %f", pln.Price, usd.Price)
+				}
+			}
+		}
 	}
 
-	sortSlice(offersPLN, less)
-	sortSlice(offersUSD, less)
-
-	for i := 0; i < elemsNumber; i++ {
-		if offersPLN[i].Price < offersUSD[i].Price || offersPLN[i].Price < offersUSD[i].Price*3 {
-			t.Fatalf("wrong flight price: PLN %f USD %f", offersPLN[i].Price, offersUSD[i].Price)
-		}
+	if comparedOffers < elemsNumber {
+		t.Fatalf("not enought compared offers: expected %d compared %d", elemsNumber, comparedOffers)
 	}
 }
 
