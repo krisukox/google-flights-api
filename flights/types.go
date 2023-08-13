@@ -222,7 +222,7 @@ type Options struct {
 	Lang      language.Tag // language in which city names are provided
 }
 
-func ArgsDefault() Options {
+func OptionsDefault() Options {
 	return Options{
 		Travelers: Travelers{Adults: 1},
 		Currency:  currency.USD,

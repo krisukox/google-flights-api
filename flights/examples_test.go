@@ -25,7 +25,7 @@ func ExampleSession_GetPriceGraph() {
 			TripLength:     7,
 			SrcCities:      []string{"San Francisco"},
 			DstCities:      []string{"New York"},
-			Options:        flights.ArgsDefault(),
+			Options:        flights.OptionsDefault(),
 		},
 	)
 	if err != nil {
@@ -48,7 +48,7 @@ func ExampleSession_SerializeURL() {
 			SrcCities:   []string{"San Diego"},
 			SrcAirports: []string{"LAX"},
 			DstCities:   []string{"New York", "Philadelphia"},
-			Options:     flights.ArgsDefault(),
+			Options:     flights.OptionsDefault(),
 		},
 	)
 	if err != nil {
