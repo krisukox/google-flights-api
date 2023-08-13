@@ -35,7 +35,7 @@ func serializeFlight(
 	}
 }
 
-func serializeFlights(args URLArgs) []*urlpb.Url_Flight {
+func serializeFlights(args Args) []*urlpb.Url_Flight {
 	if args.TripType == OneWay {
 		return []*urlpb.Url_Flight{
 			serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
@@ -73,11 +73,11 @@ func serializeTravelers(travelers Travelers) []urlpb.Url_Traveler {
 //
 // GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
-// Requirements are described by the [URLArgs.Validate] function.
-func (s *Session) SerializeURL(ctx context.Context, args URLArgs) (string, error) {
+// Requirements are described by the [Args.ValidateURLArgs] function.
+func (s *Session) SerializeURL(ctx context.Context, args Args) (string, error) {
 	var err error
 
-	if err = args.Validate(); err != nil {
+	if err = args.ValidateURLArgs(); err != nil {
 		return "", err
 	}
 

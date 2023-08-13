@@ -31,8 +31,10 @@ func (f Flight) String() string {
 	out := ""
 	out += fmt.Sprintf("DepAirportCode: %s ", f.DepAirportCode)
 	out += fmt.Sprintf("DepAirportName: %s ", f.DepAirportName)
+	out += fmt.Sprintf("DepCity: %s ", f.DepCity)
 	out += fmt.Sprintf("ArrAirportName: %s ", f.ArrAirportName)
 	out += fmt.Sprintf("ArrAirportCode: %s ", f.ArrAirportCode)
+	out += fmt.Sprintf("ArrCity: %s ", f.ArrCity)
 	out += fmt.Sprintf("DepTime: %s ", f.DepTime)
 	out += fmt.Sprintf("ArrTime: %s ", f.ArrTime)
 	out += fmt.Sprintf("Duration: %s ", f.Duration)
@@ -69,8 +71,8 @@ type FullOffer struct {
 	ReturnFlight         []Flight      // not implemented yet
 	SrcAirportCode       string        // code of the airport where the trip starts
 	DstAirportCode       string        // destination airport
-	SrcCity              string        // not implemented yet
-	DstCity              string        // not implemented yet
+	SrcCity              string        // source city
+	DstCity              string        // destination city
 	FlightDuration       time.Duration // duration of whole Flight
 	ReturnFlightDuration time.Duration // not implemented yet
 }
@@ -84,8 +86,8 @@ func (o FullOffer) String() string {
 	// out += fmt.Sprintf("ReturnFlight: %s\n", o.ReturnFlight)
 	out += fmt.Sprintf("SrcAirportCode: %s\n", o.SrcAirportCode)
 	out += fmt.Sprintf("DstAirportCode: %s\n", o.DstAirportCode)
-	// out += fmt.Sprintf("SrcCity: %s\n", o.SrcCity)
-	// out += fmt.Sprintf("DstCity: %s\n", o.DstCity)
+	out += fmt.Sprintf("SrcCity: %s\n", o.SrcCity)
+	out += fmt.Sprintf("DstCity: %s\n", o.DstCity)
 	out += fmt.Sprintf("FlightDuration: %s}\n", o.FlightDuration)
 	// out += fmt.Sprintf("ReturnFlightDuration: %s}\n", o.ReturnFlightDuration)
 	return out
@@ -210,8 +212,8 @@ func validateLocations(srcCities, srcAirports, dstCities, dstAirports []string) 
 	return nil
 }
 
-// Args contains common arguments used in [OffersArgs], [PriceGraphArgs] and [URLArgs].
-type Args struct {
+// Options contains common arguments used in [Args] and [PriceGraphArgs].
+type Options struct {
 	Travelers Travelers
 	Currency  currency.Unit
 	Stops     Stops        // maximum number of stops
@@ -220,8 +222,8 @@ type Args struct {
 	Lang      language.Tag // language in which city names are provided
 }
 
-func ArgsDefault() Args {
-	return Args{
+func OptionsDefault() Options {
+	return Options{
 		Travelers: Travelers{Adults: 1},
 		Currency:  currency.USD,
 		Stops:     AnyStops,
@@ -236,7 +238,7 @@ type PriceGraphArgs struct {
 	RangeStartDate, RangeEndDate                   time.Time // days range of the price graph
 	TripLength                                     int       // number of days between start trip date and return date
 	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
-	Args
+	Options                                                  // additional options
 }
 
 // Validates PriceGraphArgs requirements:
@@ -260,19 +262,32 @@ func (a *PriceGraphArgs) Validate() error {
 	return nil
 }
 
-// Arguments used in [Session.GetOffers].
-type OffersArgs struct {
-	Date, ReturnDate                               time.Time // start trip date and return date
-	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
-	Args
+// Converts PriceGraphArgs to [Args]. It sets the date range to 30 days.
+func (a *PriceGraphArgs) Convert() Args {
+	return Args{
+		Date:        a.RangeStartDate,
+		ReturnDate:  a.RangeStartDate.AddDate(0, 0, a.TripLength),
+		SrcCities:   a.SrcCities,
+		SrcAirports: a.SrcAirports,
+		DstCities:   a.DstCities,
+		DstAirports: a.DstAirports,
+		Options:     a.Options,
+	}
 }
 
-// Validates OffersArgs requirements:
+// Arguments used in [Session.GetOffers] and [Session.SerializeURL].
+type Args struct {
+	Date, ReturnDate                               time.Time // start trip date and return date
+	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
+	Options                                                  // additional options
+}
+
+// Validates Offers arguments requirements:
 //   - at least one source location (srcCities / srcAirports)
 //   - at least one destination location (dstCities / dstAirports)
 //   - srcAirports and dstAirports have to be in the right IATA format: https://en.wikipedia.org/wiki/IATA_airport_code
 //   - dates have to be in chronological order: today's date -> Date -> ReturnDate
-func (a *OffersArgs) Validate() error {
+func (a *Args) ValidateOffersArgs() error {
 	if err := validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports); err != nil {
 		return err
 	}
@@ -287,17 +302,24 @@ func (a *OffersArgs) Validate() error {
 	return nil
 }
 
-// Arguments used in [Session.SerializeURL].
-type URLArgs struct {
-	Date, ReturnDate                               time.Time // start trip date and retrun date
-	SrcCities, SrcAirports, DstCities, DstAirports []string  // source and destination; cities and airports of the trip
-	Args
-}
-
-// Validates URLArgs requirements:
+// Validates URL arguments requirements:
 //   - at least one source location (srcCities / srcAirports)
 //   - at least one destination location (dstCities / dstAirports)
 //   - srcAirports and dstAirports have to be in the right IATA format: https://en.wikipedia.org/wiki/IATA_airport_code
-func (a *URLArgs) Validate() error {
+func (a *Args) ValidateURLArgs() error {
 	return validateLocations(a.SrcCities, a.SrcAirports, a.DstCities, a.DstAirports)
+}
+
+// Converts Args to [PriceGraphArgs]. It sets the date range to 30 days.
+func (a *Args) Convert() PriceGraphArgs {
+	return PriceGraphArgs{
+		RangeStartDate: a.ReturnDate,
+		RangeEndDate:   a.ReturnDate.AddDate(0, 0, 30),
+		TripLength:     int(a.ReturnDate.Sub(a.Date).Hours() / 24),
+		SrcCities:      a.SrcCities,
+		SrcAirports:    a.SrcAirports,
+		DstCities:      a.DstCities,
+		DstAirports:    a.DstAirports,
+		Options:        a.Options,
+	}
 }

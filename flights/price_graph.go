@@ -15,18 +15,7 @@ import (
 )
 
 func (s *Session) getPriceGraphRawData(ctx context.Context, args PriceGraphArgs) (string, error) {
-	return s.getRawData(
-		ctx,
-		OffersArgs{
-			Date:        args.RangeStartDate,
-			ReturnDate:  args.RangeStartDate.AddDate(0, 0, args.TripLength),
-			SrcCities:   args.SrcCities,
-			SrcAirports: args.SrcAirports,
-			DstCities:   args.DstCities,
-			DstAirports: args.DstAirports,
-			Args:        args.Args,
-		},
-	)
+	return s.getRawData(ctx, args.Convert())
 }
 
 func (s *Session) getPriceGraphReqData(ctx context.Context, args PriceGraphArgs) (string, error) {
@@ -144,6 +133,9 @@ func (s *Session) GetPriceGraph(ctx context.Context, args PriceGraphArgs) ([]Off
 		readLine(body) // skip line
 		bytesToDecode, err := getInnerBytes(body)
 		if err != nil {
+			sortSlice(offers, func(lv, rv Offer) bool {
+				return lv.StartDate.Before(rv.StartDate)
+			})
 			return offers, nil
 		}
 

@@ -22,14 +22,14 @@ func TestSerializeURL1(t *testing.T) {
 
 	url, err := session.SerializeURL(
 		context.Background(),
-		URLArgs{
+		Args{
 			date,
 			returnDate,
 			[]string{"Los Angeles"},
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 1}, currency.USD, Stop1, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 1}, currency.USD, Stop1, Economy, RoundTrip, language.English},
 		},
 	)
 
@@ -55,14 +55,14 @@ func TestSerializeURL2(t *testing.T) {
 
 	url, err := session.SerializeURL(
 		context.Background(),
-		URLArgs{
+		Args{
 			date,
 			returnDate,
 			[]string{"London"},
 			[]string{"SFO"},
 			[]string{"Miami"},
 			[]string{},
-			Args{Travelers{Adults: 2, Children: 1, InfantOnLap: 1}, currency.USD, Stop2, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 2, Children: 1, InfantOnLap: 1}, currency.USD, Stop2, Economy, RoundTrip, language.English},
 		},
 	)
 

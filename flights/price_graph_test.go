@@ -12,7 +12,7 @@ import (
 	"golang.org/x/text/language"
 )
 
-func TestGetPriceGraphReal(t *testing.T) {
+func TestGetPriceGraph(t *testing.T) {
 	session, err := New()
 	if err != nil {
 		t.Fatal(err)
@@ -29,11 +29,10 @@ func TestGetPriceGraphReal(t *testing.T) {
 			time.Now().AddDate(0, 0, daysDiff2),
 			7,
 			[]string{"London"}, []string{}, []string{"Paris"}, []string{},
-			Args{Travelers{Adults: 1}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 1}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
 		})
-
 	if err != nil {
-		t.Fatalf(err.Error())
+		t.Fatal(err)
 	}
 
 	if len(offers) != expectedOffers {
@@ -42,7 +41,55 @@ func TestGetPriceGraphReal(t *testing.T) {
 	}
 }
 
-func TestGetPriceGraph(t *testing.T) {
+func testGetPriceGraphTravelers(t *testing.T, session *Session, rootPrice float64, args PriceGraphArgs, multiplier float64) {
+	offers, err := session.GetPriceGraph(context.Background(), args)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(offers) < 1 {
+		t.Fatalf("not enough offers (%d) for the following Travelers: %+v", len(offers), args.Travelers)
+	}
+	if !compareWithThreshold(rootPrice*multiplier, offers[0].Price) {
+		t.Fatalf("The received price should be %d times larger than the root price: %f, %f", int(multiplier), rootPrice, offers[0].Price)
+	}
+}
+
+func TestGetPriceGraphTravelers(t *testing.T) {
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	args := PriceGraphArgs{
+		time.Now().AddDate(0, 0, 60),
+		time.Now().AddDate(0, 0, 90),
+		7,
+		[]string{"London"}, []string{}, []string{"Paris"}, []string{},
+		Options{Travelers{Adults: 1}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+	}
+
+	offers, err := session.GetPriceGraph(context.Background(), args)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(offers) < 1 {
+		t.Fatalf("not enough offers: %d", len(offers))
+	}
+
+	rootPrice := offers[0].Price
+
+	args.Travelers = Travelers{Adults: 2}
+	testGetPriceGraphTravelers(t, session, rootPrice, args, 2)
+
+	args.Travelers = Travelers{Adults: 2, Children: 1}
+	testGetPriceGraphTravelers(t, session, rootPrice, args, 3)
+
+	args.Travelers = Travelers{Adults: 2, Children: 1, InfantInSeat: 1}
+	testGetPriceGraphTravelers(t, session, rootPrice, args, 4)
+}
+
+func TestGetPriceGraphMock(t *testing.T) {
 	expectedPrices := []float64{
 		922, 562, 648, 654, 660, 714, 891, 594, 594, 539, 648, 715, 654, 654, 594,
 		594, 594, 680, 743, 654, 699, 654, 594, 594, 654, 654, 654, 806, 755, 617,
@@ -66,6 +113,9 @@ func TestGetPriceGraph(t *testing.T) {
 		"testdata/city_warsaw.resp",
 		"testdata/price_graph.resp",
 	)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	session := &Session{
 		client: httpClientMock,
@@ -78,16 +128,12 @@ func TestGetPriceGraph(t *testing.T) {
 			time.Now().AddDate(0, 0, 5),
 			0,
 			[]string{"Athens"}, []string{}, []string{"Warsaw"}, []string{},
-			Args{Travelers{}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
+			Options{Travelers{}, currency.PLN, AnyStops, Economy, RoundTrip, language.English},
 		},
 	)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
-
-	sortSlice(offers, func(lv, rv Offer) bool {
-		return lv.StartDate.Before(rv.StartDate)
-	})
 
 	if len(expectedPrices) != len(offers) {
 		t.Fatalf("wrong offers length, expected: %d, received: %d", len(expectedPrices), len(offers))
@@ -125,7 +171,7 @@ func TestPriceGraphReqData(t *testing.T) {
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 1}, currency.USD, AnyStops, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 1}, currency.USD, AnyStops, Economy, RoundTrip, language.English},
 		})
 	if err != nil {
 		t.Fatal(err)
@@ -150,7 +196,7 @@ func TestPriceGraphReqData(t *testing.T) {
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 2}, currency.USD, Stop2, Business, OneWay, language.English},
+			Options{Travelers{Adults: 2}, currency.USD, Stop2, Business, OneWay, language.English},
 		})
 	if err != nil {
 		t.Fatal(err)

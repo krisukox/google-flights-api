@@ -25,7 +25,7 @@ func ExampleSession_GetPriceGraph() {
 			TripLength:     7,
 			SrcCities:      []string{"San Francisco"},
 			DstCities:      []string{"New York"},
-			Args:           flights.ArgsDefault(),
+			Options:        flights.OptionsDefault(),
 		},
 	)
 	if err != nil {
@@ -42,13 +42,13 @@ func ExampleSession_SerializeURL() {
 
 	url, err := session.SerializeURL(
 		context.Background(),
-		flights.URLArgs{
+		flights.Args{
 			Date:        time.Now().AddDate(0, 0, 30),
 			ReturnDate:  time.Now().AddDate(0, 0, 37),
 			SrcCities:   []string{"San Diego"},
 			SrcAirports: []string{"LAX"},
 			DstCities:   []string{"New York", "Philadelphia"},
-			Args:        flights.ArgsDefault(),
+			Options:     flights.OptionsDefault(),
 		},
 	)
 	if err != nil {
@@ -65,12 +65,12 @@ func ExampleSession_GetOffers() {
 
 	offers, priceRange, err := session.GetOffers(
 		context.Background(),
-		flights.OffersArgs{
+		flights.Args{
 			Date:       time.Now().AddDate(0, 0, 30),
 			ReturnDate: time.Now().AddDate(0, 0, 37),
 			SrcCities:  []string{"Madrid"},
 			DstCities:  []string{"Estocolmo"},
-			Args: flights.Args{
+			Options: flights.Options{
 				Travelers: flights.Travelers{Adults: 2},
 				Currency:  currency.EUR,
 				Stops:     flights.Stop1,
