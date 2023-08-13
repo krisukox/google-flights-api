@@ -29,35 +29,35 @@ func TestGetOffersUSDPLN(t *testing.T) {
 
 	offersPLN, _, err := session.GetOffers(
 		context.Background(),
-		OffersArgs{
+		Args{
 			date,
 			returnDate,
 			[]string{"Los Angeles"},
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 2}, currency.PLN, Stop1, PremiumEconomy, OneWay, language.English},
+			Options{Travelers{Adults: 2}, currency.PLN, Stop1, PremiumEconomy, OneWay, language.English},
 		},
 	)
 
 	if err != nil {
-		t.Fatalf(err.Error())
+		t.Fatal(err)
 	}
 
 	offersUSD, _, err := session.GetOffers(
 		context.Background(),
-		OffersArgs{
+		Args{
 			date,
 			returnDate,
 			[]string{"Los Angeles"},
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 2}, currency.USD, Stop1, PremiumEconomy, OneWay, language.English},
+			Options{Travelers{Adults: 2}, currency.USD, Stop1, PremiumEconomy, OneWay, language.English},
 		},
 	)
 	if err != nil {
-		t.Fatalf(err.Error())
+		t.Fatal(err)
 	}
 
 	elemsNumber := min(len(offersPLN), len(offersUSD))
@@ -80,6 +80,63 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	}
 }
 
+func compareWithThreshold(lv, rv float64) bool {
+	return math.Abs(lv-rv) < lv*0.01
+}
+
+func testGetOffersTravelers(t *testing.T, session *Session, rootPrice float64, args Args, multiplier float64) {
+	offers, _, err := session.GetOffers(context.Background(), args)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(offers) < 1 {
+		t.Fatalf("not enough offers (%d) for the following Travelers: %+v", len(offers), args.Travelers)
+	}
+	if !compareWithThreshold(rootPrice*multiplier, offers[0].Price) {
+		t.Fatalf("The received price should be %d times larger than the root price: %f, %f", int(multiplier), rootPrice, offers[0].Price)
+	}
+}
+
+func TestGetOffersTravelers(t *testing.T) {
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	date := time.Now().AddDate(0, 6, 0)
+	returnDate := time.Now().AddDate(0, 7, 0)
+
+	args := Args{
+		date,
+		returnDate,
+		[]string{"Los Angeles"},
+		[]string{"SFO"},
+		[]string{"London"},
+		[]string{"CDG"},
+		Options{Travelers{Adults: 1}, currency.USD, Stop1, PremiumEconomy, OneWay, language.English},
+	}
+
+	offers, _, err := session.GetOffers(context.Background(), args)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(offers) < 1 {
+		t.Fatalf("not enough offers: %d", len(offers))
+	}
+
+	rootPrice := offers[0].Price
+
+	args.Travelers = Travelers{Adults: 2}
+	testGetOffersTravelers(t, session, rootPrice, args, 2)
+
+	args.Travelers = Travelers{Adults: 2, Children: 1}
+	testGetOffersTravelers(t, session, rootPrice, args, 3)
+
+	args.Travelers = Travelers{Adults: 2, Children: 1, InfantInSeat: 1}
+	testGetOffersTravelers(t, session, rootPrice, args, 4)
+}
+
 func removeUnknowns(offers []FullOffer) {
 	for i := range offers {
 		for j := range offers[i].Flight {
@@ -88,7 +145,7 @@ func removeUnknowns(offers []FullOffer) {
 	}
 }
 
-func TestGetOffers(t *testing.T) {
+func TestGetOffersMock(t *testing.T) {
 	dateTimeTimeZone := time.DateTime + " -0700 MST"
 
 	dummyTime := time.Now()
@@ -166,14 +223,14 @@ func TestGetOffers(t *testing.T) {
 
 	offers, priceRange, err := session.GetOffers(
 		context.Background(),
-		OffersArgs{
+		Args{
 			dummyTime,
 			returnDate,
 			[]string{"Warsaw"},
 			[]string{},
 			[]string{"Athens"},
 			[]string{},
-			Args{
+			Options{
 				Travelers{},
 				currency.Unit{},
 				Stops(dummyValue),
@@ -227,14 +284,14 @@ func TestFlightReqData(t *testing.T) {
 
 	_reqData1, err := session.getFlightReqData(
 		context.Background(),
-		OffersArgs{
+		Args{
 			date,
 			returnDate,
 			[]string{"Los Angeles"},
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 1}, currency.Unit{}, AnyStops, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 1}, currency.Unit{}, AnyStops, Economy, RoundTrip, language.English},
 		},
 	)
 	if err != nil {
@@ -252,14 +309,14 @@ func TestFlightReqData(t *testing.T) {
 
 	_reqData2, err := session.getFlightReqData(
 		context.Background(),
-		OffersArgs{
+		Args{
 			date,
 			returnDate,
 			[]string{"Los Angeles"},
 			[]string{"SFO"},
 			[]string{"London"},
 			[]string{"CDG"},
-			Args{Travelers{Adults: 2}, currency.Unit{}, Stop2, Business, OneWay, language.English},
+			Options{Travelers{Adults: 2}, currency.Unit{}, Stop2, Business, OneWay, language.English},
 		},
 	)
 	if err != nil {

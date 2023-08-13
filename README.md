@@ -78,7 +78,7 @@ The call below uses Spanish city names:
 ```
 offers, priceRange, err := session.GetOffers(
     context.Background(),
-    flights.OffersArgs{
+    flights.Args{
         Date:       time.Now().AddDate(0, 0, 30),
         ReturnDate: time.Now().AddDate(0, 0, 37),
         SrcCities:  []string{"Madrid"},

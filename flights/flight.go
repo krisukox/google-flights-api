@@ -23,13 +23,12 @@ const (
 	flightCityConst    rune = '5'
 )
 
-func serializeTripType(tripType TripType) byte {
-	if tripType == RoundTrip {
-		return 1
-	}
-	return 2
-}
-
+// Google Flight API requests need different enum values than Google Flight URLs
+// ________|Flights	Url
+// Nonstop	1		0
+// Stop1	2		1
+// Stop2	3		2
+// AnyStops 0		3
 func serializeFlightStop(Stops Stops) string {
 	switch Stops {
 	case Nonstop:
@@ -40,53 +39,6 @@ func serializeFlightStop(Stops Stops) string {
 		return "3"
 	}
 	return "0"
-}
-
-func serializeFlightClass(Class Class) string {
-	switch Class {
-	case Economy:
-		return "1"
-	case PremiumEconomy:
-		return "2"
-	case Business:
-		return "3"
-	}
-	return "4"
-}
-
-func (s *Session) getRawData(ctx context.Context, args OffersArgs) (string, error) {
-	serSrcs, err := s.serializeFlightLocations(ctx, args.SrcCities, args.SrcAirports, args.Lang)
-	if err != nil {
-		return "", err
-	}
-	serDsts, err := s.serializeFlightLocations(ctx, args.DstCities, args.DstAirports, args.Lang)
-	if err != nil {
-		return "", err
-	}
-
-	serDate := args.Date.Format("2006-01-02")
-	serReturnDate := args.ReturnDate.Format("2006-01-02")
-
-	serAdults := serializeFlightAdults(args.Travelers.Adults)
-	serStops := serializeFlightStop(args.Stops)
-
-	serClass := serializeFlightClass(args.Class)
-	serTripType := serializeTripType(args.TripType)
-
-	rawData := ""
-
-	rawData += fmt.Sprintf(`[null,null,%d,null,[],%s,%s,null,null,null,null,null,null,[`,
-		serTripType, serClass, serAdults)
-
-	rawData += fmt.Sprintf(`[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
-		serSrcs, serDsts, serStops, serDate)
-
-	if args.TripType == RoundTrip {
-		rawData += fmt.Sprintf(`,[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
-			serDsts, serSrcs, serStops, serReturnDate)
-	}
-
-	return rawData, nil
 }
 
 func (s *Session) serializeFlightLocations(ctx context.Context, cities []string, airports []string, Lang language.Tag) (string, error) {
@@ -107,11 +59,49 @@ func (s *Session) serializeFlightLocations(ctx context.Context, cities []string,
 	return serialized[:len(serialized)-1], nil
 }
 
-func serializeFlightAdults(Adults int) string {
-	return fmt.Sprintf(`[%d,0,0,0]`, Adults)
+func serializeFlightTravelers(args Args) string {
+	return fmt.Sprintf(
+		`[%d,%d,%d,%d]`,
+		args.Travelers.Adults,
+		args.Travelers.Children,
+		args.Travelers.InfantOnLap,
+		args.Travelers.InfantInSeat,
+	)
 }
 
-func (s *Session) getFlightReqData(ctx context.Context, args OffersArgs) (string, error) {
+func (s *Session) getRawData(ctx context.Context, args Args) (string, error) {
+	serSrcs, err := s.serializeFlightLocations(ctx, args.SrcCities, args.SrcAirports, args.Lang)
+	if err != nil {
+		return "", err
+	}
+	serDsts, err := s.serializeFlightLocations(ctx, args.DstCities, args.DstAirports, args.Lang)
+	if err != nil {
+		return "", err
+	}
+
+	serDate := args.Date.Format("2006-01-02")
+	serReturnDate := args.ReturnDate.Format("2006-01-02")
+
+	serAdults := serializeFlightTravelers(args)
+	serStops := serializeFlightStop(args.Stops)
+
+	rawData := ""
+
+	rawData += fmt.Sprintf(`[null,null,%d,null,[],%d,%s,null,null,null,null,null,null,[`,
+		args.TripType, args.Class, serAdults)
+
+	rawData += fmt.Sprintf(`[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
+		serSrcs, serDsts, serStops, serDate)
+
+	if args.TripType == RoundTrip {
+		rawData += fmt.Sprintf(`,[[[%s]],[[%s]],null,%s,[],[],\"%s\",null,[],[],[],null,null,[],3]`,
+			serDsts, serSrcs, serStops, serReturnDate)
+	}
+
+	return rawData, nil
+}
+
+func (s *Session) getFlightReqData(ctx context.Context, args Args) (string, error) {
 	rawData, err := s.getRawData(ctx, args)
 	if err != nil {
 		return "", err
@@ -127,7 +117,7 @@ func (s *Session) getFlightReqData(ctx context.Context, args OffersArgs) (string
 	return url.QueryEscape(reqData), nil
 }
 
-func (s *Session) doRequestFlights(ctx context.Context, args OffersArgs) (*http.Response, error) {
+func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
 	reqDate, err := s.getFlightReqData(ctx, args)
@@ -324,9 +314,9 @@ func getSectionOffers(bytesToDecode []byte, returnDate time.Time) ([]FullOffer, 
 //
 // GetPriceGraph returns an error if any of the requests fail or if any of the city names are misspelled.
 //
-// Requirements are described by the [OffersArgs.Validate] function.
-func (s *Session) GetOffers(ctx context.Context, args OffersArgs) ([]FullOffer, *PriceRange, error) {
-	if err := args.Validate(); err != nil {
+// Requirements are described by the [Args.ValidateOffersArgs] function.
+func (s *Session) GetOffers(ctx context.Context, args Args) ([]FullOffer, *PriceRange, error) {
+	if err := args.ValidateOffersArgs(); err != nil {
 		return nil, nil, err
 	}
 

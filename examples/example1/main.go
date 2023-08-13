@@ -23,7 +23,7 @@ func getCheapesOffer(
 		log.Fatal(err)
 	}
 
-	args := flights.Args{
+	options := flights.Options{
 		Travelers: flights.Travelers{Adults: 1},
 		Currency:  currency.PLN,
 		Stops:     flights.AnyStops,
@@ -40,7 +40,7 @@ func getCheapesOffer(
 			TripLength:     tripLength,
 			SrcCities:      []string{srcCity},
 			DstCities:      []string{dstCity},
-			Args:           args,
+			Options:        options,
 		},
 	)
 	if err != nil {
@@ -58,12 +58,12 @@ func getCheapesOffer(
 	fmt.Printf("price %d\n", int(bestOffer.Price))
 	url, err := session.SerializeURL(
 		context.Background(),
-		flights.URLArgs{
+		flights.Args{
 			Date:       bestOffer.StartDate,
 			ReturnDate: bestOffer.ReturnDate,
 			SrcCities:  []string{srcCity},
 			DstCities:  []string{dstCity},
-			Args:       args,
+			Options:    options,
 		},
 	)
 	if err != nil {

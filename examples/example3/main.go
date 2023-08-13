@@ -25,7 +25,7 @@ func getCheapOffersConcurrent(
 ) {
 	logger := log.New(os.Stdout, "", 0)
 
-	args := flights.Args{
+	options := flights.Options{
 		Travelers: flights.Travelers{Adults: 1},
 		Currency:  currency.USD,
 		Stops:     flights.AnyStops,
@@ -42,7 +42,7 @@ func getCheapOffersConcurrent(
 			TripLength:     tripLength,
 			SrcCities:      srcCities,
 			DstCities:      dstCities,
-			Args:           args,
+			Options:        options,
 		},
 	)
 	if err != nil {
@@ -59,12 +59,12 @@ func getCheapOffersConcurrent(
 			defer wg.Done()
 			offers, _, err := session.GetOffers(
 				context.Background(),
-				flights.OffersArgs{
+				flights.Args{
 					Date:       offer.StartDate,
 					ReturnDate: offer.ReturnDate,
 					SrcCities:  srcCities,
 					DstCities:  dstCities,
-					Args:       args,
+					Options:    options,
 				},
 			)
 			if err != nil {
@@ -80,12 +80,12 @@ func getCheapOffersConcurrent(
 
 			_, priceRange, err := session.GetOffers(
 				context.Background(),
-				flights.OffersArgs{
+				flights.Args{
 					Date:        bestOffer.StartDate,
 					ReturnDate:  bestOffer.ReturnDate,
 					SrcAirports: []string{bestOffer.SrcAirportCode},
 					DstAirports: []string{bestOffer.DstAirportCode},
-					Args:        args,
+					Options:     options,
 				},
 			)
 			if err != nil {
@@ -98,12 +98,12 @@ func getCheapOffersConcurrent(
 			if bestOffer.Price < priceRange.Low {
 				url, err := session.SerializeURL(
 					context.Background(),
-					flights.URLArgs{
+					flights.Args{
 						Date:        bestOffer.StartDate,
 						ReturnDate:  bestOffer.ReturnDate,
 						SrcAirports: []string{bestOffer.SrcAirportCode},
 						DstAirports: []string{bestOffer.DstAirportCode},
-						Args:        args,
+						Options:     options,
 					},
 				)
 				if err != nil {
