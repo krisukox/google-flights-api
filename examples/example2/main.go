@@ -23,7 +23,7 @@ func getCheapOffers(
 ) {
 	logger := log.New(os.Stdout, "", 0)
 
-	args := flights.Options{
+	options := flights.Options{
 		Travelers: flights.Travelers{Adults: 1},
 		Currency:  currency.USD,
 		Stops:     flights.AnyStops,
@@ -40,7 +40,7 @@ func getCheapOffers(
 			TripLength:     tripLength,
 			SrcCities:      srcCities,
 			DstCities:      dstCities,
-			Options:        args,
+			Options:        options,
 		},
 	)
 	if err != nil {
@@ -55,7 +55,7 @@ func getCheapOffers(
 				ReturnDate: priceGraphOffer.ReturnDate,
 				SrcCities:  srcCities,
 				DstCities:  dstCities,
-				Options:    args,
+				Options:    options,
 			},
 		)
 		if err != nil {
@@ -76,7 +76,7 @@ func getCheapOffers(
 				ReturnDate:  bestOffer.ReturnDate,
 				SrcAirports: []string{bestOffer.SrcAirportCode},
 				DstAirports: []string{bestOffer.DstAirportCode},
-				Options:     args,
+				Options:     options,
 			},
 		)
 		if err != nil {
@@ -94,7 +94,7 @@ func getCheapOffers(
 					ReturnDate:  bestOffer.ReturnDate,
 					SrcAirports: []string{bestOffer.SrcAirportCode},
 					DstAirports: []string{bestOffer.DstAirportCode},
-					Options:     args,
+					Options:     options,
 				},
 			)
 			if err != nil {
