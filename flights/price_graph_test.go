@@ -49,9 +49,6 @@ func testGetPriceGraphTravelers(t *testing.T, session *Session, rootPrice float6
 	if len(offers) < 1 {
 		t.Fatalf("not enough offers (%d) for the following Travelers: %+v", len(offers), args.Travelers)
 	}
-	// fmt.Println(offers[0].StartDate)
-	// fmt.Println(offers[0].ReturnDate)
-	// fmt.Println(offers[0].Price)
 	if !compareWithThreshold(rootPrice*multiplier, offers[0].Price) {
 		t.Fatalf("The received price should be %d times larger than the root price: %f, %f", int(multiplier), rootPrice, offers[0].Price)
 	}

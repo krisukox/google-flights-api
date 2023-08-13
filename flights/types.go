@@ -212,7 +212,7 @@ func validateLocations(srcCities, srcAirports, dstCities, dstAirports []string) 
 	return nil
 }
 
-// Options contains common arguments used in [OffersArgs], [PriceGraphArgs] and [URLArgs].
+// Options contains common arguments used in [Args] and [PriceGraphArgs].
 type Options struct {
 	Travelers Travelers
 	Currency  currency.Unit
