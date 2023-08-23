@@ -35,7 +35,7 @@ func serializeFlight(
 	}
 }
 
-func serializeFlights(args Args) []*urlpb.Url_Flight {
+func serializeUrlFlights(args Args) []*urlpb.Url_Flight {
 	if args.TripType == OneWay {
 		return []*urlpb.Url_Flight{
 			serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
@@ -91,7 +91,7 @@ func (s *Session) SerializeURL(ctx context.Context, args Args) (string, error) {
 		return "", err
 	}
 	urlProto := &urlpb.Url{
-		Flight:    serializeFlights(args),
+		Flight:    serializeUrlFlights(args),
 		Travelers: serializeTravelers(args.Travelers),
 		Class:     urlpb.Url_Class(args.Class),
 		TripType:  urlpb.Url_TripType(args.TripType),

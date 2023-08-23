@@ -147,11 +147,13 @@ func validateNumberOfLocations(cities, airports []string) error {
 	return nil
 }
 
-func validateDate(date, returnDate time.Time) error {
+func (a *Args) validateDate(date, returnDate time.Time) error {
 	now := time.Now().Truncate(time.Hour * 24)
 
-	if returnDate.Before(date) {
-		return fmt.Errorf("returnDate is before date")
+	if a.TripType == RoundTrip {
+		if returnDate.Before(date) {
+			return fmt.Errorf("returnDate is before date")
+		}
 	}
 	if date.Before(now) {
 		return fmt.Errorf("date is before today's date")
@@ -295,7 +297,7 @@ func (a *Args) ValidateOffersArgs() error {
 	a.Date = truncateToDay(a.Date)
 	a.ReturnDate = truncateToDay(a.ReturnDate)
 
-	if err := validateDate(a.Date, a.ReturnDate); err != nil {
+	if err := a.validateDate(a.Date, a.ReturnDate); err != nil {
 		return err
 	}
 

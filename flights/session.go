@@ -43,6 +43,7 @@ type Session struct {
 
 	client  httpClient
 	cookies []string
+	counter int
 }
 
 func customRetryPolicy() func(ctx context.Context, resp *http.Response, err error) (bool, error) {
