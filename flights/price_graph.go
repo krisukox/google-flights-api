@@ -7,14 +7,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"net/url"
 	"strconv"
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 )
 
-func (s *Session) getPriceGraphRawData(ctx context.Context, args PriceGraphArgs) (string, error) {
+func (s *Session) getPriceGraphRawData(ctx context.Context, args PriceGraphArgs) ([]interface{}, error) {
 	return s.getRawData(ctx, args.Convert())
 }
 
@@ -27,15 +26,14 @@ func (s *Session) getPriceGraphReqData(ctx context.Context, args PriceGraphArgs)
 		return "", err
 	}
 
-	prefix := `[null,"[null,`
-	suffix := fmt.Sprintf(`],null,null,null,1,null,null,null,null,null,[]],[\"%s\",\"%s\"],null,[%d,%d]]"]`,
-		serializedRangeStartDate, serializedRangeEndDate, args.TripLength, args.TripLength)
+	data := []interface{}{nil, rawData, []interface{}{serializedRangeStartDate, serializedRangeEndDate}, nil, []interface{}{args.TripLength, args.TripLength}}
 
-	reqData := prefix
-	reqData += rawData
-	reqData += suffix
+	innerData, err := json.Marshal(data)
+	if err != nil {
+		return "", err
+	}
 
-	return url.QueryEscape(reqData), nil
+	return serializeReqData(string(innerData))
 }
 
 func (s *Session) doRequestPriceGraph(ctx context.Context, args PriceGraphArgs) (*http.Response, error) {

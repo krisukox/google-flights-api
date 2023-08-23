@@ -54,6 +54,7 @@ func TestValidateOffersArgs(t *testing.T) {
 		SrcCities: []string{"abc"}, SrcAirports: []string{}, DstCities: []string{"abc"}, DstAirports: []string{},
 		Date:       time.Now().AddDate(0, 0, 3),
 		ReturnDate: time.Now().AddDate(0, 0, 1),
+		Options:    Options{TripType: RoundTrip},
 	}
 	_testValidateOffersArgs(t, args, "returnDate is before date")
 
