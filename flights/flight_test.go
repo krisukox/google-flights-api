@@ -25,18 +25,17 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	}
 
 	date := time.Now().AddDate(0, 6, 0)
-	returnDate := time.Now().AddDate(0, 7, 0)
 
 	offersPLN, _, err := session.GetOffers(
 		context.Background(),
 		Args{
 			date,
-			returnDate,
+			time.Time{},
 			[]string{"Marseille"},
 			[]string{"NCE"},
 			[]string{"London"},
 			[]string{"BRS"},
-			Options{Travelers{Adults: 2}, currency.PLN, Stop1, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 2}, currency.PLN, Stop1, Economy, OneWay, language.English},
 		},
 	)
 	if err != nil {
@@ -47,12 +46,12 @@ func TestGetOffersUSDPLN(t *testing.T) {
 		context.Background(),
 		Args{
 			date,
-			returnDate,
+			time.Time{},
 			[]string{"Marseille"},
 			[]string{"NCE"},
 			[]string{"London"},
 			[]string{"BRS"},
-			Options{Travelers{Adults: 2}, currency.USD, Stop1, Economy, RoundTrip, language.English},
+			Options{Travelers{Adults: 2}, currency.USD, Stop1, Economy, OneWay, language.English},
 		},
 	)
 	if err != nil {

@@ -73,6 +73,7 @@ func serializeFlightTravelers(args Args) []interface{} {
 func serializeFlight(
 	srcLoc, dstLoc []interface{},
 	stops Stops, date time.Time,
+	rootFlight []interface{},
 ) []interface{} {
 	return []interface{}{
 		srcLoc,
@@ -83,13 +84,12 @@ func serializeFlight(
 		[]interface{}{},
 		date.Format(time.DateOnly),
 		nil,
-		[]interface{}{},
+		rootFlight,
 		[]interface{}{},
 		[]interface{}{},
 		nil,
 		nil,
 		[]interface{}{},
-		3,
 	}
 }
 
@@ -106,13 +106,13 @@ func (s *Session) serializeFlights(ctx context.Context, args Args) ([]interface{
 
 	if args.TripType == OneWay {
 		return []interface{}{
-			serializeFlight(srcLoc, dstLoc, args.Stops, args.Date),
+			append(serializeFlight(srcLoc, dstLoc, args.Stops, args.Date, []interface{}{}), 3),
 		}, nil
 	}
 
 	return []interface{}{
-		serializeFlight(srcLoc, dstLoc, args.Stops, args.Date),
-		serializeFlight(dstLoc, srcLoc, args.Stops, args.ReturnDate),
+		append(serializeFlight(srcLoc, dstLoc, args.Stops, args.Date, []interface{}{}), 3),
+		append(serializeFlight(dstLoc, srcLoc, args.Stops, args.ReturnDate, []interface{}{}), 3),
 	}, nil
 }
 
@@ -140,42 +140,10 @@ func (s *Session) serializeReturnFlight(ctx context.Context, args Args, flight [
 		return nil, err
 	}
 
-	data := []interface{}{
-		[]interface{}{
-			srcLoc,
-			dstLoc,
-			nil,
-			serializeFlightStop(args.Stops),
-			[]interface{}{},
-			[]interface{}{},
-			args.Date.Format(time.DateOnly),
-			nil,
-			serializeReqFlights(flight),
-			[]interface{}{},
-			[]interface{}{},
-			nil,
-			nil,
-			[]interface{}{},
-		},
-		[]interface{}{
-			dstLoc,
-			srcLoc,
-			nil,
-			serializeFlightStop(args.Stops),
-			[]interface{}{},
-			[]interface{}{},
-			args.ReturnDate.Format(time.DateOnly),
-			nil,
-			[]interface{}{},
-			[]interface{}{},
-			[]interface{}{},
-			nil,
-			nil,
-			[]interface{}{},
-		},
-	}
-
-	return data, nil
+	return []interface{}{
+		serializeFlight(srcLoc, dstLoc, args.Stops, args.Date, serializeReqFlights(flight)),
+		serializeFlight(dstLoc, srcLoc, args.Stops, args.ReturnDate, []interface{}{}),
+	}, nil
 }
 
 func getRawDataCommon(args Args, flights []interface{}) []interface{} {
@@ -250,7 +218,7 @@ func (s *Session) getFlightReqData(ctx context.Context, args Args) (string, erro
 	return serializeReqData(string(innerData))
 }
 
-func (s *Session) getFlightReqDataReturnFlight(ctx context.Context, args Args, flight []Flight) (string, error) {
+func (s *Session) getReturnFlightReqData(ctx context.Context, args Args, flight []Flight) (string, error) {
 	rawData, err := s.getRawDataReturnFlight(ctx, args, flight)
 	if err != nil {
 		return "", err
@@ -298,7 +266,7 @@ func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Respon
 func (s *Session) doRequestReturnFlights(ctx context.Context, args Args, flight []Flight) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-516424537229108034&bl=boq_travel-frontend-ui_20230816.02_p3&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=673689&rt=c"
 
-	reqDate, err := s.getFlightReqDataReturnFlight(ctx, args, flight)
+	reqDate, err := s.getReturnFlightReqData(ctx, args, flight)
 	if err != nil {
 		return nil, err
 	}
@@ -570,7 +538,7 @@ func (s *Session) GetOffers(ctx context.Context, args Args) ([]FullOffer, *Price
 
 	resp, err := s.doRequestFlights(ctx, args)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("GetOffers: %v", err)
 	}
 	defer resp.Body.Close()
 
