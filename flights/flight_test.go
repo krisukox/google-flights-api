@@ -215,15 +215,12 @@ func TestGetOffersMock(t *testing.T) {
 	t4, _ := time.Parse(dateTimeTimeZone, "2024-01-23 00:50:00 +0200 EET")
 	d2, _ := time.ParseDuration("2h25m0s")
 
-	// returnDate, _ := time.Parse(time.RFC3339, "2024-01-25T00:00:00Z")
-
 	d3, _ := time.ParseDuration("6h50m0s")
 
 	expectedOffer := FullOffer{
 		Offer: Offer{
 			StartDate: t1,
-			// ReturnDate: returnDate,
-			Price: 1315,
+			Price:     1315,
 		},
 		Flight: []Flight{{
 			DepAirportCode: "WAW",

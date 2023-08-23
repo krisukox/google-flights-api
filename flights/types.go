@@ -63,18 +63,16 @@ func (o Offer) String() string {
 }
 
 // FullOffer describes the full offer of a trip. [Session.GetOffers] returns a slice of FullOffers.
-//
-// NOTE: ReturnFlight is not implemented yet
 type FullOffer struct {
 	Offer
 	Flight               []Flight      // contains all flights in the trip
-	ReturnFlight         []Flight      // not implemented yet
+	ReturnFlight         []Flight      // contains all return flights in the trip
 	SrcAirportCode       string        // code of the airport where the trip starts
 	DstAirportCode       string        // destination airport
 	SrcCity              string        // source city
 	DstCity              string        // destination city
 	FlightDuration       time.Duration // duration of whole Flight
-	ReturnFlightDuration time.Duration // not implemented yet
+	ReturnFlightDuration time.Duration // duration of whole ReturnFlight
 }
 
 func (o FullOffer) String() string {
@@ -83,13 +81,13 @@ func (o FullOffer) String() string {
 	out += fmt.Sprintf("ReturnDate: %s\n", o.ReturnDate)
 	out += fmt.Sprintf("Price: %d\n", int(o.Price))
 	out += fmt.Sprintf("Flight: %s\n", o.Flight)
-	// out += fmt.Sprintf("ReturnFlight: %s\n", o.ReturnFlight)
+	out += fmt.Sprintf("ReturnFlight: %s\n", o.ReturnFlight)
 	out += fmt.Sprintf("SrcAirportCode: %s\n", o.SrcAirportCode)
 	out += fmt.Sprintf("DstAirportCode: %s\n", o.DstAirportCode)
 	out += fmt.Sprintf("SrcCity: %s\n", o.SrcCity)
 	out += fmt.Sprintf("DstCity: %s\n", o.DstCity)
 	out += fmt.Sprintf("FlightDuration: %s}\n", o.FlightDuration)
-	// out += fmt.Sprintf("ReturnFlightDuration: %s}\n", o.ReturnFlightDuration)
+	out += fmt.Sprintf("ReturnFlightDuration: %s}\n", o.ReturnFlightDuration)
 	return out
 }
 

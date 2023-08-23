@@ -30,7 +30,7 @@ const (
 // Nonstop	1		0
 // Stop1	2		1
 // Stop2	3		2
-// AnyStops 0		3
+// AnyStops	0		3
 func serializeFlightStop(Stops Stops) int {
 	switch Stops {
 	case Nonstop:
@@ -402,7 +402,7 @@ func offerSchema(rawFlights *[]json.RawMessage, price *float64) *[]interface{} {
 	return &[]interface{}{&[]interface{}{nil, nil, rawFlights}, &[]interface{}{&[]interface{}{nil, price}}}
 }
 
-func (s *Session) getSubsectionOffers(ctx context.Context, args Args, rawOffers []json.RawMessage) []FullOffer {
+func (s *Session) getSubsectionOffers(ctx context.Context, rawOffers []json.RawMessage) []FullOffer {
 	offers := []FullOffer{}
 	for _, rawOffer := range rawOffers {
 		offer := FullOffer{}
@@ -458,7 +458,7 @@ func sectionOffersSchema(rawOffers1, rawOffers2 *[]json.RawMessage, priceRange *
 		&[]interface{}{nil, &priceRange.Low}, &[]interface{}{nil, &priceRange.High}}}
 }
 
-func (s *Session) getSectionOffers(ctx context.Context, args Args, bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
+func (s *Session) getSectionOffers(ctx context.Context, bytesToDecode []byte) ([]FullOffer, *PriceRange, error) {
 	rawOffers1 := []json.RawMessage{}
 	rawOffers2 := []json.RawMessage{}
 
@@ -468,15 +468,11 @@ func (s *Session) getSectionOffers(ctx context.Context, args Args, bytesToDecode
 		return nil, nil, err
 	}
 
-	allOffers := []FullOffer{}
-
-	offers1 := s.getSubsectionOffers(ctx, args, rawOffers1)
-	allOffers = append(allOffers, offers1...)
-
-	offers2 := s.getSubsectionOffers(ctx, args, rawOffers2)
-	allOffers = append(allOffers, offers2...)
-
-	return allOffers, &priceRange, nil
+	return append(
+			s.getSubsectionOffers(ctx, rawOffers1),
+			s.getSubsectionOffers(ctx, rawOffers2)...),
+		&priceRange,
+		nil
 }
 
 func (s *Session) getSectionReturnFlight(ctx context.Context, bytesToDecode []byte) []Flight {
@@ -554,7 +550,7 @@ func (s *Session) GetOffers(ctx context.Context, args Args) ([]FullOffer, *Price
 			return finalOffers, finalPriceRange, nil
 		}
 
-		offers, priceRange, _ := s.getSectionOffers(ctx, args, bytesToDecode)
+		offers, priceRange, _ := s.getSectionOffers(ctx, bytesToDecode)
 		if offers != nil {
 			finalOffers = append(finalOffers, offers...)
 		}
