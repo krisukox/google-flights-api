@@ -70,7 +70,7 @@ func flightsSerializeTravelers(args Args) []interface{} {
 	}
 }
 
-func (s *Session) flightSerializeFlights(ctx context.Context, args Args) ([]interface{}, error) {
+func (s *Session) serializeFlights(ctx context.Context, args Args) ([]interface{}, error) {
 	srcLoc, err := s.serializeFlightLocations(ctx, args.SrcCities, args.SrcAirports, args.Lang)
 	if err != nil {
 		return nil, err
@@ -186,41 +186,42 @@ func (s *Session) serializeReturnFlight(ctx context.Context, args Args, flight [
 	return data, nil
 }
 
-func (s *Session) getRawData1(ctx context.Context, args Args) ([]interface{}, error) {
-	flights, err := s.flightSerializeFlights(ctx, args)
+func getRawDataCommon(args Args, flights []interface{}) []interface{} {
+	return []interface{}{
+		nil,
+		nil,
+		args.TripType,
+		nil,
+		[]interface{}{},
+		args.Class,
+		flightsSerializeTravelers(args),
+		nil,
+		nil,
+		nil,
+		nil,
+		nil,
+		nil,
+		flights,
+		nil,
+		nil,
+		nil,
+		1,
+		nil,
+		nil,
+		nil,
+		nil,
+		nil,
+		[]interface{}{},
+	}
+}
+
+func (s *Session) getRawData(ctx context.Context, args Args) ([]interface{}, error) {
+	flights, err := s.serializeFlights(ctx, args)
 	if err != nil {
 		return nil, err
 	}
 
-	data :=
-		[]interface{}{
-			nil,
-			nil,
-			args.TripType,
-			nil,
-			[]interface{}{},
-			args.Class,
-			flightsSerializeTravelers(args),
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			flights,
-			nil,
-			nil,
-			nil,
-			1,
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			[]interface{}{},
-		}
-
-	return data, nil
+	return getRawDataCommon(args, flights), nil
 }
 
 func (s *Session) getRawDataReturnFlight(ctx context.Context, args Args, flight []Flight) ([]interface{}, error) {
@@ -229,35 +230,7 @@ func (s *Session) getRawDataReturnFlight(ctx context.Context, args Args, flight 
 		return nil, err
 	}
 
-	data :=
-		[]interface{}{
-			nil,
-			nil,
-			args.TripType,
-			nil,
-			[]interface{}{},
-			args.Class,
-			flightsSerializeTravelers(args),
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			flights,
-			nil,
-			nil,
-			nil,
-			1,
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			[]interface{}{},
-		}
-
-	return data, nil
+	return getRawDataCommon(args, flights), nil
 }
 
 func serializeReqData(innerData string) (string, error) {
@@ -269,8 +242,8 @@ func serializeReqData(innerData string) (string, error) {
 	return url.QueryEscape(string(data)), nil
 }
 
-func (s *Session) getFlightReqData1(ctx context.Context, args Args) (string, error) {
-	rawData, err := s.getRawData1(ctx, args)
+func (s *Session) getFlightReqData(ctx context.Context, args Args) (string, error) {
+	rawData, err := s.getRawData(ctx, args)
 	if err != nil {
 		return "", err
 	}
@@ -304,7 +277,7 @@ func (s *Session) getFlightReqDataReturnFlight(ctx context.Context, args Args, f
 func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Response, error) {
 	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
 
-	reqDate, err := s.getFlightReqData1(ctx, args)
+	reqDate, err := s.getFlightReqData(ctx, args)
 	if err != nil {
 		return nil, err
 	}

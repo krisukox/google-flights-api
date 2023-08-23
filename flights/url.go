@@ -22,7 +22,7 @@ func serializeLocations(locations []string, locationType urlpb.Url_LocationType)
 	return locationsRet
 }
 
-func serializeFlight(
+func serializeUrlFlight(
 	date time.Time,
 	srcCities, srcAirports, dstCities, dstAirports []string,
 	stops Stops,
@@ -38,12 +38,12 @@ func serializeFlight(
 func serializeUrlFlights(args Args) []*urlpb.Url_Flight {
 	if args.TripType == OneWay {
 		return []*urlpb.Url_Flight{
-			serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
+			serializeUrlFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
 		}
 	}
 	return []*urlpb.Url_Flight{
-		serializeFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
-		serializeFlight(args.ReturnDate, args.DstCities, args.DstAirports, args.SrcCities, args.SrcAirports, args.Stops),
+		serializeUrlFlight(args.Date, args.SrcCities, args.SrcAirports, args.DstCities, args.DstAirports, args.Stops),
+		serializeUrlFlight(args.ReturnDate, args.DstCities, args.DstAirports, args.SrcCities, args.SrcAirports, args.Stops),
 	}
 }
 

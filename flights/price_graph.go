@@ -14,7 +14,7 @@ import (
 )
 
 func (s *Session) getPriceGraphRawData(ctx context.Context, args PriceGraphArgs) ([]interface{}, error) {
-	return s.getRawData1(ctx, args.Convert())
+	return s.getRawData(ctx, args.Convert())
 }
 
 func (s *Session) getPriceGraphReqData(ctx context.Context, args PriceGraphArgs) (string, error) {
