@@ -61,12 +61,35 @@ func (s *Session) serializeFlightLocations(ctx context.Context, cities []string,
 	return []interface{}{data}, nil
 }
 
-func flightsSerializeTravelers(args Args) []interface{} {
+func serializeFlightTravelers(args Args) []interface{} {
 	return []interface{}{
 		args.Travelers.Adults,
 		args.Travelers.Children,
 		args.Travelers.InfantOnLap,
 		args.Travelers.InfantInSeat,
+	}
+}
+
+func serializeFlight(
+	srcLoc, dstLoc []interface{},
+	stops Stops, date time.Time,
+) []interface{} {
+	return []interface{}{
+		srcLoc,
+		dstLoc,
+		nil,
+		serializeFlightStop(stops),
+		[]interface{}{},
+		[]interface{}{},
+		date.Format(time.DateOnly),
+		nil,
+		[]interface{}{},
+		[]interface{}{},
+		[]interface{}{},
+		nil,
+		nil,
+		[]interface{}{},
+		3,
 	}
 }
 
@@ -81,47 +104,16 @@ func (s *Session) serializeFlights(ctx context.Context, args Args) ([]interface{
 		return nil, err
 	}
 
-	data := []interface{}{
-		[]interface{}{
-			srcLoc,
-			dstLoc,
-			nil,
-			serializeFlightStop(args.Stops),
-			[]interface{}{},
-			[]interface{}{},
-			args.Date.Format(time.DateOnly),
-			nil,
-			[]interface{}{},
-			[]interface{}{},
-			[]interface{}{},
-			nil,
-			nil,
-			[]interface{}{},
-			3,
-		},
+	if args.TripType == OneWay {
+		return []interface{}{
+			serializeFlight(srcLoc, dstLoc, args.Stops, args.Date),
+		}, nil
 	}
 
-	if args.TripType == RoundTrip {
-		data = append(data, []interface{}{
-			dstLoc,
-			srcLoc,
-			nil,
-			serializeFlightStop(args.Stops),
-			[]interface{}{},
-			[]interface{}{},
-			args.ReturnDate.Format(time.DateOnly),
-			nil,
-			[]interface{}{},
-			[]interface{}{},
-			[]interface{}{},
-			nil,
-			nil,
-			[]interface{}{},
-			3,
-		})
-	}
-
-	return data, nil
+	return []interface{}{
+		serializeFlight(srcLoc, dstLoc, args.Stops, args.Date),
+		serializeFlight(dstLoc, srcLoc, args.Stops, args.ReturnDate),
+	}, nil
 }
 
 func serializeReqFlights(flight []Flight) []interface{} {
@@ -194,7 +186,7 @@ func getRawDataCommon(args Args, flights []interface{}) []interface{} {
 		nil,
 		[]interface{}{},
 		args.Class,
-		flightsSerializeTravelers(args),
+		serializeFlightTravelers(args),
 		nil,
 		nil,
 		nil,
