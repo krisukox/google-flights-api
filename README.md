@@ -8,6 +8,11 @@ The Google Flights API doesn't have official documentation, so the project relie
 
 The project uses [go-retryablehttp](https://github.com/hashicorp/go-retryablehttp) under the hood. Every request to the Google Flights API is retried five times in case of an error.
 
+### Go protoc plugin used in the project
+```
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.31.0
+```
+
 ## Installation
 
 ```
