@@ -1,5 +1,6 @@
 // This example gets PriceGraph offers and prints only those whose
 // price is cheaper than the low price of the offer
+// (the price is considered as low by the Google Flights)
 package main
 
 import (

@@ -85,7 +85,7 @@ jobs:
       - name: Setup protocol buffer compiler
         run: |
           sudo apt-get install protobuf-compiler
-          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.31.0
 
       - name: Generate proto
         run: go generate ./...

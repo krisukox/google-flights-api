@@ -42,6 +42,8 @@ func TestGetPriceGraph(t *testing.T) {
 }
 
 func testGetPriceGraphTravelers(t *testing.T, session *Session, rootPrice float64, args PriceGraphArgs, multiplier float64) {
+	percentageDiff := 10.0
+
 	offers, err := session.GetPriceGraph(context.Background(), args)
 	if err != nil {
 		t.Fatal(err)
@@ -49,8 +51,10 @@ func testGetPriceGraphTravelers(t *testing.T, session *Session, rootPrice float6
 	if len(offers) < 1 {
 		t.Fatalf("not enough offers (%d) for the following Travelers: %+v", len(offers), args.Travelers)
 	}
-	if !compareWithThreshold(rootPrice*multiplier, offers[0].Price) {
-		t.Fatalf("The received price should be %d times larger than the root price: %f, %f", int(multiplier), rootPrice, offers[0].Price)
+	lowerThreshold := rootPrice * multiplier * (100 - percentageDiff) / 100
+	upperThreshold := rootPrice * multiplier * (100 + percentageDiff) / 100
+	if offers[0].Price < lowerThreshold || offers[0].Price > upperThreshold {
+		t.Errorf("The received price %f: should be between threshold: %f %f", offers[0].Price, lowerThreshold, upperThreshold)
 	}
 }
 
