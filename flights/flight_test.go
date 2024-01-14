@@ -25,21 +25,19 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	}
 
 	date := time.Now().AddDate(0, 6, 0)
-	returnDate := time.Now().AddDate(0, 7, 0)
 
 	offersPLN, _, err := session.GetOffers(
 		context.Background(),
 		Args{
 			date,
-			returnDate,
-			[]string{"Los Angeles"},
-			[]string{"SFO"},
+			time.Time{},
+			[]string{"Marseille"},
+			[]string{"NCE"},
 			[]string{"London"},
-			[]string{"CDG"},
-			Options{Travelers{Adults: 2}, currency.PLN, Stop1, PremiumEconomy, OneWay, language.English},
+			[]string{"BRS"},
+			Options{Travelers{Adults: 2}, currency.PLN, Stop1, Economy, OneWay, language.English},
 		},
 	)
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -48,12 +46,12 @@ func TestGetOffersUSDPLN(t *testing.T) {
 		context.Background(),
 		Args{
 			date,
-			returnDate,
-			[]string{"Los Angeles"},
-			[]string{"SFO"},
+			time.Time{},
+			[]string{"Marseille"},
+			[]string{"NCE"},
 			[]string{"London"},
-			[]string{"CDG"},
-			Options{Travelers{Adults: 2}, currency.USD, Stop1, PremiumEconomy, OneWay, language.English},
+			[]string{"BRS"},
+			Options{Travelers{Adults: 2}, currency.USD, Stop1, Economy, OneWay, language.English},
 		},
 	)
 	if err != nil {
@@ -81,6 +79,60 @@ func TestGetOffersUSDPLN(t *testing.T) {
 
 	if comparedOffers < elemsNumber {
 		t.Fatalf("not enought compared offers: expected %d compared %d", elemsNumber, comparedOffers)
+	}
+}
+
+func TestGetOffersReturnFlight(t *testing.T) {
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	date := time.Now().AddDate(0, 6, 0)
+	returnDate := time.Now().AddDate(0, 7, 0)
+
+	oneWay, _, err := session.GetOffers(
+		context.Background(),
+		Args{
+			date,
+			time.Time{},
+			[]string{"Marseille"},
+			[]string{"NCE"},
+			[]string{"London"},
+			[]string{"BRS"},
+			Options{Travelers{Adults: 2}, currency.USD, Stop1, Economy, OneWay, language.English},
+		},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, o := range oneWay {
+		if len(o.ReturnFlight) != 0 {
+			t.Fatalf("a return flight for a one-way offer should not be present")
+		}
+	}
+
+	roundTrip, _, err := session.GetOffers(
+		context.Background(),
+		Args{
+			date,
+			returnDate,
+			[]string{"Marseille"},
+			[]string{"NCE"},
+			[]string{"London"},
+			[]string{"BRS"},
+			Options{Travelers{Adults: 2}, currency.USD, Stop1, Economy, RoundTrip, language.English},
+		},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, o := range roundTrip {
+		if len(o.ReturnFlight) == 0 {
+			t.Fatalf("a return flight for a round-trip offer should be present")
+		}
 	}
 }
 
@@ -167,15 +219,12 @@ func TestGetOffersMock(t *testing.T) {
 	t4, _ := time.Parse(dateTimeTimeZone, "2024-01-23 00:50:00 +0200 EET")
 	d2, _ := time.ParseDuration("2h25m0s")
 
-	returnDate, _ := time.Parse(time.RFC3339, "2024-01-25T00:00:00Z")
-
 	d3, _ := time.ParseDuration("6h50m0s")
 
 	expectedOffer := FullOffer{
 		Offer: Offer{
-			StartDate:  t1,
-			ReturnDate: returnDate,
-			Price:      1315,
+			StartDate: t1,
+			Price:     1315,
 		},
 		Flight: []Flight{{
 			DepAirportCode: "WAW",
@@ -206,7 +255,7 @@ func TestGetOffersMock(t *testing.T) {
 			AirlineName:    "Lufthansa",
 			Legroom:        "29 inches",
 		}},
-		ReturnFlight:   []Flight{},
+		ReturnFlight:   nil,
 		SrcAirportCode: "WAW",
 		DstAirportCode: "ATH",
 		SrcCity:        "Warsaw",
@@ -233,7 +282,7 @@ func TestGetOffersMock(t *testing.T) {
 		context.Background(),
 		Args{
 			dummyTime,
-			returnDate,
+			time.Time{},
 			[]string{"Warsaw"},
 			[]string{},
 			[]string{"Athens"},
@@ -243,7 +292,7 @@ func TestGetOffersMock(t *testing.T) {
 				currency.Unit{},
 				Stops(dummyValue),
 				Class(dummyValue),
-				TripType(dummyValue),
+				OneWay,
 				language.Tag{},
 			},
 		},
@@ -325,6 +374,97 @@ func TestFlightReqData(t *testing.T) {
 			[]string{"London"},
 			[]string{"CDG"},
 			Options{Travelers{Adults: 2}, currency.Unit{}, Stop2, Business, OneWay, language.English},
+		},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	reqData2, err := url.QueryUnescape(_reqData2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if reqData2 != expectedReqData2 {
+		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedReqData2, reqData2)
+	}
+}
+
+func TestReturnFlightReqData(t *testing.T) {
+	session, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expectedReqData1 := `[null,"[[],[null,null,1,null,[],1,[1,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,0,[],[],\"2024-01-01\",null,[[\"ABC\",\"2024-01-01\",\"DEF\",null,\"TF\",\"1235\"]],[],[],null,null,[]],[[[[\"CDG\",0],[\"/m/04jpl\",5]]],[[[\"SFO\",0],[\"/m/030qb3t\",5]]],null,0,[],[],\"2024-01-31\",null,[],[],[],null,null,[]]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+	expectedReqData2 := `[null,"[[],[null,null,2,null,[],3,[2,0,0,0],null,null,null,null,null,null,[[[[[\"SFO\",0],[\"/m/030qb3t\",5]]],[[[\"CDG\",0],[\"/m/04jpl\",5]]],null,3,[],[],\"2024-01-01\",null,[[\"ABC\",\"2024-01-01\",\"DEF\",null,\"TF\",\"1235\"],[\"GHI\",\"2024-01-31\",\"JKL\",null,\"EG\",\"6789\"]],[],[],null,null,[]],[[[[\"CDG\",0],[\"/m/04jpl\",5]]],[[[\"SFO\",0],[\"/m/030qb3t\",5]]],null,3,[],[],\"2024-01-31\",null,[],[],[],null,null,[]]],null,null,null,1,null,null,null,null,null,[]],1,0,0]"]`
+
+	date, err := time.Parse("2006-01-02", "2024-01-01")
+	if err != nil {
+		t.Fatalf("Error while creating date: %v", err)
+	}
+	returnDate, err := time.Parse("2006-01-02", "2024-01-31")
+	if err != nil {
+		t.Fatalf("Error while creating return date: %v", err)
+	}
+
+	_reqData1, err := session.getReturnFlightReqData(
+		context.Background(),
+		Args{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Options{Travelers{Adults: 1}, currency.Unit{}, AnyStops, Economy, RoundTrip, language.English},
+		},
+		[]Flight{
+			{
+				DepAirportCode: "ABC",
+				DepTime:        date,
+				ArrAirportCode: "DEF",
+				FlightNumber:   "TF 1235",
+			},
+		},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	reqData1, err := url.QueryUnescape(_reqData1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if reqData1 != expectedReqData1 {
+		t.Fatalf("wrong unescaped query, expected: %s received: %s", expectedReqData1, reqData1)
+	}
+
+	_reqData2, err := session.getReturnFlightReqData(
+		context.Background(),
+		Args{
+			date,
+			returnDate,
+			[]string{"Los Angeles"},
+			[]string{"SFO"},
+			[]string{"London"},
+			[]string{"CDG"},
+			Options{Travelers{Adults: 2}, currency.Unit{}, Stop2, Business, OneWay, language.English},
+		},
+		[]Flight{
+			{
+				DepAirportCode: "ABC",
+				DepTime:        date,
+				ArrAirportCode: "DEF",
+				FlightNumber:   "TF 1235",
+			},
+			{
+				DepAirportCode: "GHI",
+				DepTime:        returnDate,
+				ArrAirportCode: "JKL",
+				FlightNumber:   "EG 6789",
+			},
 		},
 	)
 	if err != nil {
