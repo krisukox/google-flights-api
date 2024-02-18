@@ -23,6 +23,9 @@ go get -u github.com/krisukox/google-flights-api/flights
 
 ### Session
 Session is the main object that contains all the API-related functions.
+
+**_NOTE:_** The library relies on the `GOOGLE_ABUSE_EXEMPTION` cookie (the cookie is not always needed), so if you get an unexpected HTTP response code, please go to https://www.google.com/travel/flights, do the captcha, and try once again. (The cookie is gotten from your browser database using https://github.com/browserutils/kooky)
+
 ```
 session := flights.New()
 ```

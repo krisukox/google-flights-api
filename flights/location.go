@@ -32,12 +32,13 @@ func (s *Session) doRequestLocation(ctx context.Context, city string, lang langu
 
 	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, requestURL, bytes.NewReader(jsonBody))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to do Location request: %v", err)
 	}
 	req.Header.Set("accept", "*/*")
 	req.Header.Set("cache-control", "no-cache")
 	req.Header.Set("content-type", "application/x-www-form-urlencoded;charset=UTF-8")
 	req.Header["cookie"] = s.cookies
+	req.Header["cookie"] = append(req.Header["cookie"], "GOOGLE_ABUSE_EXEMPTION=ID=725ead4a0c246cae:TM=1708250141:C=r:IP=193.28.84.180-:S=eFDjVS_Y0XNXouWuUE9R1F0")
 	req.Header.Set("pragma", "no-cache")
 	req.Header.Set("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
 
@@ -82,7 +83,7 @@ func (s *Session) AbbrCity(ctx context.Context, city string, lang language.Tag) 
 
 	resp, err := s.doRequestLocation(ctx, city, lang)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("AbbrCity request error: %v", err)
 	}
 	defer resp.Body.Close()
 
@@ -92,7 +93,7 @@ func (s *Session) AbbrCity(ctx context.Context, city string, lang language.Tag) 
 
 	bytesToDecode, err := getInnerBytes(body)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("getInnerBytes: %v", err)
 	}
 
 	var receivedCity string
@@ -117,7 +118,7 @@ func (s *Session) abbrCities(ctx context.Context, cities []string, lang language
 	for _, c := range cities {
 		sc, err := s.AbbrCity(ctx, c, lang)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("could not get the abbreviated %s city name: %v", c, err)
 		}
 		abbrCities = append(abbrCities, sc)
 	}

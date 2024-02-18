@@ -83,12 +83,12 @@ func (s *Session) SerializeURL(ctx context.Context, args Args) (string, error) {
 
 	args.SrcCities, err = s.abbrCities(ctx, args.SrcCities, args.Lang)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not get abbreviated src cities: %v", err)
 	}
 
 	args.DstCities, err = s.abbrCities(ctx, args.DstCities, args.Lang)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not get abbreviated dst cities: %v", err)
 	}
 	urlProto := &urlpb.Url{
 		Flight:    serializeFlights(args),

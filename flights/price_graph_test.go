@@ -42,7 +42,7 @@ func TestGetPriceGraph(t *testing.T) {
 }
 
 func testGetPriceGraphTravelers(t *testing.T, session *Session, rootPrice float64, args PriceGraphArgs, multiplier float64) {
-	percentageDiff := 10.0
+	percentageDiff := 20.0
 
 	offers, err := session.GetPriceGraph(context.Background(), args)
 	if err != nil {

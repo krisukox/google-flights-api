@@ -147,8 +147,10 @@ func validateNumberOfLocations(cities, airports []string) error {
 	return nil
 }
 
+var timeNow = time.Now
+
 func validateDate(date, returnDate time.Time) error {
-	now := time.Now().Truncate(time.Hour * 24)
+	now := timeNow().Truncate(time.Hour * 24)
 
 	if returnDate.Before(date) {
 		return fmt.Errorf("returnDate is before date")
@@ -160,7 +162,7 @@ func validateDate(date, returnDate time.Time) error {
 }
 
 func validateRangeDate(rangeStartDate time.Time, rangeEndDate time.Time) error {
-	now := time.Now().Truncate(time.Hour * 24)
+	now := timeNow().Truncate(time.Hour * 24)
 
 	days := int(rangeEndDate.Sub(rangeStartDate).Hours() / 24)
 	if days > 161 {
