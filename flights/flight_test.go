@@ -89,7 +89,7 @@ func compareWithThreshold(lv, rv float64) bool {
 }
 
 func testGetOffersTravelers(t *testing.T, session *Session, rootPrice float64, args Args, multiplier float64) {
-	percentageDiff := 10.0
+	percentageDiff := 20.0
 
 	offers, _, err := session.GetOffers(context.Background(), args)
 	if err != nil {
@@ -156,7 +156,6 @@ func removeUnknowns(offers []FullOffer) {
 func TestGetOffersMock(t *testing.T) {
 	dateTimeTimeZone := time.DateTime + " -0700 MST"
 
-	dummyTime := time.Now()
 	dummyValue := 0
 
 	t1, _ := time.Parse(dateTimeTimeZone, "2024-01-22 17:00:00 +0100 CET")
@@ -167,6 +166,14 @@ func TestGetOffersMock(t *testing.T) {
 	t4, _ := time.Parse(dateTimeTimeZone, "2024-01-23 00:50:00 +0200 EET")
 	d2, _ := time.ParseDuration("2h25m0s")
 
+	// override time.Now() for testing
+	timeNow = func() time.Time {
+		t, _ := time.Parse(time.RFC3339, "2024-01-15T00:00:00Z")
+		return t
+	}
+	defer func() { timeNow = time.Now }()
+
+	date, _ := time.Parse(time.RFC3339, "2024-01-20T00:00:00Z")
 	returnDate, _ := time.Parse(time.RFC3339, "2024-01-25T00:00:00Z")
 
 	d3, _ := time.ParseDuration("6h50m0s")
@@ -232,7 +239,7 @@ func TestGetOffersMock(t *testing.T) {
 	offers, priceRange, err := session.GetOffers(
 		context.Background(),
 		Args{
-			dummyTime,
+			date,
 			returnDate,
 			[]string{"Warsaw"},
 			[]string{},

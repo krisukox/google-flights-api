@@ -9,6 +9,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/browserutils/kooky"
 	"github.com/hashicorp/go-retryablehttp"
 )
 
@@ -78,12 +79,18 @@ func New() (*Session, error) {
 
 	res, err := client.Get("https://www.google.com/")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("new session: err sending request to www.google.com: %v", err)
 	}
 
 	cookies, err := getCookies(res)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("new session: err getting cookies: %v", err)
+	}
+
+	GOOGLE_ABUSE_EXEMPTION := kooky.ReadCookies(kooky.Valid, kooky.DomainHasSuffix(`google.com`), kooky.Name(`GOOGLE_ABUSE_EXEMPTION`))
+
+	if len(GOOGLE_ABUSE_EXEMPTION) == 1 {
+		cookies = append(cookies, GOOGLE_ABUSE_EXEMPTION[0].Value)
 	}
 
 	return &Session{

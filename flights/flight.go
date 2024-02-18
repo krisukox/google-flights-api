@@ -44,7 +44,7 @@ func serializeFlightStop(Stops Stops) string {
 func (s *Session) serializeFlightLocations(ctx context.Context, cities []string, airports []string, Lang language.Tag) (string, error) {
 	abbrCities, err := s.abbrCities(ctx, cities, Lang)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not get abbrivated city names: %v", err)
 	}
 
 	serialized := ""
@@ -72,11 +72,11 @@ func serializeFlightTravelers(args Args) string {
 func (s *Session) getRawData(ctx context.Context, args Args) (string, error) {
 	serSrcs, err := s.serializeFlightLocations(ctx, args.SrcCities, args.SrcAirports, args.Lang)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not serialize src flight src locations: %v", err)
 	}
 	serDsts, err := s.serializeFlightLocations(ctx, args.DstCities, args.DstAirports, args.Lang)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not serialize src flight dst locations: %v", err)
 	}
 
 	serDate := args.Date.Format("2006-01-02")
@@ -122,7 +122,7 @@ func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Respon
 
 	reqDate, err := s.getFlightReqData(ctx, args)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not get request data: %v", err)
 	}
 
 	jsonBody := []byte(
@@ -131,7 +131,7 @@ func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Respon
 
 	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(jsonBody))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to do GetShoppingResults request: %v", err)
 	}
 	req.Header.Set("accept", `*/*`)
 	req.Header.Set("accept-language", `en-US,en;q=0.9`)
