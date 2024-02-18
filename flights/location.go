@@ -38,7 +38,6 @@ func (s *Session) doRequestLocation(ctx context.Context, city string, lang langu
 	req.Header.Set("cache-control", "no-cache")
 	req.Header.Set("content-type", "application/x-www-form-urlencoded;charset=UTF-8")
 	req.Header["cookie"] = s.cookies
-	req.Header["cookie"] = append(req.Header["cookie"], "GOOGLE_ABUSE_EXEMPTION=ID=725ead4a0c246cae:TM=1708250141:C=r:IP=193.28.84.180-:S=eFDjVS_Y0XNXouWuUE9R1F0")
 	req.Header.Set("pragma", "no-cache")
 	req.Header.Set("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
 
