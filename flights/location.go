@@ -32,7 +32,7 @@ func (s *Session) doRequestLocation(ctx context.Context, city string, lang langu
 
 	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, requestURL, bytes.NewReader(jsonBody))
 	if err != nil {
-		return nil, fmt.Errorf("failed to do Location request: %v", err)
+		return nil, fmt.Errorf("failed to create Location request: %v", err)
 	}
 	req.Header.Set("accept", "*/*")
 	req.Header.Set("cache-control", "no-cache")
@@ -83,7 +83,7 @@ func (s *Session) AbbrCity(ctx context.Context, city string, lang language.Tag) 
 
 	resp, err := s.doRequestLocation(ctx, city, lang)
 	if err != nil {
-		return "", fmt.Errorf("AbbrCity request error: %v", err)
+		return "", fmt.Errorf("failed to do Location request: %v", err)
 	}
 	defer resp.Body.Close()
 
@@ -136,7 +136,7 @@ func iataCodeSchema(iataCode *string) *[][][][]interface{} {
 func (s *Session) IsIATASupported(ctx context.Context, iataCode string) (bool, error) {
 	resp, err := s.doRequestLocation(ctx, iataCode, language.English)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("failed to do Location request: %v", err)
 	}
 	defer resp.Body.Close()
 

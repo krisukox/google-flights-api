@@ -72,7 +72,7 @@ func getCookies(res *http.Response) ([]string, error) {
 
 func New() (*Session, error) {
 	client := retryablehttp.NewClient()
-	client.RetryMax = 0
+	client.RetryMax = 5
 	client.Logger = nil
 	client.CheckRetry = customRetryPolicy()
 	client.RetryWaitMin = time.Second

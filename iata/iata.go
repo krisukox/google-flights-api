@@ -4,7 +4,7 @@
 //
 // Command: go run ./iata/generate/generate.go
 //
-// Generation date: 2023-08-12
+// Generation date: 2024-02-18
 //
 // [airports.json]: https://github.com/mwgg/Airports/blob/f259c38566a5acbcb04b64eb5ad01d14bf7fd07c/airports.json
 package iata
@@ -45,8 +45,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Abilene", "America/Chicago"}
 	case "ABJ":
 		return Location{"Abidjan", "Africa/Abidjan"}
-	case "ABK":
-		return Location{"Kabri Dehar", "Africa/Addis_Ababa"}
 	case "ABL":
 		return Location{"Ambler", "America/Anchorage"}
 	case "ABM":
@@ -147,6 +145,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Aguascalientes", "America/Mexico_City"}
 	case "AGV":
 		return Location{"Acarigua", "America/Caracas"}
+	case "AGX":
+		return Location{"", "Asia/Kolkata"}
 	case "AHB":
 		return Location{"Abha", "Asia/Riyadh"}
 	case "AHE":
@@ -217,6 +217,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Algiers", "Africa/Algiers"}
 	case "ALH":
 		return Location{"Albany", "Australia/Perth"}
+	case "ALI":
+		return Location{"Alice", "America/Chicago"}
 	case "ALO":
 		return Location{"Waterloo", "America/Chicago"}
 	case "ALP":
@@ -255,6 +257,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Andenes", "Europe/Oslo"}
 	case "AOE":
 		return Location{"Eskisehir", "Europe/Istanbul"}
+	case "AOG":
+		return Location{"Anshan", "Asia/Shanghai"}
 	case "AOI":
 		return Location{"Ancona", "Europe/Rome"}
 	case "AOJ":
@@ -323,6 +327,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Amboseli National Park", "Africa/Nairobi"}
 	case "ASW":
 		return Location{"Aswan", "Africa/Cairo"}
+	case "ATA":
+		return Location{"Anta", "America/Lima"}
 	case "ATD":
 		return Location{"Atoifi", "Pacific/Guadalcanal"}
 	case "ATH":
@@ -401,6 +407,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Phoenix", "America/Phoenix"}
 	case "AZD":
 		return Location{"Yazd", "Asia/Tehran"}
+	case "AZI":
+		return Location{"", "Asia/Dubai"}
 	case "AZO":
 		return Location{"Kalamazoo", "America/Detroit"}
 	case "AZR":
@@ -447,6 +455,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Barcelona", "Europe/Madrid"}
 	case "BCO":
 		return Location{"Baco", "Africa/Addis_Ababa"}
+	case "BCT":
+		return Location{"Boca Raton", "America/New_York"}
 	case "BDA":
 		return Location{"Hamilton", "Atlantic/Bermuda"}
 	case "BDB":
@@ -479,6 +489,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Asia/Kolkata"}
 	case "BEL":
 		return Location{"Belem", "America/Belem"}
+	case "BEM":
+		return Location{"Bossembele", "Africa/Bangui"}
 	case "BEN":
 		return Location{"Benghazi", "Africa/Tripoli"}
 	case "BER":
@@ -497,6 +509,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bradford", "America/New_York"}
 	case "BFF":
 		return Location{"Scottsbluff", "America/Denver"}
+	case "BFI":
+		return Location{"Seattle", "America/Los_Angeles"}
 	case "BFJ":
 		return Location{"", "Pacific/Fiji"}
 	case "BFL":
@@ -525,6 +539,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bergen", "Europe/Oslo"}
 	case "BGR":
 		return Location{"Bangor", "America/New_York"}
+	case "BGS":
+		return Location{"Big Spring", "America/Chicago"}
 	case "BGW":
 		return Location{"Baghdad", "Asia/Baghdad"}
 	case "BGX":
@@ -555,8 +571,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bharatpur", "Asia/Kathmandu"}
 	case "BHU":
 		return Location{"Bhavnagar", "Asia/Kolkata"}
-	case "BHV":
-		return Location{"Bahawalpur", "Asia/Karachi"}
 	case "BHX":
 		return Location{"Birmingham", "Europe/London"}
 	case "BHY":
@@ -601,6 +615,10 @@ func IATATimeZone(iata string) Location {
 		return Location{"Silao", "America/Mexico_City"}
 	case "BJZ":
 		return Location{"Badajoz", "Europe/Madrid"}
+	case "BKA":
+		return Location{"Moscow", "Europe/Moscow"}
+	case "BKB":
+		return Location{"Bikaner", "Asia/Kolkata"}
 	case "BKC":
 		return Location{"Buckland", "America/Anchorage"}
 	case "BKG":
@@ -657,8 +675,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bordj Badji Mokhtar", "Africa/Algiers"}
 	case "BNA":
 		return Location{"Nashville", "America/Chicago"}
-	case "BNC":
-		return Location{"Beni", "Africa/Lubumbashi"}
 	case "BND":
 		return Location{"Bandar Abbas", "Asia/Tehran"}
 	case "BNE":
@@ -697,6 +713,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bodo", "Europe/Oslo"}
 	case "BOS":
 		return Location{"Boston", "America/New_York"}
+	case "BOY":
+		return Location{"Bobo Dioulasso", "Africa/Ouagadougou"}
 	case "BPG":
 		return Location{"Barra Do Garcas", "America/Cuiaba"}
 	case "BPL":
@@ -753,8 +771,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bristol", "Europe/London"}
 	case "BRU":
 		return Location{"Brussels", "Europe/Brussels"}
-	case "BRV":
-		return Location{"Bremerhaven", "Europe/Berlin"}
 	case "BRW":
 		return Location{"Barrow", "America/Anchorage"}
 	case "BSA":
@@ -809,6 +825,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Buffalo", "America/New_York"}
 	case "BUN":
 		return Location{"Buenaventura", "America/Bogota"}
+	case "BUP":
+		return Location{"", "Asia/Kolkata"}
 	case "BUQ":
 		return Location{"Bulawayo", "Africa/Harare"}
 	case "BUR":
@@ -835,8 +853,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Vilhena", "America/Cuiaba"}
 	case "BVI":
 		return Location{"", "Australia/Brisbane"}
-	case "BVJ":
-		return Location{"Bovanenkovo", "Asia/Yekaterinburg"}
 	case "BVS":
 		return Location{"Breves", "America/Belem"}
 	case "BWA":
@@ -857,14 +873,12 @@ func IATATimeZone(iata string) Location {
 		return Location{"Baikonur", "Asia/Qyzylorda"}
 	case "BYC":
 		return Location{"Yacuiba", "America/La_Paz"}
-	case "BYJ":
-		return Location{"Beja", "Europe/Lisbon"}
 	case "BYK":
 		return Location{"", "Africa/Abidjan"}
+	case "BYN":
+		return Location{"Bayankhongor", "Asia/Ulaanbaatar"}
 	case "BYO":
 		return Location{"Bonito", "America/Campo_Grande"}
-	case "BYP":
-		return Location{"", "Australia/Perth"}
 	case "BZE":
 		return Location{"Belize City", "America/Belize"}
 	case "BZG":
@@ -885,16 +899,12 @@ func IATATimeZone(iata string) Location {
 		return Location{"Cascavel", "America/Sao_Paulo"}
 	case "CAE":
 		return Location{"Columbia", "America/New_York"}
-	case "CAF":
-		return Location{"Carauari", "America/Manaus"}
 	case "CAG":
 		return Location{"Cagliari", "Europe/Rome"}
 	case "CAH":
 		return Location{"Ca Mau City", "Asia/Ho_Chi_Minh"}
 	case "CAI":
 		return Location{"Cairo", "Africa/Cairo"}
-	case "CAJ":
-		return Location{"Canaima", "America/Caracas"}
 	case "CAK":
 		return Location{"Akron", "America/New_York"}
 	case "CAL":
@@ -981,6 +991,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Cabo Frio", "America/Sao_Paulo"}
 	case "CFE":
 		return Location{"Clermont-Ferrand/Auvergne", "Europe/Paris"}
+	case "CFG":
+		return Location{"Cienfuegos", "America/Havana"}
 	case "CFN":
 		return Location{"Donegal", "Europe/Dublin"}
 	case "CFR":
@@ -1063,12 +1075,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Coimbatore", "Asia/Kolkata"}
 	case "CJC":
 		return Location{"Calama", "America/Santiago"}
-	case "CJF":
-		return Location{"", "Australia/Perth"}
 	case "CJJ":
 		return Location{"Cheongju", "Asia/Seoul"}
-	case "CJL":
-		return Location{"Chitral", "Asia/Karachi"}
 	case "CJM":
 		return Location{"", "Asia/Bangkok"}
 	case "CJS":
@@ -1085,8 +1093,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Cornelio Procopio", "America/Sao_Paulo"}
 	case "CKS":
 		return Location{"Carajas", "America/Belem"}
-	case "CKW":
-		return Location{"Christmas Creek mine", "Australia/Perth"}
 	case "CKY":
 		return Location{"Conakry", "Africa/Conakry"}
 	case "CKZ":
@@ -1159,8 +1165,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Cochin", "Asia/Kolkata"}
 	case "COO":
 		return Location{"Cotonou", "Africa/Porto-Novo"}
-	case "COQ":
-		return Location{"", "Asia/Choibalsan"}
 	case "COR":
 		return Location{"Cordoba", "America/Argentina/Cordoba"}
 	case "COS":
@@ -1221,14 +1225,14 @@ func IATATimeZone(iata string) Location {
 		return Location{"Catania", "Europe/Rome"}
 	case "CTC":
 		return Location{"Catamarca", "America/Argentina/Catamarca"}
+	case "CTD":
+		return Location{"Chitre", "America/Panama"}
 	case "CTG":
 		return Location{"Cartagena", "America/Bogota"}
 	case "CTL":
 		return Location{"Charleville", "Australia/Brisbane"}
 	case "CTM":
 		return Location{"Chetumal", "America/Cancun"}
-	case "CTN":
-		return Location{"", "Australia/Brisbane"}
 	case "CTS":
 		return Location{"Chitose / Tomakomai", "Asia/Tokyo"}
 	case "CTU":
@@ -1245,8 +1249,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "America/Caracas"}
 	case "CUN":
 		return Location{"Cancun", "America/Cancun"}
-	case "CUQ":
-		return Location{"", "Australia/Brisbane"}
 	case "CUR":
 		return Location{"Willemstad", "America/Curacao"}
 	case "CUU":
@@ -1293,6 +1295,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Calbayog City", "Asia/Manila"}
 	case "CYS":
 		return Location{"Cheyenne", "America/Denver"}
+	case "CYX":
+		return Location{"Cherskiy", "Asia/Srednekolymsk"}
 	case "CYZ":
 		return Location{"Cauayan City", "Asia/Manila"}
 	case "CZL":
@@ -1383,6 +1387,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Dien Bien Phu", "Asia/Bangkok"}
 	case "DIR":
 		return Location{"Dire Dawa", "Africa/Addis_Ababa"}
+	case "DIU":
+		return Location{"Diu", "Asia/Kolkata"}
 	case "DIY":
 		return Location{"Diyarbakir", "Europe/Istanbul"}
 	case "DJB":
@@ -1393,6 +1399,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Djanet", "Africa/Algiers"}
 	case "DJJ":
 		return Location{"Jayapura-Papua Island", "Asia/Jayapura"}
+	case "DKR":
+		return Location{"Dakar", "Africa/Dakar"}
 	case "DKS":
 		return Location{"Dikson", "Asia/Krasnoyarsk"}
 	case "DLA":
@@ -1443,8 +1451,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Deauville", "Europe/Paris"}
 	case "DOM":
 		return Location{"Marigot", "America/Dominica"}
-	case "DOP":
-		return Location{"Dolpa", "Asia/Kathmandu"}
 	case "DOY":
 		return Location{"Dongying", "Asia/Shanghai"}
 	case "DPL":
@@ -1471,8 +1477,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Darwin", "Australia/Darwin"}
 	case "DSE":
 		return Location{"Dessie", "Africa/Addis_Ababa"}
-	case "DSI":
-		return Location{"Destin", "America/Chicago"}
 	case "DSM":
 		return Location{"Des Moines", "America/Chicago"}
 	case "DSN":
@@ -1533,8 +1537,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Wenatchee", "America/Los_Angeles"}
 	case "EAU":
 		return Location{"Eau Claire", "America/Chicago"}
-	case "EBA":
-		return Location{"Marina  Di Campo", "Europe/Rome"}
 	case "EBB":
 		return Location{"Kampala", "Africa/Kampala"}
 	case "EBH":
@@ -1565,8 +1567,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Eagle", "America/Denver"}
 	case "EGM":
 		return Location{"Sege", "Pacific/Guadalcanal"}
-	case "EGN":
-		return Location{"Geneina", "Africa/Khartoum"}
 	case "EGS":
 		return Location{"Egilsstadir", "Atlantic/Reykjavik"}
 	case "EGX":
@@ -1577,18 +1577,12 @@ func IATATimeZone(iata string) Location {
 		return Location{"Road Town", "America/Tortola"}
 	case "EJA":
 		return Location{"Barrancabermeja", "America/Bogota"}
-	case "EJH":
-		return Location{"Al Wajh", "Asia/Riyadh"}
 	case "EKO":
 		return Location{"Elko", "America/Los_Angeles"}
-	case "EKS":
-		return Location{"Shakhtersk", "Asia/Sakhalin"}
 	case "ELC":
 		return Location{"Elcho Island", "Australia/Darwin"}
 	case "ELD":
 		return Location{"El Dorado", "America/Chicago"}
-	case "ELF":
-		return Location{"El Fasher", "Africa/Khartoum"}
 	case "ELG":
 		return Location{"", "Africa/Algiers"}
 	case "ELH":
@@ -1629,8 +1623,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Medellin", "America/Bogota"}
 	case "EPR":
 		return Location{"", "Australia/Perth"}
-	case "EPU":
-		return Location{"Parnu", "Europe/Tallinn"}
 	case "EQS":
 		return Location{"Esquel", "America/Argentina/Catamarca"}
 	case "ERC":
@@ -1661,6 +1653,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Essaouira", "Africa/Casablanca"}
 	case "ETM":
 		return Location{"Eilat", "Asia/Jerusalem"}
+	case "ETR":
+		return Location{"Santa Rosa", "America/Guayaquil"}
 	case "ETZ":
 		return Location{"Metz / Nancy", "Europe/Paris"}
 	case "EUA":
@@ -1843,8 +1837,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Funafuti", "Pacific/Funafuti"}
 	case "FUO":
 		return Location{"Foshan", "Asia/Shanghai"}
-	case "FUT":
-		return Location{"Futuna Island", "Pacific/Wallis"}
 	case "FVM":
 		return Location{"Fuvahmulah Island", "Indian/Maldives"}
 	case "FWA":
@@ -1905,8 +1897,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Santo Angelo", "America/Sao_Paulo"}
 	case "GEO":
 		return Location{"Georgetown", "America/Guyana"}
-	case "GER":
-		return Location{"Nueva Gerona", "America/Havana"}
 	case "GES":
 		return Location{"General Santos City", "Asia/Manila"}
 	case "GET":
@@ -1933,6 +1923,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Governor's Harbour", "America/Nassau"}
 	case "GHC":
 		return Location{"", "America/Nassau"}
+	case "GHT":
+		return Location{"Ghat", "Africa/Tripoli"}
 	case "GIB":
 		return Location{"Gibraltar", "Europe/Gibraltar"}
 	case "GIC":
@@ -2013,6 +2005,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Garoua", "Africa/Douala"}
 	case "GOV":
 		return Location{"Nhulunbuy", "Australia/Darwin"}
+	case "GOY":
+		return Location{"Amparai", "Asia/Colombo"}
 	case "GPA":
 		return Location{"Patras", "Europe/Athens"}
 	case "GPB":
@@ -2319,8 +2313,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Hamilton Island", "Australia/Lindeman"}
 	case "HTN":
 		return Location{"Hotan", "Asia/Shanghai"}
-	case "HTO":
-		return Location{"East Hampton", "America/New_York"}
 	case "HTS":
 		return Location{"Huntington", "America/New_York"}
 	case "HTY":
@@ -2351,6 +2343,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"New Haven", "America/New_York"}
 	case "HVR":
 		return Location{"Havre", "America/Denver"}
+	case "HWN":
+		return Location{"Hwange", "Africa/Harare"}
 	case "HYA":
 		return Location{"Hyannis", "America/New_York"}
 	case "HYD":
@@ -2455,8 +2449,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Port Ellen", "Europe/London"}
 	case "IMF":
 		return Location{"Imphal", "Asia/Kolkata"}
-	case "IMK":
-		return Location{"Simikot", "Asia/Kathmandu"}
 	case "IMP":
 		return Location{"Imperatriz", "America/Fortaleza"}
 	case "IMT":
@@ -2479,6 +2471,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Yaren District", "Pacific/Nauru"}
 	case "INV":
 		return Location{"Inverness", "Europe/London"}
+	case "INZ":
+		return Location{"In Salah", "Africa/Algiers"}
 	case "IOA":
 		return Location{"Ioannina", "Europe/Athens"}
 	case "IOM":
@@ -2497,8 +2491,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Imperial", "America/Los_Angeles"}
 	case "IPN":
 		return Location{"Ipatinga", "America/Sao_Paulo"}
-	case "IQA":
-		return Location{"Hit", "Asia/Baghdad"}
 	case "IQM":
 		return Location{"Qiemo", "Asia/Shanghai"}
 	case "IQN":
@@ -2577,8 +2569,12 @@ func IATATimeZone(iata string) Location {
 		return Location{"Mangalore", "Asia/Kolkata"}
 	case "IXG":
 		return Location{"", "Asia/Kolkata"}
+	case "IXI":
+		return Location{"Lilabari", "Asia/Kolkata"}
 	case "IXJ":
 		return Location{"Jammu", "Asia/Kolkata"}
+	case "IXK":
+		return Location{"", "Asia/Kolkata"}
 	case "IXL":
 		return Location{"Leh", "Asia/Kolkata"}
 	case "IXM":
@@ -2587,6 +2583,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Ranchi", "Asia/Kolkata"}
 	case "IXS":
 		return Location{"Silchar", "Asia/Kolkata"}
+	case "IXT":
+		return Location{"Pasighat", "Asia/Kolkata"}
 	case "IXU":
 		return Location{"Aurangabad", "Asia/Kolkata"}
 	case "IXW":
@@ -2689,8 +2687,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Asia/Kolkata"}
 	case "JMK":
 		return Location{"Mykonos Island", "Europe/Athens"}
-	case "JMO":
-		return Location{"Jomsom", "Asia/Kathmandu"}
 	case "JMS":
 		return Location{"Jamestown", "America/Chicago"}
 	case "JMU":
@@ -2711,8 +2707,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Yogyakarta-Java Island", "Asia/Jakarta"}
 	case "JOI":
 		return Location{"Joinville", "America/Sao_Paulo"}
-	case "JOK":
-		return Location{"Yoshkar-Ola", "Europe/Moscow"}
 	case "JOS":
 		return Location{"Jos", "Africa/Lagos"}
 	case "JPA":
@@ -2753,8 +2747,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"San Salvador de Jujuy", "America/Argentina/Jujuy"}
 	case "JUL":
 		return Location{"Juliaca", "America/Lima"}
-	case "JUM":
-		return Location{"Jumla", "Asia/Kathmandu"}
 	case "JUV":
 		return Location{"Upernavik", "America/Nuuk"}
 	case "JUZ":
@@ -2763,6 +2755,10 @@ func IATATimeZone(iata string) Location {
 		return Location{"Jyvaskylan Maalaiskunta", "Europe/Helsinki"}
 	case "JZH":
 		return Location{"Jiuzhaigou", "Asia/Shanghai"}
+	case "KAA":
+		return Location{"Kasama", "Africa/Lusaka"}
+	case "KAB":
+		return Location{"Kariba", "Africa/Harare"}
 	case "KAD":
 		return Location{"Kaduna", "Africa/Lagos"}
 	case "KAJ":
@@ -2829,8 +2825,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kengtung", "Asia/Yangon"}
 	case "KEU":
 		return Location{"Keekorok", "Africa/Nairobi"}
-	case "KFE":
-		return Location{"Cloudbreak Village", "Asia/Makassar"}
 	case "KFP":
 		return Location{"False Pass", "America/Nome"}
 	case "KFS":
@@ -2867,6 +2861,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Nanchang", "Asia/Shanghai"}
 	case "KHS":
 		return Location{"Khasab", "Asia/Muscat"}
+	case "KHT":
+		return Location{"Khost", "Asia/Kabul"}
 	case "KHV":
 		return Location{"Khabarovsk", "Asia/Vladivostok"}
 	case "KID":
@@ -2889,8 +2885,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kisumu", "Africa/Nairobi"}
 	case "KIT":
 		return Location{"Kithira Island", "Europe/Athens"}
-	case "KIV":
-		return Location{"Chisinau", "Europe/Chisinau"}
 	case "KIX":
 		return Location{"Osaka", "Asia/Tokyo"}
 	case "KJA":
@@ -3011,8 +3005,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Europe/Stockholm"}
 	case "KRO":
 		return Location{"Kurgan", "Asia/Yekaterinburg"}
-	case "KRP":
-		return Location{"Karup", "Europe/Copenhagen"}
 	case "KRS":
 		return Location{"Kjevik", "Europe/Oslo"}
 	case "KRT":
@@ -3033,8 +3025,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kermanshah", "Asia/Tehran"}
 	case "KSJ":
 		return Location{"Kasos Island", "Europe/Athens"}
-	case "KSL":
-		return Location{"Kassala", "Africa/Khartoum"}
 	case "KSM":
 		return Location{"St Mary's", "America/Nome"}
 	case "KSN":
@@ -3089,6 +3079,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kulusuk", "America/Nuuk"}
 	case "KUT":
 		return Location{"Kutaisi", "Asia/Tbilisi"}
+	case "KUU":
+		return Location{"", "Asia/Kolkata"}
 	case "KUV":
 		return Location{"Kunsan", "Asia/Seoul"}
 	case "KVA":
@@ -3127,8 +3119,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kolaka", "Asia/Makassar"}
 	case "KXF":
 		return Location{"Koro Island", "Pacific/Fiji"}
-	case "KXK":
-		return Location{"Komsomolsk-on-Amur", "Asia/Vladivostok"}
 	case "KXU":
 		return Location{"Katiu", "Pacific/Tahiti"}
 	case "KYA":
@@ -3181,8 +3171,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Leeds", "Europe/London"}
 	case "LBB":
 		return Location{"Lubbock", "America/Chicago"}
-	case "LBC":
-		return Location{"Lubeck", "Europe/Berlin"}
 	case "LBD":
 		return Location{"Khudzhand", "Asia/Dushanbe"}
 	case "LBE":
@@ -3297,8 +3285,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Lisbon", "Europe/Lisbon"}
 	case "LIT":
 		return Location{"Little Rock", "America/Chicago"}
-	case "LIW":
-		return Location{"Loikaw", "Asia/Yangon"}
 	case "LJG":
 		return Location{"Lijiang", "Asia/Shanghai"}
 	case "LJU":
@@ -3359,6 +3345,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Longana", "Pacific/Efate"}
 	case "LOE":
 		return Location{"", "Asia/Bangkok"}
+	case "LOH":
+		return Location{"La Toma (Catamayo)", "America/Guayaquil"}
 	case "LOK":
 		return Location{"Lodwar", "Africa/Nairobi"}
 	case "LOO":
@@ -3429,12 +3417,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"London", "Europe/London"}
 	case "LTO":
 		return Location{"Loreto", "America/Mazatlan"}
-	case "LUA":
-		return Location{"Lukla", "Asia/Kathmandu"}
 	case "LUD":
 		return Location{"Luderitz", "Africa/Windhoek"}
-	case "LUG":
-		return Location{"Lugano", "Europe/Zurich"}
 	case "LUM":
 		return Location{"Luxi", "Asia/Shanghai"}
 	case "LUN":
@@ -3647,8 +3631,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Dalcahue", "America/Santiago"}
 	case "MHD":
 		return Location{"Mashhad", "Asia/Tehran"}
-	case "MHG":
-		return Location{"Mannheim", "Europe/Berlin"}
 	case "MHH":
 		return Location{"Marsh Harbour", "America/Nassau"}
 	case "MHK":
@@ -3751,6 +3733,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Murmansk", "Europe/Moscow"}
 	case "MMO":
 		return Location{"Vila do Maio", "Atlantic/Cape_Verde"}
+	case "MMU":
+		return Location{"Morristown", "America/New_York"}
 	case "MMX":
 		return Location{"Malmo", "Europe/Stockholm"}
 	case "MMY":
@@ -3767,8 +3751,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Manila", "Asia/Manila"}
 	case "MNS":
 		return Location{"Mansa", "Africa/Lusaka"}
-	case "MNU":
-		return Location{"Mawlamyine", "Asia/Yangon"}
 	case "MNX":
 		return Location{"Manicore", "America/Manaus"}
 	case "MOB":
@@ -3777,12 +3759,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Montes Claros", "America/Sao_Paulo"}
 	case "MOF":
 		return Location{"Maumere-Flores Island", "Asia/Makassar"}
-	case "MOG":
-		return Location{"Mong Hsat", "Asia/Yangon"}
 	case "MOL":
 		return Location{"Aro", "Europe/Oslo"}
-	case "MOO":
-		return Location{"", "Australia/Adelaide"}
 	case "MOQ":
 		return Location{"", "Indian/Antananarivo"}
 	case "MOT":
@@ -3835,6 +3813,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Monterey", "America/Los_Angeles"}
 	case "MRZ":
 		return Location{"Moree", "Australia/Sydney"}
+	case "MSA":
+		return Location{"Muskrat Dam", "America/Rainy_River"}
 	case "MSH":
 		return Location{"Masirah", "Asia/Muscat"}
 	case "MSJ":
@@ -3907,8 +3887,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Marion", "America/Chicago"}
 	case "MWF":
 		return Location{"Maewo Island", "Pacific/Efate"}
-	case "MWQ":
-		return Location{"Magway", "Asia/Yangon"}
 	case "MWX":
 		return Location{"", "Asia/Seoul"}
 	case "MWZ":
@@ -3957,6 +3935,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Amasya", "Europe/Istanbul"}
 	case "MZL":
 		return Location{"Manizales", "America/Bogota"}
+	case "MZO":
+		return Location{"Manzanillo", "America/Havana"}
 	case "MZR":
 		return Location{"", "Asia/Kabul"}
 	case "MZT":
@@ -3973,6 +3953,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Tahuna-Sangihe Island", "Asia/Makassar"}
 	case "NAJ":
 		return Location{"Nakhchivan", "Asia/Baku"}
+	case "NAL":
+		return Location{"Nalchik", "Europe/Moscow"}
 	case "NAM":
 		return Location{"Namlea-Buru Island", "Asia/Jayapura"}
 	case "NAN":
@@ -4095,8 +4077,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Pacific/Auckland"}
 	case "NPL":
 		return Location{"New Plymouth", "Pacific/Auckland"}
-	case "NPT":
-		return Location{"Newport", "America/New_York"}
 	case "NQN":
 		return Location{"Neuquen", "America/Argentina/Salta"}
 	case "NQU":
@@ -4135,8 +4115,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Australia/Brisbane"}
 	case "NTQ":
 		return Location{"Wajima", "Asia/Tokyo"}
-	case "NTT":
-		return Location{"Niuatoputapu", "Pacific/Tongatapu"}
 	case "NTX":
 		return Location{"Ranai-Natuna Besar Island", "Asia/Jakarta"}
 	case "NUE":
@@ -4195,6 +4173,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Coca", "America/Guayaquil"}
 	case "OCJ":
 		return Location{"Ocho Rios", "America/Jamaica"}
+	case "ODB":
+		return Location{"Cordoba", "Europe/Madrid"}
 	case "ODN":
 		return Location{"Long Seridan", "Asia/Kuching"}
 	case "ODO":
@@ -4203,6 +4183,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Oudomsay", "Asia/Vientiane"}
 	case "OER":
 		return Location{"Ornskoldsvik", "Europe/Stockholm"}
+	case "OGD":
+		return Location{"Ogden", "America/Denver"}
 	case "OGG":
 		return Location{"Kahului", "Pacific/Honolulu"}
 	case "OGL":
@@ -4247,8 +4229,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Orland", "Europe/Oslo"}
 	case "OLB":
 		return Location{"Olbia", "Europe/Rome"}
-	case "OLC":
-		return Location{"Sao Paulo De Olivenca", "America/Manaus"}
 	case "OLF":
 		return Location{"Wolf Point", "America/Denver"}
 	case "OLP":
@@ -4287,6 +4267,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Toksook Bay", "America/Nome"}
 	case "OOL":
 		return Location{"Gold Coast", "Australia/Brisbane"}
+	case "OPF":
+		return Location{"Miami", "America/New_York"}
 	case "OPO":
 		return Location{"Porto", "Europe/Lisbon"}
 	case "OPS":
@@ -4361,6 +4343,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Zagora", "Africa/Casablanca"}
 	case "OZZ":
 		return Location{"Ouarzazate", "Africa/Casablanca"}
+	case "PAB":
+		return Location{"", "Asia/Kolkata"}
 	case "PAC":
 		return Location{"Albrook", "America/Panama"}
 	case "PAD":
@@ -4449,8 +4433,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Puerto Lempira", "America/Tegucigalpa"}
 	case "PEW":
 		return Location{"Peshawar", "Asia/Karachi"}
-	case "PEX":
-		return Location{"Pechora", "Europe/Moscow"}
 	case "PEZ":
 		return Location{"Penza", "Europe/Moscow"}
 	case "PFB":
@@ -4527,6 +4509,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Parkes", "Australia/Sydney"}
 	case "PKN":
 		return Location{"Pangkalanbun-Borneo Island", "Asia/Pontianak"}
+	case "PKP":
+		return Location{"", "Pacific/Tahiti"}
 	case "PKR":
 		return Location{"Pokhara", "Asia/Kathmandu"}
 	case "PKU":
@@ -4565,8 +4549,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Ponta Pora", "America/Asuncion"}
 	case "PMI":
 		return Location{"Palma De Mallorca", "Europe/Madrid"}
-	case "PMK":
-		return Location{"", "Australia/Brisbane"}
 	case "PML":
 		return Location{"Cold Bay", "America/Anchorage"}
 	case "PMO":
@@ -4579,8 +4561,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Palmas", "America/Araguaina"}
 	case "PMY":
 		return Location{"Puerto Madryn", "America/Argentina/Catamarca"}
-	case "PMZ":
-		return Location{"Palmar Sur", "America/Costa_Rica"}
 	case "PNA":
 		return Location{"Pamplona", "Europe/Madrid"}
 	case "PNH":
@@ -4751,14 +4731,10 @@ func IATATimeZone(iata string) Location {
 		return Location{"Plymouth", "America/New_York"}
 	case "PZB":
 		return Location{"Pietermaritzburg", "Africa/Johannesburg"}
-	case "PZL":
-		return Location{"Phinda", "Africa/Johannesburg"}
 	case "PZO":
 		return Location{"Puerto Ordaz-Ciudad Guayana", "America/Caracas"}
 	case "PZU":
 		return Location{"Port Sudan", "Africa/Khartoum"}
-	case "PZY":
-		return Location{"Piestany", "Europe/Bratislava"}
 	case "QBC":
 		return Location{"Bella Coola", "America/Vancouver"}
 	case "QGP":
@@ -4783,8 +4759,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Rafha", "Asia/Riyadh"}
 	case "RAI":
 		return Location{"Praia", "Atlantic/Cape_Verde"}
-	case "RAJ":
-		return Location{"Rajkot", "Asia/Kolkata"}
 	case "RAK":
 		return Location{"Marrakech", "Africa/Casablanca"}
 	case "RAO":
@@ -4799,8 +4773,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Rabat", "Africa/Casablanca"}
 	case "RBB":
 		return Location{"Borba", "America/Manaus"}
-	case "RBQ":
-		return Location{"Rurenabaque", "America/La_Paz"}
 	case "RBR":
 		return Location{"Rio Branco", "America/Rio_Branco"}
 	case "RBV":
@@ -4821,8 +4793,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Redding", "America/Los_Angeles"}
 	case "RDM":
 		return Location{"Redmond", "America/Los_Angeles"}
-	case "RDN":
-		return Location{"Redang", "Asia/Kuala_Lumpur"}
 	case "RDO":
 		return Location{"Radom", "Europe/Warsaw"}
 	case "RDU":
@@ -4839,8 +4809,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Rawson", "America/Argentina/Catamarca"}
 	case "REN":
 		return Location{"Orenburg", "Asia/Yekaterinburg"}
-	case "REP":
-		return Location{"Siem Reap", "Asia/Phnom_Penh"}
 	case "RER":
 		return Location{"Retalhuleu", "America/Guatemala"}
 	case "RES":
@@ -4865,18 +4833,16 @@ func IATATimeZone(iata string) Location {
 		return Location{"Rio Gallegos", "America/Argentina/Rio_Gallegos"}
 	case "RGN":
 		return Location{"Yangon", "Asia/Yangon"}
+	case "RGS":
+		return Location{"Burgos", "Europe/Madrid"}
 	case "RHD":
 		return Location{"Rio Hondo", "America/Argentina/Cordoba"}
 	case "RHI":
 		return Location{"Rhinelander", "America/Chicago"}
 	case "RHO":
 		return Location{"Rodes Island", "Europe/Athens"}
-	case "RHP":
-		return Location{"Ramechhap", "Asia/Kathmandu"}
 	case "RIA":
 		return Location{"Santa Maria", "America/Sao_Paulo"}
-	case "RIB":
-		return Location{"Riberalta", "America/La_Paz"}
 	case "RIC":
 		return Location{"Richmond", "America/New_York"}
 	case "RIG":
@@ -4903,8 +4869,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Pacific/Tahiti"}
 	case "RKD":
 		return Location{"Rockland", "America/New_York"}
-	case "RKE":
-		return Location{"Copenhagen", "Europe/Copenhagen"}
 	case "RKS":
 		return Location{"Rock Springs", "America/Denver"}
 	case "RKT":
@@ -4959,12 +4923,16 @@ func IATATimeZone(iata string) Location {
 		return Location{"Rosario", "America/Argentina/Cordoba"}
 	case "ROT":
 		return Location{"Rotorua", "Pacific/Auckland"}
+	case "ROV":
+		return Location{"Rostov-on-Don", "Europe/Moscow"}
 	case "ROW":
 		return Location{"Roswell", "America/Denver"}
 	case "RPR":
 		return Location{"Raipur", "Asia/Kolkata"}
 	case "RRG":
 		return Location{"Port Mathurin", "Indian/Mauritius"}
+	case "RRK":
+		return Location{"", "Asia/Kolkata"}
 	case "RRR":
 		return Location{"", "Pacific/Tahiti"}
 	case "RRS":
@@ -4989,8 +4957,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Satar Tacik-Flores Island", "Asia/Makassar"}
 	case "RTM":
 		return Location{"Rotterdam", "Europe/Amsterdam"}
-	case "RUA":
-		return Location{"Arua", "Africa/Kampala"}
 	case "RUH":
 		return Location{"Riyadh", "Asia/Riyadh"}
 	case "RUN":
@@ -5011,8 +4977,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Pacific/Tahiti"}
 	case "RXS":
 		return Location{"Roxas City", "Asia/Manila"}
-	case "RYK":
-		return Location{"Rahim Yar Khan", "Asia/Karachi"}
 	case "RZE":
 		return Location{"Rzeszow", "Europe/Warsaw"}
 	case "RZR":
@@ -5049,8 +5013,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"San Luis Obispo", "America/Los_Angeles"}
 	case "SBR":
 		return Location{"Saibai Island", "Australia/Brisbane"}
-	case "SBT":
-		return Location{"Sabetta", "Asia/Yekaterinburg"}
 	case "SBW":
 		return Location{"Sibu", "Asia/Kuching"}
 	case "SBY":
@@ -5061,6 +5023,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Deadhorse", "America/Anchorage"}
 	case "SCE":
 		return Location{"State College", "America/New_York"}
+	case "SCF":
+		return Location{"Scottsdale", "America/Phoenix"}
 	case "SCK":
 		return Location{"Stockton", "America/Los_Angeles"}
 	case "SCL":
@@ -5111,6 +5075,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Sidney", "America/Denver"}
 	case "SEA":
 		return Location{"Seattle", "America/Los_Angeles"}
+	case "SEB":
+		return Location{"Sabha", "Africa/Tripoli"}
 	case "SEN":
 		return Location{"Southend", "Europe/London"}
 	case "SEU":
@@ -5207,6 +5173,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"San Jose", "Asia/Manila"}
 	case "SJJ":
 		return Location{"Sarajevo", "Europe/Sarajevo"}
+	case "SJK":
+		return Location{"Sao Jose Dos Campos", "America/Sao_Paulo"}
 	case "SJL":
 		return Location{"Sao Gabriel Da Cachoeira", "America/Manaus"}
 	case "SJO":
@@ -5267,6 +5235,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"San Luis Potosi", "America/Mexico_City"}
 	case "SLU":
 		return Location{"Castries", "America/St_Lucia"}
+	case "SLV":
+		return Location{"", "Asia/Kolkata"}
 	case "SLX":
 		return Location{"Salt Cay", "America/Grand_Turk"}
 	case "SLY":
@@ -5349,16 +5319,18 @@ func IATATimeZone(iata string) Location {
 		return Location{"Sintang-Borneo Island", "Asia/Pontianak"}
 	case "SQJ":
 		return Location{"Sanming", "Asia/Shanghai"}
+	case "SQL":
+		return Location{"San Carlos", "America/Los_Angeles"}
 	case "SRA":
 		return Location{"Santa Rosa", "America/Sao_Paulo"}
 	case "SRE":
 		return Location{"Sucre", "America/La_Paz"}
 	case "SRG":
 		return Location{"Semarang-Java Island", "Asia/Jakarta"}
+	case "SRP":
+		return Location{"Svea", "Arctic/Longyearbyen"}
 	case "SRQ":
 		return Location{"Sarasota/Bradenton", "America/New_York"}
-	case "SRT":
-		return Location{"Soroti", "Africa/Kampala"}
 	case "SRY":
 		return Location{"Sari", "Asia/Tehran"}
 	case "SSA":
@@ -5371,6 +5343,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Alstahaug", "Europe/Oslo"}
 	case "SSR":
 		return Location{"Pentecost Island", "Pacific/Efate"}
+	case "STB":
+		return Location{"", "America/Caracas"}
 	case "STC":
 		return Location{"St Cloud", "America/Chicago"}
 	case "STD":
@@ -5435,6 +5409,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Savusavu", "Pacific/Fiji"}
 	case "SVX":
 		return Location{"Yekaterinburg", "Asia/Yekaterinburg"}
+	case "SVZ":
+		return Location{"", "America/Bogota"}
 	case "SWA":
 		return Location{"Shantou", "Asia/Shanghai"}
 	case "SWF":
@@ -5447,6 +5423,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Sumbawa Island", "Asia/Makassar"}
 	case "SWT":
 		return Location{"Strezhevoy", "Asia/Tomsk"}
+	case "SWV":
+		return Location{"Evensk", "Asia/Magadan"}
 	case "SXB":
 		return Location{"Strasbourg", "Europe/Paris"}
 	case "SXK":
@@ -5455,6 +5433,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Saint Martin", "America/Lower_Princes"}
 	case "SXR":
 		return Location{"Srinagar", "Asia/Kolkata"}
+	case "SXV":
+		return Location{"", "Asia/Kolkata"}
 	case "SXZ":
 		return Location{"Siirt", "Europe/Istanbul"}
 	case "SYD":
@@ -5519,6 +5499,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Tashkent", "Asia/Tashkent"}
 	case "TAT":
 		return Location{"Poprad", "Europe/Bratislava"}
+	case "TAY":
+		return Location{"Tartu", "Europe/Tallinn"}
 	case "TAZ":
 		return Location{"Dashoguz", "Asia/Ashgabat"}
 	case "TBB":
@@ -5561,14 +5543,12 @@ func IATATimeZone(iata string) Location {
 		return Location{"Taldy Kurgan", "Asia/Almaty"}
 	case "TDX":
 		return Location{"", "Asia/Bangkok"}
-	case "TEB":
-		return Location{"Teterboro", "America/New_York"}
 	case "TEC":
 		return Location{"Telemaco Borba", "America/Sao_Paulo"}
 	case "TEE":
 		return Location{"Tebessi", "Africa/Algiers"}
-	case "TEF":
-		return Location{"", "Australia/Perth"}
+	case "TEI":
+		return Location{"Tezu", "Asia/Kolkata"}
 	case "TEN":
 		return Location{"", "Asia/Shanghai"}
 	case "TEQ":
@@ -5597,6 +5577,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Podgorica", "Europe/Podgorica"}
 	case "TGG":
 		return Location{"Kuala Terengganu", "Asia/Kuala_Lumpur"}
+	case "TGI":
+		return Location{"Tingo Maria", "America/Lima"}
 	case "TGM":
 		return Location{"Targu Mures", "Europe/Bucharest"}
 	case "TGO":
@@ -5619,6 +5601,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Tachileik", "Asia/Yangon"}
 	case "THN":
 		return Location{"Trollhattan", "Europe/Stockholm"}
+	case "THQ":
+		return Location{"Tianshui", "Asia/Shanghai"}
 	case "THR":
 		return Location{"Tehran", "Asia/Tehran"}
 	case "THS":
@@ -5641,6 +5625,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Timika-Papua Island", "Asia/Jayapura"}
 	case "TIN":
 		return Location{"Tindouf", "Africa/Algiers"}
+	case "TIP":
+		return Location{"Tripoli", "Africa/Tripoli"}
 	case "TIR":
 		return Location{"Tirupati", "Asia/Kolkata"}
 	case "TIU":
@@ -5669,6 +5655,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kulyab", "Asia/Dushanbe"}
 	case "TKD":
 		return Location{"Sekondi-Takoradi", "Africa/Accra"}
+	case "TKF":
+		return Location{"Truckee", "America/Los_Angeles"}
 	case "TKG":
 		return Location{"Bandar Lampung-Sumatra Island", "Asia/Jakarta"}
 	case "TKJ":
@@ -5735,8 +5723,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Sao Tome", "Africa/Sao_Tome"}
 	case "TMT":
 		return Location{"Oriximina", "America/Santarem"}
-	case "TMU":
-		return Location{"Nicoya", "America/Costa_Rica"}
 	case "TMW":
 		return Location{"Tamworth", "Australia/Sydney"}
 	case "TMX":
@@ -5759,8 +5745,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Santa Cruz", "America/Costa_Rica"}
 	case "TNR":
 		return Location{"Antananarivo", "Indian/Antananarivo"}
-	case "TOD":
-		return Location{"Pulau Tioman", "Asia/Kuala_Lumpur"}
+	case "TOB":
+		return Location{"Tobruk", "Africa/Tripoli"}
 	case "TOE":
 		return Location{"Tozeur", "Africa/Tunis"}
 	case "TOF":
@@ -5773,8 +5759,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Toledo", "America/New_York"}
 	case "TOS":
 		return Location{"Tromso", "Europe/Oslo"}
-	case "TOW":
-		return Location{"Toledo", "America/Sao_Paulo"}
 	case "TOY":
 		return Location{"Toyama", "Asia/Tokyo"}
 	case "TPA":
@@ -5941,8 +5925,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Ufa", "Asia/Yekaterinburg"}
 	case "UGC":
 		return Location{"Urgench", "Asia/Samarkand"}
-	case "UGO":
-		return Location{"Uige", "Africa/Luanda"}
 	case "UIB":
 		return Location{"Quibdo", "America/Bogota"}
 	case "UIH":
@@ -5953,8 +5935,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Quincy", "America/Chicago"}
 	case "UIO":
 		return Location{"Quito", "America/Guayaquil"}
-	case "UIP":
-		return Location{"Quimper/Pluguffan", "Europe/Paris"}
 	case "UKA":
 		return Location{"Ukunda", "Africa/Nairobi"}
 	case "UKB":
@@ -6011,8 +5991,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Asia/Riyadh"}
 	case "USH":
 		return Location{"Ushuahia", "America/Argentina/Ushuaia"}
-	case "USJ":
-		return Location{"Usharal", "Asia/Almaty"}
 	case "USK":
 		return Location{"Usinsk", "Europe/Moscow"}
 	case "USM":
@@ -6029,8 +6007,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Upington", "Africa/Johannesburg"}
 	case "UTP":
 		return Location{"Rayong", "Asia/Bangkok"}
-	case "UTS":
-		return Location{"Ust-Tsylma", "Europe/Moscow"}
 	case "UTT":
 		return Location{"Mthatha", "Africa/Johannesburg"}
 	case "UUA":
@@ -6043,8 +6019,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Ouvea", "Pacific/Noumea"}
 	case "UVF":
 		return Location{"Vieux Fort", "America/St_Lucia"}
-	case "UYL":
-		return Location{"Nyala", "Africa/Khartoum"}
 	case "UYN":
 		return Location{"Yulin", "Asia/Shanghai"}
 	case "UYU":
@@ -6057,8 +6031,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Pacific/Port_Moresby"}
 	case "VAK":
 		return Location{"Chevak", "America/Nome"}
-	case "VAL":
-		return Location{"Valenca", "America/Bahia"}
 	case "VAM":
 		return Location{"Maamigili", "Indian/Maldives"}
 	case "VAN":
@@ -6103,6 +6075,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Viedma / Carmen de Patagones", "America/Argentina/Salta"}
 	case "VDS":
 		return Location{"Vadso", "Europe/Oslo"}
+	case "VDY":
+		return Location{"", "Asia/Kolkata"}
 	case "VDZ":
 		return Location{"Valdez", "America/Anchorage"}
 	case "VEE":
@@ -6111,8 +6085,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Vernal", "America/Denver"}
 	case "VER":
 		return Location{"Veracruz", "America/Mexico_City"}
-	case "VEY":
-		return Location{"Vestmannaeyjar", "Atlantic/Reykjavik"}
 	case "VFA":
 		return Location{"Victoria Falls", "Africa/Harare"}
 	case "VGA":
@@ -6125,8 +6097,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Saurimo", "Africa/Luanda"}
 	case "VHM":
 		return Location{"", "Europe/Stockholm"}
-	case "VHV":
-		return Location{"Verkhnevilyuisk", "Asia/Yakutsk"}
 	case "VHZ":
 		return Location{"Vahitahi", "Pacific/Tahiti"}
 	case "VIE":
@@ -6151,8 +6121,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Moscow", "Europe/Moscow"}
 	case "VKT":
 		return Location{"Vorkuta", "Europe/Moscow"}
-	case "VKV":
-		return Location{"Arkhangelsk", "Europe/Moscow"}
 	case "VLC":
 		return Location{"Valencia", "Europe/Madrid"}
 	case "VLD":
@@ -6165,12 +6133,16 @@ func IATATimeZone(iata string) Location {
 		return Location{"Valencia", "America/Caracas"}
 	case "VLS":
 		return Location{"Valesdir", "Pacific/Efate"}
+	case "VLV":
+		return Location{"Valera", "America/Caracas"}
 	case "VNO":
 		return Location{"Vilnius", "Europe/Vilnius"}
 	case "VNS":
 		return Location{"Varanasi", "Asia/Kolkata"}
 	case "VNX":
 		return Location{"Vilanculo", "Africa/Maputo"}
+	case "VNY":
+		return Location{"Van Nuys", "America/Los_Angeles"}
 	case "VOG":
 		return Location{"Volgograd", "Europe/Volgograd"}
 	case "VOL":
@@ -6311,8 +6283,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"", "Australia/Perth"}
 	case "WUS":
 		return Location{"Wuyishan", "Asia/Shanghai"}
-	case "WUU":
-		return Location{"Wau", "Africa/Juba"}
 	case "WUX":
 		return Location{"Wuxi", "Asia/Shanghai"}
 	case "WUZ":
@@ -6331,6 +6301,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"West Yellowstone", "America/Denver"}
 	case "XAP":
 		return Location{"Chapeco", "America/Sao_Paulo"}
+	case "XBE":
+		return Location{"Bearskin Lake", "America/Rainy_River"}
 	case "XCH":
 		return Location{"Christmas Island", "Indian/Christmas"}
 	case "XCR":
@@ -6347,6 +6319,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Xianyang", "Asia/Shanghai"}
 	case "XKH":
 		return Location{"Xieng Khouang", "Asia/Vientiane"}
+	case "XLS":
+		return Location{"Saint Louis", "Africa/Dakar"}
 	case "XMH":
 		return Location{"", "Pacific/Tahiti"}
 	case "XMN":
@@ -6375,6 +6349,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Anahim Lake", "America/Vancouver"}
 	case "YAB":
 		return Location{"", "America/Rankin_Inlet"}
+	case "YAC":
+		return Location{"Cat Lake", "America/Rainy_River"}
 	case "YAG":
 		return Location{"Fort Frances", "America/Rainy_River"}
 	case "YAK":
@@ -6391,8 +6367,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Tofino", "America/Vancouver"}
 	case "YBB":
 		return Location{"Kugaaruk", "America/Cambridge_Bay"}
-	case "YBC":
-		return Location{"Baie-Comeau", "America/Toronto"}
 	case "YBE":
 		return Location{"Uranium City", "America/Regina"}
 	case "YBG":
@@ -6443,6 +6417,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Iqaluit", "America/Iqaluit"}
 	case "YFC":
 		return Location{"Fredericton", "America/Moncton"}
+	case "YFH":
+		return Location{"Fort Hope", "America/Nipigon"}
 	case "YFJ":
 		return Location{"Wekweeti", "America/Yellowknife"}
 	case "YFO":
@@ -6455,6 +6431,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Fort Good Hope", "America/Inuvik"}
 	case "YGJ":
 		return Location{"Yonago", "Asia/Tokyo"}
+	case "YGK":
+		return Location{"Kingston", "America/Toronto"}
 	case "YGL":
 		return Location{"La Grande Riviere", "America/Toronto"}
 	case "YGP":
@@ -6463,8 +6441,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Iles-de-la-Madeleine", "America/Halifax"}
 	case "YGT":
 		return Location{"Igloolik", "America/Iqaluit"}
-	case "YGV":
-		return Location{"Havre St-Pierre", "America/Toronto"}
 	case "YGW":
 		return Location{"Kuujjuarapik", "America/Iqaluit"}
 	case "YGX":
@@ -6483,6 +6459,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Hamilton", "America/Toronto"}
 	case "YHO":
 		return Location{"Hopedale", "America/Goose_Bay"}
+	case "YHP":
+		return Location{"Poplar Hill", "America/Rainy_River"}
 	case "YHR":
 		return Location{"Chevery", "America/Blanc-Sablon"}
 	case "YHU":
@@ -6527,6 +6505,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Kimmirut", "America/Iqaluit"}
 	case "YLE":
 		return Location{"Whati", "America/Yellowknife"}
+	case "YLH":
+		return Location{"Lansdowne House", "America/Nipigon"}
 	case "YLL":
 		return Location{"Lloydminster", "America/Edmonton"}
 	case "YLW":
@@ -6563,6 +6543,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Yancheng", "Asia/Shanghai"}
 	case "YOC":
 		return Location{"Old Crow", "America/Dawson"}
+	case "YOG":
+		return Location{"Ogoki Post", "America/Nipigon"}
 	case "YOJ":
 		return Location{"High Level", "America/Edmonton"}
 	case "YOL":
@@ -6577,8 +6559,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Aupaluk", "America/Toronto"}
 	case "YPM":
 		return Location{"Pikangikum", "America/Rainy_River"}
-	case "YPN":
-		return Location{"Port-Menier", "America/Toronto"}
 	case "YPO":
 		return Location{"Peawanuck", "America/Nipigon"}
 	case "YPR":
@@ -6691,6 +6671,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Wabush", "America/Goose_Bay"}
 	case "YWL":
 		return Location{"Williams Lake", "America/Vancouver"}
+	case "YWP":
+		return Location{"Webequie", "America/Nipigon"}
 	case "YXC":
 		return Location{"Cranbrook", "America/Edmonton"}
 	case "YXE":
@@ -6775,8 +6757,6 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bathurst", "America/Moncton"}
 	case "ZBR":
 		return Location{"Chabahar", "Asia/Tehran"}
-	case "ZBY":
-		return Location{"Sayaboury", "Asia/Vientiane"}
 	case "ZCL":
 		return Location{"Zacatecas", "America/Mexico_City"}
 	case "ZCO":
@@ -6785,6 +6765,8 @@ func IATATimeZone(iata string) Location {
 		return Location{"Bella Bella", "America/Vancouver"}
 	case "ZEM":
 		return Location{"Eastmain River", "America/Toronto"}
+	case "ZER":
+		return Location{"", "Asia/Kolkata"}
 	case "ZFD":
 		return Location{"Fond-Du-Lac", "America/Regina"}
 	case "ZFN":
