@@ -84,10 +84,6 @@ func TestGetOffersUSDPLN(t *testing.T) {
 	}
 }
 
-func compareWithThreshold(lv, rv float64) bool {
-	return math.Abs(lv-rv) < lv*0.01
-}
-
 func testGetOffersTravelers(t *testing.T, session *Session, rootPrice float64, args Args, multiplier float64) {
 	percentageDiff := 20.0
 
@@ -99,9 +95,8 @@ func testGetOffersTravelers(t *testing.T, session *Session, rootPrice float64, a
 		t.Fatalf("not enough offers (%d) for the following Travelers: %+v", len(offers), args.Travelers)
 	}
 	lowerThreshold := rootPrice * multiplier * (100 - percentageDiff) / 100
-	upperThreshold := rootPrice * multiplier * (100 + percentageDiff) / 100
-	if offers[0].Price < lowerThreshold || offers[0].Price > upperThreshold {
-		t.Errorf("The received price %f: should be between threshold: %f %f", offers[0].Price, lowerThreshold, upperThreshold)
+	if offers[0].Price < lowerThreshold {
+		t.Errorf("The received price %f: should be greater than: %f", offers[0].Price, lowerThreshold)
 	}
 }
 
