@@ -118,7 +118,22 @@ func (s *Session) getFlightReqData(ctx context.Context, args Args) (string, erro
 }
 
 func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Response, error) {
-	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
+	baseURL := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults"
+
+	u, err := url.Parse(baseURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse url: %v", err)
+	}
+	q := u.Query()
+	q.Set("f.sid", "-1300922759171628473")
+	q.Set("bl", "boq_travel-frontend-ui_20230627.02_p1")
+	q.Set("hl", "en")
+	q.Set("soc-app", "162")
+	q.Set("soc-platform", "1")
+	q.Set("soc-device", "1")
+	q.Set("_reqid", "52717")
+	q.Set("rt", "c")
+	u.RawQuery = q.Encode()
 
 	reqDate, err := s.getFlightReqData(ctx, args)
 	if err != nil {
@@ -129,7 +144,7 @@ func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Respon
 		`f.req=` + reqDate +
 			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
-	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(jsonBody))
+	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, u.String(), bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, fmt.Errorf("failed to do GetShoppingResults request: %v", err)
 	}
