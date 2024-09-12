@@ -118,7 +118,7 @@ func (s *Session) getFlightReqData(ctx context.Context, args Args) (string, erro
 }
 
 func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Response, error) {
-	baseURL := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults"
+	baseURL := "https://www.google.com/_/FlightsFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults"
 
 	u, err := url.Parse(baseURL)
 	if err != nil {
@@ -351,6 +351,13 @@ func (s *Session) GetOffers(ctx context.Context, args Args) ([]FullOffer, *Price
 		readLine(body) // skip line
 		bytesToDecode, err := getInnerBytes(body)
 		if err != nil {
+			if args.TripType == RoundTrip {
+				finalOffers, err = s.offersToRoundTripOffers(ctx, args, finalOffers)
+				if err != nil {
+					return nil, nil, err
+				}
+				return finalOffers, finalPriceRange, nil
+			}
 			return finalOffers, finalPriceRange, nil
 		}
 
