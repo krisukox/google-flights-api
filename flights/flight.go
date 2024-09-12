@@ -135,13 +135,13 @@ func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Respon
 	q.Set("rt", "c")
 	u.RawQuery = q.Encode()
 
-	reqDate, err := s.getFlightReqData(ctx, args)
+	reqData, err := s.getFlightReqData(ctx, args)
 	if err != nil {
 		return nil, fmt.Errorf("could not get request data: %v", err)
 	}
 
 	jsonBody := []byte(
-		`f.req=` + reqDate +
+		`f.req=` + reqData +
 			`&at=AAuQa1qjMakasqKYcQeoFJjN7RZ3%3A` + strconv.FormatInt(time.Now().Unix(), 10) + `&`)
 
 	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodPost, u.String(), bytes.NewReader(jsonBody))
