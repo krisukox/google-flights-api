@@ -83,13 +83,13 @@ func (o FullOffer) String() string {
 	out += fmt.Sprintf("ReturnDate: %s\n", o.ReturnDate)
 	out += fmt.Sprintf("Price: %d\n", int(o.Price))
 	out += fmt.Sprintf("Flight: %s\n", o.Flight)
-	// out += fmt.Sprintf("ReturnFlight: %s\n", o.ReturnFlight)
+	out += fmt.Sprintf("ReturnFlight: %s\n", o.ReturnFlight)
 	out += fmt.Sprintf("SrcAirportCode: %s\n", o.SrcAirportCode)
 	out += fmt.Sprintf("DstAirportCode: %s\n", o.DstAirportCode)
 	out += fmt.Sprintf("SrcCity: %s\n", o.SrcCity)
 	out += fmt.Sprintf("DstCity: %s\n", o.DstCity)
 	out += fmt.Sprintf("FlightDuration: %s}\n", o.FlightDuration)
-	// out += fmt.Sprintf("ReturnFlightDuration: %s}\n", o.ReturnFlightDuration)
+	out += fmt.Sprintf("ReturnFlightDuration: %s}\n", o.ReturnFlightDuration)
 	return out
 }
 
