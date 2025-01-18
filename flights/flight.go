@@ -118,7 +118,7 @@ func (s *Session) getFlightReqData(ctx context.Context, args Args) (string, erro
 }
 
 func (s *Session) doRequestFlights(ctx context.Context, args Args) (*http.Response, error) {
-	url := "https://www.google.com/_/TravelFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1300922759171628473&bl=boq_travel-frontend-ui_20230627.02_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=52717&rt=c"
+	url := "https://www.google.com/_/FlightsFrontendUi/data/travel.frontend.flights.FlightsFrontendService/GetShoppingResults?f.sid=-1909610547975798055&bl=boq_travel-frontend-flights-ui_20250115.01_p1&hl=en&soc-app=162&soc-platform=1&soc-device=1&_reqid=37846&rt=c"
 
 	reqDate, err := s.getFlightReqData(ctx, args)
 	if err != nil {
