@@ -16,7 +16,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.31.0
 ## Installation
 
 ```
-go get -u github.com/krisukox/google-flights-api/flights
+go get -u github.com/vidarrr467/google-flights-api/flights
 ```
 
 ## Usage
